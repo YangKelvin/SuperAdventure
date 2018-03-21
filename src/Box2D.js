@@ -1,7 +1,8 @@
 var Framework;
 Framework = (function (Framework) {
 	'use strict'
-	Framework.Box2D = function () {
+	Framework.Box2D = function () 
+	{
 		var b2Vec2 = Box2D.Common.Math.b2Vec2,
 		b2BodyDef = Box2D.Dynamics.b2BodyDef,
 		b2Body = Box2D.Dynamics.b2Body,
@@ -22,7 +23,8 @@ Framework = (function (Framework) {
 		this.bodyType_Static = Box2D.Dynamics.b2Body.b2_staticBody;
 		this.b2Vec2 = b2Vec2;
 
-		var options = {
+		var options = 
+		{
 			density : 1,
 			friction : 0.5
 		};

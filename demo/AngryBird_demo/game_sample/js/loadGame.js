@@ -42,7 +42,12 @@ var loadGameEnd;
     var listScript = 
     [
         { src: 'game_sample/js/define.js', lookFor: 'define' },
+        { src: 'game_sample/js/wall.js', lookFor: 'wall' },
+        { src: 'game_sample/js/roof.js', lookFor: 'roof' },
+        { src: 'game_sample/js/angryBird.js', lookFor: 'angryBird' },
+        { src: 'game_sample/js/monster.js', lookFor: 'monster' },
         { src: 'game_sample/js/MyBox2D.js', lookFor: 'MyBox2D' },
+        { src: 'game_sample/js/sensor.js', lookFor: 'sensor' },
         { src: 'game_sample/js/mainGame.js'},
     ]
 
