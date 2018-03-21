@@ -1,10 +1,12 @@
 //由於JS尚未支援Class(ECMAScript 6以後, 宣稱會支援)
 //目前Class寫法都是以function的方式
 //只要是this.XXX皆會是Public的property
-var BombMan = function(file, options) {
+var BombMan = function(file, options) 
+{
     this.url = file;      
     //AnimationSprite當圖片是一整張圖片(連續圖), 而非Array時一定要給col, row三個(url是一定要的)   
-    this.sprite = new Framework.AnimationSprite({url:this.url, col:3 , row:4 , loop:true , speed:12}); 
+    this.sprite = new Framework.AnimationSprite(
+        {url:this.url, col:3 , row:4 , loop:true , speed:12}); 
     this.sprite.scale = 2;
     this.sprite.index = 1;
     var PIXEL_CONST = 64;
@@ -62,7 +64,8 @@ var BombMan = function(file, options) {
     this.walkEnd = function(){    }
 
     var walkSpeed = 8;
-    this.walkAlittle = function(){
+    this.walkAlittle = function()
+    {
         //console.log("player walk a little " + walkSpeed);
         if(this.playerDirection === this.constants.DirectionEnum.DOWN){
             this.spritePosition = {x:this.spritePosition.x, y:this.spritePosition.y + walkSpeed};
@@ -78,7 +81,8 @@ var BombMan = function(file, options) {
         }
     }
 
-    this.update = function(){
+    this.update = function()
+    {
         this.sprite.update();
         if(this.isWalking){
             if(this.mapPosition.x * PIXEL_CONST === this.spritePosition.x && this.mapPosition.y * PIXEL_CONST === this.spritePosition.y){
@@ -97,7 +101,8 @@ var BombMan = function(file, options) {
     }
 
 
-    this.draw = function(ctx){
+    this.draw = function(ctx)
+    {
         this.sprite.position = {x: this.spritePosition.x, y: this.spritePosition.y};
         this.sprite.draw(ctx);
     }

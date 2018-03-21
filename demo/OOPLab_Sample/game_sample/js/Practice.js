@@ -1,5 +1,7 @@
-var Practice = function() {
-    this.load = function() {
+class Practice 
+{
+    load() 
+    {
         this.pic = new Framework.Sprite(define.imagePath + '169.bmp');
         this.pic.position = {
             x: 100,
@@ -14,11 +16,13 @@ var Practice = function() {
         this.rotation = 0;
     };
     
-    this.initialize = function() {
+    initialize()
+    {
 
     };
     
-    this.update = function() {
+    update() 
+    {
         // this.position = {
         //     x: this.position.x + 1,
         //     y: this.position.y
@@ -29,7 +33,8 @@ var Practice = function() {
 
 
     };
-    this.keydown = function(e, list) {
+    keydown(e, list) 
+    {
         if (e.key === 'Right') {
             this.pic.rotation += 10;
         }
@@ -37,7 +42,8 @@ var Practice = function() {
             this.pic.rotation -= 10;
         }
     }
-    this.draw = function(ctx) {
+    draw(ctx) 
+    {
         this.pic.draw(ctx)
     };
 };

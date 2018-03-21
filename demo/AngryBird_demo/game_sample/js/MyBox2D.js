@@ -140,7 +140,7 @@ var MyBox2D = Framework.Class(Framework.Level,
 	},
 	update : function () 
 	{
-		angryBird
+		//angryBird
 		this.angryBird.update()
 
 		for(var i=0; i<this.walls.length; i++)
