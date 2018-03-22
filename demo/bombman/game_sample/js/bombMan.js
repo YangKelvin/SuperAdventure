@@ -4,6 +4,7 @@
 var BombMan = function(file, options) 
 {
     this.url = file;      
+
     //AnimationSprite當圖片是一整張圖片(連續圖), 而非Array時一定要給col, row三個(url是一定要的)   
     this.sprite = new Framework.AnimationSprite(
         {url:this.url, col:3 , row:4 , loop:true , speed:12}); 
@@ -41,13 +42,15 @@ var BombMan = function(file, options)
         if(this.isWalking === false){
             if(moveStep.x > 0){
                 this.playerDirection = this.constants.DirectionEnum.RIGHT;
-            }else if(moveStep.x <0){
+            }
+            else if(moveStep.x <0){
                 this.playerDirection = this.constants.DirectionEnum.LEFT;
             }
 
             if(moveStep.y > 0){
                 this.playerDirection = this.constants.DirectionEnum.DOWN;
-            }else if(moveStep.y < 0){
+            }
+            else if(moveStep.y < 0){
                 this.playerDirection = this.constants.DirectionEnum.UP;
             }
             this.isWalking = true;
@@ -85,7 +88,9 @@ var BombMan = function(file, options)
     {
         this.sprite.update();
         if(this.isWalking){
-            if(this.mapPosition.x * PIXEL_CONST === this.spritePosition.x && this.mapPosition.y * PIXEL_CONST === this.spritePosition.y){
+            if(this.mapPosition.x * PIXEL_CONST === this.spritePosition.x && 
+                this.mapPosition.y * PIXEL_CONST === this.spritePosition.y)
+            {
                 this.isWalking = false;
                 this.sprite.stop();
                 this.sprite.index = this.playerDirection * 3 + 1;
@@ -94,7 +99,9 @@ var BombMan = function(file, options)
                 for(var i=0; i<this.StepMovedCallBack.length; i++){
                     this.StepMovedCallBack[i](this);
                 }
-            }else{
+            }
+            else
+            {
                 this.walkAlittle();
             }
         }

@@ -1,4 +1,4 @@
-var wall = function () 
+var floor = function () 
 { 
     this.arraySize = [];
     this.component;
@@ -53,9 +53,9 @@ var wall = function ()
     this.init = function (sprite, box2D) 
     {
         this.pic = new Framework.Sprite(define.imagePath + sprite); 
-        this.component = new Framework.squareComponent(this.pic,box2D.bodyType_Dynamic, box2D);
+        this.component = new Framework.squareComponent(this.pic,box2D.bodyType_Static, box2D);
         this.component.fixtureDef.m_restitution = 0;
-        this.component.Body.m_userData = "wall"; 
+        this.component.Body.m_userData = "floor"; 
     };
     this.update = function () 
     { 

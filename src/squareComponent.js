@@ -134,7 +134,7 @@ var Framework = (function (Framework) {
 					x : this.body.GetPosition().x * physicScale,
 					y : this.body.GetPosition().y * physicScale
 				};
-				this.sprite.rotation = this.body.GetAngle() / Math.PI * 180;
+				this.sprite.rotation = this.body.GetAngle() / Math.PI * 180 * 0 //*0方型物件不會旋轉
 			}
 		};
 

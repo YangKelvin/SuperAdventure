@@ -69,10 +69,11 @@ var Framework = (function (Framework) {
 					this.body.GetFixtureList().GetShape().SetAsBox(this.mbodyWidth / physicScale / 2, this.mbodyHeight / physicScale / 2);
 				}
 				this.arraySize.forEach(
-					function scaleArray(value) {
+					function scaleArray(value) 
+					{
 					value.x = value.x * newValue;
 					value.y = value.y * newValue;
-				});
+					});
 			},
 		});
 

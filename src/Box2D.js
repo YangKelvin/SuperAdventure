@@ -143,7 +143,20 @@ Framework = (function (Framework) {
 			// this.world.DrawDebugData();
 			this.world.ClearForces();
 		};
-
+		//new 
+		// this.createBox = function(world, x, y, width, height, custom) {
+		// 	var boxSd = new b2BoxDef(); // 创建一个形状Shape，然后设置有关Shape的属性
+		// 	boxSd.extents.Set(width || 1200, height || 5); // 设置矩形高、宽
+		// 	boxSd.density = 1.0; // 设置矩形的密度 
+		// 	if (custom === 'fixed') boxSd.density = 0.0; // 若传入'fixed'，则需固定，此时设置密度为0
+		// 	else boxSd.userData = custom; // 若传入其他，则视为图片数据
+		// 	boxSd.restitution = .3; // 设置矩形的弹性
+		// 	boxSd.friction = 1; // 设置矩形的摩擦因子，可以设置为0-1之间任意一个数，0表示光滑，1表示强摩擦
+		// 	var boxBd = new b2BodyDef(); // 创建刚体定义
+		// 	boxBd.AddShape(boxSd); // 添加形状
+		// 	boxBd.position.Set(x || 10, y || 10); // 设置位置
+		// 	return world.CreateBody(boxBd) // 创建并返回刚体
+		// }
 	};
 	return Framework;
 })(Framework || {});

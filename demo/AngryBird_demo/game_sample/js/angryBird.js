@@ -65,8 +65,9 @@ class angryBird
     shoot(angle) 
     {
         var degrees = angle - 90;
-        var power = 4000; this.component.Body.ApplyForce(new
-            this.mbox2D.b2Vec2(Math.cos(degrees * (Math.PI / 180)) * power, Math.sin(degrees * (Math.PI /
+        var power = 4000
+        this.component.Body.ApplyForce(
+            new this.mbox2D.b2Vec2(Math.cos(degrees * (Math.PI / 180)) * power, Math.sin(degrees * (Math.PI /
                 180)) * power),
             this.component.Body.GetWorldCenter());
     };

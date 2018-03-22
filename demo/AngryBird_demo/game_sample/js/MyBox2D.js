@@ -176,5 +176,4 @@ var MyBox2D = Framework.Class(Framework.Level,
 			angle = angle * 180 / Math.PI+90;
 			this.angryBird.shoot(angle);
 	}
-	keydown:function(e)
 });
