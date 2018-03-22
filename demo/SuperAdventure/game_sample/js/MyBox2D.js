@@ -65,6 +65,34 @@ var MyBox2D = Framework.Class(Framework.Level,
             //#region map
             
             //#endregion
+
+            //#region  blockQ
+            this.blocks_Q_Value =
+            [
+                {x: 900, y:600},
+                {x: 1100, y:500},
+                {x: 1300, y:500},
+                {x: 1500, y:500},
+                {x: 1100, y:200},
+                {x: 1200, y:200},
+            ]
+            //console.log(blocksQValue.length)
+            this.block_Qs = new Array()
+            for (var i = 0; i < this.blocks_Q_Value.length; i++)
+            {
+                this.block_Qs[i] = new block_Q()
+                this.block_Qs[i].init('blockQ.png', this.box2D)
+                this.block_Qs[i].position = 
+                {
+                    x: this.blocks_Q_Value[i].x,
+                    y: this.blocks_Q_Value[i].y
+                }
+                this.block_Qs[i].scale = 0.1
+                this.block_Qs[i].rotation = 0
+            }
+            
+            
+            //#endregion
         },
         
         initialize : function () 
@@ -78,6 +106,11 @@ var MyBox2D = Framework.Class(Framework.Level,
             }
 
             this.rootScene.attach(this.hero.pic)
+
+            for	(var i = 0; i<this.block_Qs.length; i++)
+            {
+                this.rootScene.attach(this.block_Qs[i].pic)
+            }
             //#endregion
         },
 
@@ -87,6 +120,11 @@ var MyBox2D = Framework.Class(Framework.Level,
             {
                 this.walls[i].update()
             }
+            for(var i=0; i<this.block_Qs.length; i++)
+            {
+                this.block_Qs[i].update()
+            }
+            
             this.hero.update()
             this.box2D.draw()
         },

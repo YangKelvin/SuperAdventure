@@ -45,6 +45,7 @@ var loadGameEnd;
         { src: 'game_sample/js/myMenu.js', lookFor: 'MyMenu' },
         { src: 'game_sample/js/wall.js', lookFor: 'wall' },
         { src: 'game_sample/js/Character.js', lookFor: 'Character' },
+        { src: 'game_sample/js/block_Q.js', lookFor: 'block_Q' },
         { src: 'game_sample/js/MyBox2D.js', lookFor: 'MyBox2D' },
         { src: 'game_sample/js/mainGame.js'}
     ]
