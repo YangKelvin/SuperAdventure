@@ -4,7 +4,7 @@ var MyBox2D = Framework.Class(Framework.Level,
         {
             //#region box2D
             this.box2D = new Framework.Box2D()
-            this.box2D.createWorld()
+            this.world = this.box2D.createWorld()
             this.box2D.setContactListener();
             //#endregion
 
@@ -20,6 +20,10 @@ var MyBox2D = Framework.Class(Framework.Level,
             //#region ground
             var ground = this.box2D.createSquareBody(1000, 1.0, this.box2D.bodyType_Static)
             ground.SetPosition(new this.box2D.b2Vec2(0,26))
+            // var wallLeft = this.box2D.createBox(this.world, 0, 0, 10, 600, 'fixed');
+            // var wallRight = this.box2D.createBox(this.world, 1290, 0, 10, 400, 'fixed');
+            // var ground = this.box2D.createBox(this.world, 30, 595, 1200, 5, 'fixed');
+
             //#endregion
     
             //#region wall position
@@ -49,7 +53,7 @@ var MyBox2D = Framework.Class(Framework.Level,
             
             //#region hero
             this.hero = new Character()
-            this.hero.init('Character1.png', this.box2D)
+            this.hero.init('Character2.png', this.box2D)
             this.hero.position =
             {
                 x: 180,
@@ -89,15 +93,20 @@ var MyBox2D = Framework.Class(Framework.Level,
         },
 
 
-        keyup(e, list)
+        keydown(e, list)
         {
+            var heroPosition = this.hero.position;
             if (e.key === 'Right')
             {
-
+                console.log("Right")
+                console.log(this.hero.component.sprite.rotation)
+                this.hero.goRight()
             }
             if (e.key ==='Left')
             {
-
+                console.log("Left")
+                //console.log(this.hero.rotation)
+                this.hero.goLeft()
             }
         }
     });

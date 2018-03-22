@@ -60,10 +60,10 @@ class Character
     {
         this.mbox2D = box2D;
         this.pic = new Framework.Sprite(define.imagePath + sprite)
-        this.component = new Framework.circleComponent(this.pic,
-            box2D.bodyType_Dynamic, box2D)
-            this.component.fixtureDef.m_restitution = 0
-            this.component.Body.m_userData = "hero"
+        //this.component = new Framework.circleComponent(this.pic, box2D.bodyType_Dynamic, box2D)
+        this.component = new Framework.squareComponent(this.pic, box2D.bodyType_Dynamic, box2D)
+        this.component.fixtureDef.m_restitution = 0
+        this.component.Body.m_userData = "hero"
     }
 
     update() 
@@ -77,29 +77,48 @@ class Character
 
     move(angle)
     {
-        var degrees = angle - 90
+        
+    }
+    goRight()
+    { 
+        
+        //this.hero.position(this.hero.position()+10)
+        
+        var power = 1000
         var power = 1000
         this.component.Body.ApplyForce(
-            new this.mbox2D.b2Vec2(Math.cos(degrees * (Math.PI / 180)) * power, Math.sin(degrees * (Math.PI /
-                180)) * power),this.component.Body.GetWorldCenter())
+            new this.mbox2D.b2Vec2(
+                                Math.cos(0 * (Math.PI / 180)) * power, 
+                                Math.sin(0 * (Math.PI / 180)) * power),
+                                this.component.Body.GetWorldCenter())
+        
     }
-    keydown(e, list)
-    { 
-        if (e.key === 'Right')
-        {
-            console.log(this.hero.position())
-            //this.hero.position(this.hero.position()+10)
-        }
-        if (e.key === 'Left')
-        {
-            //this.hero.position(this.hero.position()-10)
-        }
+    goLeft()
+    {
+        var power = 1000
+        var power = 1000
+        this.component.Body.ApplyForce(
+            new this.mbox2D.b2Vec2(
+                                Math.cos(180 * (Math.PI / 180)) * power, 
+                                Math.sin(180 * (Math.PI / 180)) * power),
+                                this.component.Body.GetWorldCenter())
     }
     
 }
 
-// var Character = function()
+
+// var Character = function(file, option)
 // {
+//     this.url = file
+
+//     this.sprite = new Framework.Sprite(define.imagePath + 'Character.png')
+//     this.sprte.scale = 0.4
+
+
+
+
+
+
 //     this.component;
 //     this.mbox2D;
 //     this.isDead = false;
@@ -129,7 +148,7 @@ class Character
 //     this.draw = function () {
 //         this.pic.draw();
 //     };
-//     this.dead = function () {
-//         this.mbox2D.world.DestroyBody(this.component.Body); this.isDead = true;
-//     }
+//     // this.dead = function () {
+//     //     this.mbox2D.world.DestroyBody(this.component.Body); this.isDead = true;
+//     // }
 // }

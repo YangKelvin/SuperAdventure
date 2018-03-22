@@ -277,10 +277,14 @@ var Map = function(map)
     this.pressWalk = false;
     this.keyPress = "";
     this.keydown = function(e, list){
+        
         var playerPosition = this.player1.position;
         if(e.key === 'Down') {
-            if(this.checkIsWalkAble(playerPosition.x,playerPosition.y+1)){
+            if(this.checkIsWalkAble(playerPosition.x,playerPosition.y+1))
+            {
+                console.log("down")
                 //this.player1.walk({x:0,y:1});
+                //往下移動1單位
                 this.playerWalkDirection = {x:0,y:1};
                 this.pressWalk = true;
                 this.keyPress = "Down";
@@ -342,11 +346,13 @@ var Map = function(map)
         else{ return true;}
     }
 
+    //按下按鍵然後放開時觸發
     this.keyup = function(e, list){
-        if(e.key === 'Down' || e.key === 'Up' || e.key === 'Left' || e.key === 'Right') {
-
+        if(e.key === 'Down' || e.key === 'Up' || e.key === 'Left' || e.key === 'Right')
+        {
             if(this.keyPress == e.key)
             {
+                console.log("AAA")
                 this.player1.walkEnd();
                 this.pressWalk = false;
             };
