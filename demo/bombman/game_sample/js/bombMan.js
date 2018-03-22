@@ -88,7 +88,9 @@ var BombMan = function(file, options)
     {
         this.sprite.update();
         if(this.isWalking){
-            if(this.mapPosition.x * PIXEL_CONST === this.spritePosition.x && this.mapPosition.y * PIXEL_CONST === this.spritePosition.y){
+            if(this.mapPosition.x * PIXEL_CONST === this.spritePosition.x && 
+                this.mapPosition.y * PIXEL_CONST === this.spritePosition.y)
+            {
                 this.isWalking = false;
                 this.sprite.stop();
                 this.sprite.index = this.playerDirection * 3 + 1;
@@ -97,7 +99,9 @@ var BombMan = function(file, options)
                 for(var i=0; i<this.StepMovedCallBack.length; i++){
                     this.StepMovedCallBack[i](this);
                 }
-            }else{
+            }
+            else
+            {
                 this.walkAlittle();
             }
         }

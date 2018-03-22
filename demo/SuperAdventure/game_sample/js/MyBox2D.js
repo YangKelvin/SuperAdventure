@@ -61,6 +61,10 @@ var MyBox2D = Framework.Class(Framework.Level,
             }
             this.hero.pic.scale = 0.2
             //#endregion
+            
+            //#region map
+            
+            //#endregion
         },
         
         initialize : function () 
@@ -92,21 +96,39 @@ var MyBox2D = Framework.Class(Framework.Level,
             this.rootScene.draw()
         },
 
-
+        
         keydown(e, list)
         {
             var heroPosition = this.hero.position;
             if (e.key === 'Right')
             {
                 console.log("Right")
-                console.log(this.hero.component.sprite.rotation)
-                this.hero.goRight()
+                this.hero.isWalking = 1
+                //console.log(this.hero.component.sprite.rotation)
+                //this.hero.goRight()
+                //this.hero.update(1)
             }
             if (e.key ==='Left')
             {
                 console.log("Left")
+                this.hero.isWalking = 2
                 //console.log(this.hero.rotation)
-                this.hero.goLeft()
+                //this.hero.goLeft()
+                
+                //this.hero.update(2)
+            }
+            if (e.key === 'Space')
+            {
+                console.log("Jump")
+                this.hero.jump()
+            }
+        },
+        keyup(e, list)
+        {
+            if(e.key === 'Left' || e.key === 'Right')
+            {
+                console.log("AAA")
+                this.hero.isWalking = 0;
             }
         }
     });

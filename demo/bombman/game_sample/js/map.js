@@ -347,7 +347,8 @@ var Map = function(map)
     }
 
     //按下按鍵然後放開時觸發
-    this.keyup = function(e, list){
+    this.keyup = function(e, list)
+    {
         if(e.key === 'Down' || e.key === 'Up' || e.key === 'Left' || e.key === 'Right')
         {
             if(this.keyPress == e.key)
