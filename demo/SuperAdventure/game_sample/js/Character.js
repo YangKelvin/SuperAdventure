@@ -6,6 +6,8 @@ class Character
         this.arraySize = []
         this.mbox2D
         this.isDead = false
+        this.isWalking = 0
+        this.isJump = false
     }
     
     
@@ -66,8 +68,22 @@ class Character
         this.component.Body.m_userData = "hero"
     }
 
-    update() 
+    update(isWalking) 
     {
+        //0 停
+        //1 右
+        //2 左
+        console.log(this.isWalking)
+        if (this.isWalking === 1)
+        {
+            this.goRight()
+        }
+        if (this.isWalking === 2)
+        {
+            this.goLeft()
+        }
+
+
         this.component.update()
     }
     draw() 
@@ -84,8 +100,7 @@ class Character
         
         //this.hero.position(this.hero.position()+10)
         
-        var power = 1000
-        var power = 1000
+        var power = 100
         this.component.Body.ApplyForce(
             new this.mbox2D.b2Vec2(
                                 Math.cos(0 * (Math.PI / 180)) * power, 
@@ -95,8 +110,7 @@ class Character
     }
     goLeft()
     {
-        var power = 1000
-        var power = 1000
+        var power = 100
         this.component.Body.ApplyForce(
             new this.mbox2D.b2Vec2(
                                 Math.cos(180 * (Math.PI / 180)) * power, 
@@ -104,6 +118,15 @@ class Character
                                 this.component.Body.GetWorldCenter())
     }
     
+    jump()
+    {
+        var power = 15000
+        this.component.Body.ApplyForce(
+            new this.mbox2D.b2Vec2(
+                                Math.cos(90 * (Math.PI / 180)) * power, 
+                                Math.sin(90 * (Math.PI / 180)) * power),
+                                this.component.Body.GetWorldCenter())
+    }
 }
 
 
