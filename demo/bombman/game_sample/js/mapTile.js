@@ -44,8 +44,11 @@ Object.defineProperty(MapTile.prototype, 'position', {
         return this.mapPosition;
     },
     set: function(newValue) {
-        this.mapPosition = newValue;
-        this.mapFloor.position = {x: this.mapPosition.x * 64, y: this.mapPosition.y * 64};
+        this.mapPosition = newValue
+        this.mapFloor.position = 
+        {
+            x: this.mapPosition.x * 64, y: this.mapPosition.y * 64
+        }
         this.mapWall.position = {x: this.mapPosition.x * 64, y: this.mapPosition.y * 64};
         this.increaseBombNum.position = {x: this.mapPosition.x * 64, y: this.mapPosition.y * 64};
         this.increaseBombPower.position = {x: this.mapPosition.x * 64, y: this.mapPosition.y * 64};

@@ -74,18 +74,27 @@ class Character
     {
         this.pic.draw()
     }
-    // keydown(e, list)
-    // { 
-    //     if (e.key === 'Right')
-    //     {
-    //         console.log(this.hero.position())
-    //         //this.hero.position(this.hero.position()+10)
-    //     }
-    //     if (e.key === 'Left')
-    //     {
-    //         this.hero.position(this.hero.position()-10)
-    //     }
-    // }
+
+    move(angle)
+    {
+        var degrees = angle - 90
+        var power = 1000
+        this.component.Body.ApplyForce(
+            new this.mbox2D.b2Vec2(Math.cos(degrees * (Math.PI / 180)) * power, Math.sin(degrees * (Math.PI /
+                180)) * power),this.component.Body.GetWorldCenter())
+    }
+    keydown(e, list)
+    { 
+        if (e.key === 'Right')
+        {
+            console.log(this.hero.position())
+            //this.hero.position(this.hero.position()+10)
+        }
+        if (e.key === 'Left')
+        {
+            //this.hero.position(this.hero.position()-10)
+        }
+    }
     
 }
 

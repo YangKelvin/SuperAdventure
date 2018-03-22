@@ -2,25 +2,27 @@ var MyBox2D = Framework.Class(Framework.Level,
     {
         load : function () 
         {
-            //box2D
+            //#region box2D
             this.box2D = new Framework.Box2D()
             this.box2D.createWorld()
             this.box2D.setContactListener();
-            
-            //background
+            //#endregion
+
+            //#region background
             this.background = new Framework.Sprite(define.imagePath+'background1.png')
             this.background.position = 
             {
                 x: 800,
                 y: 300
             }
+            //#endregion
             
-            //ground
+            //#region ground
             var ground = this.box2D.createSquareBody(1000, 1.0, this.box2D.bodyType_Static)
             ground.SetPosition(new this.box2D.b2Vec2(0,26))
-            
+            //#endregion
     
-            //wall position
+            //#region wall position
             this.wallsValue =
             [
                 {x: 900, y:500},
@@ -43,8 +45,9 @@ var MyBox2D = Framework.Class(Framework.Level,
                 this.walls[i].scale = 1.0
                 this.walls[i].rotation = 0
             }
-            ///////////////
-
+            //#endregion
+            
+            //#region hero
             this.hero = new Character()
             this.hero.init('Character1.png', this.box2D)
             this.hero.position =
@@ -53,10 +56,12 @@ var MyBox2D = Framework.Class(Framework.Level,
                 y: 300
             }
             this.hero.pic.scale = 0.2
+            //#endregion
         },
         
         initialize : function () 
         {
+            //#region attach pic
             this.rootScene.attach(this.background)
     
             for	(var i = 0; i<this.walls.length; i++)
@@ -65,6 +70,7 @@ var MyBox2D = Framework.Class(Framework.Level,
             }
 
             this.rootScene.attach(this.hero.pic)
+            //#endregion
         },
 
         update : function () 
@@ -81,26 +87,17 @@ var MyBox2D = Framework.Class(Framework.Level,
             this.box2D.draw()
             this.rootScene.draw()
         },
-        keydown(e, list)
+
+
+        keyup(e, list)
         {
             if (e.key === 'Right')
             {
-                this.hero.position=
-                {
-                    x:this.hero.position.x + 10,
-                    y:this.hero.position.y
-                }
-                //console.log(this.hero.position.x)
-                //this.hero.update()
-                //this.hero.position(this.hero.position()+10)
+
             }
-            if (e.key === 'Left')
+            if (e.key ==='Left')
             {
-                this.hero.position=
-                {
-                    x:this.hero.position.x - 10,
-                    y:this.hero.position.y - 20
-                }
+
             }
         }
     });

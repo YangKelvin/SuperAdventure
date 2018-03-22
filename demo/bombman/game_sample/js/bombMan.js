@@ -4,6 +4,7 @@
 var BombMan = function(file, options) 
 {
     this.url = file;      
+    
     //AnimationSprite當圖片是一整張圖片(連續圖), 而非Array時一定要給col, row三個(url是一定要的)   
     this.sprite = new Framework.AnimationSprite(
         {url:this.url, col:3 , row:4 , loop:true , speed:12}); 

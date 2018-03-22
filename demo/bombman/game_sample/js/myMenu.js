@@ -1,6 +1,7 @@
 var MyMenu = Framework.exClass(Framework.GameMainMenu , {
-            //初始化loadingProgress需要用到的圖片
-    initializeProgressResource: function() {
+    //初始化loadingProgress需要用到的圖片
+    initializeProgressResource: function() 
+    {
         this.loading = new Framework.Sprite(define.imagePath + 'loading.jpg');
         this.loading.position = {x: Framework.Game.getCanvasWidth() / 2 , y: Framework.Game.getCanvasHeight() / 2};
 
@@ -30,10 +31,12 @@ var MyMenu = Framework.exClass(Framework.GameMainMenu , {
             x: Framework.Game.getCanvasWidth() / 2,
             y: Framework.Game.getCanvasHeight() / 2
         };
-        this.menu.scale = 2;
-        this.rootScene.attach(this.menu);
+        this.menu.scale = 3;
+        this.rootScene.attach(this.menu)
 
-        this.rectPosition = { 
+        //Title.png 放置圖片
+        this.rectPosition = 
+        { 
             x: Framework.Game.getCanvasWidth() / 2 - 130,
             y: Framework.Game.getCanvasHeight() / 2
         };
@@ -59,7 +62,8 @@ var MyMenu = Framework.exClass(Framework.GameMainMenu , {
         parentCtx.fillText('Click To Start', this.rectPosition.x + 130, this.rectPosition.y, 260);
     },
 
-    mouseup: function(e) {
+    mouseup: function(e) 
+    {
     },
 
     mousedown: function(e) {
