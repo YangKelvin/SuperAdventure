@@ -18,8 +18,10 @@ var MyBox2D = Framework.Class(Framework.Level,
             //#endregion
             
             //#region ground
-            var ground = this.box2D.createSquareBody(1000, 1.0, this.box2D.bodyType_Static)
+            var ground = this.box2D.createSquareBody
+            (1000, 10.0, this.box2D.bodyType_Static)
             ground.SetPosition(new this.box2D.b2Vec2(0,26))
+            ground
             // var wallLeft = this.box2D.createBox(this.world, 0, 0, 10, 600, 'fixed');
             // var wallRight = this.box2D.createBox(this.world, 1290, 0, 10, 400, 'fixed');
             // var ground = this.box2D.createBox(this.world, 30, 595, 1200, 5, 'fixed');
