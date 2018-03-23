@@ -129,7 +129,7 @@ var MyBox2D = Framework.Class(Framework.Level,
             //#region  blockQ
             this.blocks_Q_Value =
             [
-                {x: 150, y:718},
+                {x: 150, y:518},
                 {x: 900, y:600},
                 {x: 1100, y:500},
                 {x: 1300, y:500},
@@ -148,7 +148,7 @@ var MyBox2D = Framework.Class(Framework.Level,
                     x: this.blocks_Q_Value[i].x,
                     y: this.blocks_Q_Value[i].y
                 }
-                this.block_Qs[i].scale = 0.1
+                this.block_Qs[i].scale = 0.2
                 this.block_Qs[i].rotation = 0
             }
             
