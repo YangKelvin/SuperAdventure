@@ -8,9 +8,29 @@ var Level1 = Framework.Class(Framework.Level,
             this.box2D.setContactListener()
             //#endregion
 
-            //#region 
+            //#region ground
+            //ground的最左邊位置 會被width 和 position.x影響
             var ground = this.box2D.createSquareBody(35, 1.0, this.box2D.bodyType_Static)
             ground.SetPosition(new this.box2D.b2Vec2(10,26))
+            
+            //var ground2 = this.box2D.createSquareBody(5, 1.0, this.box2D.bodyType_Static)
+            //b2Vec2(x, y)
+            //x愈小 愈左邊
+            //y愈小 愈上面
+
+            //ground2.SetPosition(new this.box2D.b2Vec2(40,20))
+
+            //#endregion
+
+
+            //#region CharacterInfo
+            this.CharacterInfo_x = new Score()
+            this.CharacterInfo_x.position = {x:1000, y:0}
+            this.CharacterInfo_x._text= "Character_x"
+
+            this.CharacterInfo_y = new Score()
+            this.CharacterInfo_y.position = {x:1000, y:80}
+            this.CharacterInfo_y._text = "Character_y"
             //#endregion
 
             //#region map
@@ -83,12 +103,18 @@ var Level1 = Framework.Class(Framework.Level,
         {
             this.box2D.draw()
             this.hero.update()
+
+            this.CharacterInfo_x._score=this.hero.position.x
+            this.CharacterInfo_y._score=this.hero.position.y
         },
         draw : function (parentCtx) 
         {
            // this.map.draw();
             this.box2D.draw()
             this.rootScene.draw()
+
+            this.CharacterInfo_x.draw(parentCtx)
+            this.CharacterInfo_y.draw(parentCtx)
         },
 
         keydown(e, list)
@@ -116,12 +142,16 @@ var Level1 = Framework.Class(Framework.Level,
                 console.log("Jump")
                 this.hero.jump()
             }
+            if (e.key === 'Q')
+            {
+                // Framework.Game.stop()
+            }
         },
         keyup(e, list)
         {
             if(e.key === 'Left' || e.key === 'Right')
             {
-                console.log("AAA")
+                console.log("keyup")
                 this.hero.isWalking = 0;
             }
         }

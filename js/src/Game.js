@@ -8,7 +8,8 @@ var Framework = (function (Framework) {
     * 主要功能為新增移除關卡與關卡的切換
     * @class Game
     */ 
-	Framework.Game = (function () {
+	Framework.Game = (function () 
+	{
         var that = {};
 		that._config = new Framework.Config();
 		// gameloop fps
@@ -146,7 +147,7 @@ var Framework = (function (Framework) {
 			    that._record.start();
 			    that._isRecording = true;
 			    that.start();
-//			    that._isRecording = true;
+				// that._isRecording = true;
 			    if (document.getElementById("variable_list") != null){
 				    var div = document.getElementById("variable_list");
  		            div.parentNode.removeChild(div);
@@ -160,7 +161,8 @@ var Framework = (function (Framework) {
 			    that.btnEnable();
 			}
 		};
-		that.getReplayScript = function(script){
+		that.getReplayScript = function(script)
+		{
 			script = script.replace(/\n/g, "");
 			var start = script.indexOf("{", 0)+1;
 			var end = script.indexOf("}", 0);
@@ -327,13 +329,16 @@ var Framework = (function (Framework) {
             	that._record.keyup(e);
             }
 		};
-		that.keypress = function (e) {
+		that.keypress = function (e) 
+		{
             that._currentLevel.keypress(e);
             if(that._isRecording)
             {
             	that._record.keypress(e);
             }
 		};
+
+
 
 		that._mainContainer = document.createElement('div');
 		if(that._isRecordMode){
@@ -505,24 +510,25 @@ var Framework = (function (Framework) {
 		* @example
 		* 	Framework.Game.goToLevel('menu');
 		*/
-        that.goToLevel = function(levelName){
+		that.goToLevel = function(levelName)
+		{
             that.pause();
             that._teardown();
             that._currentLevel = that._findLevel(levelName);
             Framework.Replay.resetCycleCount();
-//            Framework.Game._currentLevel.resetCycleCount();  // 2017.11
-//            that._record.resetWaitCounter();  // 2017.11
+			// Framework.Game._currentLevel.resetCycleCount();  // 2017.11
+			// that._record.resetWaitCounter();  // 2017.11
             if(Framework.Util.isUndefined(that._currentLevel)){
                 Framework.DebugInfo.Log.error('Game : 找不到關卡');
                 throw new Error('Game : levelName not found.');
             }
             if(that._isRecordMode)
             {
-//            	that._record.resetWaitCounter();  // 2017.11
+				// that._record.resetWaitCounter();  // 2017.11
             	that._record.inputCommand("// Change Level :" + levelName + ";");
             }
             that.start();
-//            console.log(Framework.Game._currentLevel.cycleCount + ' , ' + that._record.waitCounter + ' , ' + Framework.Replay.getCycleCount());
+			// console.log(Framework.Game._currentLevel.cycleCount + ' , ' + that._record.waitCounter + ' , ' + Framework.Replay.getCycleCount());
         };
 
         /**
@@ -538,8 +544,8 @@ var Framework = (function (Framework) {
             var flag = false;
             Framework.Replay.resetCycleCount();
  	        Framework.Replay.resetWaitingCounter();
-//            Framework.Game._currentLevel.resetCycleCount();  // 2017.11
-//            that._record.resetWaitCounter();  // 2017.11
+			// Framework.Game._currentLevel.resetCycleCount();  // 2017.11
+			// that._record.resetWaitCounter();  // 2017.11
             for(var i in that._levels){
                 if(flag){
                     that._currentLevel = that._levels[i].level;
@@ -549,7 +555,7 @@ var Framework = (function (Framework) {
                         that._record.inputCommand("// Change Level :" + levelName + ";");
 		            }
                     that.start();
-//                    console.log(Framework.Game._currentLevel.cycleCount + ' , ' + that._record.waitCounter + ' , ' + Framework.Replay.getCycleCount());
+					// console.log(Framework.Game._currentLevel.cycleCount + ' , ' + that._record.waitCounter + ' , ' + Framework.Replay.getCycleCount());
                     return;
                 }
                 if(that._levels[i].level === that._currentLevel){
@@ -567,26 +573,27 @@ var Framework = (function (Framework) {
 		* @example
 		* 	Framework.Game.goToPreviousLevel();
 		*/
-        that.goToPreviousLevel = function(){
+		that.goToPreviousLevel = function()
+		{
             that.pause();
             that._teardown();
             var flag = false;
             var prev = undefined;
             Framework.Replay.resetCycleCount();
-//            Framework.Game._currentLevel.resetCycleCount();  // 2017.11
-//            that._record.resetWaitCounter();  // 2017.11
+			// Framework.Game._currentLevel.resetCycleCount();  // 2017.11
+			// that._record.resetWaitCounter();  // 2017.11
             for(var i in that._levels){
                 if(that._levels[i].level === that._currentLevel){
                     if(!Framework.Util.isUndefined(prev)){
                         that._currentLevel = prev;
 			            if(that._isRecordMode)
 			            {
-//                            that._record.resetWaitCounter();  // 2017.11
+                            // that._record.resetWaitCounter();  // 2017.11
                             var levelName = that._findLevelNameByLevel(that._currentLevel);
                             that._record.inputCommand("// Change Level To : " + levelName + ";");
 			            }
                         that.start();
-//                        console.log(Framework.Game._currentLevel.cycleCount + ' , ' + that._record.waitCounter + ' , ' + Framework.Replay.getCycleCount());
+                        // console.log(Framework.Game._currentLevel.cycleCount + ' , ' + that._record.waitCounter + ' , ' + Framework.Replay.getCycleCount());
                         return;
                     }
                     break;
@@ -616,7 +623,7 @@ var Framework = (function (Framework) {
                 that._currentLevel = that._levels[0].level;
             }
             var self = that;
-//            console.log("start : cycleCount(current_level, Replay) : " + that._currentLevel.cycleCount + ' , ' + Framework.Replay.getCycleCount() );
+            // console.log("start : cycleCount(current_level, Replay) : " + that._currentLevel.cycleCount + ' , ' + Framework.Replay.getCycleCount() );
 
             if (!that._isInit) {
                 that.resizeEvent();
@@ -724,9 +731,9 @@ var Framework = (function (Framework) {
 		            if (that._isReplay) {
 		            	Framework.Replay.update();
 		            }
-//		            if (that._isRecording || that._isReplay) {
-//		            	console.log("cycleCount(current_level, Replay) : " + that._currentLevel.cycleCount + ' , ' + Framework.Replay.getCycleCount() );
-//		            }
+		            // if (that._isRecording || that._isReplay) {
+		            	// console.log("cycleCount(current_level, Replay) : " + that._currentLevel.cycleCount + ' , ' + Framework.Replay.getCycleCount() );
+		            // }
 					nextGameTick += that.skipTicks;
 				}						
 			};
@@ -765,13 +772,14 @@ var Framework = (function (Framework) {
 			that.runAnimationFrame(gameLoopFunc);
 		};
 
-        that.countAverage = function(list){
-                var sum = 0;
-                for(var i=0;i<list.length;i++){
-                    sum += list[i];
-                }
-                return sum / list.length;
-            };
+		that.countAverage = function(list)
+		{
+            var sum = 0;
+            for(var i=0;i<list.length;i++){
+                sum += list[i];
+            }
+            return sum / list.length;
+        };
 
 		that.stopInterval = function() {
 			clearInterval(that._runInstance);
@@ -996,7 +1004,7 @@ listMember = function(main, space, divId) {
 		}
 	}
 	var div = document.getElementById(divId);
-//	var length = div.childNodes.length;
+	// var length = div.childNodes.length;
 	var length = 0;
 	if ((div != null) && (div.childNodes != null)) {
         length = div.childNodes.length;
