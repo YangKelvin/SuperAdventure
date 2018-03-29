@@ -65,7 +65,7 @@ class Character
         console.log(this.isWalking)
         if (this.isWalking === 1)
         {
-            this.goRight()
+            //this.goRight()
         }
         if (this.isWalking === 2)
         {
@@ -90,6 +90,12 @@ class Character
         //this.hero.position(this.hero.position()+10)
         
         var power = 100
+        
+        if(this.position.x >= 600)
+        {
+            this.position.x = 600
+            console.log("600")
+        }
         this.component.Body.ApplyForce(
             new this.mbox2D.b2Vec2(
                                 Math.cos(0 * (Math.PI / 180)) * power, 

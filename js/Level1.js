@@ -31,6 +31,10 @@ var Level1 = Framework.Class(Framework.Level,
             this.CharacterInfo_y = new Score()
             this.CharacterInfo_y.position = {x:1000, y:80}
             this.CharacterInfo_y._text = "Character_y"
+
+            this.CharacterInfo_isWalking = new Score()
+            this.CharacterInfo_isWalking.position = {x:1000, y:160}
+            this.CharacterInfo_isWalking._text = "isWalking"
             //#endregion
 
             //#region map
@@ -58,6 +62,9 @@ var Level1 = Framework.Class(Framework.Level,
                 {x: 1175, y: 782},
                 {x: 1235, y: 782},
                 {x: 1295, y: 782},
+                {x: 695, y: 500},
+                {x: 755, y: 500},
+                {x: 815, y: 500},
             ]
 
             this.mapfloor = new Array()
@@ -106,6 +113,24 @@ var Level1 = Framework.Class(Framework.Level,
 
             this.CharacterInfo_x._score=this.hero.position.x
             this.CharacterInfo_y._score=this.hero.position.y
+            this.CharacterInfo_isWalking._score = this.hero.isWalking
+            if (this.hero.position.x >= 600 && this.hero.isWalking===1)
+            {
+                this.hero.position.x=600
+                for	(var i = 0; i<this.mapfloor.length; i++)
+                {
+
+                    this.mapfloor[i].position.x -= 10;
+                }
+            }
+            // if (this.hero.position.x <= 350)
+            // {
+            //     this.hero.position.x=350
+            //     for	(var i = 0; i<this.mapfloor.length; i++)
+            //     {
+            //         this.mapfloor[i].position.x += 10;
+            //     }
+            // }
         },
         draw : function (parentCtx) 
         {
@@ -115,15 +140,17 @@ var Level1 = Framework.Class(Framework.Level,
 
             this.CharacterInfo_x.draw(parentCtx)
             this.CharacterInfo_y.draw(parentCtx)
+            this.CharacterInfo_isWalking.draw(parentCtx)
         },
 
         keydown(e, list)
         {
-            var heroPosition = this.hero.position;
             if (e.key === 'Right')
             {
+                
                 console.log("Right")
                 this.hero.isWalking = 1
+                
                 //console.log(this.hero.component.sprite.rotation)
                 //this.hero.goRight()
                 //this.hero.update(1)
@@ -154,6 +181,7 @@ var Level1 = Framework.Class(Framework.Level,
                 console.log("keyup")
                 this.hero.isWalking = 0;
             }
-        }
+        },
+        
     });
     
