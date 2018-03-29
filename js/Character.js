@@ -9,11 +9,10 @@ class Character
         this.isWalking = 0
         this.isJump = false
     }
-    
-    
+
     get position()
     {
-        return this.component.position
+        return this.component.position;
     }
     set position(newValue)
     {

@@ -10,7 +10,7 @@ var Level1 = Framework.Class(Framework.Level,
 
             //#region ground
             //ground的最左邊位置 會被width 和 position.x影響
-            var ground = this.box2D.createSquareBody(35, 1.0, this.box2D.bodyType_Static)
+            var ground = this.box2D.createSquareBody(100, 1.0, this.box2D.bodyType_Static)
             ground.SetPosition(new this.box2D.b2Vec2(10,26))
             
             //var ground2 = this.box2D.createSquareBody(5, 1.0, this.box2D.bodyType_Static)
@@ -22,6 +22,13 @@ var Level1 = Framework.Class(Framework.Level,
 
             //#endregion
 
+            //攝影機 w:遊戲畫面的寬 h:遊戲畫面的高
+            var w = document.body.clientWidth;
+            var h = document.body.clientHeight;
+            var camera = new Camera()
+            camera.mWidth(w)
+            camera.mHeight(h)
+            this.camera = camera
 
             //#region CharacterInfo
             this.CharacterInfo_x = new Score()
@@ -58,6 +65,9 @@ var Level1 = Framework.Class(Framework.Level,
                 {x: 1175, y: 782},
                 {x: 1235, y: 782},
                 {x: 1295, y: 782},
+                {x: 1500, y: 500},
+                {x: 1800, y: 400},
+                {x: 1950, y: 600},
             ]
 
             this.mapfloor = new Array()
@@ -89,8 +99,7 @@ var Level1 = Framework.Class(Framework.Level,
         
         initialize : function () 
         {
-
-
+            this.camera.setLocation(this.w, this.h);//應該設畫面中央，目前設在角色位置
             for	(var i = 0; i<this.mapfloor.length; i++)
             {
                 this.rootScene.attach(this.mapfloor[i].pic)
@@ -104,12 +113,25 @@ var Level1 = Framework.Class(Framework.Level,
             this.box2D.draw()
             this.hero.update()
 
+            if (this.hero.position.x > 750)
+            {
+                for	(var i = 0; i<this.mapfloor.length; i++)
+                {
+                    this.mapfloor[i].position = 
+                    {
+                        x: this.mapfloorValue[i].x - (this.hero.position.x - 750),
+                        y: this.mapfloorValue[i].y
+                    }
+                }
+            }
+
+            this.camera.setLocation(this.hero.position.x, this.hero.position.y)
+
             this.CharacterInfo_x._score=this.hero.position.x
             this.CharacterInfo_y._score=this.hero.position.y
         },
         draw : function (parentCtx) 
         {
-           // this.map.draw();
             this.box2D.draw()
             this.rootScene.draw()
 
