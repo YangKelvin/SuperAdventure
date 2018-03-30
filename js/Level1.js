@@ -10,25 +10,19 @@ var Level1 = Framework.Class(Framework.Level,
 
             //#region ground
             //ground的最左邊位置 會被width 和 position.x影響
-            var ground = this.box2D.createSquareBody(100, 1.0, this.box2D.bodyType_Static);
+            var ground = this.box2D.createSquareBody(100, 1.0, this.box2D.bodyType_Static)
             ground.SetPosition(new this.box2D.b2Vec2(10,26))
             
-            //var ground2 = this.box2D.createSquareBody(5, 1.0, this.box2D.bodyType_Static)
+            var ground2 = this.box2D.createSquareBody(10, 10.0, this.box2D.bodyType_Static)
+            ground2.SetPosition(new this.box2D.b2Vec2(61,20))
             //b2Vec2(x, y)
             //x愈小 愈左邊
             //y愈小 愈上面
 
-            //ground2.SetPosition(new this.box2D.b2Vec2(40,20))
+            
 
             //#endregion
 
-            //攝影機 w:遊戲畫面的寬 h:遊戲畫面的高
-            var w = document.body.clientWidth;
-            var h = document.body.clientHeight;
-            var camera = new Camera()
-            camera.mWidth(w)
-            camera.mHeight(h)
-            this.camera = camera
 
             //#region CharacterInfo
             this.CharacterInfo_x = new Score()
@@ -38,10 +32,6 @@ var Level1 = Framework.Class(Framework.Level,
             this.CharacterInfo_y = new Score()
             this.CharacterInfo_y.position = {x:1000, y:80}
             this.CharacterInfo_y._text = "Character_y"
-
-            this.CharacterInfo_isWalking = new Score()
-            this.CharacterInfo_isWalking.position = {x:1000, y:160}
-            this.CharacterInfo_isWalking._text = "isWalking"
             //#endregion
 
             //#region map
@@ -69,9 +59,33 @@ var Level1 = Framework.Class(Framework.Level,
                 {x: 1175, y: 782},
                 {x: 1235, y: 782},
                 {x: 1295, y: 782},
+                {x: 1355, y: 782},
+                {x: 1415, y: 782},
+                {x: 1475, y: 782},
+                {x: 1535, y: 782},
+                {x: 1595, y: 782},
+                {x: 1655, y: 782},
+                {x: 1715, y: 782},
+                {x: 1775, y: 782},
+                {x: 1835, y: 782},
+                {x: 1895, y: 782},
+                {x: 1955, y: 782},
+                {x: 2245, y: 782},
+                {x: 2185, y: 782},
+                {x: 2125, y: 782},
+                {x: 2065, y: 782},
+                {x: 2005, y: 782},
+
+                {x: 2245, y: 722},//牆壁
+                {x: 2245, y: 662},//牆壁
+                {x: 2245, y: 602},//牆壁
+                {x: 2245, y: 542},//牆壁
+                {x: 2245, y: 482},//牆壁
+                {x: 2245, y: 422},//牆壁
+                {x: 2245, y: 362},//牆壁
                 {x: 1500, y: 500},
                 {x: 1800, y: 400},
-                {x: 1950, y: 600},
+                {x: 1950, y: 300},
             ]
 
             this.mapfloor = new Array()
@@ -103,7 +117,8 @@ var Level1 = Framework.Class(Framework.Level,
         
         initialize : function () 
         {
-            this.camera.setLocation(this.w, this.h);//應該設畫面中央，目前設在角色位置
+
+
             for	(var i = 0; i<this.mapfloor.length; i++)
             {
                 this.rootScene.attach(this.mapfloor[i].pic)
@@ -129,47 +144,26 @@ var Level1 = Framework.Class(Framework.Level,
                 }
             }
 
-            this.camera.setLocation(this.hero.position.x, this.hero.position.y)
-
             this.CharacterInfo_x._score=this.hero.position.x
             this.CharacterInfo_y._score=this.hero.position.y
-            this.CharacterInfo_isWalking._score = this.hero.isWalking
-            if (this.hero.position.x >= 600 && this.hero.isWalking===1)
-            {
-                this.hero.position.x=600
-                for	(var i = 0; i<this.mapfloor.length; i++)
-                {
-
-                    this.mapfloor[i].position.x -= 10;
-                }
-            }
-            // if (this.hero.position.x <= 350)
-            // {
-            //     this.hero.position.x=350
-            //     for	(var i = 0; i<this.mapfloor.length; i++)
-            //     {
-            //         this.mapfloor[i].position.x += 10;
-            //     }
-            // }
         },
         draw : function (parentCtx) 
         {
+           // this.map.draw();
             this.box2D.draw()
             this.rootScene.draw()
 
             this.CharacterInfo_x.draw(parentCtx)
             this.CharacterInfo_y.draw(parentCtx)
-            this.CharacterInfo_isWalking.draw(parentCtx)
         },
 
         keydown(e, list)
         {
+            var heroPosition = this.hero.position;
             if (e.key === 'Right')
             {
-                
                 console.log("Right")
                 this.hero.isWalking = 1
-                
                 //console.log(this.hero.component.sprite.rotation)
                 //this.hero.goRight()
                 //this.hero.update(1)
@@ -200,7 +194,6 @@ var Level1 = Framework.Class(Framework.Level,
                 console.log("keyup")
                 this.hero.isWalking = 0;
             }
-        },
-        
+        }
     });
     
