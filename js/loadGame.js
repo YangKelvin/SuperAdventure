@@ -50,6 +50,7 @@ var loadGameEnd;
         // { src: 'js/MyBox2D.js', lookFor: 'MyBox2D' },
         //{ src: 'game_sample/js/map.js', lookFor: 'Map' },
         { src: 'js/floor.js', lookFor: 'floor' },
+        { src: 'js/textbox.js', lookFor: 'Textbox' },
         { src: 'js/score.js', lookFor: 'Score' },
         { src: 'js/mainGame.js'}
     ]

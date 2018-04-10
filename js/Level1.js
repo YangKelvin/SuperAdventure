@@ -83,49 +83,70 @@ class Level1 extends Framework.Level
             this.mapfloor[i].component.position = this.mapfloorValue[i]
         }
     }
+    loadBackground()
+    {
+        this.background = new Framework.Sprite(define.imagePath + 'background.jpg');
+        this.background.position = 
+        {
+            x: Framework.Game.getCanvasWidth() / 2,
+            y: Framework.Game.getCanvasHeight() / 2
+        }
+        this.background.scale = 2;
+    }
+    loadTextbox()
+    {
+        this.heroInfoX = new Textbox()
+        this.heroInfoX.position = {x:1000, y:0}
+        this.heroInfoX._text= "hero_x : "
+
+        this.heroInfoY = new Textbox()
+        this.heroInfoY.position = {x:1000, y:80}
+        this.heroInfoY._text= "hero_y : "
+    }
+
     load() 
     {
-        // console.log("Widht / Height" + Framework.Game.getCanvasWidth() + "\n" + Framework.Game.getCanvasHeight())
-
-        this.background = new Framework.Sprite(define.imagePath + 'background.jpg');
-
-        
+        this.loadBackground()
         this.loadHero()
         this.loadGround()
-        
-        // console.log(this.hero.component.angle)
-        
-        //test playerbody
-        
+        this.loadTextbox()
     }
 
     initialize() 
     {
-        //#region background
-        this.background.position = {
-            x: Framework.Game.getCanvasWidth() / 2,
-            y: Framework.Game.getCanvasHeight() / 2
-        }
-        
-        this.background.scale = 2;
+        //#region attach 
         this.rootScene.attach(this.background)
         this.rootScene.attach(this.hero.pic)
-
         for (var i = 0; i < this.mapfloorValue.length; i++)
         {
             this.rootScene.attach(this.mapfloor[i])
         }
         //#endregion
-        
     }
 
     update() 
     {
+        //#region update
         super.update()
         this.matter.update()
         this.rootScene.update()
-
         this.hero.update()
+        //#endregion
+
+        this.heroInfoX._value = Math.round(this.hero.component.position.x)
+        this.heroInfoY._value = Math.round(this.hero.component.position.y)
+
+        if (this.hero.component.position.x > 750)
+        {
+            for	(var i = 0; i<this.mapfloor.length; i++)
+            {
+                this.mapfloor[i].component.position = 
+                {
+                    x: this.mapfloorValue[i].x - (this.hero.component.position.x - 750),
+                    y: this.mapfloorValue[i].y
+                }
+            }
+        }
         // console.log(this.hero.pic.width + " " + this.hero.component.width)
     }
     draw(parentCtx) 
@@ -138,6 +159,9 @@ class Level1 extends Framework.Level
         {
             this.mapfloor[i].draw(parentCtx)
         }
+        
+        this.heroInfoX.draw(parentCtx)
+        this.heroInfoY.draw(parentCtx)
     }
 
     keydown(e)

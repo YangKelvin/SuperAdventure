@@ -25,7 +25,7 @@ class Character
     {
         // super.initialize()
 		// this.component.lockRotation = true
-        this.component.scale = 0.5
+        this.component.scale = 0.2
         // this.component.body.setAngularVelocity(staticAngleBody, 0);
 		// this.map.level.rootScene.attach(this.pic)
     }
@@ -60,11 +60,11 @@ class Character
     goRight()
     { 
         // let force = (0.0004 * this.component.body.mass) ;
-        this.matter.setBody(this.component.body, "velocity", {x: 10, y:this.component.body.velocity.y})
+        this.matter.setBody(this.component.body, "velocity", {x: 5, y:this.component.body.velocity.y})
     }
     goLeft()
     {
-        this.matter.setBody(this.component.body, "velocity", {x: -10, y:this.component.body.velocity.y})
+        this.matter.setBody(this.component.body, "velocity", {x: -5, y:this.component.body.velocity.y})
     }
     
     jump()

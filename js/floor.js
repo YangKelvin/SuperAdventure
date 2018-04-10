@@ -85,13 +85,11 @@ class floor
         let componentOptions = { label: 'floor', friction: 0.05, density:0.002, isStatic:true}
         //createComponent
         this.component = new Framework.RectangleComponent(this.matter, this.pic, componentOptions)
-        // this.component.scale = 3
+        this.component.scale = 2
     }
     initialize() 
     {
         // super.initialize()
-		// this.component.lockRotation = true
-		// this.map.level.rootScene.attach(this.pic)
     }
     update() 
     {

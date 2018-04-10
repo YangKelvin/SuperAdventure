@@ -13,17 +13,17 @@ Framework.RectangleComponent = class RectangleComponent extends Framework.Compon
         if(!this.hasFirstUpdate && this.sprite.texture) 
         {
             // console.log("X")
-            if (this.sprite.texture)
-            {
-                console.log(this.sprite.texture.width + " " + this.sprite.texture.height)
-            }
+            // if (this.sprite.texture)
+            // {
+            //     console.log(this.sprite.texture.width + " " + this.sprite.texture.height)
+            // }
             
             // console.log(this.body)
             
 			this.hasFirstUpdate = true
 			let realWidth = this.sprite.texture.width * this.sprite.scale
             let realHeight = this.sprite.texture.height * this.sprite.scale
-            console.log(realWidth + " " + realHeight)
+            // console.log(realWidth + " " + realHeight)
             // this.matter.scaleBody(this.body, realWidth, realHeight)
             this.matter.removeBody(this.body)
             this.body = this.matter.createRectangleBody(this.sprite.position.x, this.sprite.position.y, realWidth, realHeight, this.bodyOptions)

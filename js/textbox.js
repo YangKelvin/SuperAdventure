@@ -1,22 +1,27 @@
 
-var Score = function() {
+class Textbox
+{
+    constructor()
+    {
+        this._value = 0;
+        this._position = {x:0,y:0};
 
-    this._score = ""
-    this._position = {x:0,y:0};
+        this._text = ""
+        this._width = 400
+        this._height = 60
+    }
+    load()
+    {
 
-    this._text = ""
-    this._width = 400
-    this._height = 60
-    this.load = function()
+    }
+
+    update()
     {
     }
 
-    this.update = function(){
-    }
 
-
-    this.draw = function(ctx){
-
+    draw(ctx)
+    {
         //放入正方形
         ctx.globalAlpha=0.4;  //透明度
         ctx.fillStyle = 'black';    //顏色：黑
@@ -30,21 +35,21 @@ var Score = function() {
         ctx.fillStyle = 'yellow'; 
         ctx.textBaseline = 'top';   //??
         ctx.textAlign = 'left';     //??
-        ctx.fillText(this._text + ": " + this._score, this._position.x, this._position.y);
+        ctx.fillText(this._text + ": " + this._value, this._position.x, this._position.y);
     }
 
-    this.addScore = function(score)
+    addScore(score)
     {
-        this._score += score;
+        this._value += _value;
     }
 
-    this.resetScore = function()
+    resetValue()
     {
-        this._score = 0;
+        this._value = 0;
     }
-};
+}
 
-Object.defineProperty(Score.prototype, 'position', {
+Object.defineProperty(Textbox.prototype, 'position', {
     get: function() {
         return this._position;
     },
