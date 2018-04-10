@@ -3,7 +3,8 @@ var Framework = (function (Framework) {
 
 	var utilClass = function() {};
 
-	var isAbout = function(realValue,aboutValue,delta){
+	var isAbout = function(realValue,aboutValue,delta)
+	{
 		if(realValue < aboutValue + delta && realValue > aboutValue - delta){
 			return true;
 		}

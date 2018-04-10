@@ -1,6 +1,7 @@
 // By Raccoon
 // include namespace
-var Framework = (function (Framework) {    
+var Framework = (function (Framework) 
+{    
     'use strict'
     Framework.AnimationSprite = Framework.exClass(Framework.GameObject , {
         /**

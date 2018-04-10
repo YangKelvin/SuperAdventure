@@ -1,41 +1,22 @@
-var Level1 = Framework.Class(Framework.Level, 
+class Level1 extends Framework.Level 
+{
+    constructor()
     {
-        load : function () 
-        {
-            //#region box2D
-            this.box2D = new Framework.Box2D()
-            this.world = this.box2D.createWorld()
-            this.box2D.setContactListener()
-            //#endregion
-
-            //#region ground
-            //ground的最左邊位置 會被width 和 position.x影響
-            var ground = this.box2D.createSquareBody(100, 1.0, this.box2D.bodyType_Static)
-            ground.SetPosition(new this.box2D.b2Vec2(10,26))
-            
-            var ground2 = this.box2D.createSquareBody(10, 10.0, this.box2D.bodyType_Static)
-            ground2.SetPosition(new this.box2D.b2Vec2(61,20))
-            //b2Vec2(x, y)
-            //x愈小 愈左邊
-            //y愈小 愈上面
-
-            
-
-            //#endregion
-
-
-            //#region CharacterInfo
-            this.CharacterInfo_x = new Score()
-            this.CharacterInfo_x.position = {x:1000, y:0}
-            this.CharacterInfo_x._text= "Character_x"
-
-            this.CharacterInfo_y = new Score()
-            this.CharacterInfo_y.position = {x:1000, y:80}
-            this.CharacterInfo_y._text = "Character_y"
-            //#endregion
-
-            //#region map
-            this.mapfloorValue = 
+        super()
+        this.matter = new Framework.Matter() //宣告this.matter 並建立物理世界MatterUtil.js
+    }
+    loadHero()
+    {
+        this.hero = new Character(this.matter)
+        this.hero.load()
+        this.hero.initialize()
+        this.heroPosition = {x:500, y:200}
+        this.hero.component.position = this.heroPosition
+    }
+    loadGround()
+    {
+        
+        this.mapfloorValue = 
             [
                 {x: 30, y: 782},
                 {x: 95, y: 782},
@@ -83,117 +64,99 @@ var Level1 = Framework.Class(Framework.Level,
                 {x: 2245, y: 482},//牆壁
                 {x: 2245, y: 422},//牆壁
                 {x: 2245, y: 362},//牆壁
+
+                
                 {x: 1500, y: 500},
                 {x: 1800, y: 400},
                 {x: 1950, y: 300},
+                {x: 95, y: 700},
+                {x: 155, y: 700},
+                {x: 215, y: 700},
             ]
-
-            this.mapfloor = new Array()
-            for (var i = 0; i < this.mapfloorValue.length; i++)
-            {
-                this.mapfloor[i] = new floor()
-                this.mapfloor[i].init('floor2.png', this.box2D)
-                this.mapfloor[i].position = 
-                {
-                    x: this.mapfloorValue[i].x,
-                    y: this.mapfloorValue[i].y
-                }
-                this.mapfloor[i].scale = 2
-                this.mapfloor[i].rotation = 0
-            }
-            //#endregion
-
-            //#region Character
-            this.hero = new Character()
-            this.hero.init('Character2.png', this.box2D)
-            this.hero.position =
-            {
-                x: 180,
-                y: 300
-            }
-            this.hero.pic.scale = 0.2
-            //#endregion
-        },
         
-        initialize : function () 
+        this.mapfloor = new Array()
+        for (var i = 0; i < this.mapfloorValue.length; i++)
         {
-
-
-            for	(var i = 0; i<this.mapfloor.length; i++)
-            {
-                this.rootScene.attach(this.mapfloor[i].pic)
-            }
-
-            this.rootScene.attach(this.hero.pic)
-        },
-
-        update : function () 
-        {
-            this.box2D.draw()
-            this.hero.update()
-
-            if (this.hero.position.x > 750)
-            {
-                for	(var i = 0; i<this.mapfloor.length; i++)
-                {
-                    this.mapfloor[i].position = 
-                    {
-                        x: this.mapfloorValue[i].x - (this.hero.position.x - 750),
-                        y: this.mapfloorValue[i].y
-                    }
-                }
-            }
-
-            this.CharacterInfo_x._score=this.hero.position.x
-            this.CharacterInfo_y._score=this.hero.position.y
-        },
-        draw : function (parentCtx) 
-        {
-           // this.map.draw();
-            this.box2D.draw()
-            this.rootScene.draw()
-
-            this.CharacterInfo_x.draw(parentCtx)
-            this.CharacterInfo_y.draw(parentCtx)
-        },
-
-        keydown(e, list)
-        {
-            var heroPosition = this.hero.position;
-            if (e.key === 'Right')
-            {
-                console.log("Right")
-                this.hero.isWalking = 1
-                //console.log(this.hero.component.sprite.rotation)
-                //this.hero.goRight()
-                //this.hero.update(1)
-            }
-            if (e.key ==='Left')
-            {
-                console.log("Left")
-                this.hero.isWalking = 2
-                //console.log(this.hero.rotation)
-                //this.hero.goLeft()
-                
-                //this.hero.update(2)
-            }
-            if (e.key === 'Space')
-            {
-                console.log("Jump")
-                this.hero.jump()
-            }
-            if (e.key === 'Q')
-            {
-                // Framework.Game.stop()
-            }
-        },
-        keyup(e, list)
-        {
-            if(e.key === 'Left' || e.key === 'Right')
-            {
-                console.log("keyup")
-                this.hero.isWalking = 0;
-            }
+            this.mapfloor[i] = new floor(this.matter)
+            this.mapfloor[i].load()
+            this.mapfloor[i].initialize()
+            this.mapfloor[i].component.position = this.mapfloorValue[i]
         }
-    });
-    
+    }
+    load() 
+    {
+        console.log("Widht / Height" + Framework.Game.getCanvasWidth() + "\n" + Framework.Game.getCanvasHeight())
+
+        this.background = new Framework.Sprite(define.imagePath + 'background.jpg');
+
+        
+        this.loadHero()
+        this.loadGround()
+        
+        // console.log(this.hero.component.angle)
+
+        //test playerbody
+    }
+
+    initialize() 
+    {
+        //#region background
+        this.background.position = {
+            x: Framework.Game.getCanvasWidth() / 2,
+            y: Framework.Game.getCanvasHeight() / 2
+        }
+        
+        this.background.scale = 2;
+        this.rootScene.attach(this.background)
+        this.rootScene.attach(this.hero.pic)
+
+        for (var i = 0; i < this.mapfloorValue.length; i++)
+        {
+            this.rootScene.attach(this.mapfloor[i])
+        }
+        //#endregion
+    }
+
+    update() 
+    {
+        super.update()
+        this.matter.update()
+        this.rootScene.update()
+
+        this.hero.update()
+        
+        // console.log(this.hero.pic.width + " " + this.hero.component.width)
+    }
+    draw(parentCtx) 
+    {
+        this.rootScene.draw(parentCtx);
+        this.background.draw(parentCtx);
+        this.hero.draw(parentCtx)
+        
+        for (var i = 0; i < this.mapfloorValue.length; i++)
+        {
+            this.mapfloor[i].draw(parentCtx)
+        }
+    }
+
+    keydown(e)
+    {
+        if(e.key === 'P') 
+        {
+            this.matter.toggleRenderWireframes()   
+        }
+
+        if(e.key === 'W' && this.hero.playerOnFloor) 
+        {
+            // jump
+        }
+        if(e.key === 'A') 
+        {
+            // left
+        }
+        if(e.key === 'D') 
+        {
+            // right  
+        }
+    }
+};

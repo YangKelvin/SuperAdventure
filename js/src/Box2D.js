@@ -75,7 +75,7 @@ Framework = (function (Framework) {
 			var fixDef = new b2FixtureDef;
 			fixDef.density = 1.0;
 			fixDef.friction = 0.5;
-			fixDef.restitution = 0.2;
+			// fixDef.restitution = 0.2;
 
 			var bodyDef = new b2BodyDef;
 
@@ -145,9 +145,10 @@ Framework = (function (Framework) {
 			this.world.ClearForces();
 		};
 		//new 
-		// this.createBox = function(world, x, y, width, height, custom) {
-		// 	var boxSd = new b2BoxDef(); // 创建一个形状Shape，然后设置有关Shape的属性
-		// 	boxSd.extents.Set(width || 1200, height || 5); // 设置矩形高、宽
+		// this.createBox = function(world, x, y, width, height, custom) 
+		// {
+		// 	var boxSd = new b2BodyDef; // 创建一个形状Shape，然后设置有关Shape的属性
+		// 	boxSd.extents = {width: 1200, height: 5}; // 设置矩形高、宽
 		// 	boxSd.density = 1.0; // 设置矩形的密度 
 		// 	if (custom === 'fixed') boxSd.density = 0.0; // 若传入'fixed'，则需固定，此时设置密度为0
 		// 	else boxSd.userData = custom; // 若传入其他，则视为图片数据
@@ -155,9 +156,33 @@ Framework = (function (Framework) {
 		// 	boxSd.friction = 1; // 设置矩形的摩擦因子，可以设置为0-1之间任意一个数，0表示光滑，1表示强摩擦
 		// 	var boxBd = new b2BodyDef(); // 创建刚体定义
 		// 	boxBd.AddShape(boxSd); // 添加形状
-		// 	boxBd.position.Set(x || 10, y || 10); // 设置位置
+		// 	boxBd.position = {x: 10, y: 10}; // 设置位置
 		// 	return world.CreateBody(boxBd) // 创建并返回刚体
 		// }
+
+
+		///////
+		// this.createCharacter = function (_density, _friction, _restitution, _x, _y, _width, _height, bodyType, sprite, options) 
+		// {
+		// 	this.createWorld();
+		// 	var fixDef = new b2FixtureDef;
+		// 	fixDef.density = _density;
+		// 	fixDef.friction = _friction;
+		// 	fixDef.restitution = _restitution;
+
+		// 	var bodyDef = new b2BodyDef;
+
+		// 	bodyDef.type = bodyType;
+		// 	bodyDef.position.x = _x;
+		// 	bodyDef.position.y = _y;
+		// 	fixDef.shape = new b2PolygonShape;
+		// 	fixDef.shape.SetAsBox(_width, _height);
+		// 	var squareBody = this.world.CreateBody(bodyDef);
+		// 	var squareFixture = squareBody.CreateFixture(fixDef);
+
+		// 	return squareBody;
+		// };
+		///////
 	};
 	return Framework;
 })(Framework || {});

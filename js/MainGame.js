@@ -1,4 +1,4 @@
-Framework.Game.fps = 60;
+Framework.Game.fps = 120;
 Framework.Game.canvasWidth = 1600;
 Framework.Game.canvasHeight = 900;
 Framework.Game.isBackwardCompatiable = false;

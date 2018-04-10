@@ -64,10 +64,17 @@ var loadFrameworkEnd;
         { src: 'js/src/Audio.js'},
         { src: 'js/src/Box2dWeb-2.1.a.3.js'},
         { src: 'js/src/Box2D.js'},
-        { src: 'js/src/circleComponent.js'},
-        { src: 'js/src/polygonComponent.js'},
-        { src: 'js/src/squareComponent.js'},
+        { src: 'js/src/Matter-0.14.1.js'},
+        { src: 'js/src/MatterUtil.js'},
+        { src: 'js/src/circleComponent.js'},    
+        { src: 'js/src/polygonComponent.js'},   
+        // { src: 'js/src/squareComponent.js'},
+        { src: 'js/src/Component.js'},    //update
         { src: 'js/src/triangleComponent.js'},
+
+        { src: 'js/src/RectangleComponent.js'},
+        
+
         //{ src: 'game_sample/js/loadGame.js'},
     ]
     importJS(frameworklistScript);
