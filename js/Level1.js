@@ -103,13 +103,28 @@ class Level1 extends Framework.Level
         this.heroInfoY.position = {x:1000, y:80}
         this.heroInfoY._text= "hero_y : "
     }
-
+    loadBlockQ()
+    {
+        this.blockQValue =
+        [
+            {x: 500, y: 500},
+        ]
+        this.blockQs = new Array()
+        for (var i = 0; i < this.blockQValue.length; i++)
+        {
+            this.blockQs[i] = new block(this.matter)
+            this.blockQs[i].load()
+            this.blockQs[i].initialize()
+            this.blockQs[i].component.position = this.blockQValue[i]
+        }
+    }
     load() 
     {
         this.loadBackground()
         this.loadHero()
         this.loadGround()
         this.loadTextbox()
+        this.loadBlockQ()
     }
 
     initialize() 
@@ -120,6 +135,10 @@ class Level1 extends Framework.Level
         for (var i = 0; i < this.mapfloorValue.length; i++)
         {
             this.rootScene.attach(this.mapfloor[i])
+        }
+        for (var i = 0; i < this.blockQValue.length; i++)
+        {
+            this.rootScene.attach(this.blockQs[i])
         }
         //#endregion
     }
@@ -158,6 +177,10 @@ class Level1 extends Framework.Level
         for (var i = 0; i < this.mapfloorValue.length; i++)
         {
             this.mapfloor[i].draw(parentCtx)
+        }
+        for (var i = 0; i < this.blockQValue.length; i++)
+        {
+            this.blockQs[i].draw(parentCtx)
         }
         
         this.heroInfoX.draw(parentCtx)
