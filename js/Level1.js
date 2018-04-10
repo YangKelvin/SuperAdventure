@@ -85,7 +85,7 @@ class Level1 extends Framework.Level
     }
     load() 
     {
-        console.log("Widht / Height" + Framework.Game.getCanvasWidth() + "\n" + Framework.Game.getCanvasHeight())
+        // console.log("Widht / Height" + Framework.Game.getCanvasWidth() + "\n" + Framework.Game.getCanvasHeight())
 
         this.background = new Framework.Sprite(define.imagePath + 'background.jpg');
 
@@ -94,8 +94,9 @@ class Level1 extends Framework.Level
         this.loadGround()
         
         // console.log(this.hero.component.angle)
-
+        
         //test playerbody
+        
     }
 
     initialize() 
@@ -115,6 +116,7 @@ class Level1 extends Framework.Level
             this.rootScene.attach(this.mapfloor[i])
         }
         //#endregion
+        
     }
 
     update() 
@@ -124,7 +126,6 @@ class Level1 extends Framework.Level
         this.rootScene.update()
 
         this.hero.update()
-        
         // console.log(this.hero.pic.width + " " + this.hero.component.width)
     }
     draw(parentCtx) 
@@ -146,17 +147,27 @@ class Level1 extends Framework.Level
             this.matter.toggleRenderWireframes()   
         }
 
-        if(e.key === 'W' && this.hero.playerOnFloor) 
+        if(e.key === 'W') 
         {
             // jump
+            this.hero.isWalking = 3
         }
         if(e.key === 'A') 
         {
             // left
+            this.hero.isWalking = 2
         }
         if(e.key === 'D') 
         {
             // right  
+            this.hero.isWalking = 1
+        }
+    }
+    keyup(e, list)
+    {
+        if(e.key === 'D' || e.key === 'A' || e.key === 'W')
+        {
+            this.hero.isWalking = 0;
         }
     }
 };

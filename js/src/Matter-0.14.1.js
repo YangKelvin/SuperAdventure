@@ -6557,7 +6557,6 @@ var decomp = (typeof window !== "undefined" ? window['decomp'] : typeof global !
     Bodies.rectangle = function(x, y, width, height, options) 
     {
         options = options || {};
-        // console.log("A")
         var rectangle = { 
             label: 'Rectangle Body',
             position: { x: x, y: y },
@@ -6570,7 +6569,6 @@ var decomp = (typeof window !== "undefined" ? window['decomp'] : typeof global !
             rectangle.vertices = Vertices.chamfer(rectangle.vertices, chamfer.radius, 
                                     chamfer.quality, chamfer.qualityMin, chamfer.qualityMax);
             delete options.chamfer;
-            console.log("A")
         }
 
         return Body.create(Common.extend({}, rectangle, options));

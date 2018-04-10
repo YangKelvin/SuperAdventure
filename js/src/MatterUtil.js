@@ -4,7 +4,6 @@ Framework.Matter = class MatterUtil
         {
             this.engine = Matter.Engine.create()
             this.world = this.engine.world
-            this.body = Matter.Body
             this.render = Matter.Render.create(
                 {
                 element: Framework.Game._canvasContainer,
@@ -25,7 +24,6 @@ Framework.Matter = class MatterUtil
             if(this.isWireframeRendering) 
             {
                 Matter.Render.stop(this.render)
-                console.log("P")
             } 
             else 
             {
@@ -51,7 +49,7 @@ Framework.Matter = class MatterUtil
         }
 
         setBody(body, settings, value) {
-            Matter.Body.set(body, settings, value)
+            Matter.Body.set(body , settings, value)
         }
 
         scaleBody(body, scaleX, scaleY){
