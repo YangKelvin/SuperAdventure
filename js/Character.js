@@ -45,6 +45,7 @@ class Character
         }
         if (this.isWalking === 2)
         {
+            console.log("left")
             this.goLeft()
         }
         if (this.isWalking === 3)
@@ -60,16 +61,18 @@ class Character
     goRight()
     { 
         // let force = (0.0004 * this.component.body.mass) ;
+        console.log("hero goRight")
         this.matter.setBody(this.component.body, "velocity", {x: 5, y:this.component.body.velocity.y})
     }
     goLeft()
     {
+        console.log("hero goLeft")
         this.matter.setBody(this.component.body, "velocity", {x: -5, y:this.component.body.velocity.y})
     }
     
     jump()
     {
-        console.log("hero.jump")
+        console.log("herojump")
         // let force = (-0.0004 * this.component.body.mass)
         this.matter.setBody(this.component.body, "velocity", {x: this.component.body.velocity.x, y:-10})
     }

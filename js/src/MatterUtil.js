@@ -10,14 +10,17 @@ Framework.Matter = class MatterUtil
                 canvas: Framework.Game._canvas,
                 engine: this.engine,
                 options: {
-                    width: Framework.Config._canvasWidth,
-                    height:Framework.Config._canvasHeight,
+                    // width: Framework.Config.canvasWidth,
+                    // height:Framework.Config.canvasHeight,
+                    width: Framework.Game.canvasWidth,
+                    height:Framework.Game.canvasHeight,
                     wireframes: true
                 }
             })
             this.isWireframeRendering = false
 
             this.Event = Matter.Event
+            this.test = 1
         }
 
         toggleRenderWireframes() 

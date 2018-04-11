@@ -35,7 +35,7 @@ class Textbox
         ctx.fillStyle = 'yellow'; 
         ctx.textBaseline = 'top';   //??
         ctx.textAlign = 'left';     //??
-        ctx.fillText(this._text + ": " + this._value, this._position.x, this._position.y);
+        ctx.fillText(this._text + this._value, this._position.x, this._position.y);
     }
 
     addScore(score)

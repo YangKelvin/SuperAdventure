@@ -4,7 +4,14 @@ class Level1 extends Framework.Level
     {
         super()
         this.matter = new Framework.Matter() //宣告this.matter 並建立物理世界MatterUtil.js
-        this.matter.addEventListener("collisionStart",this.collisionStartBetweenQ_hero)
+        this.viewCenter = 
+        {
+            x: this.matter.render.options.width * 0.5,
+            y: this.matter.render.options.height * 0.5,
+        }
+        this.collisionBlockQs = this.collisionStartBetweenQ_hero.bind(this)
+        this.collisionQueen = this.collisionStartBetweenPrince_Hero.bind(this)
+        this.score = 0
     }
     loadHero()
     {
@@ -13,6 +20,12 @@ class Level1 extends Framework.Level
         this.hero.initialize()
         this.heroPosition = {x:500, y:200}
         this.hero.component.position = this.heroPosition
+    }
+    loadPrincess()
+    {
+        this.hero - new Character(this.matter)
+        this.hero.load()
+        this.hero.initialize()
     }
     loadGround()
     {
@@ -53,10 +66,27 @@ class Level1 extends Framework.Level
                 {x: 1895, y: 782},
                 {x: 1955, y: 782},
                 {x: 2245, y: 782},
+                {x: 2065, y: 782},
                 {x: 2185, y: 782},
                 {x: 2125, y: 782},
-                {x: 2065, y: 782},
-                {x: 2005, y: 782},
+
+                
+                // {x: 2005, y: 782},
+
+                {x: 2185, y: 782},
+                {x: 2245, y: 782},
+                {x: 2305, y: 782},
+                {x: 2365, y: 782},
+                // {x: 2005, y: 782},
+                // {x: 2005, y: 782},
+                // {x: 2005, y: 782},
+                // {x: 2005, y: 782},
+
+
+
+
+
+
 
                 {x: 2245, y: 722},//牆壁
                 {x: 2245, y: 662},//牆壁
@@ -96,6 +126,7 @@ class Level1 extends Framework.Level
     }
     loadTextbox()
     {
+        //hero info
         this.heroInfoX = new Textbox()
         this.heroInfoX.position = {x:1000, y:0}
         this.heroInfoX._text= "hero_x : "
@@ -103,29 +134,47 @@ class Level1 extends Framework.Level
         this.heroInfoY = new Textbox()
         this.heroInfoY.position = {x:1000, y:80}
         this.heroInfoY._text= "hero_y : "
+
+        //score
+        this.ScoreInfo = new Textbox()
+        this.ScoreInfo.position = {x:0, y:0}
+        this.ScoreInfo._text= "Score : "
     }
-    loadBlockQ()
+    loadBlockC()
     {
-        this.blockQValue =
+        this.blockCValue =
         [
             {x: 500, y: 500},
+            {x: 800, y: 500},
+            {x: 1100, y: 500},
         ]
-        this.blockQs = new Array()
-        for (var i = 0; i < this.blockQValue.length; i++)
+        this.blockCs = new Array()
+        for (var i = 0; i < this.blockCValue.length; i++)
         {
-            this.blockQs[i] = new block(this.matter)
-            this.blockQs[i].load()
-            this.blockQs[i].initialize()
-            this.blockQs[i].component.position = this.blockQValue[i]
+            this.blockCs[i] = new block(this.matter)
+            this.blockCs[i].load()
+            this.blockCs[i].initialize()
+            this.blockCs[i].component.position = this.blockCValue[i]
         }
     }
+    
+
     load() 
     {
+        console.log(this.viewCenter)
+
+
         this.loadBackground()
         this.loadHero()
         this.loadGround()
         this.loadTextbox()
-        this.loadBlockQ()
+        this.loadBlockC()
+
+        // console.log(this.hero.component.body)
+        // console.log(this.blockQs[0].component.body)
+        // 載入
+        this.matter.addEventListener("collisionStart",(this.collisionBlockQs))
+        
     }
 
     initialize() 
@@ -137,9 +186,9 @@ class Level1 extends Framework.Level
         {
             this.rootScene.attach(this.mapfloor[i])
         }
-        for (var i = 0; i < this.blockQValue.length; i++)
+        for (var i = 0; i < this.blockCValue.length; i++)
         {
-            this.rootScene.attach(this.blockQs[i])
+            this.rootScene.attach(this.blockCs[i])
         }
         //#endregion
     }
@@ -155,15 +204,35 @@ class Level1 extends Framework.Level
 
         this.heroInfoX._value = Math.round(this.hero.component.position.x)
         this.heroInfoY._value = Math.round(this.hero.component.position.y)
+        
+        this.ScoreInfo._value = this.score
+
+
+        //move map
+        if (this.hero.component.position.x > 750)
+        {
+            console.log("move map")
+            for	(var i = 0; i<this.mapfloor.length; i++)
+            {
+                // this.mapfloor[i].matter.setBody(this.mapfloor[i].component.body, "velocity", {x: -5, y:/*this.mapfloor[i].component.body.velocity.y*/0})
+                this.mapfloor[i].component.position = 
+                {
+                    x: this.mapfloorValue[i].x - (this.hero.component.position.x - 600),
+                    y: this.mapfloorValue[i].y
+                }
+            }
+        }
 
         if (this.hero.component.position.x > 750)
         {
-            for	(var i = 0; i<this.mapfloor.length; i++)
+            // console.log("move map")
+            for	(var i = 0; i<this.blockCValue.length; i++)
             {
-                this.mapfloor[i].component.position = 
+                // this.mapfloor[i].matter.setBody(this.mapfloor[i].component.body, "velocity", {x: -5, y:/*this.mapfloor[i].component.body.velocity.y*/0})
+                this.blockCs[i].component.position = 
                 {
-                    x: this.mapfloorValue[i].x - (this.hero.component.position.x - 750),
-                    y: this.mapfloorValue[i].y
+                    x: this.blockCValue[i].x - (this.hero.component.position.x - 600),
+                    y: this.blockCValue[i].y
                 }
             }
         }
@@ -179,13 +248,15 @@ class Level1 extends Framework.Level
         {
             this.mapfloor[i].draw(parentCtx)
         }
-        for (var i = 0; i < this.blockQValue.length; i++)
+        for (var i = 0; i < this.blockCValue.length; i++)
         {
-            this.blockQs[i].draw(parentCtx)
+            this.blockCs[i].draw(parentCtx)
         }
         
         this.heroInfoX.draw(parentCtx)
         this.heroInfoY.draw(parentCtx)
+
+        this.ScoreInfo.draw(parentCtx)
     }
 
     keydown(e)
@@ -221,23 +292,60 @@ class Level1 extends Framework.Level
     }
 
     collisionStartBetweenQ_hero(event)
+    {
+        // console.log(this)
+        var pairs = event.pairs;
+        console.log("pairs.length = " + pairs.length)
+        for (var i = 0, j = pairs.length; i != j; ++i) 
         {
-            var pairs = event.pairs;
-    
-            for (var i = 0, j = pairs.length; i != j; ++i) 
-            {
+            
+            var pair = pairs[i];
+            // console.log(pair.bodyA)
+            // console.log(this.blockQs[0])
 
-                var pair = pairs[i];
-                // console.log(pair.bodyA)
-                console.log(this.hero.component)
-                if (pair.bodyA === this.blockQ) 
+            for (var k = 0; k < this.blockCValue.length; k++)
+            {
+                if (pair.bodyA === this.blockCs[k].component.body) 
                 {
-                    console.log("collision")
+                    // console.log("collision1")
+                    //hero 和 blockQs 碰撞
+                    this.blockCs[k].pic = null
+                    this.matter.removeBody(this.blockCs[k].component.body)
+                    this.score += 1
+                    
                 } 
-                else if (pair.bodyB === this.blockQ) 
+                else if (pair.bodyB === this.blockCs[k].component.body) 
                 {
-                    console.log("collision")
+                    console.log("collision2")
+                    this.matter.removeBody(this.blockCs[k].component.body)
+
                 }
             }
+
+            
         }
+    }
+    collisionStartBetweenPrince_Hero(event)
+    {
+        var pairs = event.pairs;
+
+        for (var i = 0, j = pairs.length; i != j; ++i) 
+        {
+            
+            var pair = pairs[i];
+            console.log(pair.bodyA)
+            // console.log(this.blockQs[0])
+            if (pair.bodyA === this.blockQs[0].component.body) 
+            {
+                console.log("collision1")
+                //hero 和 blockQs 碰撞
+                
+            } 
+            else if (pair.bodyB === this.blockQs[0].component.body) 
+            {
+                console.log("collision2")
+                
+            }
+        }
+    }
 };

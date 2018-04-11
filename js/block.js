@@ -9,16 +9,15 @@ class block
 
     load()
     {
-        this.pic = new Framework.Sprite('images/blockQ.png')
+        this.pic = new Framework.Sprite('images/coin.png')
         //componentOptions friction:摩擦, density:密度
         let componentOptions = { label: 'blockQ', friction: 0.05, density:0.002, isStatic:true}
         //createComponent
         this.component = new Framework.RectangleComponent(this.matter, this.pic, componentOptions)
-        this.component.scale = 0.2
     }
     initialize() 
     {
-        // super.initialize()
+        this.component.scale = 0.2
     }
     update()
     {
@@ -26,6 +25,9 @@ class block
     }
     draw()
     {
-        this.pic.draw()
+        if (this.pic != null)
+        {
+            this.pic.draw()
+        }
     }
 }
