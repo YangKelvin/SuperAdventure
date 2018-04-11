@@ -1,7 +1,8 @@
 var MyMenu = Framework.exClass(Framework.GameMainMenu,
     {
         //初始化loadingProgress需要用到的圖片
-        initializeProgressResource: function () {
+        initializeProgressResource: function () 
+        {
             this.loading = new Framework.Sprite(define.imagePath + 'loading.jpg');
             this.loading.position = { x: Framework.Game.getCanvasWidth() / 2, y: Framework.Game.getCanvasHeight() / 2 };
 
@@ -71,7 +72,7 @@ var MyMenu = Framework.exClass(Framework.GameMainMenu,
         },
 
         mousemove: function (e) {
-
+            
         },
 
         mouseup: function (e) {

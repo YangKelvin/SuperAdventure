@@ -10,12 +10,13 @@ class Level1 extends Framework.Level
             y: this.matter.render.options.height * 0.5,
         }
         this.collisionBlockQs = this.collisionStartBetweenQ_hero.bind(this)
-        this.collisionQueen = this.collisionStartBetweenPrince_Hero.bind(this)
+        this.collisionPrincess = this.collisionStartBetweenPrincess_Hero.bind(this)
         this.score = 0
     }
     loadHero()
     {
-        this.hero = new Character(this.matter)
+        this.heroPic = new Framework.Sprite('images/character2.png')
+        this.hero = new Character(this.matter, this.heroPic)
         this.hero.load()
         this.hero.initialize()
         this.heroPosition = {x:500, y:200}
@@ -23,9 +24,12 @@ class Level1 extends Framework.Level
     }
     loadPrincess()
     {
-        this.hero - new Character(this.matter)
-        this.hero.load()
-        this.hero.initialize()
+        this.princessPic = new Framework.Sprite('images/princess.png')
+        this.princess =new Character(this.matter, this.princessPic)
+        this.princess.load()
+        this.princess.initialize()
+        this.princessPosition = {x:900, y:200}
+        this.princess.component.position = this.princessPosition
     }
     loadGround()
     {
@@ -156,8 +160,7 @@ class Level1 extends Framework.Level
             this.blockCs[i].initialize()
             this.blockCs[i].component.position = this.blockCValue[i]
         }
-    }
-    
+    }    
 
     load() 
     {
@@ -169,11 +172,12 @@ class Level1 extends Framework.Level
         this.loadGround()
         this.loadTextbox()
         this.loadBlockC()
-
+        this.loadPrincess()
         // console.log(this.hero.component.body)
         // console.log(this.blockQs[0].component.body)
         // 載入
         this.matter.addEventListener("collisionStart",(this.collisionBlockQs))
+        this.matter.addEventListener("collisionStart",(this.collisionPrincess))
         
     }
 
@@ -182,6 +186,8 @@ class Level1 extends Framework.Level
         //#region attach 
         this.rootScene.attach(this.background)
         this.rootScene.attach(this.hero.pic)
+        this.rootScene.attach(this.princess.pic)
+
         for (var i = 0; i < this.mapfloorValue.length; i++)
         {
             this.rootScene.attach(this.mapfloor[i])
@@ -190,6 +196,7 @@ class Level1 extends Framework.Level
         {
             this.rootScene.attach(this.blockCs[i])
         }
+
         //#endregion
     }
 
@@ -200,6 +207,10 @@ class Level1 extends Framework.Level
         this.matter.update()
         this.rootScene.update()
         this.hero.update()
+        if (this.score === 3)
+        {
+            this.princess.update()
+        }
         //#endregion
 
         this.heroInfoX._value = Math.round(this.hero.component.position.x)
@@ -211,7 +222,7 @@ class Level1 extends Framework.Level
         //move map
         if (this.hero.component.position.x > 750)
         {
-            console.log("move map")
+            // console.log("move map")
             for	(var i = 0; i<this.mapfloor.length; i++)
             {
                 // this.mapfloor[i].matter.setBody(this.mapfloor[i].component.body, "velocity", {x: -5, y:/*this.mapfloor[i].component.body.velocity.y*/0})
@@ -243,7 +254,10 @@ class Level1 extends Framework.Level
         this.rootScene.draw(parentCtx);
         this.background.draw(parentCtx);
         this.hero.draw(parentCtx)
-        
+        if (this.score === 3)
+        {
+            this.princess.draw(parentCtx)
+        }
         for (var i = 0; i < this.mapfloorValue.length; i++)
         {
             this.mapfloor[i].draw(parentCtx)
@@ -263,7 +277,7 @@ class Level1 extends Framework.Level
     {
         if(e.key === 'P') 
         {
-            console.log(this.hero.component.body)
+            // console.log(this.hero.component.body)
             this.matter.toggleRenderWireframes()   
         }
 
@@ -295,7 +309,7 @@ class Level1 extends Framework.Level
     {
         // console.log(this)
         var pairs = event.pairs;
-        console.log("pairs.length = " + pairs.length)
+        // console.log("pairs.length = " + pairs.length)
         for (var i = 0, j = pairs.length; i != j; ++i) 
         {
             
@@ -325,7 +339,7 @@ class Level1 extends Framework.Level
             
         }
     }
-    collisionStartBetweenPrince_Hero(event)
+    collisionStartBetweenPrincess_Hero(event)
     {
         var pairs = event.pairs;
 
@@ -333,18 +347,17 @@ class Level1 extends Framework.Level
         {
             
             var pair = pairs[i];
-            console.log(pair.bodyA)
+            // console.log(pair.bodyA)
             // console.log(this.blockQs[0])
-            if (pair.bodyA === this.blockQs[0].component.body) 
+            if (pair.bodyA === this.princess.component.body && pair.bodyB === this.hero.component.body) 
             {
                 console.log("collision1")
-                //hero 和 blockQs 碰撞
                 
             } 
-            else if (pair.bodyB === this.blockQs[0].component.body) 
+            else if (pair.bodyB === this.princess.component.body) 
             {
-                console.log("collision2")
-                
+                console.log("The End")
+                // Framework.Game.goToNextLevel()
             }
         }
     }
