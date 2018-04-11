@@ -4,6 +4,7 @@ class Level1 extends Framework.Level
     {
         super()
         this.matter = new Framework.Matter() //宣告this.matter 並建立物理世界MatterUtil.js
+        this.matter.addEventListener("collisionStart",this.collisionStartBetweenQ_hero)
     }
     loadHero()
     {
@@ -191,6 +192,7 @@ class Level1 extends Framework.Level
     {
         if(e.key === 'P') 
         {
+            console.log(this.hero.component.body)
             this.matter.toggleRenderWireframes()   
         }
 
@@ -217,4 +219,25 @@ class Level1 extends Framework.Level
             this.hero.isWalking = 0;
         }
     }
+
+    collisionStartBetweenQ_hero(event)
+        {
+            var pairs = event.pairs;
+    
+            for (var i = 0, j = pairs.length; i != j; ++i) 
+            {
+
+                var pair = pairs[i];
+                // console.log(pair.bodyA)
+                console.log(this.hero.component)
+                if (pair.bodyA === this.blockQ) 
+                {
+                    console.log("collision")
+                } 
+                else if (pair.bodyB === this.blockQ) 
+                {
+                    console.log("collision")
+                }
+            }
+        }
 };
