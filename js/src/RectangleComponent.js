@@ -26,8 +26,8 @@ Framework.RectangleComponent = class RectangleComponent extends Framework.Compon
             // console.log(realWidth + " " + realHeight)
             // this.matter.scaleBody(this.body, realWidth, realHeight)
             this.matter.removeBody(this.body)
-            console.log("W : " + realWidth)
-            console.log("H : " + realHeight)
+            // console.log("W : " + realWidth)
+            // console.log("H : " + realHeight)
 
             // let tempWidth = 41
             // let tempHeight = 54

@@ -53,7 +53,6 @@ class AnimationCharacter
         }
         if (this.isWalking === 2)
         {
-            console.log("left")
             this.goLeft()
         }
         if (this.isWalking === 3)
@@ -87,7 +86,7 @@ class AnimationCharacter
 
     Animation_GoRight(finishPlaying)
     {
-        console.log("A-goRight")
+        // console.log("A-goRight")
         this.sprite.start({ from: this.options.goRight.from, to: this.options.goRight.to, loop: true, finishPlaying: finishPlaying})
 
     }

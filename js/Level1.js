@@ -254,7 +254,7 @@ class Level1 extends Framework.Level
         
         this.ScoreInfo._value = this.score
 
-        console.log("spriteW : " + this.hero.sprite.width + "\nspriteH : " + this.hero.sprite.height)
+        // console.log("spriteW : " + this.hero.sprite.width + "\nspriteH : " + this.hero.sprite.height)
         //move map
         if (this.hero.component.position.x > 750)
         {
@@ -398,7 +398,7 @@ class Level1 extends Framework.Level
                 console.log("collision1")
                 
             } 
-            else if (pair.bodyB === this.princess.component.body) 
+            else if (pair.bodyA === this.hero.component.body && pair.bodyB === this.princess.component.body) 
             {
                 console.log("The End")
                 // Framework.Game.goToNextLevel()
