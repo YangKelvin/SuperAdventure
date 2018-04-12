@@ -21,7 +21,7 @@ class Character
         //character.pic
         this.pic = new Framework.Sprite(this.url)
         //characterOption friction:摩擦, density:密度
-        let componentOptions = { label: 'hero', friction: 0.05, density:0.002, }
+        let componentOptions = { label: 'hero', friction: 0.05, density:0.002,}
         //createComponent
         this.component = new Framework.RectangleComponent(this.matter, this.pic, componentOptions)
         
@@ -42,7 +42,7 @@ class Character
         this.component.setBody('angle', 0)
         
         this.component.update()
-
+        
         
         if (this.isWalking === 1)
         {

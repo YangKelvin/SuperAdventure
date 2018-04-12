@@ -25,14 +25,33 @@ class Level1 extends Framework.Level
 
     loadHero()
     {
-        // this.heroPic = new Framework.Sprite('images/character2.png')
-        this.characterPosition = {x: 200, y :600}
-        this.hero = new Character(this.matter, 'images/Character2.png', this.characterPosition)
+        // old version
+        // this.characterPosition = {x: 200, y :600}
+        // this.hero = new Character(this.matter, 'images/Character2.png', this.characterPosition)
+        // this.hero.load()
+        // this.hero.initialize()
+        // this.heroPosition = {x:500, y:200}
+        // this.hero.component.position = this.heroPosition
+        // this.rootScene.attach(this.hero.pic)
+
+
+        //new animation
+        this.heroPos = {x:200, y:600}
+        this.animationOps = 
+        {
+            position: this.heroPos, 
+            goRight: {from: 4, to: 7}, 
+            goLeft: {from:8, to: 11}
+        }
+        this.heroOps = { label: 'hero', friction: 0.05, density:0.002}
+        this.hero = new AnimationCharacter('images/hero.png', this.animationOps, this.matter, this.heroPos, this.heroOps)
         this.hero.load()
         this.hero.initialize()
-        this.heroPosition = {x:500, y:200}
-        this.hero.component.position = this.heroPosition
-        this.rootScene.attach(this.hero.pic)
+
+        this.hero.component.position = this.heroPos
+        this.hero.animation_stand()
+
+        this.rootScene.attach(this.hero.sprite)
     }
     loadPrincess()
     {
@@ -187,8 +206,7 @@ class Level1 extends Framework.Level
 
     load() 
     {
-        console.log(this.viewCenter)
-        
+        // console.log(this.viewCenter)
 
         this.loadBackground()
         this.loadHero()
@@ -196,6 +214,8 @@ class Level1 extends Framework.Level
         this.loadTextbox()
         this.loadBlockC()
         this.loadPrincess()
+
+        
 
         // this.loadAnimationCharacter()
         // this.ACharacter.goRight()
@@ -214,6 +234,7 @@ class Level1 extends Framework.Level
 
     update() 
     {
+        // console.log(this.hero.component.hasFirstUpdate)
         //#region update
         super.update()
         this.matter.update()
@@ -227,12 +248,13 @@ class Level1 extends Framework.Level
         }
         //#endregion
 
+
         this.heroInfoX._value = Math.round(this.hero.component.position.x)
         this.heroInfoY._value = Math.round(this.hero.component.position.y)
         
         this.ScoreInfo._value = this.score
 
-
+        console.log("spriteW : " + this.hero.sprite.width + "\nspriteH : " + this.hero.sprite.height)
         //move map
         if (this.hero.component.position.x > 750)
         {
@@ -301,16 +323,19 @@ class Level1 extends Framework.Level
         {
             // jump
             this.hero.isWalking = 3
+            
         }
         if(e.key === 'A') 
         {
             // left
             this.hero.isWalking = 2
+            this.hero.Animation_GoLeft()
         }
         if(e.key === 'D') 
         {
             // right  
             this.hero.isWalking = 1
+            this.hero.Animation_GoRight()
         }
     }
     keyup(e, list)
@@ -318,8 +343,11 @@ class Level1 extends Framework.Level
         if(e.key === 'D' || e.key === 'A' || e.key === 'W')
         {
             this.hero.isWalking = 0;
+            this.hero.animation_stand()
         }
     }
+
+    
 
     collisionStartBetweenQ_hero(event)
     {
