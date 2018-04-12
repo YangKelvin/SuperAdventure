@@ -45,13 +45,12 @@ var loadGameEnd;
         { src: 'js/myMenu.js', lookFor: 'MyMenu' },
         { src: 'js/Level1.js', lookFor: 'Level1' },
         { src: 'js/EndLevel.js', lookFor: 'EndLevel' },
-        // { src: 'js/wall.js', lookFor: 'wall' },
         { src: 'js/Character.js', lookFor: 'Character' },
         { src: 'js/block.js', lookFor: 'block' },
-        // { src: 'js/MyBox2D.js', lookFor: 'MyBox2D' },
         //{ src: 'game_sample/js/map.js', lookFor: 'Map' },
         { src: 'js/floor.js', lookFor: 'floor' },
         { src: 'js/textbox.js', lookFor: 'Textbox' },
+        { src: 'js/AnimationCharacter.js', lookFor: 'AnimationCharacter' },
         { src: 'js/score.js', lookFor: 'Score' },
         { src: 'js/mainGame.js'}
     ]

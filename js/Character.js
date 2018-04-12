@@ -1,20 +1,26 @@
 class Character
 {
-    constructor(_matter, _pic)
+    constructor(_matter, _url, _characterPosition)
     {
         this.component
         this.matter = _matter
-        this.pic = _pic
         this.isWalking = false
         this.playerOnFloor = false
-
+        this.url = _url
         this.isWalking = 0
+        this.characterPosition = _characterPosition
     }
     
     load()
     {
+        //animation character
+        this.character = {x:1000, y:200}
+        this.character = new Character('images/character.png', {position: this.characterPosition, goRight: {from: 0, to: 7}, goLeft: {from:8, to: 15}}); 
+
+
+
         //character.pic
-        // this.pic = new Framework.Sprite('images/character2.png')
+        this.pic = new Framework.Sprite(this.url)
         //characterOption friction:摩擦, density:密度
         let componentOptions = { label: 'hero', friction: 0.05, density:0.002, }
         //createComponent

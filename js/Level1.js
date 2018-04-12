@@ -13,10 +13,18 @@ class Level1 extends Framework.Level
         this.collisionPrincess = this.collisionStartBetweenPrincess_Hero.bind(this)
         this.score = 0
     }
+
+    loadAnimationCharacter()
+    {
+        this.AnimationCharacter = new AnimationCharacter('images/character.png',
+            {position: {x:100, y:100}, goRight: {from: 0, to: 7}, goLeft: {from:8, to: 15}})
+    }
+
     loadHero()
     {
-        this.heroPic = new Framework.Sprite('images/character2.png')
-        this.hero = new Character(this.matter, this.heroPic)
+        // this.heroPic = new Framework.Sprite('images/character2.png')
+        this.characterPosition = {x: 200, y :600}
+        this.hero = new Character(this.matter, 'images/character2.png', this.characterPosition)
         this.hero.load()
         this.hero.initialize()
         this.heroPosition = {x:500, y:200}
@@ -24,8 +32,8 @@ class Level1 extends Framework.Level
     }
     loadPrincess()
     {
-        this.princessPic = new Framework.Sprite('images/princess.png')
-        this.princess =new Character(this.matter, this.princessPic)
+        // this.princessPic = new Framework.Sprite('images/princess.png')
+        this.princess =new Character(this.matter, 'images/princess.png')
         this.princess.load()
         this.princess.initialize()
         this.princessPosition = {x:900, y:200}
@@ -155,17 +163,19 @@ class Level1 extends Framework.Level
         this.blockCs = new Array()
         for (var i = 0; i < this.blockCValue.length; i++)
         {
+            this
             this.blockCs[i] = new block(this.matter)
             this.blockCs[i].load()
             this.blockCs[i].initialize()
             this.blockCs[i].component.position = this.blockCValue[i]
+            // this.blockCs[i].component.body.isSensor = true
         }
     }    
 
     load() 
     {
         console.log(this.viewCenter)
-
+        this.loadAnimationCharacter()
 
         this.loadBackground()
         this.loadHero()
@@ -187,6 +197,7 @@ class Level1 extends Framework.Level
         this.rootScene.attach(this.background)
         this.rootScene.attach(this.hero.pic)
         this.rootScene.attach(this.princess.pic)
+        this.rootScene.attach(this.AnimationCharacter.sprite)
 
         for (var i = 0; i < this.mapfloorValue.length; i++)
         {
