@@ -1,33 +1,29 @@
 class Character
 {
-    constructor(_matter)
+    constructor(_url, _matter, _characterOps, _characterPos)
     {
         this.component
         this.matter = _matter
-        this.pic
-        this.isWalking = false
+        this.url = _url
+        this.characterPos = _characterPos
+        this.characterOps = _characterOps
         this.playerOnFloor = false
-
         this.isWalking = 0
     }
     
     load()
     {
-        //character.pic
-        this.pic = new Framework.Sprite('images/character2.png')
-        //characterOption friction:摩擦, density:密度
-        let componentOptions = { label: 'hero', friction: 0.05, density:0.002, }
+        this.pic = new Framework.Sprite(this.url)
+
         //createComponent
-        this.component = new Framework.RectangleComponent(this.matter, this.pic, componentOptions)
-        
+        this.component = new Framework.RectangleComponent(this.matter, 
+                                                            this.pic, 
+                                                            this.characterOps)   
     }
     initialize() 
     {
-        // super.initialize()
-		// this.component.lockRotation = true
         this.component.scale = 0.2
-        // this.component.body.setAngularVelocity(staticAngleBody, 0);
-		// this.map.level.rootScene.attach(this.pic)
+        this.component.position = this.characterPos
     }
     update() 
     {
@@ -37,7 +33,7 @@ class Character
         this.component.setBody('angle', 0)
         
         this.component.update()
-
+        
         
         if (this.isWalking === 1)
         {
@@ -61,18 +57,18 @@ class Character
     goRight()
     { 
         // let force = (0.0004 * this.component.body.mass) ;
-        console.log("hero goRight")
+        // console.log("hero goRight")
         this.matter.setBody(this.component.body, "velocity", {x: 5, y:this.component.body.velocity.y})
     }
     goLeft()
     {
-        console.log("hero goLeft")
+        // console.log("hero goLeft")
         this.matter.setBody(this.component.body, "velocity", {x: -5, y:this.component.body.velocity.y})
     }
     
     jump()
     {
-        console.log("herojump")
+        // console.log("herojump")
         // let force = (-0.0004 * this.component.body.mass)
         this.matter.setBody(this.component.body, "velocity", {x: this.component.body.velocity.x, y:-10})
     }

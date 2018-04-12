@@ -1,15 +1,20 @@
 var MyMenu = Framework.exClass(Framework.GameMainMenu,
     {
         //初始化loadingProgress需要用到的圖片
-        initializeProgressResource: function () {
+        initializeProgressResource: function () 
+        {
             this.loading = new Framework.Sprite(define.imagePath + 'loading.jpg');
-            this.loading.position = { x: Framework.Game.getCanvasWidth() / 2, y: Framework.Game.getCanvasHeight() / 2 };
-
+            this.loading.position = 
+            { 
+                x: Framework.Game.getCanvasWidth() / 2, 
+                y: Framework.Game.getCanvasHeight() / 2 
+            };
             //為了或得到this.loading這個Sprite的絕對位置, 故需要先計算一次(在Game Loop執行時, 則會自動計算, 但因為loadingProgress只支援draw故需要自行計算)                  
         },
 
         //在initialize時會觸發的事件
-        loadingProgress: function (ctx, requestInfo) {
+        loadingProgress: function (ctx, requestInfo) 
+        {
             //console.log(Framework.ResourceManager.getFinishedRequestPercent())
             this.loading.draw(ctx);
             ctx.font = '90px Arial';
@@ -19,7 +24,7 @@ var MyMenu = Framework.exClass(Framework.GameMainMenu,
         },
 
         load: function () {
-            this.menu = new Framework.Sprite(define.imagePath + 'Title.png');
+            this.menu = new Framework.Sprite(define.imagePath + 'iWantToPlayAGame.jpg');
         },
 
         initialize: function () {
@@ -29,7 +34,7 @@ var MyMenu = Framework.exClass(Framework.GameMainMenu,
                 x: Framework.Game.getCanvasWidth() / 2,
                 y: Framework.Game.getCanvasHeight() / 2
             };
-            this.menu.scale = 2;
+            this.menu.scale = 1.2;
             this.rootScene.attach(this.menu);
 
             this.rectPosition = {
@@ -54,7 +59,7 @@ var MyMenu = Framework.exClass(Framework.GameMainMenu,
             parentCtx.fillStyle = 'black';
             parentCtx.textBaseline = 'top';
             parentCtx.textAlign = 'center';
-            parentCtx.fillText('Click To Start', this.rectPosition.x + 130, this.rectPosition.y, 260);
+            parentCtx.fillText('Super Adventure', this.rectPosition.x + 130, this.rectPosition.y, 260);
         },
 
         mouseup: function (e) {
@@ -71,7 +76,7 @@ var MyMenu = Framework.exClass(Framework.GameMainMenu,
         },
 
         mousemove: function (e) {
-
+            
         },
 
         mouseup: function (e) {

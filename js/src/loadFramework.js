@@ -72,7 +72,9 @@ var loadFrameworkEnd;
         { src: 'js/src/Component.js'},    //update
         { src: 'js/src/triangleComponent.js'},
 
+        { src: 'js/src/AnimationRectangleComponent.js'},
         { src: 'js/src/RectangleComponent.js'},
+        
         
 
         //{ src: 'game_sample/js/loadGame.js'},

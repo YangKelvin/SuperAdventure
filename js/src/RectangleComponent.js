@@ -26,8 +26,18 @@ Framework.RectangleComponent = class RectangleComponent extends Framework.Compon
             // console.log(realWidth + " " + realHeight)
             // this.matter.scaleBody(this.body, realWidth, realHeight)
             this.matter.removeBody(this.body)
+            // console.log("W : " + realWidth)
+            // console.log("H : " + realHeight)
+
+            // let tempWidth = 41
+            // let tempHeight = 54
+
+            // this.body = this.matter.createRectangleBody(this.sprite.position.x, this.sprite.position.y, tempWidth, tempHeight, this.bodyOptions)
+
             this.body = this.matter.createRectangleBody(this.sprite.position.x, this.sprite.position.y, realWidth, realHeight, this.bodyOptions)
-		} else if(this.hasFirstUpdate) {
+        } 
+        else if(this.hasFirstUpdate) 
+        {
 			this.sprite.position = this.body.position
 			this.sprite.rotation = this.body.angle / Math.PI * 180
 		}
