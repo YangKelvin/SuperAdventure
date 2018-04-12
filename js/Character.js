@@ -1,38 +1,29 @@
 class Character
 {
-    constructor(_matter, _url, _characterPosition)
+    constructor(_url, _matter, _characterOps, _characterPos)
     {
         this.component
         this.matter = _matter
-        this.playerOnFloor = false
         this.url = _url
+        this.characterPos = _characterPos
+        this.characterOps = _characterOps
+        this.playerOnFloor = false
         this.isWalking = 0
-        this.characterPosition = _characterPosition
     }
     
     load()
     {
-        //animation character
-        // this.character = {x:1000, y:200}
-        // this.character = new Character('images/character.png', {position: this.characterPosition, goRight: {from: 0, to: 7}, goLeft: {from:8, to: 15}}); 
-
-
-
-        //character.pic
         this.pic = new Framework.Sprite(this.url)
-        //characterOption friction:摩擦, density:密度
-        let componentOptions = { label: 'hero', friction: 0.05, density:0.002,}
+
         //createComponent
-        this.component = new Framework.RectangleComponent(this.matter, this.pic, componentOptions)
-        
+        this.component = new Framework.RectangleComponent(this.matter, 
+                                                            this.pic, 
+                                                            this.characterOps)   
     }
     initialize() 
     {
-        // super.initialize()
-		// this.component.lockRotation = true
         this.component.scale = 0.2
-        // this.component.body.setAngularVelocity(staticAngleBody, 0);
-		// this.map.level.rootScene.attach(this.pic)
+        this.component.position = this.characterPos
     }
     update() 
     {

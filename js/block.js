@@ -1,20 +1,18 @@
 class block
 {
-    constructor(_matter)
+    constructor(_url, _matter, _blockOps)
     {
         this.matter = _matter
-        this.pic
+        this.url = _url
+        this.blockOps = _blockOps
+
         this.component
-        this.componentOptions
     }
 
     load()
     {
-        this.pic = new Framework.Sprite('images/coin.png')
-        //componentOptions friction:摩擦, density:密度
-        this.componentOptions = { label: 'blockQ', friction: 0.05, density:0.002, isStatic:true, isSensor:true}
-        //createComponent
-        this.component = new Framework.RectangleComponent(this.matter, this.pic, this.componentOptions)
+        this.pic = new Framework.Sprite(this.url)
+        this.component = new Framework.RectangleComponent(this.matter, this.pic, this.blockOps)
     }
     initialize() 
     {

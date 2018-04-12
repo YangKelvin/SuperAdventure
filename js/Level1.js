@@ -2,69 +2,69 @@ class Level1 extends Framework.Level
 {
     constructor()
     {
-        super()
-        this.matter = new Framework.Matter() //宣告this.matter 並建立物理世界MatterUtil.js
-        this.viewCenter = 
-        {
-            x: this.matter.render.options.width * 0.5,
-            y: this.matter.render.options.height * 0.5,
-        }
+        super() // 繼承
+        this.matter = new Framework.Matter() // 宣告this.matter 並建立物理世界MatterUtil.js
+        
+        // hero & coin 的碰撞 和 hero & princess 的碰撞
         this.collisionBlockQs = this.collisionStartBetweenQ_hero.bind(this)
         this.collisionPrincess = this.collisionStartBetweenPrincess_Hero.bind(this)
+        
+        // 初始分數 （吃金幣的數量）
         this.score = 0
     }
-
-    loadAnimationCharacter()
-    {
-        // this.ACharacter = new AnimationCharacter('images/character.png',
-        //     {
-        //         position: {x:500, y:600}, goRight: {from: 0, to: 7}, goLeft: {from:8, to: 15}
-        //     })
-        // this.rootScene.attach(this.ACharacter.sprite)
-    }
-
     loadHero()
     {
-        // old version
-        // this.characterPosition = {x: 200, y :600}
-        // this.hero = new Character(this.matter, 'images/Character2.png', this.characterPosition)
-        // this.hero.load()
-        // this.hero.initialize()
-        // this.heroPosition = {x:500, y:200}
-        // this.hero.component.position = this.heroPosition
-        // this.rootScene.attach(this.hero.pic)
-
-
         //new animation
         this.heroPos = {x:200, y:600}
+
+        // animationSprite 的 options
         this.animationOps = 
         {
             position: this.heroPos, 
             goRight: {from: 4, to: 7}, 
             goLeft: {from:8, to: 11}
         }
-        this.heroOps = { label: 'hero', friction: 0.05, density:0.002}
-        this.hero = new AnimationCharacter('images/hero.png', this.animationOps, this.matter, this.heroPos, this.heroOps)
+
+        // heroComponent 的 options
+        this.heroOps = 
+        {
+            label: 'hero', 
+            friction: 0.05, 
+            density:0.002
+        }
+
+        this.hero = new AnimationCharacter('images/hero.png', 
+                                            this.animationOps, 
+                                            this.matter, 
+                                            this.heroPos, 
+                                            this.heroOps)
+
         this.hero.load()
         this.hero.initialize()
 
-        this.hero.component.position = this.heroPos
-        this.hero.animation_stand()
-
+        this.hero.animationStand()
         this.rootScene.attach(this.hero.sprite)
     }
     loadPrincess()
     {
-        // this.princessPic = new Framework.Sprite('images/princess.png')
-        this.princess =new Character(this.matter, 'images/princess.png')
+        this.princessPos = {x:1380, y:670}
+        
+        this.princessOps = 
+        { 
+            label: 'princess', 
+            friction: 0.05, 
+            density:0.002
+        }
+
+        this.princess =new Character('images/princess.png', 
+                                        this.matter,
+                                        this.princessOps,
+                                        this.princessPos)
         this.princess.load()
         this.princess.initialize()
-        this.princessPosition = {x:900, y:200}
-        this.princess.component.position = this.princessPosition
     }
     loadGround()
     {
-        
         this.mapfloorValue = 
             [
                 {x: 30, y: 782},
@@ -140,10 +140,20 @@ class Level1 extends Framework.Level
                 {x: 215, y: 700},
             ]
         
+        this.floorOps = 
+        {
+            label: 'floor', 
+            friction: 0.05, 
+            density:0.002, 
+            isStatic:true
+        }
+
         this.mapfloor = new Array()
         for (var i = 0; i < this.mapfloorValue.length; i++)
         {
-            this.mapfloor[i] = new floor(this.matter)
+            this.mapfloor[i] = new floor('images/floor2.png', 
+                                            this.matter, 
+                                            this.floorOps)
             this.mapfloor[i].load()
             this.mapfloor[i].initialize()
             this.mapfloor[i].component.position = this.mapfloorValue[i]
@@ -180,7 +190,7 @@ class Level1 extends Framework.Level
         this.ScoreInfo.position = {x:0, y:0}
         this.ScoreInfo._text= "Score : "
     }
-    loadBlockC()
+    loadCoin()
     {
         this.blockCValue =
         [
@@ -188,11 +198,23 @@ class Level1 extends Framework.Level
             {x: 800, y: 500},
             {x: 1100, y: 500},
         ]
+
+        this.coinOps = 
+        {
+            label: 'Coin', 
+            friction: 0.05, 
+            density:0.002, 
+            isStatic:true, 
+            isSensor:true
+        }
+
         this.blockCs = new Array()
         for (var i = 0; i < this.blockCValue.length; i++)
         {
             this
-            this.blockCs[i] = new block(this.matter)
+            this.blockCs[i] = new block('images/coin.png', 
+                                            this.matter,
+                                            this.coinOps)
             this.blockCs[i].load()
             this.blockCs[i].initialize()
             this.blockCs[i].component.position = this.blockCValue[i]
@@ -204,6 +226,17 @@ class Level1 extends Framework.Level
         }
     }    
 
+    loadAudio()
+    {
+        this.audio = new Framework.Audio(
+        {
+            bgm1: {mp3: 'music/bgm1.mp3'},
+            coin: {mp3: 'music/coin.mp3'},
+            jump: {mp3: 'music/jump.mp3'},
+            haha: {wav: 'music/haha.wav'}
+        })
+    }
+
     load() 
     {
         // console.log(this.viewCenter)
@@ -212,19 +245,14 @@ class Level1 extends Framework.Level
         this.loadHero()
         this.loadGround()
         this.loadTextbox()
-        this.loadBlockC()
+        this.loadCoin()
         this.loadPrincess()
 
-        
-
-        // this.loadAnimationCharacter()
-        // this.ACharacter.goRight()
-        // console.log(this.hero.component.body)
-        // console.log(this.blockQs[0].component.body)
-        // 載入
+        this.loadAudio()
+        // this.audio.play({name: 'bgm1', loop: true})
+        // 載入 collision
         this.matter.addEventListener("collisionStart",(this.collisionBlockQs))
         this.matter.addEventListener("collisionStart",(this.collisionPrincess))
-        
     }
 
     initialize() 
@@ -234,7 +262,6 @@ class Level1 extends Framework.Level
 
     update() 
     {
-        // console.log(this.hero.component.hasFirstUpdate)
         //#region update
         super.update()
         this.matter.update()
@@ -242,7 +269,6 @@ class Level1 extends Framework.Level
         this.hero.update()
         if (this.score === 3)
         {
-
             this.rootScene.attach(this.princess.pic)
             this.princess.update()
         }
@@ -254,14 +280,11 @@ class Level1 extends Framework.Level
         
         this.ScoreInfo._value = this.score
 
-        // console.log("spriteW : " + this.hero.sprite.width + "\nspriteH : " + this.hero.sprite.height)
         //move map
         if (this.hero.component.position.x > 750)
         {
-            // console.log("move map")
             for	(var i = 0; i<this.mapfloor.length; i++)
             {
-                // this.mapfloor[i].matter.setBody(this.mapfloor[i].component.body, "velocity", {x: -5, y:/*this.mapfloor[i].component.body.velocity.y*/0})
                 this.mapfloor[i].component.position = 
                 {
                     x: this.mapfloorValue[i].x - (this.hero.component.position.x - 600),
@@ -272,10 +295,8 @@ class Level1 extends Framework.Level
 
         if (this.hero.component.position.x > 750)
         {
-            // console.log("move map")
             for	(var i = 0; i<this.blockCValue.length; i++)
             {
-                // this.mapfloor[i].matter.setBody(this.mapfloor[i].component.body, "velocity", {x: -5, y:/*this.mapfloor[i].component.body.velocity.y*/0})
                 this.blockCs[i].component.position = 
                 {
                     x: this.blockCValue[i].x - (this.hero.component.position.x - 600),
@@ -283,31 +304,11 @@ class Level1 extends Framework.Level
                 }
             }
         }
-        // console.log(this.hero.pic.width + " " + this.hero.component.width)
-        
-        // console.log(this.ACharacter.url)
     }
     draw(parentCtx) 
     {
-        // this.rootScene.draw(parentCtx);
-        // this.background.draw(parentCtx);
-        // this.hero.draw(parentCtx)
-        // if (this.score === 3)
-        // {
-        //     this.princess.draw(parentCtx)
-        // }
-        // for (var i = 0; i < this.mapfloorValue.length; i++)
-        // {
-        //     this.mapfloor[i].draw(parentCtx)
-        // }
-        // for (var i = 0; i < this.blockCValue.length; i++)
-        // {
-        //     this.blockCs[i].draw(parentCtx)
-        // }
-        
         this.heroInfoX.draw(parentCtx)
         this.heroInfoY.draw(parentCtx)
-
         this.ScoreInfo.draw(parentCtx)
     }
 
@@ -315,13 +316,13 @@ class Level1 extends Framework.Level
     {
         if(e.key === 'P') 
         {
-            // console.log(this.hero.component.body)
             this.matter.toggleRenderWireframes()   
         }
 
         if(e.key === 'W') 
         {
             // jump
+            this.audio.play({name: 'jump'})
             this.hero.isWalking = 3
             
         }
@@ -329,13 +330,13 @@ class Level1 extends Framework.Level
         {
             // left
             this.hero.isWalking = 2
-            this.hero.Animation_GoLeft()
+            this.hero.animationGoLeft()
         }
         if(e.key === 'D') 
         {
             // right  
             this.hero.isWalking = 1
-            this.hero.Animation_GoRight()
+            this.hero.animationGoRight()
         }
     }
     keyup(e, list)
@@ -343,23 +344,19 @@ class Level1 extends Framework.Level
         if(e.key === 'D' || e.key === 'A' || e.key === 'W')
         {
             this.hero.isWalking = 0;
-            this.hero.animation_stand()
+            this.hero.animationStand()
         }
     }
-
-    
 
     collisionStartBetweenQ_hero(event)
     {
         // console.log(this)
         var pairs = event.pairs;
-        // console.log("pairs.length = " + pairs.length)
+
         for (var i = 0, j = pairs.length; i != j; ++i) 
         {
             
             var pair = pairs[i];
-            // console.log(pair.bodyA)
-            // console.log(this.blockQs[0])
 
             for (var k = 0; k < this.blockCValue.length; k++)
             {
@@ -370,6 +367,7 @@ class Level1 extends Framework.Level
                     this.blockCs[k].pic = null
                     this.matter.removeBody(this.blockCs[k].component.body)
                     this.score += 1
+                    this.audio.play({name: 'coin'})
                     
                 } 
                 else if (pair.bodyB === this.blockCs[k].component.body) 
@@ -379,8 +377,6 @@ class Level1 extends Framework.Level
 
                 }
             }
-
-            
         }
     }
     collisionStartBetweenPrincess_Hero(event)
@@ -389,10 +385,7 @@ class Level1 extends Framework.Level
 
         for (var i = 0, j = pairs.length; i != j; ++i) 
         {
-            
             var pair = pairs[i];
-            // console.log(pair.bodyA)
-            // console.log(this.blockQs[0])
             if (pair.bodyA === this.princess.component.body && pair.bodyB === this.hero.component.body) 
             {
                 console.log("collision1")
@@ -401,6 +394,7 @@ class Level1 extends Framework.Level
             else if (pair.bodyA === this.hero.component.body && pair.bodyB === this.princess.component.body) 
             {
                 console.log("The End")
+                this.audio.play({name: 'haha'})
                 // Framework.Game.goToNextLevel()
             }
         }
