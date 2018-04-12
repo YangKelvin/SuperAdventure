@@ -16,19 +16,24 @@ class Level1 extends Framework.Level
 
     loadAnimationCharacter()
     {
-        this.AnimationCharacter = new AnimationCharacter('images/character.png',
-            {position: {x:100, y:100}, goRight: {from: 0, to: 7}, goLeft: {from:8, to: 15}})
+        this.ACharacter = new AnimationCharacter('images/character.png',
+            {
+                position: {x:500, y:600}, goRight: {from: 0, to: 7}, goLeft: {from:8, to: 15}
+            })
+        // this.ACharacter.sprite.isDrawBoundry = true
+        this.rootScene.attach(this.ACharacter.sprite)
     }
 
     loadHero()
     {
         // this.heroPic = new Framework.Sprite('images/character2.png')
         this.characterPosition = {x: 200, y :600}
-        this.hero = new Character(this.matter, 'images/character2.png', this.characterPosition)
+        this.hero = new Character(this.matter, 'images/Character2.png', this.characterPosition)
         this.hero.load()
         this.hero.initialize()
         this.heroPosition = {x:500, y:200}
         this.hero.component.position = this.heroPosition
+        this.rootScene.attach(this.hero.pic)
     }
     loadPrincess()
     {
@@ -125,6 +130,10 @@ class Level1 extends Framework.Level
             this.mapfloor[i].initialize()
             this.mapfloor[i].component.position = this.mapfloorValue[i]
         }
+        for (var i = 0; i < this.mapfloorValue.length; i++)
+        {
+            this.rootScene.attach(this.mapfloor[i])
+        }
     }
     loadBackground()
     {
@@ -135,6 +144,7 @@ class Level1 extends Framework.Level
             y: Framework.Game.getCanvasHeight() / 2
         }
         this.background.scale = 2;
+        this.rootScene.attach(this.background)
     }
     loadTextbox()
     {
@@ -170,12 +180,16 @@ class Level1 extends Framework.Level
             this.blockCs[i].component.position = this.blockCValue[i]
             // this.blockCs[i].component.body.isSensor = true
         }
+        for (var i = 0; i < this.blockCValue.length; i++)
+        {
+            this.rootScene.attach(this.blockCs[i])
+        }
     }    
 
     load() 
     {
         console.log(this.viewCenter)
-        this.loadAnimationCharacter()
+        
 
         this.loadBackground()
         this.loadHero()
@@ -183,6 +197,9 @@ class Level1 extends Framework.Level
         this.loadTextbox()
         this.loadBlockC()
         this.loadPrincess()
+
+        this.loadAnimationCharacter()
+        this.ACharacter.goRight()
         // console.log(this.hero.component.body)
         // console.log(this.blockQs[0].component.body)
         // 載入
@@ -193,22 +210,7 @@ class Level1 extends Framework.Level
 
     initialize() 
     {
-        //#region attach 
-        this.rootScene.attach(this.background)
-        this.rootScene.attach(this.hero.pic)
-        this.rootScene.attach(this.princess.pic)
-        this.rootScene.attach(this.AnimationCharacter.sprite)
-
-        for (var i = 0; i < this.mapfloorValue.length; i++)
-        {
-            this.rootScene.attach(this.mapfloor[i])
-        }
-        for (var i = 0; i < this.blockCValue.length; i++)
-        {
-            this.rootScene.attach(this.blockCs[i])
-        }
-
-        //#endregion
+        
     }
 
     update() 
@@ -220,6 +222,8 @@ class Level1 extends Framework.Level
         this.hero.update()
         if (this.score === 3)
         {
+
+            this.rootScene.attach(this.princess.pic)
             this.princess.update()
         }
         //#endregion
@@ -259,24 +263,26 @@ class Level1 extends Framework.Level
             }
         }
         // console.log(this.hero.pic.width + " " + this.hero.component.width)
+        
+        // console.log(this.ACharacter.url)
     }
     draw(parentCtx) 
     {
-        this.rootScene.draw(parentCtx);
-        this.background.draw(parentCtx);
-        this.hero.draw(parentCtx)
-        if (this.score === 3)
-        {
-            this.princess.draw(parentCtx)
-        }
-        for (var i = 0; i < this.mapfloorValue.length; i++)
-        {
-            this.mapfloor[i].draw(parentCtx)
-        }
-        for (var i = 0; i < this.blockCValue.length; i++)
-        {
-            this.blockCs[i].draw(parentCtx)
-        }
+        // this.rootScene.draw(parentCtx);
+        // this.background.draw(parentCtx);
+        // this.hero.draw(parentCtx)
+        // if (this.score === 3)
+        // {
+        //     this.princess.draw(parentCtx)
+        // }
+        // for (var i = 0; i < this.mapfloorValue.length; i++)
+        // {
+        //     this.mapfloor[i].draw(parentCtx)
+        // }
+        // for (var i = 0; i < this.blockCValue.length; i++)
+        // {
+        //     this.blockCs[i].draw(parentCtx)
+        // }
         
         this.heroInfoX.draw(parentCtx)
         this.heroInfoY.draw(parentCtx)
