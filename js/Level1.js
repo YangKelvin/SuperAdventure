@@ -16,12 +16,11 @@ class Level1 extends Framework.Level
 
     loadAnimationCharacter()
     {
-        this.ACharacter = new AnimationCharacter('images/character.png',
-            {
-                position: {x:500, y:600}, goRight: {from: 0, to: 7}, goLeft: {from:8, to: 15}
-            })
-        // this.ACharacter.sprite.isDrawBoundry = true
-        this.rootScene.attach(this.ACharacter.sprite)
+        // this.ACharacter = new AnimationCharacter('images/character.png',
+        //     {
+        //         position: {x:500, y:600}, goRight: {from: 0, to: 7}, goLeft: {from:8, to: 15}
+        //     })
+        // this.rootScene.attach(this.ACharacter.sprite)
     }
 
     loadHero()
@@ -198,8 +197,8 @@ class Level1 extends Framework.Level
         this.loadBlockC()
         this.loadPrincess()
 
-        this.loadAnimationCharacter()
-        this.ACharacter.goRight()
+        // this.loadAnimationCharacter()
+        // this.ACharacter.goRight()
         // console.log(this.hero.component.body)
         // console.log(this.blockQs[0].component.body)
         // 載入

@@ -4,7 +4,6 @@ class Character
     {
         this.component
         this.matter = _matter
-        this.isWalking = false
         this.playerOnFloor = false
         this.url = _url
         this.isWalking = 0
@@ -14,8 +13,8 @@ class Character
     load()
     {
         //animation character
-        this.character = {x:1000, y:200}
-        this.character = new Character('images/character.png', {position: this.characterPosition, goRight: {from: 0, to: 7}, goLeft: {from:8, to: 15}}); 
+        // this.character = {x:1000, y:200}
+        // this.character = new Character('images/character.png', {position: this.characterPosition, goRight: {from: 0, to: 7}, goLeft: {from:8, to: 15}}); 
 
 
 
