@@ -55,11 +55,11 @@ var MyMenu = Framework.exClass(Framework.GameMainMenu,
             this.menu.draw(parentCtx);
             //this.rootScene.draw();
             //可支援畫各種單純的圖形和字
-            parentCtx.font = '65pt bold';
-            parentCtx.fillStyle = 'black';
+            parentCtx.font = '100pt bold';
+            parentCtx.fillStyle = 'red';
             parentCtx.textBaseline = 'top';
             parentCtx.textAlign = 'center';
-            parentCtx.fillText('Super Adventure', this.rectPosition.x + 130, this.rectPosition.y, 260);
+            parentCtx.fillText('Super Adventure', this.rectPosition.x + 130, this.rectPosition.y, 1000);
         },
 
         mouseup: function (e) {

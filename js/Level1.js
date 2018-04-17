@@ -47,13 +47,14 @@ class Level1 extends Framework.Level
     }
     loadPrincess()
     {
-        this.princessPos = {x:1380, y:670}
+        this.princessPos = {x:2365, y:670}
         
         this.princessOps = 
         { 
             label: 'princess', 
             friction: 0.05, 
-            density:0.002
+            density:0.002,
+            isStatic: false
         }
 
         this.princess =new Character('images/princess.png', 
@@ -67,77 +68,46 @@ class Level1 extends Framework.Level
     {
         this.mapfloorValue = 
             [
-                {x: 30, y: 782},
-                {x: 95, y: 782},
-                {x: 155, y: 782},
-                {x: 215, y: 782},
-                {x: 275, y: 782},
-                {x: 335, y: 782},
-                {x: 395, y: 782},
-                {x: 455, y: 782},
-                {x: 515, y: 782},
-                {x: 575, y: 782},
-                {x: 635, y: 782},
-                {x: 695, y: 782},
-                {x: 755, y: 782},
-                {x: 815, y: 782},
-                {x: 875, y: 782},
-                {x: 935, y: 782},
-                {x: 995, y: 782},
-                {x: 1055, y: 782},
-                {x: 1115, y: 782},
-                {x: 1175, y: 782},
-                {x: 1235, y: 782},
-                {x: 1295, y: 782},
-                {x: 1355, y: 782},
-                {x: 1415, y: 782},
-                {x: 1475, y: 782},
-                {x: 1535, y: 782},
-                {x: 1595, y: 782},
-                {x: 1655, y: 782},
-                {x: 1715, y: 782},
-                {x: 1775, y: 782},
-                {x: 1835, y: 782},
-                {x: 1895, y: 782},
-                {x: 1955, y: 782},
-                {x: 2245, y: 782},
-                {x: 2065, y: 782},
-                {x: 2185, y: 782},
-                {x: 2125, y: 782},
-
-                
-                // {x: 2005, y: 782},
-
-                {x: 2185, y: 782},
-                {x: 2245, y: 782},
-                {x: 2305, y: 782},
-                {x: 2365, y: 782},
-                // {x: 2005, y: 782},
-                // {x: 2005, y: 782},
-                // {x: 2005, y: 782},
-                // {x: 2005, y: 782},
-
-
-
-
-
-
-
-                {x: 2245, y: 722},//牆壁
-                {x: 2245, y: 662},//牆壁
-                {x: 2245, y: 602},//牆壁
-                {x: 2245, y: 542},//牆壁
-                {x: 2245, y: 482},//牆壁
-                {x: 2245, y: 422},//牆壁
-                {x: 2245, y: 362},//牆壁
-
-                
-                {x: 1500, y: 500},
-                {x: 1800, y: 400},
-                {x: 1950, y: 300},
-                {x: 95, y: 700},
-                {x: 155, y: 700},
-                {x: 215, y: 700},
+                // ground
+                {x: 30, y: 780},
+                {x: 100, y: 780},
+                {x: 170, y: 780},
+                {x: 240, y: 780},
+                {x: 310, y: 780},
+                {x: 380, y: 780},
+                {x: 450, y: 780},
+                {x: 520, y: 780},
+                {x: 590, y: 780},
+                {x: 660, y: 780},
+                {x: 730, y: 780},
+                {x: 800, y: 780},
+                {x: 870, y: 780},
+                {x: 940, y: 780},
+                {x: 1010, y: 780},
+                {x: 1080, y: 780},
+                {x: 1150, y: 780},
+                {x: 1220, y: 780},
+                {x: 1290, y: 780},
+                {x: 1360, y: 780},
+                {x: 1430, y: 780},
+                {x: 1500, y: 780},
+                {x: 1570, y: 780},
+                {x: 1640, y: 780},
+                {x: 1710, y: 780},
+                {x: 1780, y: 780},
+                {x: 1850, y: 780},
+                {x: 1920, y: 780},
+                {x: 1990, y: 780},
+                {x: 2060, y: 780},
+                {x: 2130, y: 780},
+                {x: 2200, y: 780},
+                {x: 2270, y: 780},
+                {x: 2340, y: 780},
+                {x: 2410, y: 780},
+                {x: 2480, y: 780},
+                {x: 2550, y: 780},
+                {x: 2620, y: 780},
+                {x: 2690, y: 780},
             ]
         
         this.floorOps = 
@@ -151,7 +121,7 @@ class Level1 extends Framework.Level
         this.mapfloor = new Array()
         for (var i = 0; i < this.mapfloorValue.length; i++)
         {
-            this.mapfloor[i] = new floor('images/floor2.png', 
+            this.mapfloor[i] = new floor('images/grass.png', 
                                             this.matter, 
                                             this.floorOps)
             this.mapfloor[i].load()
@@ -194,8 +164,8 @@ class Level1 extends Framework.Level
     {
         this.blockCValue =
         [
-            {x: 500, y: 500},
-            {x: 800, y: 500},
+            {x: 1564, y: 400},
+            {x: 2014, y: 200},
             {x: 1100, y: 500},
         ]
 
@@ -249,7 +219,7 @@ class Level1 extends Framework.Level
         this.loadPrincess()
 
         this.loadAudio()
-        // this.audio.play({name: 'bgm1', loop: true})
+        this.audio.play({name: 'bgm1', loop: true})
         // 載入 collision
         this.matter.addEventListener("collisionStart",(this.collisionBlockQs))
         this.matter.addEventListener("collisionStart",(this.collisionPrincess))
@@ -272,34 +242,51 @@ class Level1 extends Framework.Level
             this.rootScene.attach(this.princess.pic)
             this.princess.update()
         }
-        //#endregion
-
+        if (this.hero.component.position.y >= 1000)
+        {
+            this.hero.isLive = false
+        }
 
         this.heroInfoX._value = Math.round(this.hero.component.position.x)
         this.heroInfoY._value = Math.round(this.hero.component.position.y)
+
+        if (!this.hero.isLive)
+        {
+            this.heroInfoX._text = "GAME OVER"
+            this.heroInfoX._value = ""
+
+            this.heroInfoX._text = "GAME OVER"
+            this.heroInfoX._value = ""
+
+
+        }
+        //#endregion
+
+
+        
         
         this.ScoreInfo._value = this.score
 
         //move map
-        if (this.hero.component.position.x > 750)
+        if (this.hero.component.position.x > 500)
         {
             for	(var i = 0; i<this.mapfloor.length; i++)
             {
                 this.mapfloor[i].component.position = 
                 {
-                    x: this.mapfloorValue[i].x - (this.hero.component.position.x - 600),
+                    x: this.mapfloorValue[i].x - this.hero.component.position.x + 500,
                     y: this.mapfloorValue[i].y
                 }
             }
+            this.princess.component.position.x = this.princessPos.x - this.hero.component.position.x + 500
         }
-
-        if (this.hero.component.position.x > 750)
+        if (this.hero.component.position.x > 500)
         {
             for	(var i = 0; i<this.blockCValue.length; i++)
             {
                 this.blockCs[i].component.position = 
                 {
-                    x: this.blockCValue[i].x - (this.hero.component.position.x - 600),
+                    x: this.blockCValue[i].x - this.hero.component.position.x + 500,
                     y: this.blockCValue[i].y
                 }
             }
@@ -370,12 +357,12 @@ class Level1 extends Framework.Level
                     this.audio.play({name: 'coin'})
                     
                 } 
-                else if (pair.bodyB === this.blockCs[k].component.body) 
-                {
-                    console.log("collision2")
-                    this.matter.removeBody(this.blockCs[k].component.body)
+                // else if (pair.bodyB === this.blockCs[k].component.body) 
+                // {
+                //     console.log("collision2")
+                //     this.matter.removeBody(this.blockCs[k].component.body)
 
-                }
+                // }
             }
         }
     }
@@ -386,12 +373,12 @@ class Level1 extends Framework.Level
         for (var i = 0, j = pairs.length; i != j; ++i) 
         {
             var pair = pairs[i];
-            if (pair.bodyA === this.princess.component.body && pair.bodyB === this.hero.component.body) 
-            {
-                console.log("collision1")
+            // if (pair.bodyA === this.princess.component.body && pair.bodyB === this.hero.component.body) 
+            // {
+            //     console.log("collision1")
                 
-            } 
-            else if (pair.bodyA === this.hero.component.body && pair.bodyB === this.princess.component.body) 
+            // } 
+            if (pair.bodyA === this.hero.component.body && pair.bodyB === this.princess.component.body) 
             {
                 console.log("The End")
                 this.audio.play({name: 'haha'})

@@ -17,6 +17,7 @@ class AnimationCharacter
 
         this.isWalking = 0
         this.onFloor = false
+        this.isLive = true
     }
     
     load()
