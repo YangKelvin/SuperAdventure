@@ -32,7 +32,7 @@ Framework.RectangleComponent = class RectangleComponent extends Framework.Compon
             // console.log(realWidth + " " + realHeight)
             // this.matter.scaleBody(this.body, realWidth, realHeight)
             this.matter.removeBody(this.body)
-            // console.log("W : " + realWidth + "  H : " + realHeight)
+            // console.laog("W : " + realWidth + "  H : " + realHeight)
             // console.log(this.sprite.position.x + " " + this.sprite.position.y)
 
             // let tempWidth = 41
@@ -46,6 +46,7 @@ Framework.RectangleComponent = class RectangleComponent extends Framework.Compon
                 realWidth, 
                 realHeight,
                 this.bodyOptions)
+            // console.log("A")
         } 
         else if(this.hasFirstUpdate) 
         {
@@ -54,7 +55,8 @@ Framework.RectangleComponent = class RectangleComponent extends Framework.Compon
                 x: this.body.position.x - this.sprite.texture.width / 2,
                 y: this.body.position.y - this.sprite.texture.height / 2
             }
-			this.sprite.rotation = this.body.angle / Math.PI * 180
+            // this.sprite.rotation = this.body.angle / Math.PI * 180
+            // console.log("B")
 		}
     }
 }

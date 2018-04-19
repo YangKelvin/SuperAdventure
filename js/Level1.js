@@ -7,7 +7,7 @@ class Level1 extends Framework.Level
         
         // hero & coin 的碰撞 和 hero & princess 的碰撞
         this.collisionBlockQs = this.collisionStartBetweenQ_hero.bind(this)
-        this.collisionPrincess = this.collisionStartBetweenPrincess_Hero.bind(this)
+        // this.collisionPrincess = this.collisionStartBetweenPrincess_Hero.bind(this)
         
         // 初始分數 （吃金幣的數量）
         this.score = 0
@@ -17,6 +17,8 @@ class Level1 extends Framework.Level
 
         this.pressWalk = false
         this.walkDirection = 0
+
+        this.tempx
     }
 
     loadCamera()
@@ -79,7 +81,7 @@ class Level1 extends Framework.Level
     }
     loadPrincess()
     {
-        this.princessPos = {x:2365, y:670}
+        this.princessPos = {x:2200, y:100}
         
         this.princessOps = 
         { 
@@ -106,41 +108,41 @@ class Level1 extends Framework.Level
                 {x: 100, y: 780},
                 {x: 170, y: 780},
                 {x: 240, y: 780},
-                // {x: 310, y: 780},
-                // {x: 380, y: 780},
-                // {x: 450, y: 780},
-                // {x: 520, y: 780},
-                // {x: 590, y: 780},
-                // {x: 660, y: 780},
-                // {x: 730, y: 780},
-                // {x: 800, y: 780},
-                // {x: 870, y: 780},
-                // {x: 940, y: 780},
-                // {x: 1010, y: 780},
-                // {x: 1080, y: 780},
-                // {x: 1150, y: 780},
-                // {x: 1220, y: 780},
-                // {x: 1290, y: 780},
-                // {x: 1360, y: 780},
-                // {x: 1430, y: 780},
-                // {x: 1500, y: 780},
-                // {x: 1570, y: 780},
-                // {x: 1640, y: 780},
-                // {x: 1710, y: 780},
-                // {x: 1780, y: 780},
-                // {x: 1850, y: 780},
-                // {x: 1920, y: 780},
-                // {x: 1990, y: 780},
-                // {x: 2060, y: 780},
-                // {x: 2130, y: 780},
-                // {x: 2200, y: 780},
-                // {x: 2270, y: 780},
-                // {x: 2340, y: 780},
-                // {x: 2410, y: 780},
-                // {x: 2480, y: 780},
-                // {x: 2550, y: 780},
-                // {x: 2620, y: 780},
-                // {x: 2690, y: 780},
+                {x: 310, y: 780},
+                {x: 380, y: 780},
+                {x: 450, y: 780},
+                {x: 520, y: 780},
+                {x: 590, y: 780},
+                {x: 660, y: 780},
+                {x: 730, y: 780},
+                {x: 800, y: 780},
+                {x: 870, y: 780},
+                {x: 940, y: 780},
+                {x: 1010, y: 780},
+                {x: 1080, y: 780},
+                {x: 1150, y: 780},
+                {x: 1220, y: 780},
+                {x: 1290, y: 780},
+                {x: 1360, y: 780},
+                {x: 1430, y: 780},
+                {x: 1500, y: 780},
+                {x: 1570, y: 780},
+                {x: 1640, y: 780},
+                {x: 1710, y: 780},
+                {x: 1780, y: 780},
+                {x: 1850, y: 780},
+                {x: 1920, y: 780},
+                {x: 1990, y: 780},
+                {x: 2060, y: 780},
+                {x: 2130, y: 780},
+                {x: 2200, y: 780},
+                {x: 2270, y: 780},
+                {x: 2340, y: 780},
+                {x: 2410, y: 780},
+                {x: 2480, y: 780},
+                {x: 2550, y: 780},
+                {x: 2620, y: 780},
+                {x: 2690, y: 780},
             ]
         
         this.floorOps = 
@@ -173,16 +175,16 @@ class Level1 extends Framework.Level
         }
         this.mapWallsValue = 
         [
-            // {x: 30, y: 710},
-            // {x: 30, y: 640},
-            // {x: 30, y: 570},
-            // {x: 30, y: 500},
-            // {x: 30, y: 430},
-            // {x: 30, y: 360},
-            // {x: 30, y: 290},
-            // {x: 30, y: 220},
-            // {x: 30, y: 150},
-            // {x: 30, y: 80},
+            {x: 30, y: 710},
+            {x: 30, y: 640},
+            {x: 30, y: 570},
+            {x: 30, y: 500},
+            {x: 30, y: 430},
+            {x: 30, y: 360},
+            {x: 30, y: 290},
+            {x: 30, y: 220},
+            {x: 30, y: 150},
+            {x: 30, y: 80},
         ]
         this.mapWalls = new Array()
         for (var i = 0; i < this.mapWallsValue.length; i++)
@@ -239,9 +241,9 @@ class Level1 extends Framework.Level
     {
         this.blockCValue =
         [
-            {x: 1564, y: 400},
+            {x: 1564, y: 100},
             {x: 2014, y: 200},
-            {x: 1100, y: 500},
+            {x: 1100, y: 300},
         ]
 
         this.coinOps = 
@@ -268,8 +270,8 @@ class Level1 extends Framework.Level
         {
             this.rootScene.attach(this.blockCs[i])
         }
-        console.log(this.blockCs[0].component.position)
-        console.log(this.blockCs[0].component.sprite.position)
+        // console.log(this.blockCs[0].component.position)
+        // console.log(this.blockCs[0].component.sprite.position)
     }    
     loadAudio()
     {
@@ -315,7 +317,7 @@ class Level1 extends Framework.Level
         this.audio.play({name: 'bgm1', loop: true})
         // 載入 collision
         this.matter.addEventListener("collisionStart",(this.collisionBlockQs))
-        this.matter.addEventListener("collisionStart",(this.collisionPrincess))
+        // this.matter.addEventListener("collisionStart",(this.collisionPrincess))
     }
 
     initialize() 
@@ -327,7 +329,11 @@ class Level1 extends Framework.Level
     {
         // console.log(this.mapfloor[0].component.position)
         // console.log(this.mapfloor[0].component.sprite.position)
-
+        super.update()
+        
+        // console.log(this.mapfloor[1].component.position)
+        
+        
         //#region map move
         if (this.hero.component.position.x >= 500)
         {
@@ -339,12 +345,14 @@ class Level1 extends Framework.Level
                     x: this.mapfloorValue[i].x - this.camera.component.position.x + 500 + this.mapfloor[i].component.sprite.width / 2,
                     y: this.mapfloorValue[i].y + this.mapfloor[i].component.sprite.height / 2
                 }   
-                console.log("A")
             }
-
             // move princess
-            this.princess.component.position.x = this.princessPos.x - this.camera.component.position.x + 500
-            
+            this.princess.component.position.x = this.princessPos.x - this.camera.component.position.x + 500 + this.princess.component.sprite.width/2
+            // this.princess.component.position = 
+            // {
+            //     x: this.princessPos.x - this.camera.component.position.x + 500 + this.princess.component.sprite.width / 2,
+            //     y: this.princessPos.y + this.princess.component.sprite.height / 2
+            // }  
             // move coinBlock
             for	(var i = 0; i<this.blockCValue.length; i++)
             {
@@ -353,6 +361,7 @@ class Level1 extends Framework.Level
                     x: this.blockCValue[i].x - this.camera.component.position.x + 500 + this.blockCs[i].component.sprite.width / 2,
                     y: this.blockCValue[i].y + this.blockCs[i].component.sprite.height / 2
                 }
+
             }
 
             // move walls
@@ -368,11 +377,14 @@ class Level1 extends Framework.Level
         //#endregion
 
         //#region update
-        super.update()
+        
+        this.hero.update()
         this.matter.update()
         this.rootScene.update()
-        this.hero.update()
         this.camera.update()
+        // console.log(this.mapfloor[0].component.position)
+        // console.log(this.tempx)
+        
         
         if (this.score === 3)
         {
@@ -490,7 +502,7 @@ class Level1 extends Framework.Level
 
             for (var k = 0; k < this.blockCValue.length; k++)
             {
-                if (pair.bodyA === this.blockCs[k].component.body) 
+                if (pair.bodyA === this.blockCs[k].component.body && pair.bodyB === this.hero.component.body) 
                 {
                     // console.log("collision1")
                     //hero 和 blockQs 碰撞
@@ -500,33 +512,33 @@ class Level1 extends Framework.Level
                     this.audio.play({name: 'coin'})
                     
                 } 
-                // else if (pair.bodyB === this.blockCs[k].component.body) 
-                // {
-                //     console.log("collision2")
-                //     this.matter.removeBody(this.blockCs[k].component.body)
-
-                // }
             }
         }
-    }
-    collisionStartBetweenPrincess_Hero(event)
-    {
-        var pairs = event.pairs;
-
-        for (var i = 0, j = pairs.length; i != j; ++i) 
+        if (pair.bodyA === this.hero.component.body && pair.bodyB === this.princess.component.body) 
         {
-            var pair = pairs[i];
-            // if (pair.bodyA === this.princess.component.body && pair.bodyB === this.hero.component.body) 
-            // {
-            //     console.log("collision1")
-                
-            // } 
-            if (pair.bodyA === this.hero.component.body && pair.bodyB === this.princess.component.body) 
-            {
-                console.log("The End")
-                this.audio.play({name: 'haha'})
-                // Framework.Game.goToNextLevel()
-            }
+            console.log("The End")
+            this.audio.play({name: 'haha'})
+            // Framework.Game.goToNextLevel()
         }
     }
+    // collisionStartBetweenPrincess_Hero(event)
+    // {
+    //     // var pairs = event.pairs;
+
+    //     // for (var i = 0, j = pairs.length; i != j; ++i) 
+    //     // {
+    //     //     var pair = pairs[i];
+    //     //     // if (pair.bodyA === this.princess.component.body && pair.bodyB === this.hero.component.body) 
+    //     //     // {
+    //     //     //     console.log("collision1")
+                
+    //     //     // } 
+    //     //     if (pair.bodyA === this.hero.component.body && pair.bodyB === this.princess.component.body) 
+    //     //     {
+    //     //         console.log("The End")
+    //     //         this.audio.play({name: 'haha'})
+    //     //         // Framework.Game.goToNextLevel()
+    //     //     }
+    //     // }
+    // }
 };

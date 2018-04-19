@@ -44,7 +44,11 @@ Framework.AnimationRectangleComponent = class AnimationRectangleComponent extend
         } 
         else if(this.hasFirstUpdate) 
         {
-			this.sprite.position = this.body.position
+            this.sprite.position = 
+            {
+                x: this.body.position.x,
+                y: this.body.position.y
+            }
 			this.sprite.rotation = this.body.angle / Math.PI * 180
 		}
     }
