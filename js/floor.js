@@ -25,6 +25,7 @@ class floor
     update() 
     {
         this.component.update()
+        console.log("B")
     }
     draw()
     {

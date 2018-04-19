@@ -328,6 +328,45 @@ class Level1 extends Framework.Level
         // console.log(this.mapfloor[0].component.position)
         // console.log(this.mapfloor[0].component.sprite.position)
 
+        //#region map move
+        if (this.hero.component.position.x >= 500)
+        {
+            // move floors
+            for	(var i = 0; i<this.mapfloor.length; i++)
+            {
+                this.mapfloor[i].component.position = 
+                {
+                    x: this.mapfloorValue[i].x - this.camera.component.position.x + 500 + this.mapfloor[i].component.sprite.width / 2,
+                    y: this.mapfloorValue[i].y + this.mapfloor[i].component.sprite.height / 2
+                }   
+                console.log("A")
+            }
+
+            // move princess
+            this.princess.component.position.x = this.princessPos.x - this.camera.component.position.x + 500
+            
+            // move coinBlock
+            for	(var i = 0; i<this.blockCValue.length; i++)
+            {
+                this.blockCs[i].component.position = 
+                {
+                    x: this.blockCValue[i].x - this.camera.component.position.x + 500 + this.blockCs[i].component.sprite.width / 2,
+                    y: this.blockCValue[i].y + this.blockCs[i].component.sprite.height / 2
+                }
+            }
+
+            // move walls
+            for	(var i = 0; i<this.mapWalls.length; i++)
+            {
+                this.mapWalls[i].component.position = 
+                {
+                    x: this.mapWallsValue[i].x - this.camera.component.position.x + 500 + this.mapWalls[i].component.sprite.width / 2,
+                    y: this.mapWallsValue[i].y + this.mapWalls[i].component.sprite.height / 2
+                }
+            }
+        }
+        //#endregion
+
         //#region update
         super.update()
         this.matter.update()
@@ -389,43 +428,7 @@ class Level1 extends Framework.Level
         
         this.ScoreInfo._value = this.score
 
-        //#region map move
-        if (this.hero.component.position.x >= 500)
-        {
-            // move floors
-            for	(var i = 0; i<this.mapfloor.length; i++)
-            {
-                this.mapfloor[i].component.position = 
-                {
-                    x: this.mapfloorValue[i].x - this.camera.component.position.x + 500,
-                    y: this.mapfloorValue[i].y
-                }   
-            }
 
-            // move princess
-            this.princess.component.position.x = this.princessPos.x - this.camera.component.position.x + 500
-            
-            // move coinBlock
-            for	(var i = 0; i<this.blockCValue.length; i++)
-            {
-                this.blockCs[i].component.position = 
-                {
-                    x: this.blockCValue[i].x - this.camera.component.position.x + 500,
-                    y: this.blockCValue[i].y
-                }
-            }
-
-            // move walls
-            for	(var i = 0; i<this.mapWalls.length; i++)
-            {
-                this.mapWalls[i].component.position = 
-                {
-                    x: this.mapWallsValue[i].x - this.camera.component.position.x + 500,
-                    y: this.mapWallsValue[i].y
-                }
-            }
-        }
-        //#endregion
     }
     draw(parentCtx) 
     {
