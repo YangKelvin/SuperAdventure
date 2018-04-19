@@ -21,7 +21,7 @@ class Level1 extends Framework.Level
 
     loadCamera()
     {
-        this.cameraPos = {x:200, y:200}
+        this.cameraPos = {x:200, y:-100}
 
         this.cameraOps = 
         {
@@ -106,41 +106,41 @@ class Level1 extends Framework.Level
                 {x: 100, y: 780},
                 {x: 170, y: 780},
                 {x: 240, y: 780},
-                {x: 310, y: 780},
-                {x: 380, y: 780},
-                {x: 450, y: 780},
-                {x: 520, y: 780},
-                {x: 590, y: 780},
-                {x: 660, y: 780},
-                {x: 730, y: 780},
-                {x: 800, y: 780},
-                {x: 870, y: 780},
-                {x: 940, y: 780},
-                {x: 1010, y: 780},
-                {x: 1080, y: 780},
-                {x: 1150, y: 780},
-                {x: 1220, y: 780},
-                {x: 1290, y: 780},
-                {x: 1360, y: 780},
-                {x: 1430, y: 780},
-                {x: 1500, y: 780},
-                {x: 1570, y: 780},
-                {x: 1640, y: 780},
-                {x: 1710, y: 780},
-                {x: 1780, y: 780},
-                {x: 1850, y: 780},
-                {x: 1920, y: 780},
-                {x: 1990, y: 780},
-                {x: 2060, y: 780},
-                {x: 2130, y: 780},
-                {x: 2200, y: 780},
-                {x: 2270, y: 780},
-                {x: 2340, y: 780},
-                {x: 2410, y: 780},
-                {x: 2480, y: 780},
-                {x: 2550, y: 780},
-                {x: 2620, y: 780},
-                {x: 2690, y: 780},
+                // {x: 310, y: 780},
+                // {x: 380, y: 780},
+                // {x: 450, y: 780},
+                // {x: 520, y: 780},
+                // {x: 590, y: 780},
+                // {x: 660, y: 780},
+                // {x: 730, y: 780},
+                // {x: 800, y: 780},
+                // {x: 870, y: 780},
+                // {x: 940, y: 780},
+                // {x: 1010, y: 780},
+                // {x: 1080, y: 780},
+                // {x: 1150, y: 780},
+                // {x: 1220, y: 780},
+                // {x: 1290, y: 780},
+                // {x: 1360, y: 780},
+                // {x: 1430, y: 780},
+                // {x: 1500, y: 780},
+                // {x: 1570, y: 780},
+                // {x: 1640, y: 780},
+                // {x: 1710, y: 780},
+                // {x: 1780, y: 780},
+                // {x: 1850, y: 780},
+                // {x: 1920, y: 780},
+                // {x: 1990, y: 780},
+                // {x: 2060, y: 780},
+                // {x: 2130, y: 780},
+                // {x: 2200, y: 780},
+                // {x: 2270, y: 780},
+                // {x: 2340, y: 780},
+                // {x: 2410, y: 780},
+                // {x: 2480, y: 780},
+                // {x: 2550, y: 780},
+                // {x: 2620, y: 780},
+                // {x: 2690, y: 780},
             ]
         
         this.floorOps = 
@@ -173,16 +173,16 @@ class Level1 extends Framework.Level
         }
         this.mapWallsValue = 
         [
-            {x: 30, y: 710},
-            {x: 30, y: 640},
-            {x: 30, y: 570},
-            {x: 30, y: 500},
-            {x: 30, y: 430},
-            {x: 30, y: 360},
-            {x: 30, y: 290},
-            {x: 30, y: 220},
-            {x: 30, y: 150},
-            {x: 30, y: 80},
+            // {x: 30, y: 710},
+            // {x: 30, y: 640},
+            // {x: 30, y: 570},
+            // {x: 30, y: 500},
+            // {x: 30, y: 430},
+            // {x: 30, y: 360},
+            // {x: 30, y: 290},
+            // {x: 30, y: 220},
+            // {x: 30, y: 150},
+            // {x: 30, y: 80},
         ]
         this.mapWalls = new Array()
         for (var i = 0; i < this.mapWallsValue.length; i++)
@@ -268,6 +268,8 @@ class Level1 extends Framework.Level
         {
             this.rootScene.attach(this.blockCs[i])
         }
+        console.log(this.blockCs[0].component.position)
+        console.log(this.blockCs[0].component.sprite.position)
     }    
     loadAudio()
     {
@@ -323,40 +325,33 @@ class Level1 extends Framework.Level
 
     update() 
     {
+        // console.log(this.mapfloor[0].component.position)
+        // console.log(this.mapfloor[0].component.sprite.position)
+
         //#region update
         super.update()
         this.matter.update()
         this.rootScene.update()
         this.hero.update()
         this.camera.update()
+        
         if (this.score === 3)
         {
             this.rootScene.attach(this.princess.pic)
             this.princess.update()
         }
-        if (this.hero.component.position.y >= 1000)
-        {
-            this.hero.isLive = false
-        }
+
 
         // textBox
         this.heroInfoX._value = Math.round(this.hero.component.position.x)
         this.heroInfoY._value = Math.round(this.hero.component.position.y)
-        this.mapInfoL._value = this.mapLeft
+        this.mapInfoL._value = this.camera.component.position.x
         this.mapInfoR._value = this.mapRight
 
-        if (!this.hero.isLive)
-        {
-            this.heroInfoX._text = "GAME OVER"
-            this.heroInfoX._value = ""
-
-            this.heroInfoX._text = "GAME OVER"
-            this.heroInfoX._value = ""
-        }
         //#endregion
 
 
-        //#region herp move
+        //#region hero move
         if (this.pressWalk === true)
         {
             if (this.walkDirection === 1)   // right
@@ -364,7 +359,7 @@ class Level1 extends Framework.Level
                 // this.hero.goRight()
                 this.camera.goRight()
             }
-            if (this.walkDirection === 2)   // left
+            if (this.walkDirection === 2 && this.camera.component.position.x > 200)   // left
             {
                 // this.hero.goLeft()
                 this.camera.goLeft()
@@ -382,6 +377,11 @@ class Level1 extends Framework.Level
         {
             this.hero.component.position.x = 500
         }
+
+        if (this.camera.component.position.x <= 200)
+        {
+            this.camera.component.position.x = 200
+        }
         
 
         //#endregion
@@ -389,7 +389,7 @@ class Level1 extends Framework.Level
         
         this.ScoreInfo._value = this.score
 
-        //move map
+        //#region map move
         if (this.hero.component.position.x >= 500)
         {
             // move floors
@@ -425,6 +425,7 @@ class Level1 extends Framework.Level
                 }
             }
         }
+        //#endregion
     }
     draw(parentCtx) 
     {

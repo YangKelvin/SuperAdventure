@@ -40,7 +40,7 @@ class AnimationCharacter
     }
     initialize() 
     {
-        this.component.scale = 0.3
+        this.component.scale = 0.3 
     }
     update() 
     {

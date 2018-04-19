@@ -6,12 +6,18 @@ Framework.RectangleComponent = class RectangleComponent extends Framework.Compon
         this.bodyOptions = options
         this.matter = _matter
 		this.body = this.matter.createRectangleBody(0, 0, 1, 1, this.bodyOptions)
+        this.sprite = sprite
     }
 
     update() 
     {
         if(!this.hasFirstUpdate && this.sprite.texture) 
         {
+
+            
+            // console.log(this.sprite.texture.width + '\n' + this.sprite.texture.height)
+
+
             // console.log("X")
             // if (this.sprite.texture)
             // {
@@ -26,19 +32,28 @@ Framework.RectangleComponent = class RectangleComponent extends Framework.Compon
             // console.log(realWidth + " " + realHeight)
             // this.matter.scaleBody(this.body, realWidth, realHeight)
             this.matter.removeBody(this.body)
-            // console.log("W : " + realWidth)
-            // console.log("H : " + realHeight)
+            // console.log("W : " + realWidth + "  H : " + realHeight)
+            // console.log(this.sprite.position.x + " " + this.sprite.position.y)
 
             // let tempWidth = 41
             // let tempHeight = 54
 
             // this.body = this.matter.createRectangleBody(this.sprite.position.x, this.sprite.position.y, tempWidth, tempHeight, this.bodyOptions)
 
-            this.body = this.matter.createRectangleBody(this.sprite.position.x, this.sprite.position.y, realWidth, realHeight, this.bodyOptions)
+            this.body = this.matter.createRectangleBody(
+                this.sprite.position.x + this.sprite.texture.width / 2, 
+                this.sprite.position.y + this.sprite.texture.height / 2, 
+                realWidth, 
+                realHeight,
+                this.bodyOptions)
         } 
         else if(this.hasFirstUpdate) 
         {
-			this.sprite.position = this.body.position
+            this.sprite.position = 
+            {
+                x: this.body.position.x - this.sprite.texture.width / 2,
+                y: this.body.position.y - this.sprite.texture.height / 2
+            }
 			this.sprite.rotation = this.body.angle / Math.PI * 180
 		}
     }

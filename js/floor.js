@@ -8,13 +8,15 @@ class floor
         this.floorOps = _floorOps
     }
     
-    
     load()
     {
         //character.pic
         this.pic = new Framework.Sprite(this.url)
         //createComponent
-        this.component = new Framework.RectangleComponent(this.matter, this.pic, this.floorOps)
+        this.component = new Framework.RectangleComponent(
+            this.matter, 
+            this.pic, 
+            this.floorOps)
         this.component.scale = 1
     }
     initialize() 
