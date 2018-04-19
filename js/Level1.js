@@ -15,6 +15,8 @@ class Level1 extends Framework.Level
         this.mapLeft = 0
         this.mapRight = 0
 
+        this.pressWalk = false
+        this.walkDirection = 0
     }
     loadHero()
     {
@@ -228,7 +230,6 @@ class Level1 extends Framework.Level
         this.blockCs = new Array()
         for (var i = 0; i < this.blockCValue.length; i++)
         {
-            this
             this.blockCs[i] = new block('images/coin.png', 
                                             this.matter,
                                             this.coinOps)
@@ -242,7 +243,6 @@ class Level1 extends Framework.Level
             this.rootScene.attach(this.blockCs[i])
         }
     }    
-
     loadAudio()
     {
         this.audio = new Framework.Audio(
@@ -252,6 +252,25 @@ class Level1 extends Framework.Level
             jump: {mp3: 'music/jump.mp3'},
             haha: {wav: 'music/haha.wav'}
         })
+    }
+
+    loadMap()
+    {
+        //0 空地  1牆壁  2地板 
+        // this.mapArray = []
+        // this.mapArray.push([1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1]); //1
+        // this.mapArray.push([1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1]); //2
+        // this.mapArray.push([1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1]); //3
+        // this.mapArray.push([1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1]); //4
+        // this.mapArray.push([1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1]); //5
+        // this.mapArray.push([1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1]); //6
+        // this.mapArray.push([1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1]); //7
+        // this.mapArray.push([1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1]); //8
+        // this.mapArray.push([1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1]); //9
+        // this.mapArray.push([1,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,1]); //10
+        // this.mapArray.push([1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1]); //11
+        // this.mapArray.push([1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1]); //12
+        // this.map = new Map1(this.mapArray, this.matter)
     }
 
     load() 
@@ -311,6 +330,24 @@ class Level1 extends Framework.Level
         //#endregion
 
 
+        //#region herp move
+        if (this.pressWalk === true)
+        {
+            if (this.walkDirection === 1)   // right
+            {
+                this.hero.goRight()
+            }
+            if (this.walkDirection === 2)   // left
+            {
+                this.hero.goLeft()
+            }
+            if (this.walkDirection === 3)   // jump
+            {
+                this.hero.jump()
+            }
+        }
+
+        //#endregion
         
         
         this.ScoreInfo._value = this.score
@@ -378,13 +415,15 @@ class Level1 extends Framework.Level
         if(e.key === 'A') 
         {
             // left
-            this.hero.isWalking = 2
+            this.pressWalk = true
+            this.walkDirection = 2
             this.hero.animationGoLeft()
         }
         if(e.key === 'D') 
         {
             // right  
-            this.hero.isWalking = 1
+            this.pressWalk = true
+            this.walkDirection = 1
             this.hero.animationGoRight()
         }
     }
@@ -392,6 +431,7 @@ class Level1 extends Framework.Level
     {
         if(e.key === 'D' || e.key === 'A' || e.key === 'W')
         {
+            this.pressWalk = false
             this.hero.isWalking = 0;
             this.hero.animationStand()
         }

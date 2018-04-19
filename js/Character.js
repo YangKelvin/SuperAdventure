@@ -33,21 +33,6 @@ class Character
         this.component.setBody('angle', 0)
         
         this.component.update()
-        
-        
-        if (this.isWalking === 1)
-        {
-            this.goRight()
-        }
-        if (this.isWalking === 2)
-        {
-            console.log("left")
-            this.goLeft()
-        }
-        if (this.isWalking === 3)
-        {
-            this.jump()   
-        }
     }
     draw()
     {
