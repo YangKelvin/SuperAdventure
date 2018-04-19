@@ -18,6 +18,32 @@ class Level1 extends Framework.Level
         this.pressWalk = false
         this.walkDirection = 0
     }
+
+    loadCamera()
+    {
+        this.cameraPos = {x:200, y:200}
+
+        this.cameraOps = 
+        {
+            label: 'camera', 
+            friction: 0.05, 
+            // frictionAir: 99999,
+            density:0.002,
+            // isStatic: true
+        }
+
+        this.camera = new Camera('images/brickWall.png',
+                                        this.matter,
+                                        this.cameraOps,
+                                        this.cameraPos
+        )
+
+        this.camera.load()
+        this.camera.initialize()
+        this.rootScene.attach(this.camera.pic)
+    }
+
+
     loadHero()
     {
         //new animation
@@ -276,14 +302,13 @@ class Level1 extends Framework.Level
     load() 
     {
         // console.log(this.viewCenter)
-
         this.loadBackground()
         this.loadHero()
         this.loadGround()
         this.loadTextbox()
         this.loadCoin()
         this.loadPrincess()
-
+        this.loadCamera()
         this.loadAudio()
         this.audio.play({name: 'bgm1', loop: true})
         // 載入 collision
@@ -303,6 +328,7 @@ class Level1 extends Framework.Level
         this.matter.update()
         this.rootScene.update()
         this.hero.update()
+        this.camera.update()
         if (this.score === 3)
         {
             this.rootScene.attach(this.princess.pic)
@@ -335,17 +361,28 @@ class Level1 extends Framework.Level
         {
             if (this.walkDirection === 1)   // right
             {
-                this.hero.goRight()
+                // this.hero.goRight()
+                this.camera.goRight()
             }
             if (this.walkDirection === 2)   // left
             {
-                this.hero.goLeft()
+                // this.hero.goLeft()
+                this.camera.goLeft()
             }
             if (this.walkDirection === 3)   // jump
             {
                 this.hero.jump()
             }
         }
+        if (this.camera.component.position.x <= 500)
+        {
+            this.hero.component.position.x = this.camera.component.position.x
+        }
+        else if (this.camera.component.position.x > 500)
+        {
+            this.hero.component.position.x = 500
+        }
+        
 
         //#endregion
         
@@ -353,27 +390,27 @@ class Level1 extends Framework.Level
         this.ScoreInfo._value = this.score
 
         //move map
-        if (this.hero.component.position.x > 500)
+        if (this.hero.component.position.x >= 500)
         {
             // move floors
             for	(var i = 0; i<this.mapfloor.length; i++)
             {
                 this.mapfloor[i].component.position = 
                 {
-                    x: this.mapfloorValue[i].x - this.hero.component.position.x + 500,
+                    x: this.mapfloorValue[i].x - this.camera.component.position.x + 500,
                     y: this.mapfloorValue[i].y
                 }   
             }
 
             // move princess
-            this.princess.component.position.x = this.princessPos.x - this.hero.component.position.x + 500
+            this.princess.component.position.x = this.princessPos.x - this.camera.component.position.x + 500
             
             // move coinBlock
             for	(var i = 0; i<this.blockCValue.length; i++)
             {
                 this.blockCs[i].component.position = 
                 {
-                    x: this.blockCValue[i].x - this.hero.component.position.x + 500,
+                    x: this.blockCValue[i].x - this.camera.component.position.x + 500,
                     y: this.blockCValue[i].y
                 }
             }
@@ -383,7 +420,7 @@ class Level1 extends Framework.Level
             {
                 this.mapWalls[i].component.position = 
                 {
-                    x: this.mapWallsValue[i].x - this.hero.component.position.x + 500,
+                    x: this.mapWallsValue[i].x - this.camera.component.position.x + 500,
                     y: this.mapWallsValue[i].y
                 }
             }
