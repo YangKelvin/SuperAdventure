@@ -11,6 +11,10 @@ class Level1 extends Framework.Level
         
         // 初始分數 （吃金幣的數量）
         this.score = 0
+        
+        this.mapLeft = 0
+        this.mapRight = 0
+
     }
     loadHero()
     {
@@ -66,6 +70,7 @@ class Level1 extends Framework.Level
     }
     loadGround()
     {
+        // floor
         this.mapfloorValue = 
             [
                 // ground
@@ -127,11 +132,43 @@ class Level1 extends Framework.Level
             this.mapfloor[i].load()
             this.mapfloor[i].initialize()
             this.mapfloor[i].component.position = this.mapfloorValue[i]
-        }
-        for (var i = 0; i < this.mapfloorValue.length; i++)
-        {
+
             this.rootScene.attach(this.mapfloor[i])
         }
+        
+        this.wallOps = 
+        {
+            label : 'wall',
+            friction: 0.05,
+            density: 0.002,
+            isStatic: true
+        }
+        this.mapWallsValue = 
+        [
+            {x: 30, y: 710},
+            {x: 30, y: 640},
+            {x: 30, y: 570},
+            {x: 30, y: 500},
+            {x: 30, y: 430},
+            {x: 30, y: 360},
+            {x: 30, y: 290},
+            {x: 30, y: 220},
+            {x: 30, y: 150},
+            {x: 30, y: 80},
+        ]
+        this.mapWalls = new Array()
+        for (var i = 0; i < this.mapWallsValue.length; i++)
+        {
+            this.mapWalls[i] = new floor('images/brickWall.png',
+                                            this.matter,
+                                            this.wallOps)
+            this.mapWalls[i].load()
+            this.mapWalls[i].initialize()
+            this.mapWalls[i].component.position = this.mapWallsValue[i]
+
+            this.rootScene.attach(this.mapWalls[i])
+        }
+
     }
     loadBackground()
     {
@@ -159,6 +196,16 @@ class Level1 extends Framework.Level
         this.ScoreInfo = new Textbox()
         this.ScoreInfo.position = {x:0, y:0}
         this.ScoreInfo._text= "Score : "
+
+        // mapLeft
+        this.mapInfoL = new Textbox()
+        this.mapInfoL.position = {x: 500, y:0}
+        this.mapInfoL._text = "mapLeft : "
+
+        // mapRight
+        this.mapInfoR = new Textbox()
+        this.mapInfoR.position = {x: 500, y:80}
+        this.mapInfoR._text = "mapRight : "
     }
     loadCoin()
     {
@@ -247,8 +294,11 @@ class Level1 extends Framework.Level
             this.hero.isLive = false
         }
 
+        // textBox
         this.heroInfoX._value = Math.round(this.hero.component.position.x)
         this.heroInfoY._value = Math.round(this.hero.component.position.y)
+        this.mapInfoL._value = this.mapLeft
+        this.mapInfoR._value = this.mapRight
 
         if (!this.hero.isLive)
         {
@@ -257,8 +307,6 @@ class Level1 extends Framework.Level
 
             this.heroInfoX._text = "GAME OVER"
             this.heroInfoX._value = ""
-
-
         }
         //#endregion
 
@@ -270,24 +318,36 @@ class Level1 extends Framework.Level
         //move map
         if (this.hero.component.position.x > 500)
         {
+            // move floors
             for	(var i = 0; i<this.mapfloor.length; i++)
             {
                 this.mapfloor[i].component.position = 
                 {
                     x: this.mapfloorValue[i].x - this.hero.component.position.x + 500,
                     y: this.mapfloorValue[i].y
-                }
+                }   
             }
+
+            // move princess
             this.princess.component.position.x = this.princessPos.x - this.hero.component.position.x + 500
-        }
-        if (this.hero.component.position.x > 500)
-        {
+            
+            // move coinBlock
             for	(var i = 0; i<this.blockCValue.length; i++)
             {
                 this.blockCs[i].component.position = 
                 {
                     x: this.blockCValue[i].x - this.hero.component.position.x + 500,
                     y: this.blockCValue[i].y
+                }
+            }
+
+            // move walls
+            for	(var i = 0; i<this.mapWalls.length; i++)
+            {
+                this.mapWalls[i].component.position = 
+                {
+                    x: this.mapWallsValue[i].x - this.hero.component.position.x + 500,
+                    y: this.mapWallsValue[i].y
                 }
             }
         }
@@ -297,6 +357,8 @@ class Level1 extends Framework.Level
         this.heroInfoX.draw(parentCtx)
         this.heroInfoY.draw(parentCtx)
         this.ScoreInfo.draw(parentCtx)
+        this.mapInfoL.draw(parentCtx)
+        this.mapInfoR.draw(parentCtx)
     }
 
     keydown(e)
