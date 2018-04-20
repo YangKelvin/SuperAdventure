@@ -10,10 +10,10 @@ class Level1 extends Framework.Level
         // this.collisionPrincess = this.collisionStartBetweenPrincess_Hero.bind(this)
         
         // 初始分數 （吃金幣的數量）
-        this.score = 0
+        //this.score = 0
         
-        this.mapLeft = 0
-        this.mapRight = 0
+        //this.mapLeft = 0
+        //this.mapRight = 0
 
         this.pressWalk = false
         this.walkDirection = 0
@@ -200,7 +200,7 @@ class Level1 extends Framework.Level
         }
 
     }
-    loadBackground()
+    /*loadBackground()
     {
         this.background = new Framework.Sprite(define.imagePath + 'background.jpg');
         this.background.position = 
@@ -210,8 +210,8 @@ class Level1 extends Framework.Level
         }
         this.background.scale = 2;
         this.rootScene.attach(this.background)
-    }
-    loadTextbox()
+    }*/
+    /*loadTextbox()
     {
         //hero info
         this.heroInfoX = new Textbox()
@@ -236,7 +236,7 @@ class Level1 extends Framework.Level
         this.mapInfoR = new Textbox()
         this.mapInfoR.position = {x: 500, y:80}
         this.mapInfoR._text = "mapRight : "
-    }
+    }*/
     loadCoin()
     {
         this.blockCValue =
@@ -283,7 +283,12 @@ class Level1 extends Framework.Level
             haha: {wav: 'music/haha.wav'}
         })
     }
-
+    loadMap1()
+    {
+        this.mapArray = []
+        this.map1 = new Map1(this.mapArray, this.matter)
+        this.map1.load()
+    }
     loadMap()
     {
         //0 空地  1牆壁  2地板 
@@ -306,14 +311,15 @@ class Level1 extends Framework.Level
     load() 
     {
         // console.log(this.viewCenter)
-        this.loadBackground()
+        //this.loadBackground()
         this.loadHero()
         this.loadGround()
-        this.loadTextbox()
+        //this.loadTextbox()
         this.loadCoin()
         this.loadPrincess()
         this.loadCamera()
         this.loadAudio()
+        this.loadMap1()
         this.audio.play({name: 'bgm1', loop: true})
         // 載入 collision
         this.matter.addEventListener("collisionStart",(this.collisionBlockQs))
@@ -330,7 +336,7 @@ class Level1 extends Framework.Level
         // console.log(this.mapfloor[0].component.position)
         // console.log(this.mapfloor[0].component.sprite.position)
         super.update()
-        
+        this.map1.update()
         // console.log(this.mapfloor[1].component.position)
         
         
@@ -394,10 +400,10 @@ class Level1 extends Framework.Level
 
 
         // textBox
-        this.heroInfoX._value = Math.round(this.hero.component.position.x)
-        this.heroInfoY._value = Math.round(this.hero.component.position.y)
-        this.mapInfoL._value = this.camera.component.position.x
-        this.mapInfoR._value = this.mapRight
+        this.map1.heroInfoX._value = Math.round(this.hero.component.position.x)
+        this.map1.heroInfoY._value = Math.round(this.hero.component.position.y)
+        //this.mapInfoL._value = this.camera.component.position.x
+        //this.mapInfoR._value = this.mapRight
 
         //#endregion
 
@@ -438,17 +444,17 @@ class Level1 extends Framework.Level
         //#endregion
         
         
-        this.ScoreInfo._value = this.score
+        //this.ScoreInfo._value = this.score
 
 
     }
     draw(parentCtx) 
     {
-        this.heroInfoX.draw(parentCtx)
-        this.heroInfoY.draw(parentCtx)
-        this.ScoreInfo.draw(parentCtx)
-        this.mapInfoL.draw(parentCtx)
-        this.mapInfoR.draw(parentCtx)
+        // this.heroInfoX.draw(parentCtx)
+        // this.heroInfoY.draw(parentCtx)
+        // this.ScoreInfo.draw(parentCtx)
+        // this.mapInfoL.draw(parentCtx)
+        // this.mapInfoR.draw(parentCtx)
     }
 
     keydown(e)
