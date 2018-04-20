@@ -24,7 +24,11 @@ var MyMenu = Framework.exClass(Framework.GameMainMenu,
         },
 
         load: function () {
-            this.menu = new Framework.Sprite(define.imagePath + 'iWantToPlayAGame.jpg');
+            this.menu = new Framework.Sprite(define.imagePath + 'menuBackground.jpg')
+            this.startSign = new StartSign()
+            this.startSign.load(Framework.Game.getCanvasWidth() / 2 - 200, Framework.Game.getCanvasHeight() / 2 - 150)
+
+            
         },
 
         initialize: function () {
@@ -35,7 +39,9 @@ var MyMenu = Framework.exClass(Framework.GameMainMenu,
                 y: Framework.Game.getCanvasHeight() / 2
             };
             this.menu.scale = 1.2;
-            this.rootScene.attach(this.menu);
+
+            // this.rootScene.attach(this.menu);
+            this.rootScene.attach(this.startSign.startPic)
 
             this.rectPosition = {
                 x: Framework.Game.getCanvasWidth() / 2 - 130,
@@ -51,15 +57,15 @@ var MyMenu = Framework.exClass(Framework.GameMainMenu,
 
         draw: function (parentCtx) {
             //this.rootScene.draw();一定要在第一行
-            this.rootScene.draw(parentCtx);
-            this.menu.draw(parentCtx);
+            // this.rootScene.draw(parentCtx);
+            // this.menu.draw(parentCtx);
             //this.rootScene.draw();
             //可支援畫各種單純的圖形和字
             parentCtx.font = '100pt bold';
             parentCtx.fillStyle = 'red';
             parentCtx.textBaseline = 'top';
             parentCtx.textAlign = 'center';
-            parentCtx.fillText('Super Adventure', this.rectPosition.x + 130, this.rectPosition.y, 1000);
+            parentCtx.fillText('Super Adventure', this.rectPosition.x + 130, this.rectPosition.y - 400, 1000);
         },
 
         mouseup: function (e) {
@@ -68,15 +74,26 @@ var MyMenu = Framework.exClass(Framework.GameMainMenu,
 
         mousedown: function (e) {
             //console.log為Browser提供的function, 可以在debugger的console內看到被印出的訊息                    
-            Framework.Game.goToNextLevel();
+            // Framework.Game.goToNextLevel();
         },
 
         click: function (e) {
             Framework.Game.goToNextLevel();
+            if (e)
+            {
+                // console.log(e.x, e.y)
+                console.log(this.startSign.startPic.upperLeft.x)
+                console.log(this.startSign.startPic.upperRight.x)
+                console.log(this.startSign.startPic.upperLeft.y)
+                console.log(this.startSign.startPic.upperRight.y)
+            }
+
+            this.startSign.mousedown(e)
         },
 
-        mousemove: function (e) {
-            
+        mousemove: function (e) 
+        {
+            // console.log(e.x + "  " + e.y)    
         },
 
         mouseup: function (e) {

@@ -444,6 +444,7 @@ class Level1 extends Framework.Level
     collisionStartBetweenQ_hero(event)
     {
         // console.log(this)
+        
         var pairs = event.pairs;
 
         for (var i = 0, j = pairs.length; i != j; ++i) 

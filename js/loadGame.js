@@ -42,6 +42,7 @@ var loadGameEnd;
     var listScript = 
     [
         { src: 'js/define.js', lookFor: 'define' },
+        { src: 'js/StartSign.js', lookFor: 'StartSign' },
         { src: 'js/myMenu.js', lookFor: 'MyMenu' },
         { src: 'js/Level1.js', lookFor: 'Level1' },
         { src: 'js/EndLevel.js', lookFor: 'EndLevel' },
