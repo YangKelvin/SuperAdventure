@@ -8,11 +8,11 @@ class Level1 extends Framework.Level
         // hero & coin 的碰撞 和 hero & princess 的碰撞
         this.collisionBlockQs = this.collisionStartBetweenQ_hero.bind(this)
         // this.collisionPrincess = this.collisionStartBetweenPrincess_Hero.bind(this)
-        
+
         this.pressWalk = false
         this.walkDirection = 0
 
-        this.tempx
+        this.isPrincess = false
     }
 
     loadCamera()
@@ -338,16 +338,20 @@ class Level1 extends Framework.Level
         
         this.hero.update()
         this.matter.update()
+        this.map1.update()
         this.rootScene.update()
         this.camera.update()
-        this.map1.update()
         // console.log(this.mapfloor[0].component.position)
         // console.log(this.tempx)
         
         
-        if (this.score === 3)
+        if (this.map1.score === 3)
         {
-            this.rootScene.attach(this.princess.pic)
+            if(!(this.isPrincess))
+            {
+                this.rootScene.attach(this.princess.pic)
+                this,this.isPrincess = true
+            }
             this.princess.update()
         }
 
@@ -355,6 +359,7 @@ class Level1 extends Framework.Level
         // textBox
         this.map1.heroInfoX._value = Math.round(this.hero.component.position.x)
         this.map1.heroInfoY._value = Math.round(this.hero.component.position.y)
+        this.map1.mapInfoL._value = this.camera.component.position.x
 
         //#endregion
 
@@ -452,6 +457,7 @@ class Level1 extends Framework.Level
                 {
                     // console.log("collision1")
                     //hero 和 blockQs 碰撞
+                    this.map1.score += 1
                     this.blockCs[k].pic = null
                     this.matter.removeBody(this.blockCs[k].component.body)
                     this.score += 1

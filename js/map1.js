@@ -6,6 +6,11 @@ class Map1 extends Framework.Level
         this.mapArray = map
         this.matter = _matter
 
+        //是否移動 和 移動方向
+        this.pressWalk = false
+        this.walkDirection = 0
+
+        //硬幣數量初始, 地圖左右座標初始
         this.score = 0
         this.mapLeft = 0
         this.mapRight = 0
@@ -79,7 +84,6 @@ class Map1 extends Framework.Level
         this.loadTextbox()
         //this.loadCamera()
         this.loadBackground()
-        this.rootScene.update()
     }
     
     init()
@@ -137,6 +141,8 @@ class Map1 extends Framework.Level
         this.mapInfoL._value = this.mapLeft
         this.mapInfoR._value = this.mapRight
         this.ScoreInfo._value = this.score
+
+        //this.camera.update()
     }
     draw(parentCtx)
     {
