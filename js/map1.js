@@ -103,8 +103,6 @@ class Map1 extends Framework.Level
     {
         //this.camera.update()
 
-
-
         //#region hero move
         // if (this.pressWalk === true)
         // {

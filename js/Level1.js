@@ -9,12 +9,6 @@ class Level1 extends Framework.Level
         this.collisionBlockQs = this.collisionStartBetweenQ_hero.bind(this)
         // this.collisionPrincess = this.collisionStartBetweenPrincess_Hero.bind(this)
         
-        // 初始分數 （吃金幣的數量）
-        //this.score = 0
-        
-        //this.mapLeft = 0
-        //this.mapRight = 0
-
         this.pressWalk = false
         this.walkDirection = 0
 
@@ -44,8 +38,6 @@ class Level1 extends Framework.Level
         this.camera.initialize()
         this.rootScene.attach(this.camera.pic)
     }
-
-
     loadHero()
     {
         //new animation
@@ -200,43 +192,6 @@ class Level1 extends Framework.Level
         }
 
     }
-    /*loadBackground()
-    {
-        this.background = new Framework.Sprite(define.imagePath + 'background.jpg');
-        this.background.position = 
-        {
-            x: Framework.Game.getCanvasWidth() / 2,
-            y: Framework.Game.getCanvasHeight() / 2
-        }
-        this.background.scale = 2;
-        this.rootScene.attach(this.background)
-    }*/
-    /*loadTextbox()
-    {
-        //hero info
-        this.heroInfoX = new Textbox()
-        this.heroInfoX.position = {x:1000, y:0}
-        this.heroInfoX._text= "hero_x : "
-
-        this.heroInfoY = new Textbox()
-        this.heroInfoY.position = {x:1000, y:80}
-        this.heroInfoY._text= "hero_y : "
-
-        //score
-        this.ScoreInfo = new Textbox()
-        this.ScoreInfo.position = {x:0, y:0}
-        this.ScoreInfo._text= "Score : "
-
-        // mapLeft
-        this.mapInfoL = new Textbox()
-        this.mapInfoL.position = {x: 500, y:0}
-        this.mapInfoL._text = "mapLeft : "
-
-        // mapRight
-        this.mapInfoR = new Textbox()
-        this.mapInfoR.position = {x: 500, y:80}
-        this.mapInfoR._text = "mapRight : "
-    }*/
     loadCoin()
     {
         this.blockCValue =
@@ -311,10 +266,8 @@ class Level1 extends Framework.Level
     load() 
     {
         // console.log(this.viewCenter)
-        //this.loadBackground()
         this.loadHero()
         this.loadGround()
-        //this.loadTextbox()
         this.loadCoin()
         this.loadPrincess()
         this.loadCamera()
@@ -336,7 +289,6 @@ class Level1 extends Framework.Level
         // console.log(this.mapfloor[0].component.position)
         // console.log(this.mapfloor[0].component.sprite.position)
         super.update()
-        this.map1.update()
         // console.log(this.mapfloor[1].component.position)
         
         
@@ -388,6 +340,7 @@ class Level1 extends Framework.Level
         this.matter.update()
         this.rootScene.update()
         this.camera.update()
+        this.map1.update()
         // console.log(this.mapfloor[0].component.position)
         // console.log(this.tempx)
         
@@ -402,8 +355,6 @@ class Level1 extends Framework.Level
         // textBox
         this.map1.heroInfoX._value = Math.round(this.hero.component.position.x)
         this.map1.heroInfoY._value = Math.round(this.hero.component.position.y)
-        //this.mapInfoL._value = this.camera.component.position.x
-        //this.mapInfoR._value = this.mapRight
 
         //#endregion
 
@@ -439,22 +390,11 @@ class Level1 extends Framework.Level
         {
             this.camera.component.position.x = 200
         }
-        
-
         //#endregion
-        
-        
-        //this.ScoreInfo._value = this.score
-
-
     }
     draw(parentCtx) 
     {
-        // this.heroInfoX.draw(parentCtx)
-        // this.heroInfoY.draw(parentCtx)
-        // this.ScoreInfo.draw(parentCtx)
-        // this.mapInfoL.draw(parentCtx)
-        // this.mapInfoR.draw(parentCtx)
+        this.map1.draw(parentCtx)
     }
 
     keydown(e)
