@@ -1,4 +1,4 @@
-class Character
+class Camera
 {
     constructor(_url, _matter, _characterOps, _characterPos)
     {
@@ -22,7 +22,7 @@ class Character
     }
     initialize() 
     {
-        this.component.scale = 0.2
+        this.component.scale = 3
         this.component.position = this.characterPos
     }
     update() 
@@ -31,7 +31,7 @@ class Character
         // lock rotation
         // this.component.setBody('angularVelocity', 0)
         this.component.setBody('angle', 0)
-        
+        this.component.position = {x: this.component.position.x, y:200}
         this.component.update()
     }
     draw()
@@ -43,12 +43,28 @@ class Character
     { 
         // let force = (0.0004 * this.component.body.mass) ;
         // console.log("hero goRight")
-        this.matter.setBody(this.component.body, "velocity", {x: 5, y:this.component.body.velocity.y})
+        // this.matter.setBody(this.component.body, "velocity", {x: 5, y:this.component.body.velocity.y})
+        // this.matter.setBody(this.component.body, 
+        //     "velocity", 
+        //     {x: 5, y:this.component.body.velocity.y})
+        this.component.position = 
+        {
+            x: this.component.position.x + 5,
+            y: 200
+        }
     }
     goLeft()
     {
         // console.log("hero goLeft")
-        this.matter.setBody(this.component.body, "velocity", {x: -5, y:this.component.body.velocity.y})
+        // this.matter.setBody(this.component.body, "velocity", {x: -5, y:this.component.body.velocity.y})
+        // this.matter.setBody(this.component.body, 
+        //     "velocity", 
+        //     {x: -5, y:this.component.body.velocity.y})
+        this.component.position = 
+        {
+            x: this.component.position.x - 5,
+            y: 200
+        }
     }
     
     jump()

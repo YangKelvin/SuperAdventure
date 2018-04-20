@@ -22,8 +22,8 @@ Framework.AnimationRectangleComponent = class AnimationRectangleComponent extend
             console.log("W : " + realWidth)
             console.log("H : " + realHeight)
 
-            let tempWidth = 110
-            let tempHeight = 150
+            let tempWidth = 100
+            let tempHeight = 100
 
             this.body = this.matter.createRectangleBody(this.sprite.position.x, this.sprite.position.y, tempWidth, tempHeight, this.bodyOptions)
 

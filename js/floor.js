@@ -15,7 +15,7 @@ class floor
         this.pic = new Framework.Sprite(this.url)
         //createComponent
         this.component = new Framework.RectangleComponent(this.matter, this.pic, this.floorOps)
-        this.component.scale = 2
+        this.component.scale = 1
     }
     initialize() 
     {

@@ -10,8 +10,38 @@ class Level1 extends Framework.Level
         this.collisionPrincess = this.collisionStartBetweenPrincess_Hero.bind(this)
         
         // 初始分數 （吃金幣的數量）
-        this.score = 0
+        // this.score = 0
+        
+        // this.mapLeft = 0
+        // this.mapRight = 0
+
+        this.pressWalk = false
+        this.walkDirection = 0
     }
+
+    /*loadCamera()//已放入map1
+    {
+        this.cameraPos = {x:200, y:200}
+
+        this.cameraOps = 
+        {
+            label: 'camera', 
+            friction: 0.05, 
+            // frictionAir: 99999,
+            density:0.002,
+            // isStatic: true
+        }
+
+        this.camera = new Camera('images/brickWall.png',
+                                        this.matter,
+                                        this.cameraOps,
+                                        this.cameraPos
+        )
+
+        this.camera.load()
+        this.camera.initialize()
+        this.rootScene.attach(this.camera.pic)
+    }*/
     loadHero()
     {
         //new animation
@@ -47,13 +77,14 @@ class Level1 extends Framework.Level
     }
     loadPrincess()
     {
-        this.princessPos = {x:1380, y:670}
+        this.princessPos = {x:2365, y:670}
         
         this.princessOps = 
         { 
             label: 'princess', 
             friction: 0.05, 
-            density:0.002
+            density:0.002,
+            isStatic: false
         }
 
         this.princess =new Character('images/princess.png', 
@@ -65,79 +96,49 @@ class Level1 extends Framework.Level
     }
     loadGround()
     {
+        // floor
         this.mapfloorValue = 
             [
-                {x: 30, y: 782},
-                {x: 95, y: 782},
-                {x: 155, y: 782},
-                {x: 215, y: 782},
-                {x: 275, y: 782},
-                {x: 335, y: 782},
-                {x: 395, y: 782},
-                {x: 455, y: 782},
-                {x: 515, y: 782},
-                {x: 575, y: 782},
-                {x: 635, y: 782},
-                {x: 695, y: 782},
-                {x: 755, y: 782},
-                {x: 815, y: 782},
-                {x: 875, y: 782},
-                {x: 935, y: 782},
-                {x: 995, y: 782},
-                {x: 1055, y: 782},
-                {x: 1115, y: 782},
-                {x: 1175, y: 782},
-                {x: 1235, y: 782},
-                {x: 1295, y: 782},
-                {x: 1355, y: 782},
-                {x: 1415, y: 782},
-                {x: 1475, y: 782},
-                {x: 1535, y: 782},
-                {x: 1595, y: 782},
-                {x: 1655, y: 782},
-                {x: 1715, y: 782},
-                {x: 1775, y: 782},
-                {x: 1835, y: 782},
-                {x: 1895, y: 782},
-                {x: 1955, y: 782},
-                {x: 2245, y: 782},
-                {x: 2065, y: 782},
-                {x: 2185, y: 782},
-                {x: 2125, y: 782},
-
-                
-                // {x: 2005, y: 782},
-
-                {x: 2185, y: 782},
-                {x: 2245, y: 782},
-                {x: 2305, y: 782},
-                {x: 2365, y: 782},
-                // {x: 2005, y: 782},
-                // {x: 2005, y: 782},
-                // {x: 2005, y: 782},
-                // {x: 2005, y: 782},
-
-
-
-
-
-
-
-                {x: 2245, y: 722},//牆壁
-                {x: 2245, y: 662},//牆壁
-                {x: 2245, y: 602},//牆壁
-                {x: 2245, y: 542},//牆壁
-                {x: 2245, y: 482},//牆壁
-                {x: 2245, y: 422},//牆壁
-                {x: 2245, y: 362},//牆壁
-
-                
-                {x: 1500, y: 500},
-                {x: 1800, y: 400},
-                {x: 1950, y: 300},
-                {x: 95, y: 700},
-                {x: 155, y: 700},
-                {x: 215, y: 700},
+                // ground
+                {x: 30, y: 780},
+                {x: 100, y: 780},
+                {x: 170, y: 780},
+                {x: 240, y: 780},
+                {x: 310, y: 780},
+                {x: 380, y: 780},
+                {x: 450, y: 780},
+                {x: 520, y: 780},
+                {x: 590, y: 780},
+                {x: 660, y: 780},
+                {x: 730, y: 780},
+                {x: 800, y: 780},
+                {x: 870, y: 780},
+                {x: 940, y: 780},
+                {x: 1010, y: 780},
+                {x: 1080, y: 780},
+                {x: 1150, y: 780},
+                {x: 1220, y: 780},
+                {x: 1290, y: 780},
+                {x: 1360, y: 780},
+                {x: 1430, y: 780},
+                {x: 1500, y: 780},
+                {x: 1570, y: 780},
+                {x: 1640, y: 780},
+                {x: 1710, y: 780},
+                {x: 1780, y: 780},
+                {x: 1850, y: 780},
+                {x: 1920, y: 780},
+                {x: 1990, y: 780},
+                {x: 2060, y: 780},
+                {x: 2130, y: 780},
+                {x: 2200, y: 780},
+                {x: 2270, y: 780},
+                {x: 2340, y: 780},
+                {x: 2410, y: 780},
+                {x: 2480, y: 780},
+                {x: 2550, y: 780},
+                {x: 2620, y: 780},
+                {x: 2690, y: 780},
             ]
         
         this.floorOps = 
@@ -148,22 +149,54 @@ class Level1 extends Framework.Level
             isStatic:true
         }
 
-        this.mapfloor = []
+        this.mapfloor = new Array()
         for (var i = 0; i < this.mapfloorValue.length; i++)
         {
-            this.mapfloor[i] = new floor('images/floor2.png', 
+            this.mapfloor[i] = new floor('images/grass.png', 
                                             this.matter, 
                                             this.floorOps)
             this.mapfloor[i].load()
             this.mapfloor[i].initialize()
             this.mapfloor[i].component.position = this.mapfloorValue[i]
-        }
-        for (var i = 0; i < this.mapfloorValue.length; i++)
-        {
+
             this.rootScene.attach(this.mapfloor[i])
         }
+        
+        this.wallOps = 
+        {
+            label : 'wall',
+            friction: 0.05,
+            density: 0.002,
+            isStatic: true
+        }
+        this.mapWallsValue = 
+        [
+            {x: 30, y: 710},
+            {x: 30, y: 640},
+            {x: 30, y: 570},
+            {x: 30, y: 500},
+            {x: 30, y: 430},
+            {x: 30, y: 360},
+            {x: 30, y: 290},
+            {x: 30, y: 220},
+            {x: 30, y: 150},
+            {x: 30, y: 80},
+        ]
+        this.mapWalls = new Array()
+        for (var i = 0; i < this.mapWallsValue.length; i++)
+        {
+            this.mapWalls[i] = new floor('images/brickWall.png',
+                                            this.matter,
+                                            this.wallOps)
+            this.mapWalls[i].load()
+            this.mapWalls[i].initialize()
+            this.mapWalls[i].component.position = this.mapWallsValue[i]
+
+            this.rootScene.attach(this.mapWalls[i])
+        }
+
     }
-    loadBackground()
+    /*loadBackground()//已放入map1
     {
         this.background = new Framework.Sprite(define.imagePath + 'background.jpg');
         this.background.position = 
@@ -173,8 +206,8 @@ class Level1 extends Framework.Level
         }
         this.background.scale = 2;
         this.rootScene.attach(this.background)
-    }
-    loadTextbox()
+    }*/
+    /*loadTextbox()//已放入map1
     {
         //hero info
         this.heroInfoX = new Textbox()
@@ -189,13 +222,23 @@ class Level1 extends Framework.Level
         this.ScoreInfo = new Textbox()
         this.ScoreInfo.position = {x:0, y:0}
         this.ScoreInfo._text= "Score : "
-    }
+
+        // mapLeft
+        this.mapInfoL = new Textbox()
+        this.mapInfoL.position = {x: 500, y:0}
+        this.mapInfoL._text = "mapLeft : "
+
+        // mapRight
+        this.mapInfoR = new Textbox()
+        this.mapInfoR.position = {x: 500, y:80}
+        this.mapInfoR._text = "mapRight : "
+    }*/
     loadCoin()
     {
         this.blockCValue =
         [
-            {x: 500, y: 500},
-            {x: 800, y: 500},
+            {x: 1564, y: 400},
+            {x: 2014, y: 200},
             {x: 1100, y: 500},
         ]
 
@@ -208,10 +251,9 @@ class Level1 extends Framework.Level
             isSensor:true
         }
 
-        this.blockCs = []
+        this.blockCs = new Array()
         for (var i = 0; i < this.blockCValue.length; i++)
         {
-            this
             this.blockCs[i] = new block('images/coin.png', 
                                             this.matter,
                                             this.coinOps)
@@ -225,7 +267,6 @@ class Level1 extends Framework.Level
             this.rootScene.attach(this.blockCs[i])
         }
     }    
-
     loadAudio()
     {
         this.audio = new Framework.Audio(
@@ -236,20 +277,44 @@ class Level1 extends Framework.Level
             haha: {wav: 'music/haha.wav'}
         })
     }
+    loadMap1()
+    {
+        this.mapArray = []
+        this.map1 = new Map1(this.mapArray, this.matter)
+        this.map1.load()
+    }
+    loadMap()
+    {
+        // 0空地  1牆壁  2地板  3硬幣
+        // this.mapArray = []
+        // this.mapArray.push([1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1]); //1
+        // this.mapArray.push([1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1]); //2
+        // this.mapArray.push([1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1]); //3
+        // this.mapArray.push([1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1]); //4
+        // this.mapArray.push([1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1]); //5
+        // this.mapArray.push([1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1]); //6
+        // this.mapArray.push([1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1]); //7
+        // this.mapArray.push([1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1]); //8
+        // this.mapArray.push([1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1]); //9
+        // this.mapArray.push([1,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,1]); //10
+        // this.mapArray.push([1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1]); //11
+        // this.mapArray.push([1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1]); //12
+        // this.map = new Map1(this.mapArray, this.matter)
+    }
 
     load() 
     {
         // console.log(this.viewCenter)
-
-        this.loadBackground()
+        //this.loadBackground()
         this.loadHero()
         this.loadGround()
-        this.loadTextbox()
+        //this.loadTextbox()
         this.loadCoin()
         this.loadPrincess()
-
+        //this.loadCamera()
+        this.loadMap1()
         this.loadAudio()
-        // this.audio.play({name: 'bgm1', loop: true})
+        this.audio.play({name: 'bgm1', loop: true})
         // 載入 collision
         this.matter.addEventListener("collisionStart",(this.collisionBlockQs))
         this.matter.addEventListener("collisionStart",(this.collisionPrincess))
@@ -265,51 +330,115 @@ class Level1 extends Framework.Level
         //#region update
         super.update()
         this.matter.update()
-        this.rootScene.update()
+        //this.rootScene.update()
         this.hero.update()
+        this.map1.update()
+        //this.camera.update()
+        
         if (this.score === 3)
         {
             this.rootScene.attach(this.princess.pic)
             this.princess.update()
         }
+        if (this.hero.component.position.y >= 1000)
+        {
+            this.hero.isLive = false
+        }
+
+        // textBox
+        this.map1.heroInfoX._value = Math.round(this.hero.component.position.x)
+        this.map1.heroInfoY._value = Math.round(this.hero.component.position.y)
+        // this.mapInfoL._value = this.mapLeft
+        // this.mapInfoR._value = this.mapRight
+        // this.ScoreInfo._value = this.score
+
+        if (!this.hero.isLive)
+        {
+            this.heroInfoX._text = "GAME OVER"
+            this.heroInfoX._value = ""
+
+            this.heroInfoX._text = "GAME OVER"
+            this.heroInfoX._value = ""
+        }
         //#endregion
 
 
-        this.heroInfoX._value = Math.round(this.hero.component.position.x)
-        this.heroInfoY._value = Math.round(this.hero.component.position.y)
+        //#region hero move
+        if (this.pressWalk === true)
+        {
+            if (this.walkDirection === 1)   // right
+            {
+                // this.hero.goRight()
+                this.camera.goRight()
+            }
+            if (this.walkDirection === 2)   // left
+            {
+                // this.hero.goLeft()
+                this.camera.goLeft()
+            }
+            if (this.walkDirection === 3)   // jump
+            {
+                this.hero.jump()
+            }
+        }
+        if (this.camera.component.position.x <= 500)
+        {
+            this.hero.component.position.x = this.camera.component.position.x
+        }
+        else if (this.camera.component.position.x > 500)
+        {
+            this.hero.component.position.x = 500
+        }
+        //#endregion
         
-        this.ScoreInfo._value = this.score
+        
+        
 
         //move map
-        if (this.hero.component.position.x > 750)
+        if (this.hero.component.position.x >= 500)
         {
+            // move floors
             for	(var i = 0; i<this.mapfloor.length; i++)
             {
                 this.mapfloor[i].component.position = 
                 {
-                    x: this.mapfloorValue[i].x - this.hero.component.position.x + 750,
+                    x: this.mapfloorValue[i].x - this.camera.component.position.x + 500,
                     y: this.mapfloorValue[i].y
-                }
+                }   
             }
-            this.princess.component.position.x = this.princessPos.x - this.hero.component.position.x + 750
-        }
-        if (this.hero.component.position.x > 750)
-        {
+
+            // move princess
+            this.princess.component.position.x = this.princessPos.x - this.camera.component.position.x + 500
+            
+            // move coinBlock
             for	(var i = 0; i<this.blockCValue.length; i++)
             {
                 this.blockCs[i].component.position = 
                 {
-                    x: this.blockCValue[i].x - this.hero.component.position.x + 750,
+                    x: this.blockCValue[i].x - this.camera.component.position.x + 500,
                     y: this.blockCValue[i].y
+                }
+            }
+
+            // move walls
+            for	(var i = 0; i<this.mapWalls.length; i++)
+            {
+                this.mapWalls[i].component.position = 
+                {
+                    x: this.mapWallsValue[i].x - this.camera.component.position.x + 500,
+                    y: this.mapWallsValue[i].y
                 }
             }
         }
     }
     draw(parentCtx) 
     {
-        this.heroInfoX.draw(parentCtx)
+        /*this.heroInfoX.draw(parentCtx)
         this.heroInfoY.draw(parentCtx)
         this.ScoreInfo.draw(parentCtx)
+        this.mapInfoL.draw(parentCtx)
+        this.mapInfoR.draw(parentCtx)*/
+        this.map1.draw(parentCtx)
     }
 
     keydown(e)
@@ -329,13 +458,15 @@ class Level1 extends Framework.Level
         if(e.key === 'A') 
         {
             // left
-            this.hero.isWalking = 2
+            this.pressWalk = true
+            this.walkDirection = 2
             this.hero.animationGoLeft()
         }
         if(e.key === 'D') 
         {
             // right  
-            this.hero.isWalking = 1
+            this.pressWalk = true
+            this.walkDirection = 1
             this.hero.animationGoRight()
         }
     }
@@ -343,6 +474,7 @@ class Level1 extends Framework.Level
     {
         if(e.key === 'D' || e.key === 'A' || e.key === 'W')
         {
+            this.pressWalk = false
             this.hero.isWalking = 0;
             this.hero.animationStand()
         }
@@ -370,12 +502,12 @@ class Level1 extends Framework.Level
                     this.audio.play({name: 'coin'})
                     
                 } 
-                else if (pair.bodyB === this.blockCs[k].component.body) 
-                {
-                    console.log("collision2")
-                    this.matter.removeBody(this.blockCs[k].component.body)
+                // else if (pair.bodyB === this.blockCs[k].component.body) 
+                // {
+                //     console.log("collision2")
+                //     this.matter.removeBody(this.blockCs[k].component.body)
 
-                }
+                // }
             }
         }
     }
@@ -386,12 +518,12 @@ class Level1 extends Framework.Level
         for (var i = 0, j = pairs.length; i != j; ++i) 
         {
             var pair = pairs[i];
-            if (pair.bodyA === this.princess.component.body && pair.bodyB === this.hero.component.body) 
-            {
-                console.log("collision1")
+            // if (pair.bodyA === this.princess.component.body && pair.bodyB === this.hero.component.body) 
+            // {
+            //     console.log("collision1")
                 
-            } 
-            else if (pair.bodyA === this.hero.component.body && pair.bodyB === this.princess.component.body) 
+            // } 
+            if (pair.bodyA === this.hero.component.body && pair.bodyB === this.princess.component.body) 
             {
                 console.log("The End")
                 this.audio.play({name: 'haha'})
