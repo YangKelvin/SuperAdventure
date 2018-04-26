@@ -73,12 +73,14 @@ var ChooseLevel = Framework.exClass(Framework.GameMainMenu,
 
         click: function (e) {
             // Framework.Game.goToNextLevel();
-            if (e)
+            if (e.x >= 340 && 
+                e.x <= 540 && 
+                e.y >= 285 && 
+                e.y <= 488) 
             {
-                // console.log(e.x, e.y)
+                Framework.Game.goToLevel("level1");
+                console.log("startGame")
             }
-
-            // this.startSign.mousedown(e)
         },
 
         mousemove: function (e) 
