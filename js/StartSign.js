@@ -36,10 +36,10 @@ class StartSign
 
         console.log(this.previousTouch)
 
-        if (this.previousTouch.x >= /*this.startPic.upperLeft.x*/ 635 && 
-            this.previousTouch.x <= /*this.startPic.upperRight.x*/ 880 && 
-            this.previousTouch.y >= /*this.startPic.upperLeft.y*/ 440 && 
-            this.previousTouch.y <= /*this.startPic.lowerLeft.y*/ 480) 
+        if (this.previousTouch.x >= /*this.startPic.upperLeft.x*/ 600 && 
+            this.previousTouch.x <= /*this.startPic.upperRight.x*/ 1030 && 
+            this.previousTouch.y >= /*this.startPic.upperLeft.y*/ 300 && 
+            this.previousTouch.y <= /*this.startPic.lowerLeft.y*/ 610) 
         {
             // Framework.Game.goToNextLevel()
             console.log("startGame")

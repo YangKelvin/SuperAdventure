@@ -12,7 +12,7 @@ class Level1 extends Framework.Level
         this.pressWalk = false
         this.walkDirection = 0
 
-        this.tempx
+        this.isPrincessAttach = false
     }
 
     loadCamera()
@@ -345,9 +345,14 @@ class Level1 extends Framework.Level
         // console.log(this.tempx)
         
         
-        if (this.score === 3)
+        if (this.map1.ScoreInfo._value === 3)
         {
-            this.rootScene.attach(this.princess.pic)
+            if (!(this.isPrincessAttach))
+            {
+                this.rootScene.attach(this.princess.pic)
+                this.isPrincessAttach = true
+            }
+            
             this.princess.update()
         }
 
