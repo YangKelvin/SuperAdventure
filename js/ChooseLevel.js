@@ -24,7 +24,7 @@ var ChooseLevel = Framework.exClass(Framework.GameMainMenu,
         },
 
         load: function () {
-            this.menu = new Framework.Sprite(define.imagePath + 'chooseLevel_background.png')
+            this.menu = new Framework.Sprite(define.imagePath + 'chooseLevel_background2.png')
             
             
         },
@@ -59,11 +59,7 @@ var ChooseLevel = Framework.exClass(Framework.GameMainMenu,
             //this.rootScene.draw();
             //可支援畫各種單純的圖形和字
 
-            parentCtx.font = '100pt bold';
-            parentCtx.fillStyle = 'red';
-            parentCtx.textBaseline = 'top';
-            parentCtx.textAlign = 'center';
-            parentCtx.fillText('Super Adventure', this.rectPosition.x + 130, this.rectPosition.y - 400, 1000);
+            
         },
 
         mouseup: function (e) {
