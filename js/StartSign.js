@@ -41,7 +41,7 @@ class StartSign
             this.previousTouch.y >= /*this.startPic.upperLeft.y*/ 300 && 
             this.previousTouch.y <= /*this.startPic.lowerLeft.y*/ 610) 
         {
-            // Framework.Game.goToNextLevel()
+            Framework.Game.goToNextLevel()
             console.log("startGame")
         }
 
