@@ -78,10 +78,8 @@ var MyMenu = Framework.exClass(Framework.GameMainMenu,
         },
 
         click: function (e) {
-            // Framework.Game.goToNextLevel();
             if (e)
             {
-                // console.log(e.x, e.y)
                 console.log(this.startSign.startPic.upperLeft.x)
                 console.log(this.startSign.startPic.upperRight.x)
                 console.log(this.startSign.startPic.upperLeft.y)

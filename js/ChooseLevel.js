@@ -72,14 +72,64 @@ var ChooseLevel = Framework.exClass(Framework.GameMainMenu,
         },
 
         click: function (e) {
-            // Framework.Game.goToNextLevel();
+            // level1
             if (e.x >= 340 && 
                 e.x <= 540 && 
                 e.y >= 285 && 
-                e.y <= 488) 
+                e.y <= 485) 
             {
                 Framework.Game.goToLevel("level1");
                 console.log("startGame")
+            }
+            // level2
+            if (e.x >= 705 && 
+                e.x <= 905 && 
+                e.y >= 285 && 
+                e.y <= 485) 
+            {
+                // Framework.Game.goToLevel("level1");
+                // console.log("startGame")
+                alert("想玩？沒門！ 因為還沒有這一關")
+            }
+            // level3
+            if (e.x >= 1065 && 
+                e.x <= 1265 && 
+                e.y >= 285 && 
+                e.y <= 485) 
+            {
+                // Framework.Game.goToLevel("level1");
+                // console.log("startGame")
+                alert("想玩？沒門！ 因為還沒有這一關")
+            }
+            // level4
+            if (e.x >= 340 && 
+                e.x <= 530 && 
+                e.y >= 615 && 
+                e.y <= 815) 
+            {
+                // Framework.Game.goToLevel("level1");
+                // console.log("startGame")
+                alert("想玩？沒門！ 因為還沒有這一關")
+            }
+            // level5
+            if (e.x >= 705 && 
+                e.x <= 905 && 
+                e.y >= 615 && 
+                e.y <= 815) 
+            {
+                // Framework.Game.goToLevel("level1");
+                // console.log("startGame")
+                alert("想玩？沒門！ 因為還沒有這一關")
+            }
+            // level6
+            if (e.x >= 1065 && 
+                e.x <= 1265 && 
+                e.y >= 615 && 
+                e.y <= 815) 
+            {
+                // Framework.Game.goToLevel("level1");
+                // console.log("startGame")
+                alert("想玩？沒門！ 因為還沒有這一關")
             }
         },
 
