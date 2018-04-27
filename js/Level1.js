@@ -12,7 +12,7 @@ class Level1 extends Framework.Level
         this.pressWalk = false
         this.walkDirection = 0
 
-        this.isPrincess = false
+        //this.isPrincess = false
     }
 
     loadCamera()
@@ -38,6 +38,17 @@ class Level1 extends Framework.Level
         this.camera.initialize()
         this.rootScene.attach(this.camera.pic)
     }
+    /*loadBackground()
+    {
+        this.background = new Framework.Sprite(define.imagePath + 'iWantToPlayAGame.jpg');
+        this.background.position = 
+        {
+            x: Framework.Game.getCanvasWidth() / 2,
+            y: Framework.Game.getCanvasHeight() / 2
+        }
+        this.background.scale = 2;
+        this.rootScene.attach(this.background)
+    }*/
     loadHero()
     {
         //new animation
@@ -71,7 +82,7 @@ class Level1 extends Framework.Level
         this.hero.animationStand()
         this.rootScene.attach(this.hero.sprite)
     }
-    loadPrincess()
+    /*loadPrincess()
     {
         this.princessPos = {x:2200, y:100}
         
@@ -89,7 +100,7 @@ class Level1 extends Framework.Level
                                         this.princessPos)
         this.princess.load()
         this.princess.initialize()
-    }
+    }*/
     loadGround()
     {
         // floor
@@ -135,6 +146,17 @@ class Level1 extends Framework.Level
                 {x: 2550, y: 780},
                 {x: 2620, y: 780},
                 {x: 2690, y: 780},
+
+                //硬幣平台
+                {x: 1500, y: 250},
+                {x: 1570, y: 250},
+                {x: 1640, y: 250},
+                {x: 1990, y: 350},
+                {x: 2060, y: 350},
+                {x: 2130, y: 350},
+                {x: 1080, y: 450},
+                {x: 1150, y: 450},
+                {x: 1220, y: 450},
             ]
         
         this.floorOps = 
@@ -196,9 +218,9 @@ class Level1 extends Framework.Level
     {
         this.blockCValue =
         [
-            {x: 1564, y: 100},
-            {x: 2014, y: 200},
-            {x: 1100, y: 300},
+            {x: 1570, y: 100},
+            {x: 2060, y: 200},
+            {x: 1150, y: 300},
         ]
 
         this.coinOps = 
@@ -225,6 +247,7 @@ class Level1 extends Framework.Level
         {
             this.rootScene.attach(this.blockCs[i])
         }
+
         // console.log(this.blockCs[0].component.position)
         // console.log(this.blockCs[0].component.sprite.position)
     }    
@@ -266,10 +289,11 @@ class Level1 extends Framework.Level
     load() 
     {
         // console.log(this.viewCenter)
+        //this.loadBackground()
         this.loadHero()
         this.loadGround()
         this.loadCoin()
-        this.loadPrincess()
+        //this.loadPrincess()
         this.loadCamera()
         this.loadAudio()
         this.loadMap1()
@@ -305,7 +329,7 @@ class Level1 extends Framework.Level
                 }   
             }
             // move princess
-            this.princess.component.position.x = this.princessPos.x - this.camera.component.position.x + 500 + this.princess.component.sprite.width/2
+            this.map1.princess.component.position.x = this.map1.princessPos.x - this.camera.component.position.x + 500 + this.map1.princess.component.sprite.width/2
             // this.princess.component.position = 
             // {
             //     x: this.princessPos.x - this.camera.component.position.x + 500 + this.princess.component.sprite.width / 2,
@@ -345,15 +369,15 @@ class Level1 extends Framework.Level
         // console.log(this.tempx)
         
         
-        if (this.map1.score === 3)
+        /*if (this.map1.score === 3)
         {
-            if(!(this.isPrincess))
+            if(!(this.map1.isPrincess))
             {
                 this.rootScene.attach(this.princess.pic)
-                this,this.isPrincess = true
+                this.isPrincess = true
             }
             this.princess.update()
-        }
+        }*/
 
 
         // textBox
@@ -379,7 +403,7 @@ class Level1 extends Framework.Level
             }
             if (this.walkDirection === 3)   // jump
             {
-                this.hero.jump()
+                this.map1.hero.jump()
             }
         }
         if (this.camera.component.position.x <= 500)
@@ -400,6 +424,26 @@ class Level1 extends Framework.Level
     draw(parentCtx) 
     {
         this.map1.draw(parentCtx)
+        this.hero.sprite.draw(parentCtx)
+        for (var i = 0; i < this.mapfloorValue.length; i++)
+        {
+            this.mapfloor[i].draw(parentCtx)
+        }
+        /*if(this.map1.score ===3){
+            this.princess.draw(parentCtx)
+        }*/
+        for (var i = 0; i < this.mapWallsValue.length; i++)
+        {
+            this.mapWalls[i].draw(parentCtx)
+        }
+        for (var i = 0; i < this.mapWallsValue.length; i++)
+        {
+            this.mapWalls[i].draw(parentCtx)
+        }
+        for (var i = 0; i < this.blockCValue.length; i++)
+        {
+            this.blockCs[i].draw(parentCtx)
+        }
     }
 
     keydown(e)
@@ -467,7 +511,7 @@ class Level1 extends Framework.Level
                 } 
             }
         }
-        if (pair.bodyA === this.hero.component.body && pair.bodyB === this.princess.component.body) 
+        if (pair.bodyA === this.hero.component.body && pair.bodyB === this.map1.princess.component.body) 
         {
             console.log("The End")
             this.audio.play({name: 'haha'})
