@@ -409,7 +409,7 @@ class Level1 extends Framework.Level
             this.matter.toggleRenderWireframes()   
         }
 
-        if(e.key === 'W') 
+        if(e.key === 'W' && this.hero.component.position.y > 670) 
         {
             // jump
             this.audio.play({name: 'jump'})
