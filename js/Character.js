@@ -7,7 +7,7 @@ class Character
         this.url = _url
         this.characterPos = _characterPos
         this.characterOps = _characterOps
-        this.playerOnFloor = false
+        this.isOnFloor = false
         this.isWalking = 0
     }
     
