@@ -31,7 +31,7 @@ class Camera
         // lock rotation
         // this.component.setBody('angularVelocity', 0)
         this.component.setBody('angle', 0)
-        this.component.position = {x: this.component.position.x, y:200}
+        this.component.position = {x: this.component.position.x, y:-200}
         this.component.update()
     }
     draw()
@@ -50,7 +50,7 @@ class Camera
         this.component.position = 
         {
             x: this.component.position.x + 5,
-            y: 200
+            y: -200
         }
     }
     goLeft()
@@ -63,7 +63,7 @@ class Camera
         this.component.position = 
         {
             x: this.component.position.x - 5,
-            y: 200
+            y: -200
         }
     }
     

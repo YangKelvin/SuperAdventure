@@ -5,18 +5,20 @@ class block
         this.matter = _matter
         this.url = _url
         this.blockOps = _blockOps
-
         this.component
     }
 
     load()
     {
         this.pic = new Framework.Sprite(this.url)
-        this.component = new Framework.RectangleComponent(this.matter, this.pic, this.blockOps)
+        this.component = new Framework.RectangleComponent(
+            this.matter, 
+            this.pic, 
+            this.blockOps)
     }
     initialize() 
     {
-        this.component.scale = 0.2
+        this.component.scale = 1
     }
     update()
     {
