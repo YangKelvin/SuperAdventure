@@ -1,4 +1,4 @@
-var MyMenu = Framework.exClass(Framework.GameMainMenu,
+var ChooseLevel = Framework.exClass(Framework.GameMainMenu,
     {
         //初始化loadingProgress需要用到的圖片
         initializeProgressResource: function () 
@@ -24,10 +24,8 @@ var MyMenu = Framework.exClass(Framework.GameMainMenu,
         },
 
         load: function () {
-            this.menu = new Framework.Sprite(define.imagePath + 'menuBackground.jpg')
-            this.startSign = new StartSign()
-            this.startSign.load(Framework.Game.getCanvasWidth() / 2 - 200, Framework.Game.getCanvasHeight() / 2 - 150)
-
+            this.menu = new Framework.Sprite(define.imagePath + 'chooseLevel_background2.png')
+            
             
         },
 
@@ -38,10 +36,9 @@ var MyMenu = Framework.exClass(Framework.GameMainMenu,
                 x: Framework.Game.getCanvasWidth() / 2,
                 y: Framework.Game.getCanvasHeight() / 2
             };
-            this.menu.scale = 1.2;
+            this.menu.scale = 1.5;
 
-            // this.rootScene.attach(this.menu);
-            this.rootScene.attach(this.startSign.startPic)
+            this.rootScene.attach(this.menu);
 
             this.rectPosition = {
                 x: Framework.Game.getCanvasWidth() / 2 - 130,
@@ -61,11 +58,8 @@ var MyMenu = Framework.exClass(Framework.GameMainMenu,
             // this.menu.draw(parentCtx);
             //this.rootScene.draw();
             //可支援畫各種單純的圖形和字
-            parentCtx.font = '100pt bold';
-            parentCtx.fillStyle = 'red';
-            parentCtx.textBaseline = 'top';
-            parentCtx.textAlign = 'center';
-            parentCtx.fillText('Super Adventure', this.rectPosition.x + 130, this.rectPosition.y - 400, 1000);
+
+            
         },
 
         mouseup: function (e) {
@@ -78,15 +72,65 @@ var MyMenu = Framework.exClass(Framework.GameMainMenu,
         },
 
         click: function (e) {
-            if (e)
+            // level1
+            if (e.x >= 340 && 
+                e.x <= 540 && 
+                e.y >= 285 && 
+                e.y <= 485) 
             {
-                console.log(this.startSign.startPic.upperLeft.x)
-                console.log(this.startSign.startPic.upperRight.x)
-                console.log(this.startSign.startPic.upperLeft.y)
-                console.log(this.startSign.startPic.upperRight.y)
+                Framework.Game.goToLevel("level1");
+                console.log("startGame")
             }
-
-            this.startSign.mousedown(e)
+            // level2
+            if (e.x >= 705 && 
+                e.x <= 905 && 
+                e.y >= 285 && 
+                e.y <= 485) 
+            {
+                // Framework.Game.goToLevel("level1");
+                // console.log("startGame")
+                alert("想玩？沒門！ 因為還沒有這一關")
+            }
+            // level3
+            if (e.x >= 1065 && 
+                e.x <= 1265 && 
+                e.y >= 285 && 
+                e.y <= 485) 
+            {
+                // Framework.Game.goToLevel("level1");
+                // console.log("startGame")
+                alert("想玩？沒門！ 因為還沒有這一關")
+            }
+            // level4
+            if (e.x >= 340 && 
+                e.x <= 530 && 
+                e.y >= 615 && 
+                e.y <= 815) 
+            {
+                // Framework.Game.goToLevel("level1");
+                // console.log("startGame")
+                alert("想玩？沒門！ 因為還沒有這一關")
+            }
+            // level5
+            if (e.x >= 705 && 
+                e.x <= 905 && 
+                e.y >= 615 && 
+                e.y <= 815) 
+            {
+                // Framework.Game.goToLevel("level1");
+                // console.log("startGame")
+                alert("想玩？沒門！ 因為還沒有這一關")
+            }
+            // level6
+            if (e.x >= 1065 && 
+                e.x <= 1265 && 
+                e.y >= 615 && 
+                e.y <= 815) 
+            {
+                // Framework.Game.goToLevel("level1");
+                // console.log("startGame")
+                alert("想玩？沒門！ 因為還沒有這一關")
+            }
         },
 
         mousemove: function (e) 

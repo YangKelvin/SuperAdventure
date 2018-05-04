@@ -1,14 +1,21 @@
-class Map1 extends Framework.Level 
+class Map1
 {
     constructor(map, _matter)
     {
-        super()
+        //super()
         this.mapArray = map
         this.matter = _matter
 
+        //是否移動 和 移動方向
+        this.pressWalk = false
+        this.walkDirection = 0
+
+        //硬幣數量初始, 地圖左右座標初始
         this.score = 0
         this.mapLeft = 0
         this.mapRight = 0
+
+        this.isPrincess = false
     }
 
     loadTextbox()
@@ -38,30 +45,6 @@ class Map1 extends Framework.Level
         this.mapInfoR._text = "mapRight : "
     }
 
-    loadCamera()
-    {
-        this.cameraPos = {x:200, y:200}
-
-        this.cameraOps = 
-        {
-            label: 'camera', 
-            friction: 0.05, 
-            // frictionAir: 99999,
-            density:0.002,
-            // isStatic: true
-        }
-
-        this.camera = new Camera('images/brickWall.png',
-                                        this.matter,
-                                        this.cameraOps,
-                                        this.cameraPos
-        )
-
-        this.camera.load()
-        this.camera.initialize()
-        this.rootScene.attach(this.camera.pic)
-    }
-
     loadBackground()
     {
         this.background = new Framework.Sprite(define.imagePath + 'background.jpg');
@@ -71,81 +54,127 @@ class Map1 extends Framework.Level
             y: Framework.Game.getCanvasHeight() / 2
         }
         this.background.scale = 2;
-        this.rootScene.attach(this.background)
     }
+    loadPrincess()
+    {
+        this.princessPos = {x:2200, y:100}
+        
+        this.princessOps = 
+        { 
+            label: 'princess', 
+            friction: 0.05, 
+            density:0.002,
+            isStatic: false
+        }
 
+        this.princess =new Character('images/princess.png', 
+                                        this.matter,
+                                        this.princessOps,
+                                        this.princessPos)
+        this.princess.load()
+        this.princess.initialize()
+    }
     load()
     {
         this.loadTextbox()
-        //this.loadCamera()
         this.loadBackground()
-        this.rootScene.update()
+        this.loadPrincess()
     }
     
     init()
     {   
         //方塊矩陣
-        // this.tileArray = []
-        // for(var i=0; i<this.mapArray.length; i++)
-        // {
-        //     var line = this.mapArray[i];
-        //     for(var j=0; j<line.length; j++)
-        //     {
-        //         var tile = new MapTile();
-        //         tile.setPosition({x:j,y:i})
-        //         tile._tileType = line[j];
-        //         this.tileArray.push(tile);
-        //     }
-        // }
+        this.floorsArray = []
+        this.wallsArray = []
+        for(var i=0; i<this.mapArray.length; i++)
+        {
+            var line = this.mapArray[i];
+            for(var j=0; j<line.length; j++)
+            {
+                if(line[j] != 0)
+                {
+                    var tile = new MapTile(this.matter, line[j])
+                    tile.load()
+                    tile.initialize()
+                    tile.setPosition({x:j,y:i})
+                    if(tile.tileType === 1)
+                    {
+                        // console.log("tileType = 1")
+                        this.floorsArray.push(tile)
+                    }
+                    else if(tile.tileType === 2)
+                    {
+                        // console.log("tileType = 2")
+                        this.wallsArray.push(tile)
+                    }
+                }
+            }
+        }
     }
 
-    update()
+    update(heroPosition_x, cameraPosition_x)
     {
-        //this.camera.update()
+        //檢查金幣(公主是否出現)
+        if (this.score === 3)
+        {
+            if(!(this.isPrincess))
+            {
+                this.isPrincess = true
+            }
+            this.princess.update()
+        }
 
+        // this.floorsArray = []
+        // this.wallsArray = []
 
+        //更新地圖方塊
+        for	(var i = 0; i<this.floorsArray.length; i++)
+        {
+            this.floorsArray[i].update(heroPosition_x, cameraPosition_x)
+        }
+        for	(var i = 0; i<this.wallsArray.length; i++)
+        {
+            this.wallsArray[i].update(heroPosition_x, cameraPosition_x)
+        }
+        
 
-        //#region hero move
-        // if (this.pressWalk === true)
+        // for	(var i = 0; i<this.floorsArray.length; i++)
         // {
-        //     if (this.walkDirection === 1)   // right
-        //     {
-        //         // this.hero.goRight()
-        //         this.camera.goRight()
-        //     }
-        //     if (this.walkDirection === 2)   // left
-        //     {
-        //         // this.hero.goLeft()
-        //         this.camera.goLeft()
-        //     }
-        //     if (this.walkDirection === 3)   // jump
-        //     {
-        //         this.hero.jump()
-        //     }
+        //     this.floorsArray[i].update(cameraPosition_x)
         // }
-        // if (this.camera.component.position.x <= 500)
+        // for	(var i = 0; i<this.wallsArray.length; i++)
         // {
-        //     this.hero.component.position.x = this.camera.component.position.x
+        //     this.wallsArray[i].update(cameraPosition_x)
         // }
-        // else if (this.camera.component.position.x > 500)
-        // {
-        //     this.hero.component.position.x = 500
-        // }
-        //#endregion
 
-        //textBox
-        //this.heroInfoX._value = Math.round(this.hero.component.position.x)
-        //this.heroInfoY._value = Math.round(this.hero.component.position.y)
+        //更新地圖x,y軸資訊和金幣數
         this.mapInfoL._value = this.mapLeft
         this.mapInfoR._value = this.mapRight
         this.ScoreInfo._value = this.score
+
+        
     }
-    draw(parentCtx)
+    draw(Ctx)
     {
-        this.heroInfoX.draw(parentCtx)
-        this.heroInfoY.draw(parentCtx)
-        this.ScoreInfo.draw(parentCtx)
-        this.mapInfoL.draw(parentCtx)
-        this.mapInfoR.draw(parentCtx)
+        this.background.draw(Ctx)
+
+        for(var i=0; i<this.floorsArray.length; i++)
+        {
+            this.floorsArray[i].draw()
+        }
+        for(var i=0; i<this.wallsArray.length; i++)
+        {
+            this.wallsArray[i].draw()
+        }
+
+        this.heroInfoX.draw(Ctx)
+        this.heroInfoY.draw(Ctx)
+        this.ScoreInfo.draw(Ctx)
+        this.mapInfoL.draw(Ctx)
+        this.mapInfoR.draw(Ctx)
+
+        if(this.score ===3){
+            this.princess.draw(Ctx)
+        }
     }
 }

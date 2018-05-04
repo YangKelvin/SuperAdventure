@@ -42,7 +42,9 @@ var loadGameEnd;
     var listScript = 
     [
         { src: 'js/define.js', lookFor: 'define' },
+        { src: 'js/StartSign.js', lookFor: 'StartSign' },
         { src: 'js/myMenu.js', lookFor: 'MyMenu' },
+        { src: 'js/ChooseLevel.js', lookFor: 'ChooseLevel' },
         { src: 'js/Level1.js', lookFor: 'Level1' },
         { src: 'js/EndLevel.js', lookFor: 'EndLevel' },
         { src: 'js/Character.js', lookFor: 'Character' },
@@ -52,6 +54,7 @@ var loadGameEnd;
         { src: 'js/textbox.js', lookFor: 'Textbox' },
         { src: 'js/AnimationCharacter.js', lookFor: 'AnimationCharacter' },
         { src: 'js/score.js', lookFor: 'Score' },
+        { src: 'js/MapTile.js', lookFor: 'MapTile' },
         { src: 'js/map1.js', lookFor: 'Map' },
         { src: 'js/mainGame.js'}
     ]

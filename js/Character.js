@@ -22,7 +22,7 @@ class Character
     }
     initialize() 
     {
-        this.component.scale = 0.2
+        // this.component.scale = 0.5
         this.component.position = this.characterPos
     }
     update() 
