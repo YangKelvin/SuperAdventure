@@ -358,7 +358,7 @@ class Level1 extends Framework.Level
             }
 
             // move princess
-            this.map1.princess.component.position.x = this.map1.princessPos.x - this.camera.component.position.x + 500 + this.map1.princess.component.sprite.width/2
+            this.princess.component.position.x = this.princessPos.x - this.camera.component.position.x + 500 + this.princess.component.sprite.width/2
             // this.princess.component.position = 
             // {
             //     x: this.princessPos.x - this.camera.component.position.x + 500 + this.princess.component.sprite.width / 2,
@@ -485,7 +485,7 @@ class Level1 extends Framework.Level
         }
     }
 
-    collisionStartBetweenQ_hero(event)
+    collisionStart(event)
     {
         // console.log(this)
         
@@ -518,7 +518,7 @@ class Level1 extends Framework.Level
             Framework.Game.item1 = true
 
             // 重置關卡
-            Framework.Game._levels.splice(1,1,{name : "level1", level : new Level1()})
+            Framework.Game._levels.splice(2,1,{name : "level1", level : new Level1()})
             // Framework.Game._levels[1] = {name : "leve1", level : new Level1()}
             // Framework.Game.addNewLevel({level1: new Level1()});
             Framework.Game.goToLevel("chooseLevel")
