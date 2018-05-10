@@ -16,6 +16,8 @@ class Level1 extends Framework.Level
         this.isPrincess = false
     }
 
+    //#region  load
+
     loadCamera()
     {
         this.cameraPos = {x:200, y:-100}
@@ -85,7 +87,7 @@ class Level1 extends Framework.Level
     }
     loadPrincess()
     {
-        this.princessPos = {x:2200, y:100}
+        this.princessPos = {x:400, y:100}
         
         this.princessOps = 
         { 
@@ -105,7 +107,7 @@ class Level1 extends Framework.Level
     loadGround()
     {
         // floor
-        this.mapfloorsValue = 
+        this.floorsPos = 
             [
                 // ground
                 {x: 30, y: 780},
@@ -168,17 +170,17 @@ class Level1 extends Framework.Level
             isStatic:true
         }
 
-        this.mapfloors = new Array()
-        for (var i = 0; i < this.mapfloorsValue.length; i++)
+        this.floors = new Array()
+        for (var i = 0; i < this.floorsPos.length; i++)
         {
-            this.mapfloors[i] = new floor('images/grass.png', 
+            this.floors[i] = new floor('images/grass.png', 
                                             this.matter, 
                                             this.floorOps)
-            this.mapfloors[i].load()
-            this.mapfloors[i].initialize()
-            this.mapfloors[i].component.position = this.mapfloorsValue[i]
+            this.floors[i].load()
+            this.floors[i].initialize()
+            this.floors[i].component.position = this.floorsPos[i]
 
-            this.rootScene.attach(this.mapfloors[i])
+            this.rootScene.attach(this.floors[i])
         }
         
         this.wallOps = 
@@ -188,7 +190,7 @@ class Level1 extends Framework.Level
             density: 0.002,
             isStatic: true
         }
-        this.mapWallsValue = 
+        this.wallsPos = 
         [
             {x: 30, y: 710},
             {x: 30, y: 640},
@@ -201,23 +203,23 @@ class Level1 extends Framework.Level
             {x: 30, y: 150},
             {x: 30, y: 80},
         ]
-        this.mapWalls = new Array()
-        for (var i = 0; i < this.mapWallsValue.length; i++)
+        this.walls = new Array()
+        for (var i = 0; i < this.wallsPos.length; i++)
         {
-            this.mapWalls[i] = new floor('images/brickWall.png',
+            this.walls[i] = new floor('images/brickWall.png',
                                             this.matter,
                                             this.wallOps)
-            this.mapWalls[i].load()
-            this.mapWalls[i].initialize()
-            this.mapWalls[i].component.position = this.mapWallsValue[i]
+            this.walls[i].load()
+            this.walls[i].initialize()
+            this.walls[i].component.position = this.wallsPos[i]
 
-            this.rootScene.attach(this.mapWalls[i])
+            this.rootScene.attach(this.walls[i])
         }
 
     }
     loadCoin()
     {
-        this.blockCValue =
+        this.coinsPos =
         [
             {x: 1570, y: 100},
             {x: 2060, y: 200},
@@ -233,24 +235,20 @@ class Level1 extends Framework.Level
             isSensor:true
         }
 
-        this.blockCs = new Array()
-        for (var i = 0; i < this.blockCValue.length; i++)
+        this.coins = new Array()
+        for (var i = 0; i < this.coinsPos.length; i++)
         {
-            this.blockCs[i] = new block('images/coin.png', 
+            this.coins[i] = new block('images/coin.png', 
                                             this.matter,
                                             this.coinOps)
-            this.blockCs[i].load()
-            this.blockCs[i].initialize()
-            this.blockCs[i].component.position = this.blockCValue[i]
-            // this.blockCs[i].component.body.isSensor = true
+            this.coins[i].load()
+            this.coins[i].initialize()
+            this.coins[i].component.position = this.coinsPos[i]
+            // this.coins[i].component.body.isSensor = true
+            this.rootScene.attach(this.coins[i])
         }
-        for (var i = 0; i < this.blockCValue.length; i++)
-        {
-            this.rootScene.attach(this.blockCs[i])
-        }
-
-        // console.log(this.blockCs[0].component.position)
-        // console.log(this.blockCs[0].component.sprite.position)
+        // console.log(this.coins[0].component.position)
+        // console.log(this.coins[0].component.sprite.position)
     }    
     loadAudio()
     {
@@ -265,12 +263,37 @@ class Level1 extends Framework.Level
 
     loadMonster()
     {
-        
-    }
+        this.monstersPos = 
+        [
 
+        ]
+
+        this.monsterOps = 
+        {
+            label: 'Monster', 
+            friction: 0.05, 
+            density:0.002, 
+            isSensor:true
+        }
+
+        this.monsters = new Array()
+        for (var i = 0; i < this.monstersPos.length; i++)
+        {
+            this.monsters[i] = new Character('images/monster.png',
+                                                this.matter,
+                                                this.monsterOps,
+                                                this.monstersPos)
+            this.monsters[i].load()
+            this.monsters[i].initialize()
+            this.monsters[i].component.position = this.monstersPos[i]
+            this.rootScene.attach(this.monsters[i])
+        }
+    }
+    //#endregion
     load() 
     {
         // console.log(this.viewCenter)
+        Framework.Game.initialize()
         this.loadBackground()
         this.loadHero()
         this.loadGround()
@@ -282,6 +305,8 @@ class Level1 extends Framework.Level
         // this.audio.play({name: 'bgm1', loop: true})
         // 載入 collision
         this.matter.addEventListener("collisionStart",(this.collisionBlocks))
+        console.log("Level1")
+        console.log(Framework.Game._levels)
     }
 
     initialize() 
@@ -291,45 +316,45 @@ class Level1 extends Framework.Level
 
     update() 
     {
-        // console.log(this.mapfloors[0].component.position)
-        // console.log(this.mapfloors[0].component.sprite.position)
+        // console.log(this.floors[0].component.position)
+        // console.log(this.floors[0].component.sprite.position)
         super.update()
-        // console.log(this.mapfloors[1].component.position)
+        // console.log(this.floors[1].component.position)
         
         
         //#region map move
         if (this.hero.component.position.x >= 500)
         {
             // move floors
-            for	(var i = 0; i<this.mapfloors.length; i++)
+            for	(var i = 0; i<this.floors.length; i++)
             {
-                this.mapfloors[i].component.position = 
+                this.floors[i].component.position = 
                 {
-                    x: this.mapfloorsValue[i].x - this.camera.component.position.x + 500 + this.mapfloors[i].component.sprite.width / 2,
-                    y: this.mapfloorsValue[i].y + this.mapfloors[i].component.sprite.height / 2
+                    x: this.floorsPos[i].x - this.camera.component.position.x + 500 + this.floors[i].component.sprite.width / 2,
+                    y: this.floorsPos[i].y + this.floors[i].component.sprite.height / 2
                 }   
             }
             // move princess
             this.princess.component.position.x = this.princessPos.x - this.camera.component.position.x + 500 + this.princess.component.sprite.width/2
             
             // move coinBlock
-            for	(var i = 0; i<this.blockCValue.length; i++)
+            for	(var i = 0; i<this.coinsPos.length; i++)
             {
-                this.blockCs[i].component.position = 
+                this.coins[i].component.position = 
                 {
-                    x: this.blockCValue[i].x - this.camera.component.position.x + 500 + this.blockCs[i].component.sprite.width / 2,
-                    y: this.blockCValue[i].y + this.blockCs[i].component.sprite.height / 2
+                    x: this.coinsPos[i].x - this.camera.component.position.x + 500 + this.coins[i].component.sprite.width / 2,
+                    y: this.coinsPos[i].y + this.coins[i].component.sprite.height / 2
                 }
 
             }
 
             // move walls
-            for	(var i = 0; i<this.mapWalls.length; i++)
+            for	(var i = 0; i<this.walls.length; i++)
             {
-                this.mapWalls[i].component.position = 
+                this.walls[i].component.position = 
                 {
-                    x: this.mapWallsValue[i].x - this.camera.component.position.x + 500 + this.mapWalls[i].component.sprite.width / 2,
-                    y: this.mapWallsValue[i].y + this.mapWalls[i].component.sprite.height / 2
+                    x: this.wallsPos[i].x - this.camera.component.position.x + 500 + this.walls[i].component.sprite.width / 2,
+                    y: this.wallsPos[i].y + this.walls[i].component.sprite.height / 2
                 }
             }
         }
@@ -342,7 +367,7 @@ class Level1 extends Framework.Level
         // this.map1.update()
         this.rootScene.update()
         this.camera.update()
-        // console.log(this.mapfloors[0].component.position)
+        // console.log(this.floors[0].component.position)
         // console.log(this.tempx)
         
         
@@ -355,7 +380,6 @@ class Level1 extends Framework.Level
             }
             this.princess.update()
             // console.log(this.princess.component.body.angle)
-            console.log(this.score)
         }
 
 
@@ -458,14 +482,14 @@ class Level1 extends Framework.Level
             
             var pair = pairs[i];
 
-            for (var k = 0; k < this.blockCValue.length; k++)
+            for (var k = 0; k < this.coinsPos.length; k++)
             {
-                if (pair.bodyA === this.blockCs[k].component.body && pair.bodyB === this.hero.component.body) 
+                if (pair.bodyA === this.coins[k].component.body && pair.bodyB === this.hero.component.body) 
                 {
                     // console.log("collision1")
                     this.score += 1
-                    this.blockCs[k].pic = null
-                    this.matter.removeBody(this.blockCs[k].component.body)
+                    this.coins[k].pic = null
+                    this.matter.removeBody(this.coins[k].component.body)
                     // this.audio.play({name: 'coin'})
                 } 
             }
@@ -476,7 +500,14 @@ class Level1 extends Framework.Level
         {
             console.log("The End")
             // this.audio.play({name: 'haha'})
-            // Framework.Game.goToNextLevel()
+            // Framework.Game.pause()
+            Framework.Game.item1 = true
+
+            // 重置關卡
+            Framework.Game._levels.splice(1,1,{name : "level1", level : new Level1()})
+            // Framework.Game._levels[1] = {name : "leve1", level : new Level1()}
+            // Framework.Game.addNewLevel({level1: new Level1()});
+            Framework.Game.goToLevel("chooseLevel")
         }
     }
 };

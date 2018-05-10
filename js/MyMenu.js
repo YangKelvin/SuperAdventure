@@ -27,8 +27,6 @@ var MyMenu = Framework.exClass(Framework.GameMainMenu,
             this.menu = new Framework.Sprite(define.imagePath + 'menuBackground.jpg')
             this.startSign = new StartSign()
             this.startSign.load(Framework.Game.getCanvasWidth() / 2 - 200, Framework.Game.getCanvasHeight() / 2 - 150)
-
-            
         },
 
         initialize: function () {

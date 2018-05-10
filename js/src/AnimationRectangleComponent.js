@@ -44,7 +44,7 @@ Framework.AnimationRectangleComponent = class AnimationRectangleComponent extend
         } 
         else if(this.hasFirstUpdate) 
         {
-            console.log(this.sprite.position,this.body.position)
+            // console.log(this.sprite.position,this.body.position)
             this.sprite.position = 
             {
                 x: this.body.position.x,
