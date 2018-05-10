@@ -302,7 +302,6 @@ class Level1 extends Framework.Level
         this.loadPrincess()
         this.loadCamera()
         // this.loadAudio()
-        // this.loadMap1()
         // this.audio.play({name: 'bgm1', loop: true})
         // 載入 collision
         this.matter.addEventListener("collisionStart",(this.collisionBlocks))
@@ -387,7 +386,7 @@ class Level1 extends Framework.Level
 
         //#endregion
 
-        console.log(this.isPressWalk, this.walkDirection)
+        // console.log(this.isPressWalk, this.walkDirection)
         //#region hero move
         if (this.isPressWalk === true || this.isJump === true)
         {
@@ -399,9 +398,11 @@ class Level1 extends Framework.Level
             {
                 this.camera.goLeft()
             }
-            if (this.isJump === true)   // jump
+            if (this.isJump === true && this.hero.isOnFloor === true)   // jump
             {
+                console.log("JJJ")
                 this.hero.jump()
+                this.hero.isOnFloor = false
             }
         }
         if (this.camera.component.position.x <= 500)
@@ -421,6 +422,7 @@ class Level1 extends Framework.Level
 
         // console.log(this.princess.component.position, this.princess.component.sprite.position)
         // console.log(this.floors[0].component.position, this.floors[0].component.sprite.position)
+        // console.log(this.hero.isOnFloor)
     }
     draw(parentCtx) 
     {
@@ -444,7 +446,6 @@ class Level1 extends Framework.Level
             // this.isPressWalk = true
             // this.walkDirection = 3
             this.isJump = true
-            
         }
         if(e.key === 'A') 
         {
@@ -481,10 +482,31 @@ class Level1 extends Framework.Level
         // console.log(this)
         
         var pairs = event.pairs;
-
+        // console.lodg(pairs)
+        // collision between hero and floor
         for (var i = 0, j = pairs.length; i != j; ++i) 
         {
-            
+            var pair = pairs[i];
+
+            for (var k = 0; k < this.floorsPos.length; k++)
+            {
+                if (pair.bodyA === this.floors[k].component.body && pair.bodyB === this.hero.component.body) 
+                {
+                    // console.log("collision1")
+                    // this.audio.play({name: 'coin'})
+                    this.hero.isOnFloor = true
+                } 
+                else if (pair.bodyA === this.hero.component.body || pair.bodyB === this.hero.component.body)
+                {
+                    // console.log("No Collision")
+                }
+            }
+        }
+
+
+        // collision between hero and coin
+        for (var i = 0, j = pairs.length; i != j; ++i) 
+        {
             var pair = pairs[i];
 
             for (var k = 0; k < this.coinsPos.length; k++)

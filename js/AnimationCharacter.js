@@ -78,7 +78,7 @@ class AnimationCharacter
     {
         this.matter.setBody(this.component.body, 
                             "velocity", 
-                            {x: this.component.body.velocity.x, y:-10})
+                            {x: this.component.body.velocity.x, y:-20})
     }
 
     //animation
