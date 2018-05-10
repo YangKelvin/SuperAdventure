@@ -30,12 +30,20 @@ class MapTile
             density: 0.002,
             isStatic: true
         }
+        this.coinOps = 
+        {
+            label: 'Coin', 
+            friction: 0.05, 
+            density:0.002, 
+            isStatic:true, 
+            isSensor:true
+        }
     }
     initialize()
     {
         if(this.tileType === 1)
         {
-            console.log("This is Floor")
+            // console.log("This is Floor")
             this.mapTile = new floor('images/grass.png', this.matter
                                                     , this.floorOps)
             this.mapTile.load()
@@ -45,6 +53,14 @@ class MapTile
         {
             this.mapTile = new floor('images/brickWall.png', this.matter
                                                    , this.wallOps)
+            this.mapTile.load()
+            this.mapTile.initialize()
+        }
+        else if(this.tileType === 3)
+        {
+            this.mapTile = new block('images/coin.png', 
+                                            this.matter,
+                                            this.coinOps)
             this.mapTile.load()
             this.mapTile.initialize()
         }
