@@ -10,7 +10,7 @@ class Level1 extends Framework.Level
         // hero & coin 的碰撞 和 hero & princess 的碰撞
         this.collisionBlocks = this.collisionStart.bind(this)
 
-        this.isPressWalk = false
+        this.pressWalk = false
         this.walkDirection = 0
         this.score = 0
         this.isPrincess = false
@@ -311,7 +311,6 @@ class Level1 extends Framework.Level
 
     initialize() 
     {
-        
     }
 
     update() 
@@ -357,6 +356,25 @@ class Level1 extends Framework.Level
                     y: this.wallsPos[i].y + this.walls[i].component.sprite.height / 2
                 }
             }
+
+            // move princess
+            this.map1.princess.component.position.x = this.map1.princessPos.x - this.camera.component.position.x + 500 + this.map1.princess.component.sprite.width/2
+            // this.princess.component.position = 
+            // {
+            //     x: this.princessPos.x - this.camera.component.position.x + 500 + this.princess.component.sprite.width / 2,
+            //     y: this.princessPos.y + this.princess.component.sprite.height / 2
+            // }
+
+            // move coinBlock
+            // for	(var i = 0; i<this.blockCValue.length; i++)
+            // {
+            //     this.blockCs[i].component.position = 
+            //     {
+            //         x: this.blockCValue[i].x - this.camera.component.position.x + 500 + this.blockCs[i].component.sprite.width / 2,
+            //         y: this.blockCValue[i].y + this.blockCs[i].component.sprite.height / 2
+            //     }
+
+            // }
         }
         //#endregion update
 
@@ -392,16 +410,14 @@ class Level1 extends Framework.Level
 
 
         //#region hero move
-        if (this.isPressWalk === true)
+        if (this.pressWalk === true)
         {
             if (this.walkDirection === 1)   // right
             {
-                // this.hero.goRight()
                 this.camera.goRight()
             }
             if (this.walkDirection === 2 && this.camera.component.position.x > 200)   // left
             {
-                // this.hero.goLeft()
                 this.camera.goLeft()
             }
             if (this.walkDirection === 3)   // jump
@@ -446,14 +462,14 @@ class Level1 extends Framework.Level
         if(e.key === 'A') 
         {
             // left
-            this.isPressWalk = true
+            this.pressWalk = true
             this.walkDirection = 2
             this.hero.animationGoLeft()
         }
         if(e.key === 'D') 
         {
             // right  
-            this.isPressWalk = true
+            this.pressWalk = true
             this.walkDirection = 1
             this.hero.animationGoRight()
         }
@@ -469,14 +485,12 @@ class Level1 extends Framework.Level
         }
     }
 
-    collisionStart(event)
+    collisionStartBetweenQ_hero(event)
     {
         // console.log(this)
         
         var pairs = event.pairs;
 
-
-        // collision between blockCoin and hero
         for (var i = 0, j = pairs.length; i != j; ++i) 
         {
             

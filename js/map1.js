@@ -54,40 +54,6 @@ class Map1
             y: Framework.Game.getCanvasHeight() / 2
         }
         this.background.scale = 2;
-        //this.rootScene.attach(this.background)
-    }
-    loadHero()
-    {
-        //new animation
-        this.heroPos = {x:200, y:600}
-
-        // animationSprite 的 options
-        this.animationOps = 
-        {
-            position: this.heroPos, 
-            goRight: {from: 4, to: 7}, 
-            goLeft: {from:8, to: 11}
-        }
-
-        // heroComponent 的 options
-        this.heroOps = 
-        {
-            label: 'hero', 
-            friction: 0.05, 
-            density:0.002
-        }
-
-        this.hero = new AnimationCharacter('images/hero.png', 
-                                            this.animationOps, 
-                                            this.matter, 
-                                            this.heroPos, 
-                                            this.heroOps)
-
-        this.hero.load()
-        this.hero.initialize()
-
-        this.hero.animationStand()
-        //this.rootScene.attach(this.hero.sprite)
     }
     loadPrincess()
     {
@@ -112,36 +78,49 @@ class Map1
     {
         this.loadTextbox()
         this.loadBackground()
-        //this.loadHero()
         this.loadPrincess()
     }
     
     init()
     {   
         //方塊矩陣
-        // this.tileArray = []
-        // for(var i=0; i<this.mapArray.length; i++)
-        // {
-        //     var line = this.mapArray[i];
-        //     for(var j=0; j<line.length; j++)
-        //     {
-        //         var tile = new MapTile();
-        //         tile.setPosition({x:j,y:i})
-        //         tile._tileType = line[j];
-        //         this.tileArray.push(tile);
-        //     }
-        // }
+        this.floorsArray = []
+        this.wallsArray = []
+        this.coinsArray = []
+        for(var i=0; i<this.mapArray.length; i++)
+        {
+            var line = this.mapArray[i];
+            for(var j=0; j<line.length; j++)
+            {
+                if(line[j] != 0)
+                {
+                    var tile = new MapTile(this.matter, line[j])
+                    tile.load()
+                    tile.initialize()
+                    tile.setPosition({x:j,y:i})
+                    if(tile.tileType === 1)
+                    {
+                        // console.log("tileType = 1")
+                        this.floorsArray.push(tile)
+                    }
+                    else if(tile.tileType === 2)
+                    {
+                        // console.log("tileType = 2")
+                        this.wallsArray.push(tile)
+                    }
+                    else if(tile.tileType === 3)
+                    {
+                        console.log("tileType = 3")
+                        this.coinsArray.push(tile)
+                    }
+                }
+            }
+        }
     }
 
-    update()
+    update(heroPosition_x, cameraPosition_x)
     {
-        //super.update()
-
-        //textBox
-        //this.heroInfoX._value = Math.round(this.hero.component.position.x)
-        //this.heroInfoY._value = Math.round(this.hero.component.position.y)
-
-        //this.hero.update()
+        //檢查金幣(公主是否出現)
         if (this.score === 3)
         {
             if(!(this.isPrincess))
@@ -151,15 +130,56 @@ class Map1
             this.princess.update()
         }
 
+        // this.floorsArray = []
+        // this.wallsArray = []
+
+        //更新地圖方塊
+        for	(var i = 0; i<this.floorsArray.length; i++)
+        {
+            this.floorsArray[i].update(heroPosition_x, cameraPosition_x)
+        }
+        for	(var i = 0; i<this.wallsArray.length; i++)
+        {
+            this.wallsArray[i].update(heroPosition_x, cameraPosition_x)
+        }
+        for	(var i = 0; i<this.coinsArray.length; i++)
+        {
+            this.coinsArray[i].update(heroPosition_x, cameraPosition_x)
+        }
+        
+
+        // for	(var i = 0; i<this.floorsArray.length; i++)
+        // {
+        //     this.floorsArray[i].update(cameraPosition_x)
+        // }
+        // for	(var i = 0; i<this.wallsArray.length; i++)
+        // {
+        //     this.wallsArray[i].update(cameraPosition_x)
+        // }
+
+        //更新地圖x,y軸資訊和金幣數
         this.mapInfoL._value = this.mapLeft
         this.mapInfoR._value = this.mapRight
         this.ScoreInfo._value = this.score
-        //this.camera.update()
 
+        
     }
     draw(Ctx)
     {
         this.background.draw(Ctx)
+        
+        for(var i=0; i<this.floorsArray.length; i++)
+        {
+            this.floorsArray[i].draw()
+        }
+        for(var i=0; i<this.wallsArray.length; i++)
+        {
+            this.wallsArray[i].draw()
+        }
+        for(var i=0; i<this.coinsArray.length; i++)
+        {
+            this.coinsArray[i].draw()
+        }
 
         this.heroInfoX.draw(Ctx)
         this.heroInfoY.draw(Ctx)
@@ -170,6 +190,5 @@ class Map1
         if(this.score ===3){
             this.princess.draw(Ctx)
         }
-        //this.hero.sprite.draw(Ctx)
     }
 }
