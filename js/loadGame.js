@@ -44,7 +44,7 @@ var loadGameEnd;
         { src: 'js/define.js', lookFor: 'define' },
         { src: 'js/StartSign.js', lookFor: 'StartSign' },
         { src: 'js/myMenu.js', lookFor: 'MyMenu' },
-        // { src: 'js/Bag.js', lookFor: 'bag' },
+        { src: 'js/Bag.js', lookFor: 'Bag' },
         { src: 'js/ChooseLevel.js', lookFor: 'ChooseLevel' },
         { src: 'js/Level1.js', lookFor: 'Level1' },
         { src: 'js/EndLevel.js', lookFor: 'EndLevel' },

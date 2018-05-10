@@ -39,12 +39,13 @@ var ChooseLevel = Framework.exClass(Framework.GameMainMenu,
             };
             this.menu.scale = 1.5;
 
+            //設定背包圖示位置
             this.bag.position =
             {
                 x: Framework.Game.getCanvasWidth() * 14 / 15,
                 y: Framework.Game.getCanvasHeight() / 5
             }
-            this.bag.scale = 0.4;
+            this.bag.scale = 0.2
 
             this.rootScene.attach(this.menu);
             this.rootScene.attach(this.bag);
@@ -141,13 +142,14 @@ var ChooseLevel = Framework.exClass(Framework.GameMainMenu,
                 alert("想玩？沒門！ 因為還沒有這一關")
             }
             // 打開背包
-            /*if (e.x >= 1420 && 
-                e.x <= 1560 && 
-                e.y >= 105 && 
-                e.y <= 250)
+            if (e.x >= 1437 && 
+                e.x <= 1545 && 
+                e.y >= 80 && 
+                e.y <= 245)
             {
-                Framework.Game.goToLevel("bag");
-            }*/
+                Framework.Game.goToLevel("bag")
+                console.log("Open Bag")
+            }
         },
 
         mousemove: function (e) 
