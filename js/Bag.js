@@ -22,6 +22,6 @@ class Bag extends Framework.GameMainMenu
 
     draw(parentCtx)
     {
-        this.BackGround.sprite.draw(parentCtx)
+        // this.BackGround.sprite.draw(parentCtx)
     }
 }
