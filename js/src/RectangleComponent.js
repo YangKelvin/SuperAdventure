@@ -56,6 +56,7 @@ Framework.RectangleComponent = class RectangleComponent extends Framework.Compon
                 y: this.body.position.y - this.sprite.texture.height / 2
             }
             this.sprite.rotation = this.body.angle / Math.PI * 180
+            this.setBody('angle', 0)
             // console.log(this.body.angle)
             // console.log("B")
 		}

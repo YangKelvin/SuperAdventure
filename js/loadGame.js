@@ -51,7 +51,6 @@ var loadGameEnd;
         { src: 'js/Character.js', lookFor: 'Character' },
         { src: 'js/block.js', lookFor: 'block' },
         { src: 'js/Camera.js', lookFor: 'Camera' },
-        { src: 'js/floor.js', lookFor: 'floor' },
         { src: 'js/textbox.js', lookFor: 'Textbox' },
         { src: 'js/AnimationCharacter.js', lookFor: 'AnimationCharacter' },
         { src: 'js/score.js', lookFor: 'Score' },

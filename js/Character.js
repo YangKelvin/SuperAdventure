@@ -1,11 +1,10 @@
 class Character
 {
-    constructor(_url, _matter, _characterOps, _characterPos)
+    constructor(_url, _matter, _characterOps)
     {
         this.component
         this.matter = _matter
         this.url = _url
-        this.characterPos = _characterPos
         this.characterOps = _characterOps
         this.playerOnFloor = false
         this.isWalking = 0
@@ -14,23 +13,20 @@ class Character
     load()
     {
         this.pic = new Framework.Sprite(this.url)
-
-        //createComponent
-        this.component = new Framework.RectangleComponent(this.matter, 
-                                                            this.pic, 
-                                                            this.characterOps)   
+        this.component = new Framework.RectangleComponent(
+            this.matter, 
+            this.pic, 
+            this.characterOps)   
     }
     initialize() 
     {
-        // this.component.scale = 0.5
-        this.component.position = this.characterPos
+        this.component.scale = 1
     }
     update() 
     {
-        // super.update()
         // lock rotation
         // this.component.setBody('angularVelocity', 0)
-        this.component.setBody('angle', 0)
+        // this.component.setBody('angle', 0)
         
         this.component.update()
     }

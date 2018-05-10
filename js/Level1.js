@@ -10,7 +10,8 @@ class Level1 extends Framework.Level
         // hero & coin 的碰撞 和 hero & princess 的碰撞
         this.collisionBlocks = this.collisionStart.bind(this)
 
-        this.pressWalk = false
+        this.isPressWalk = false
+        this.isJump = false
         this.walkDirection = 0
         this.score = 0
         this.isPrincess = false
@@ -99,10 +100,10 @@ class Level1 extends Framework.Level
 
         this.princess =new Character('images/princess.png', 
                                         this.matter,
-                                        this.princessOps,
-                                        this.princessPos)
+                                        this.princessOps)
         this.princess.load()
         this.princess.initialize()
+        this.princess.component.position = this.princessPos
     }
     loadGround()
     {
@@ -173,7 +174,7 @@ class Level1 extends Framework.Level
         this.floors = new Array()
         for (var i = 0; i < this.floorsPos.length; i++)
         {
-            this.floors[i] = new floor('images/grass.png', 
+            this.floors[i] = new block('images/grass.png', 
                                             this.matter, 
                                             this.floorOps)
             this.floors[i].load()
@@ -206,7 +207,7 @@ class Level1 extends Framework.Level
         this.walls = new Array()
         for (var i = 0; i < this.wallsPos.length; i++)
         {
-            this.walls[i] = new floor('images/brickWall.png',
+            this.walls[i] = new block('images/brickWall.png',
                                             this.matter,
                                             this.wallOps)
             this.walls[i].load()
@@ -263,31 +264,31 @@ class Level1 extends Framework.Level
 
     loadMonster()
     {
-        this.monstersPos = 
-        [
+        // this.monstersPos = 
+        // [
 
-        ]
+        // ]
 
-        this.monsterOps = 
-        {
-            label: 'Monster', 
-            friction: 0.05, 
-            density:0.002, 
-            isSensor:true
-        }
+        // this.monsterOps = 
+        // {
+        //     label: 'Monster', 
+        //     friction: 0.05, 
+        //     density:0.002, 
+        //     isSensor:true
+        // }
 
-        this.monsters = new Array()
-        for (var i = 0; i < this.monstersPos.length; i++)
-        {
-            this.monsters[i] = new Character('images/monster.png',
-                                                this.matter,
-                                                this.monsterOps,
-                                                this.monstersPos)
-            this.monsters[i].load()
-            this.monsters[i].initialize()
-            this.monsters[i].component.position = this.monstersPos[i]
-            this.rootScene.attach(this.monsters[i])
-        }
+        // this.monsters = new Array()
+        // for (var i = 0; i < this.monstersPos.length; i++)
+        // {
+        //     this.monsters[i] = new Character('images/monster.png',
+        //                                         this.matter,
+        //                                         this.monsterOps,
+        //                                         this.monstersPos)
+        //     this.monsters[i].load()
+        //     this.monsters[i].initialize()
+        //     this.monsters[i].component.position = this.monstersPos[i]
+        //     this.rootScene.attach(this.monsters[i])
+        // }
     }
     //#endregion
     load() 
@@ -315,11 +316,7 @@ class Level1 extends Framework.Level
 
     update() 
     {
-        // console.log(this.floors[0].component.position)
-        // console.log(this.floors[0].component.sprite.position)
-        super.update()
-        // console.log(this.floors[1].component.position)
-        
+        // super.update()
         
         //#region map move
         if (this.hero.component.position.x >= 500)
@@ -333,9 +330,15 @@ class Level1 extends Framework.Level
                     y: this.floorsPos[i].y + this.floors[i].component.sprite.height / 2
                 }   
             }
+
             // move princess
-            this.princess.component.position.x = this.princessPos.x - this.camera.component.position.x + 500 + this.princess.component.sprite.width/2
-            
+            // this.princess.component.position.x = this.princessPos.x - this.camera.component.position.x + 500 + this.princess.component.sprite.width/2
+            this.princess.component.position = 
+            {
+                x: this.princessPos.x - this.camera.component.position.x + 500 + this.princess.component.sprite.width / 2,
+                y: this.princess.component.position.y
+            }
+
             // move coinBlock
             for	(var i = 0; i<this.coinsPos.length; i++)
             {
@@ -344,7 +347,6 @@ class Level1 extends Framework.Level
                     x: this.coinsPos[i].x - this.camera.component.position.x + 500 + this.coins[i].component.sprite.width / 2,
                     y: this.coinsPos[i].y + this.coins[i].component.sprite.height / 2
                 }
-
             }
 
             // move walls
@@ -356,39 +358,10 @@ class Level1 extends Framework.Level
                     y: this.wallsPos[i].y + this.walls[i].component.sprite.height / 2
                 }
             }
-
-            // move princess
-            this.princess.component.position.x = this.princessPos.x - this.camera.component.position.x + 500 + this.princess.component.sprite.width/2
-            // this.princess.component.position = 
-            // {
-            //     x: this.princessPos.x - this.camera.component.position.x + 500 + this.princess.component.sprite.width / 2,
-            //     y: this.princessPos.y + this.princess.component.sprite.height / 2
-            // }
-
-            // move coinBlock
-            // for	(var i = 0; i<this.blockCValue.length; i++)
-            // {
-            //     this.blockCs[i].component.position = 
-            //     {
-            //         x: this.blockCValue[i].x - this.camera.component.position.x + 500 + this.blockCs[i].component.sprite.width / 2,
-            //         y: this.blockCValue[i].y + this.blockCs[i].component.sprite.height / 2
-            //     }
-
-            // }
         }
         //#endregion update
 
-        //#region update
-        
-        this.hero.update()
-        this.matter.update()
-        // this.map1.update()
-        this.rootScene.update()
-        this.camera.update()
-        // console.log(this.floors[0].component.position)
-        // console.log(this.tempx)
-        
-        
+
         if (this.score <=3)
         {
             if(!(this.isPrincess))
@@ -397,10 +370,16 @@ class Level1 extends Framework.Level
                 this.isPrincess = true
             }
             this.princess.update()
-            // console.log(this.princess.component.body.angle)
         }
 
-
+        //#region update
+        
+        this.hero.update()
+        this.matter.update()
+        this.rootScene.update() // 對齊 component & sprite
+        this.camera.update()
+        
+        
         // textBox
         // this.map1.heroInfoX._value = Math.round(this.hero.component.position.x)
         // this.map1.heroInfoY._value = Math.round(this.hero.component.position.y)
@@ -408,9 +387,9 @@ class Level1 extends Framework.Level
 
         //#endregion
 
-
+        console.log(this.isPressWalk, this.walkDirection)
         //#region hero move
-        if (this.pressWalk === true)
+        if (this.isPressWalk === true || this.isJump === true)
         {
             if (this.walkDirection === 1)   // right
             {
@@ -420,7 +399,7 @@ class Level1 extends Framework.Level
             {
                 this.camera.goLeft()
             }
-            if (this.walkDirection === 3)   // jump
+            if (this.isJump === true)   // jump
             {
                 this.hero.jump()
             }
@@ -439,6 +418,9 @@ class Level1 extends Framework.Level
             this.camera.component.position.x = 200
         }
         //#endregion
+
+        // console.log(this.princess.component.position, this.princess.component.sprite.position)
+        // console.log(this.floors[0].component.position, this.floors[0].component.sprite.position)
     }
     draw(parentCtx) 
     {
@@ -456,32 +438,41 @@ class Level1 extends Framework.Level
         {
             // jump
             // this.audio.play({name: 'jump'})
-            this.hero.isWalking = 3
+            // this.hero.isWalking = 3
+
+            console.log("W")
+            // this.isPressWalk = true
+            // this.walkDirection = 3
+            this.isJump = true
             
         }
         if(e.key === 'A') 
         {
             // left
-            this.pressWalk = true
+            this.isPressWalk = true
             this.walkDirection = 2
             this.hero.animationGoLeft()
         }
         if(e.key === 'D') 
         {
             // right  
-            this.pressWalk = true
+            this.isPressWalk = true
             this.walkDirection = 1
             this.hero.animationGoRight()
         }
     }
     keyup(e, list)
     {
-        if(e.key === 'D' || e.key === 'A' || e.key === 'W')
+        if(e.key === 'D' || e.key === 'A')
         {
             this.isPressWalk = false
             this.hero.isWalking = 0
             this.walkDirection = 0
             this.hero.animationStand()
+        }
+        if (e.key === 'W')
+        {
+            this.isJump = false
         }
     }
 

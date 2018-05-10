@@ -2,10 +2,10 @@ class block
 {
     constructor(_url, _matter, _blockOps)
     {
+        this.component
         this.matter = _matter
         this.url = _url
         this.blockOps = _blockOps
-        this.component
     }
 
     load()
