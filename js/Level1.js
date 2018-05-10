@@ -3,16 +3,17 @@ class Level1 extends Framework.Level
     constructor()
     {
         super() // 繼承
-        this.matter = new Framework.Matter() // 宣告this.matter 並建立物理世界MatterUtil.js
+
+        // 宣告this.matter 並建立物理世界MatterUtil.js
+        this.matter = new Framework.Matter() 
         
         // hero & coin 的碰撞 和 hero & princess 的碰撞
         this.collisionBlocks = this.collisionStart.bind(this)
-        // this.collisionPrincess = this.collisionStartBetweenPrincess_Hero.bind(this)
 
         this.isPressWalk = false
         this.walkDirection = 0
-
-        //this.isPrincess = false
+        this.score = 0
+        this.isPrincess = false
     }
 
     loadCamera()
@@ -38,9 +39,9 @@ class Level1 extends Framework.Level
         this.camera.initialize()
         this.rootScene.attach(this.camera.pic)
     }
-    /*loadBackground()
+    loadBackground()
     {
-        this.background = new Framework.Sprite(define.imagePath + 'iWantToPlayAGame.jpg');
+        this.background = new Framework.Sprite(define.imagePath + 'background.jpg');
         this.background.position = 
         {
             x: Framework.Game.getCanvasWidth() / 2,
@@ -48,7 +49,7 @@ class Level1 extends Framework.Level
         }
         this.background.scale = 2;
         this.rootScene.attach(this.background)
-    }*/
+    }
     loadHero()
     {
         //new animation
@@ -82,7 +83,7 @@ class Level1 extends Framework.Level
         this.hero.animationStand()
         this.rootScene.attach(this.hero.sprite)
     }
-    /*loadPrincess()
+    loadPrincess()
     {
         this.princessPos = {x:2200, y:100}
         
@@ -100,7 +101,7 @@ class Level1 extends Framework.Level
                                         this.princessPos)
         this.princess.load()
         this.princess.initialize()
-    }*/
+    }
     loadGround()
     {
         // floor
@@ -261,46 +262,26 @@ class Level1 extends Framework.Level
             haha: {wav: 'music/haha.wav'}
         })
     }
-    loadMap1()
+
+    loadMonster()
     {
-        this.mapArray = []
-        this.map1 = new Map1(this.mapArray, this.matter)
-        this.map1.load()
-    }
-    loadMap()
-    {
-        //0 空地  1牆壁  2地板 
-        // this.mapArray = []
-        // this.mapArray.push([1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1]); //1
-        // this.mapArray.push([1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1]); //2
-        // this.mapArray.push([1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1]); //3
-        // this.mapArray.push([1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1]); //4
-        // this.mapArray.push([1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1]); //5
-        // this.mapArray.push([1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1]); //6
-        // this.mapArray.push([1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1]); //7
-        // this.mapArray.push([1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1]); //8
-        // this.mapArray.push([1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1]); //9
-        // this.mapArray.push([1,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,1]); //10
-        // this.mapArray.push([1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1]); //11
-        // this.mapArray.push([1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1]); //12
-        // this.map = new Map1(this.mapArray, this.matter)
+        
     }
 
     load() 
     {
         // console.log(this.viewCenter)
-        //this.loadBackground()
+        this.loadBackground()
         this.loadHero()
         this.loadGround()
         this.loadCoin()
-        //this.loadPrincess()
+        this.loadPrincess()
         this.loadCamera()
-        this.loadAudio()
-        this.loadMap1()
-        this.audio.play({name: 'bgm1', loop: true})
+        // this.loadAudio()
+        // this.loadMap1()
+        // this.audio.play({name: 'bgm1', loop: true})
         // 載入 collision
         this.matter.addEventListener("collisionStart",(this.collisionBlocks))
-        // this.matter.addEventListener("collisionStart",(this.collisionPrincess))
     }
 
     initialize() 
@@ -329,7 +310,7 @@ class Level1 extends Framework.Level
                 }   
             }
             // move princess
-            this.map1.princess.component.position.x = this.map1.princessPos.x - this.camera.component.position.x + 500 + this.map1.princess.component.sprite.width/2
+            this.princess.component.position.x = this.princessPos.x - this.camera.component.position.x + 500 + this.princess.component.sprite.width/2
             
             // move coinBlock
             for	(var i = 0; i<this.blockCValue.length; i++)
@@ -352,34 +333,36 @@ class Level1 extends Framework.Level
                 }
             }
         }
-        //#endregion
+        //#endregion update
 
         //#region update
         
         this.hero.update()
         this.matter.update()
-        this.map1.update()
+        // this.map1.update()
         this.rootScene.update()
         this.camera.update()
         // console.log(this.mapfloors[0].component.position)
         // console.log(this.tempx)
         
         
-        /*if (this.map1.score === 3)
+        if (this.score <=3)
         {
-            if(!(this.map1.isPrincess))
+            if(!(this.isPrincess))
             {
                 this.rootScene.attach(this.princess.pic)
                 this.isPrincess = true
             }
             this.princess.update()
-        }*/
+            // console.log(this.princess.component.body.angle)
+            console.log(this.score)
+        }
 
 
         // textBox
-        this.map1.heroInfoX._value = Math.round(this.hero.component.position.x)
-        this.map1.heroInfoY._value = Math.round(this.hero.component.position.y)
-        this.map1.mapInfoL._value = this.camera.component.position.x
+        // this.map1.heroInfoX._value = Math.round(this.hero.component.position.x)
+        // this.map1.heroInfoY._value = Math.round(this.hero.component.position.y)
+        // this.map1.mapInfoL._value = this.camera.component.position.x
 
         //#endregion
 
@@ -399,7 +382,7 @@ class Level1 extends Framework.Level
             }
             if (this.walkDirection === 3)   // jump
             {
-                this.map1.hero.jump()
+                this.hero.jump()
             }
         }
         if (this.camera.component.position.x <= 500)
@@ -419,27 +402,7 @@ class Level1 extends Framework.Level
     }
     draw(parentCtx) 
     {
-        this.map1.draw(parentCtx)
-        this.hero.sprite.draw(parentCtx)
-        for (var i = 0; i < this.mapfloorsValue.length; i++)
-        {
-            this.mapfloors[i].draw(parentCtx)
-        }
-        /*if(this.map1.score ===3){
-            this.princess.draw(parentCtx)
-        }*/
-        for (var i = 0; i < this.mapWallsValue.length; i++)
-        {
-            this.mapWalls[i].draw(parentCtx)
-        }
-        for (var i = 0; i < this.mapWallsValue.length; i++)
-        {
-            this.mapWalls[i].draw(parentCtx)
-        }
-        for (var i = 0; i < this.blockCValue.length; i++)
-        {
-            this.blockCs[i].draw(parentCtx)
-        }
+        
     }
 
     keydown(e)
@@ -449,10 +412,10 @@ class Level1 extends Framework.Level
             this.matter.toggleRenderWireframes()   
         }
 
-        if(e.key === 'W' && this.hero.component.position.y > 670) 
+        if(e.key === 'W') 
         {
             // jump
-            this.audio.play({name: 'jump'})
+            // this.audio.play({name: 'jump'})
             this.hero.isWalking = 3
             
         }
@@ -476,7 +439,8 @@ class Level1 extends Framework.Level
         if(e.key === 'D' || e.key === 'A' || e.key === 'W')
         {
             this.isPressWalk = false
-            this.hero.isWalking = 0;
+            this.hero.isWalking = 0
+            this.walkDirection = 0
             this.hero.animationStand()
         }
     }
@@ -499,21 +463,19 @@ class Level1 extends Framework.Level
                 if (pair.bodyA === this.blockCs[k].component.body && pair.bodyB === this.hero.component.body) 
                 {
                     // console.log("collision1")
-                    this.map1.score += 1
+                    this.score += 1
                     this.blockCs[k].pic = null
                     this.matter.removeBody(this.blockCs[k].component.body)
-                    this.score += 1
-                    this.audio.play({name: 'coin'})
-                    
+                    // this.audio.play({name: 'coin'})
                 } 
             }
         }
         
         // collision between hero and princess
-        if (pair.bodyA === this.hero.component.body && pair.bodyB === this.map1.princess.component.body) 
+        if (pair.bodyA === this.hero.component.body && pair.bodyB === this.princess.component.body) 
         {
             console.log("The End")
-            this.audio.play({name: 'haha'})
+            // this.audio.play({name: 'haha'})
             // Framework.Game.goToNextLevel()
         }
     }

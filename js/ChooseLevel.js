@@ -26,7 +26,9 @@ var ChooseLevel = Framework.exClass(Framework.GameMainMenu,
         load: function () {
             this.menu = new Framework.Sprite(define.imagePath + 'chooseLevel_background2.png')
             
-            
+            this.item1 = false
+            this.item2 = false
+            this.item3 = false
         },
 
         initialize: function () {
