@@ -182,7 +182,7 @@ class Level1 extends Framework.Level
         }
 
     }*/
-    loadCoin()
+    /*loadCoin()
     {
         this.blockCValue =
         [
@@ -218,7 +218,7 @@ class Level1 extends Framework.Level
 
         // console.log(this.blockCs[0].component.position)
         // console.log(this.blockCs[0].component.sprite.position)
-    }    
+    }*/ 
     loadAudio()
     {
         this.audio = new Framework.Audio(
@@ -240,11 +240,11 @@ class Level1 extends Framework.Level
         //0 空地  1地板  2牆壁  3金幣
         this.mapArray = []
         this.mapArray.push([0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]); //1 y:70
-        this.mapArray.push([0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]); //2 y:140
+        this.mapArray.push([0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,3,0,0,0,0,0,0,0,0,0,0,0,0]); //2 y:140
         this.mapArray.push([0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]); //3 y:210
         this.mapArray.push([0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,0,0,0,0,0,0,0,0,0,0,0]); //4 y:280
-        this.mapArray.push([0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,0,0,0,0,0]); //5 y:350
-        this.mapArray.push([2,0,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]); //6 y:420
+        this.mapArray.push([0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,3,0,0,0,0,0,0,0,0,1,1,1,0,0,0,0,0]); //5 y:350
+        this.mapArray.push([2,0,1,1,1,0,0,0,0,0,0,0,0,0,0,3,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]); //6 y:420
         this.mapArray.push([2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]); //7 y:490
         this.mapArray.push([2,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]); //8 y:560
         this.mapArray.push([2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]); //9 y:630
@@ -261,7 +261,7 @@ class Level1 extends Framework.Level
         // console.log(this.viewCenter)
         this.loadHero()
         //this.loadGround()
-        this.loadCoin()
+        //this.loadCoin()
         this.loadCamera()
         this.loadAudio()
         this.loadMap1()
@@ -315,15 +315,15 @@ class Level1 extends Framework.Level
             // }
 
             // move coinBlock
-            for	(var i = 0; i<this.blockCValue.length; i++)
-            {
-                this.blockCs[i].component.position = 
-                {
-                    x: this.blockCValue[i].x - this.camera.component.position.x + 500 + this.blockCs[i].component.sprite.width / 2,
-                    y: this.blockCValue[i].y + this.blockCs[i].component.sprite.height / 2
-                }
+            // for	(var i = 0; i<this.blockCValue.length; i++)
+            // {
+            //     this.blockCs[i].component.position = 
+            //     {
+            //         x: this.blockCValue[i].x - this.camera.component.position.x + 500 + this.blockCs[i].component.sprite.width / 2,
+            //         y: this.blockCValue[i].y + this.blockCs[i].component.sprite.height / 2
+            //     }
 
-            }
+            // }
         }
         //#endregion
 
@@ -391,10 +391,10 @@ class Level1 extends Framework.Level
         {
             this.mapWalls[i].draw(parentCtx)
         }*/
-        for (var i = 0; i < this.blockCValue.length; i++)
+        /*for (var i = 0; i < this.blockCValue.length; i++)
         {
             this.blockCs[i].draw(parentCtx)
-        }
+        }*/
     }
 
     keydown(e)
@@ -447,16 +447,15 @@ class Level1 extends Framework.Level
             
             var pair = pairs[i];
 
-            for (var k = 0; k < this.blockCValue.length; k++)
+            for (var k = 0; k < this.map1.coinsArray.length; k++)
             {
-                if (pair.bodyA === this.blockCs[k].component.body && pair.bodyB === this.hero.component.body) 
+                if (pair.bodyA === this.map1.coinsArray[k].mapTile.component.body && pair.bodyB === this.hero.component.body) 
                 {
                     // console.log("collision1")
                     //hero 和 blockQs 碰撞
                     this.map1.score += 1
-                    this.blockCs[k].pic = null
-                    this.matter.removeBody(this.blockCs[k].component.body)
-                    this.score += 1
+                    this.map1.coinsArray[k].mapTile.pic = null
+                    this.matter.removeBody(this.map1.coinsArray[k].mapTile.component.body)
                     this.audio.play({name: 'coin'})
                     
                 } 

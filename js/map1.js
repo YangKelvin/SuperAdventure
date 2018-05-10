@@ -86,6 +86,7 @@ class Map1
         //方塊矩陣
         this.floorsArray = []
         this.wallsArray = []
+        this.coinsArray = []
         for(var i=0; i<this.mapArray.length; i++)
         {
             var line = this.mapArray[i];
@@ -106,6 +107,11 @@ class Map1
                     {
                         // console.log("tileType = 2")
                         this.wallsArray.push(tile)
+                    }
+                    else if(tile.tileType === 3)
+                    {
+                        console.log("tileType = 3")
+                        this.coinsArray.push(tile)
                     }
                 }
             }
@@ -136,6 +142,10 @@ class Map1
         {
             this.wallsArray[i].update(heroPosition_x, cameraPosition_x)
         }
+        for	(var i = 0; i<this.coinsArray.length; i++)
+        {
+            this.coinsArray[i].update(heroPosition_x, cameraPosition_x)
+        }
         
 
         // for	(var i = 0; i<this.floorsArray.length; i++)
@@ -157,7 +167,7 @@ class Map1
     draw(Ctx)
     {
         this.background.draw(Ctx)
-
+        
         for(var i=0; i<this.floorsArray.length; i++)
         {
             this.floorsArray[i].draw()
@@ -165,6 +175,10 @@ class Map1
         for(var i=0; i<this.wallsArray.length; i++)
         {
             this.wallsArray[i].draw()
+        }
+        for(var i=0; i<this.coinsArray.length; i++)
+        {
+            this.coinsArray[i].draw()
         }
 
         this.heroInfoX.draw(Ctx)

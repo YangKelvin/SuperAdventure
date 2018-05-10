@@ -26,7 +26,8 @@ var ChooseLevel = Framework.exClass(Framework.GameMainMenu,
         load: function () {
             this.menu = new Framework.Sprite(define.imagePath + 'chooseLevel_background2.png')
             
-            
+            //讀取背包圖示
+            this.bag = new Framework.Sprite(define.imagePath + 'bag.png');
         },
 
         initialize: function () {
@@ -38,7 +39,15 @@ var ChooseLevel = Framework.exClass(Framework.GameMainMenu,
             };
             this.menu.scale = 1.5;
 
+            this.bag.position =
+            {
+                x: Framework.Game.getCanvasWidth() * 14 / 15,
+                y: Framework.Game.getCanvasHeight() / 5
+            }
+            this.bag.scale = 0.4;
+
             this.rootScene.attach(this.menu);
+            this.rootScene.attach(this.bag);
 
             this.rectPosition = {
                 x: Framework.Game.getCanvasWidth() / 2 - 130,
@@ -131,6 +140,14 @@ var ChooseLevel = Framework.exClass(Framework.GameMainMenu,
                 // console.log("startGame")
                 alert("想玩？沒門！ 因為還沒有這一關")
             }
+            // 打開背包
+            /*if (e.x >= 1420 && 
+                e.x <= 1560 && 
+                e.y >= 105 && 
+                e.y <= 250)
+            {
+                Framework.Game.goToLevel("bag");
+            }*/
         },
 
         mousemove: function (e) 
