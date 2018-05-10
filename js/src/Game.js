@@ -13,9 +13,17 @@ var Framework = (function (Framework) {
         var that = {};
 		that._config = new Framework.Config();
 		// gameloop fps
-		that.item1 = false
-		that.item2 = false
-		that.item3 = false
+		that.items= 
+		[
+			{item: false},
+			{item: false},
+			{item: false},
+			{item: false},
+			{item: false},
+			{item: false},
+			{item: false},
+			{item: false}
+		]
 
 
 		that.fps = that._config.fps;

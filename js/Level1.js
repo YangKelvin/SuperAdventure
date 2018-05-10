@@ -515,7 +515,7 @@ class Level1 extends Framework.Level
             console.log("The End")
             // this.audio.play({name: 'haha'})
             // Framework.Game.pause()
-            Framework.Game.item1 = true
+            Framework.Game.items[0].item = true
 
             // 重置關卡
             Framework.Game._levels.splice(2,1,{name : "level1", level : new Level1()})
