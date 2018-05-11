@@ -9,6 +9,5 @@ var Framework = (function (Framework) {
             this.autoDelete = false;
         }
     });
-
     return Framework;
 })(Framework || {});

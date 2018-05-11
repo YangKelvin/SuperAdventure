@@ -387,6 +387,18 @@ var Framework = (function (Framework) {
         *     },
         */
         keyup: function (e) {
+            if(e.key === 'F11') 
+            {
+                this.isFullScreen = false
+                if(!this.isFullScreen) {
+                    Framework.Game.fullScreen();
+                    this.isFullScreen = true;
+                } else {
+                    Framework.Game.exitFullScreen();
+                    this.isFullScreen = false;
+                }
+                
+            }
         },
         keypress: function (e) {
         },
