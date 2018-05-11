@@ -47,18 +47,18 @@ class AnimationCharacter
         this.component.setBody('angle', 0) // 讓物體永遠不旋轉
         this.component.update()
 
-        if (this.isWalking === 1 && this.move === true)
-        {
-            this.goRight()
-        }
-        if (this.isWalking === 2 && this.move === true)
-        {
-            this.goLeft()
-        }
-        if (this.isWalking === 3 && this.move === true)
-        {
-            this.jump()   
-        }
+        // if (this.isWalking === 1 && this.move === true)
+        // {
+        //     this.goRight()
+        // }
+        // if (this.isWalking === 2 && this.move === true)
+        // {
+        //     this.goLeft()
+        // }
+        // if (this.isWalking === 3 && this.move === true)
+        // {
+        //     this.jump()   
+        // }
     }
 
     //charcter move
@@ -78,7 +78,7 @@ class AnimationCharacter
     {
         this.matter.setBody(this.component.body, 
                             "velocity", 
-                            {x: this.component.body.velocity.x, y:-10})
+                            {x: this.component.body.velocity.x, y:-20})
     }
 
     //animation

@@ -30,8 +30,17 @@ var Bag = Framework.exClass(Framework.GameMainMenu,
             this.bagSquareArray = []
             for(var i = 0; i < 8; i++)
             {
-                this.bagSquareArray.push(new Framework.Sprite(define.imagePath + 'bagNone.png'))
+                if (Framework.Game.items[i].item === false)
+                {
+                    this.bagSquareArray.push(new Framework.Sprite(define.imagePath + 'bagNone.png'))
+                }
+                else
+                {
+                    this.bagSquareArray.push(new Framework.Sprite(define.imagePath + 'GoldSword.png'))
+                }
             }
+
+            console.log(Framework.Game.items)
         },
 
         initialize: function () {
@@ -129,7 +138,14 @@ var Bag = Framework.exClass(Framework.GameMainMenu,
                 e.y >= 265 && 
                 e.y <= 430) 
             {
-                alert("你還沒拿到這樣東西呢，傻瓜！")
+                if (Framework.Game.items[0].item === true)
+                {
+                    alert("傳說中的神器：金刀")
+                }
+                else
+                {
+                    alert("你還沒拿到這樣東西呢，傻瓜！")
+                }
             }
             // 點擊物品2
             if (e.x >= 535 && 

@@ -13,6 +13,19 @@ var Framework = (function (Framework) {
         var that = {};
 		that._config = new Framework.Config();
 		// gameloop fps
+		that.items= 
+		[
+			{item: false},
+			{item: false},
+			{item: false},
+			{item: false},
+			{item: false},
+			{item: false},
+			{item: false},
+			{item: false}
+		]
+
+
 		that.fps = that._config.fps;
 		that.canvasWidth = that._config.canvasWidth;
 		that.canvasHeight = that._config.canvasHeight;
@@ -191,6 +204,7 @@ var Framework = (function (Framework) {
 			// document.getElementById("variable_btn").setAttribute("enable", "false");
 			// that.btnEnable();
 		// };
+		
 		that.showVariable = function(){
 			var maindiv = document.getElementById("main");
 			if ((document.getElementById("variable_list") == null) &&

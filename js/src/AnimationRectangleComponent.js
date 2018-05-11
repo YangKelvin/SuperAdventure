@@ -44,12 +44,30 @@ Framework.AnimationRectangleComponent = class AnimationRectangleComponent extend
         } 
         else if(this.hasFirstUpdate) 
         {
+            // console.log(this.sprite.position,this.body.position)
             this.sprite.position = 
             {
                 x: this.body.position.x,
                 y: this.body.position.y
             }
-			this.sprite.rotation = this.body.angle / Math.PI * 180
+            // this.body.position = this.sprite.position
+
+            // if(this.sprite.texture) 
+            // {
+            //     this.matter.removeBody(this.body)
+            //     let realWidth = this.sprite.texture.width
+            //     let realHeight = this.sprite.texture.height
+
+            //     this.body = this.matter.createRectangleBody(
+            //         this.sprite.position.x + this.sprite.texture.width / 2, 
+            //         this.sprite.position.y + this.sprite.texture.height / 2, 
+            //         realWidth, 
+            //         realHeight, 
+            //         this.bodyOptions)
+            // }
+
+            this.sprite.rotation = this.body.angle / Math.PI * 180
+            // console.log(this.body.angle)
 		}
     }
 }

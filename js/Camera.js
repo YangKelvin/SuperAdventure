@@ -22,7 +22,7 @@ class Camera
     }
     initialize() 
     {
-        this.component.scale = 3
+        // this.component.scale = 3
         this.component.position = this.characterPos
     }
     update() 
@@ -31,7 +31,7 @@ class Camera
         // lock rotation
         // this.component.setBody('angularVelocity', 0)
         this.component.setBody('angle', 0)
-        this.component.position = {x: this.component.position.x, y:-200}
+        this.component.position = {x: this.component.position.x, y:-200} // 固定camera.position.y位置
         this.component.update()
     }
     draw()
@@ -69,8 +69,6 @@ class Camera
     
     jump()
     {
-        // console.log("herojump")
-        // let force = (-0.0004 * this.component.body.mass)
         this.matter.setBody(this.component.body, "velocity", {x: this.component.body.velocity.x, y:-10})
     }
 }

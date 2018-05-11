@@ -9,7 +9,11 @@ Framework.Game.isBackwardCompatiable = false;
 Framework.Game.addNewLevel({chooseLevel: new ChooseLevel()})
 Framework.Game.addNewLevel({bag: new Bag()})
 Framework.Game.addNewLevel({level1: new Level1()});
-//Framework.Game.addNewLevel({level1: new MyGame()});
+// Framework.Game.addNewLevel({EndLevel1: new EndLevel1()})
+// Framework.Game.addNewLevel({level1: new MyGame()});
 
 //讓Game開始運行
 Framework.Game.start();
+
+
+console.log("MainGame")
