@@ -1,4 +1,4 @@
-class Level1 extends Framework.Level 
+class LevelTest extends Framework.Level 
 {
     constructor()
     {
@@ -562,7 +562,7 @@ class Level1 extends Framework.Level
         {
             var pair = pairs[i];
 
-            for (var k = 0; k < this.trollBridgesPos.length; k++)
+            for (var k = 2; k < this.trollBridgesPos.length; k++)
             {
                 if (pair.bodyA === this.trollBridges[k].component.body && pair.bodyB === this.hero.component.body) 
                 {
@@ -629,7 +629,7 @@ class Level1 extends Framework.Level
             Framework.Game.items[0].item = true
 
             // 重置關卡
-            Framework.Game._levels.splice(2,1,{name : "level1", level : new Level1()})
+            Framework.Game._levels.splice(2,1,{name : "levelTest", level : new LevelTest()})
             // Framework.Game._levels[1] = {name : "leve1", level : new Level1()}
             // Framework.Game.addNewLevel({level1: new Level1()});
             Framework.Game.goToLevel("chooseLevel")

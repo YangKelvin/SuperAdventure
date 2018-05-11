@@ -46,7 +46,7 @@ var loadGameEnd;
         { src: 'js/myMenu.js', lookFor: 'MyMenu' },
         { src: 'js/Bag.js', lookFor: 'Bag' },
         { src: 'js/ChooseLevel.js', lookFor: 'ChooseLevel' },
-        { src: 'js/Level1.js', lookFor: 'Level1' },
+        { src: 'js/LevelTest.js', lookFor: 'LevelTest' },
         { src: 'js/EndLevel.js', lookFor: 'EndLevel' },
         { src: 'js/Character.js', lookFor: 'Character' },
         { src: 'js/block.js', lookFor: 'block' },
