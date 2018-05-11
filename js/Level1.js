@@ -15,6 +15,9 @@ class Level1 extends Framework.Level
         this.walkDirection = 0
         this.score = 0
         this.isPrincess = false
+
+        this.isTriggleTrollBridge = false
+        this.bridgeFall = 0
     }
 
     //#region  load
@@ -125,11 +128,11 @@ class Level1 extends Framework.Level
                 {x: 800, y: 780},
                 {x: 870, y: 780},
                 {x: 940, y: 780},
-                {x: 1010, y: 780},
-                {x: 1080, y: 780},
-                {x: 1150, y: 780},
-                {x: 1220, y: 780},
-                {x: 1290, y: 780},
+                // {x: 1010, y: 780},
+                // {x: 1080, y: 780},
+                // {x: 1150, y: 780},
+                // {x: 1220, y: 780},
+                // {x: 1290, y: 780},
                 {x: 1360, y: 780},
                 {x: 1430, y: 780},
                 {x: 1500, y: 780},
@@ -233,7 +236,7 @@ class Level1 extends Framework.Level
             friction: 0.05, 
             density:0.002, 
             isStatic:true, 
-            isSensor:true
+            // isSensor:true
         }
 
         this.coins = new Array()
@@ -260,6 +263,39 @@ class Level1 extends Framework.Level
             jump: {mp3: 'music/jump.mp3'},
             haha: {wav: 'music/haha.wav'}
         })
+    }
+
+    loadTrollBridge()
+    {
+        this.trollBridgesPos = 
+        [
+            {x: 1010, y: 780},
+            {x: 1080, y: 780},
+            {x: 1150, y: 780},
+            {x: 1220, y: 780},
+            {x: 1290, y: 780},
+        ]
+
+        this.trollBridgeOps = 
+        {
+            label: 'trollBridge', 
+            friction: 0.05, 
+            density:0.002, 
+            isStatic:true, 
+            isSensor:true
+        }
+        this.trollBridges = new Array()
+        for (var i = 0; i < this.trollBridgesPos.length; i++)
+        {
+            this.trollBridges[i] = new block('images/bridge.png', 
+                                            this.matter,
+                                            this.coinOps)
+            this.trollBridges[i].load()
+            this.trollBridges[i].initialize()
+            this.trollBridges[i].component.position = this.trollBridgesPos[i]
+            // this.coins[i].component.body.isSensor = true
+            this.rootScene.attach(this.trollBridges[i])
+        }
     }
 
     loadMonster()
@@ -301,6 +337,7 @@ class Level1 extends Framework.Level
         this.loadCoin()
         this.loadPrincess()
         this.loadCamera()
+        this.loadTrollBridge()
         // this.loadAudio()
         // this.audio.play({name: 'bgm1', loop: true})
         // 載入 collision
@@ -357,6 +394,16 @@ class Level1 extends Framework.Level
                     y: this.wallsPos[i].y + this.walls[i].component.sprite.height / 2
                 }
             }
+
+            // move trollBridge trollBridges
+            for	(var i = 0; i<this.trollBridges.length; i++)
+            {
+                this.trollBridges[i].component.position = 
+                {
+                    x: this.trollBridgesPos[i].x - this.camera.component.position.x + 500 + this.trollBridges[i].component.sprite.width / 2,
+                    y: this.trollBridgesPos[i].y + this.trollBridges[i].component.sprite.height / 2
+                }
+            }
         }
         //#endregion update
 
@@ -369,6 +416,22 @@ class Level1 extends Framework.Level
                 this.isPrincess = true
             }
             this.princess.update()
+        }
+
+        // triggle bridge & fall down  
+            
+        console.log(this.bridgeFall)  
+        if (this.isTriggleTrollBridge === true)
+        {
+            this.bridgeFall += 10
+            for (var i = 0; i < this.trollBridges.length; i++)
+            {
+                this.trollBridges[i].component.position = 
+                {
+                    x: this.trollBridgesPos[i].x - this.camera.component.position.x + 500 + this.trollBridges[i].component.sprite.width / 2,
+                    y: this.trollBridgesPos[i].y + this.trollBridges[i].component.sprite.height / 2 + this.bridgeFall 
+                }
+            }
         }
 
         //#region update
@@ -400,7 +463,6 @@ class Level1 extends Framework.Level
             }
             if (this.isJump === true && this.hero.isOnFloor === true)   // jump
             {
-                console.log("JJJ")
                 this.hero.jump()
                 this.hero.isOnFloor = false
             }
@@ -494,7 +556,31 @@ class Level1 extends Framework.Level
         // console.log(this)
         
         var pairs = event.pairs;
-        // console.lodg(pairs)
+        
+        // collision between hero and trollBridge
+        for (var i = 0, j = pairs.length; i != j; ++i) 
+        {
+            var pair = pairs[i];
+
+            for (var k = 0; k < this.trollBridgesPos.length; k++)
+            {
+                if (pair.bodyA === this.trollBridges[k].component.body && pair.bodyB === this.hero.component.body) 
+                {
+                    // 橋掉下去
+                    console.log("collision1")
+                    // this.trollBridges[k].component.setBody('isSensor', true)
+                    // this.matter.removeBody(this.trollBridges[k].component)
+                    this.isTriggleTrollBridge = true
+                    // this.audio.play({name: 'coin'})
+                    // this.hero.isOnFloor = true
+                } 
+                else if (pair.bodyA === this.hero.component.body || pair.bodyB === this.hero.component.body)
+                {
+                    // console.log("No Collision")
+                }
+            }
+        }
+
         // collision between hero and floor
         for (var i = 0, j = pairs.length; i != j; ++i) 
         {
