@@ -92,7 +92,7 @@ var ChooseLevel = Framework.exClass(Framework.GameMainMenu,
                 e.y >= 285 && 
                 e.y <= 485) 
             {
-                Framework.Game.goToLevel("level1");
+                Framework.Game.goToLevel("levelTest");
                 console.log("startGame")
             }
             // level2
