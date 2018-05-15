@@ -56,6 +56,32 @@ class LevelTest extends Framework.Level
         this.background.scale = 2;
         this.rootScene.attach(this.background)
     }
+    loadTextbox()
+    {
+        //hero info
+        this.heroInfoX = new Textbox()
+        this.heroInfoX.position = {x:1000, y:0}
+        this.heroInfoX._text= "hero_x : "
+
+        this.heroInfoY = new Textbox()
+        this.heroInfoY.position = {x:1000, y:80}
+        this.heroInfoY._text= "hero_y : "
+
+        //score
+        this.ScoreInfo = new Textbox()
+        this.ScoreInfo.position = {x:0, y:0}
+        this.ScoreInfo._text= "Score : "
+
+        // mapLeft
+        this.mapInfoL = new Textbox()
+        this.mapInfoL.position = {x: 500, y:0}
+        this.mapInfoL._text = "mapLeft : "
+
+        // mapRight
+        this.mapInfoR = new Textbox()
+        this.mapInfoR.position = {x: 500, y:80}
+        this.mapInfoR._text = "mapRight : "
+    }
     loadHero()
     {
         //new animation
@@ -91,7 +117,7 @@ class LevelTest extends Framework.Level
     }
     loadPrincess()
     {
-        this.princessPos = {x:400, y:100}
+        this.princessPos = {x:4130, y:200}
         
         this.princessOps = 
         { 
@@ -114,56 +140,71 @@ class LevelTest extends Framework.Level
         this.floorsPos = 
             [
                 // ground
-                {x: 30, y: 780},
-                {x: 100, y: 780},
-                {x: 170, y: 780},
-                {x: 240, y: 780},
-                {x: 310, y: 780},
-                {x: 380, y: 780},
-                {x: 450, y: 780},
-                {x: 520, y: 780},
-                {x: 590, y: 780},
-                {x: 660, y: 780},
-                {x: 730, y: 780},
-                {x: 800, y: 780},
-                {x: 870, y: 780},
-                {x: 940, y: 780},
-                // {x: 1010, y: 780},
-                // {x: 1080, y: 780},
-                // {x: 1150, y: 780},
-                // {x: 1220, y: 780},
-                // {x: 1290, y: 780},
-                {x: 1360, y: 780},
-                {x: 1430, y: 780},
-                {x: 1500, y: 780},
-                {x: 1570, y: 780},
-                {x: 1640, y: 780},
-                {x: 1710, y: 780},
-                {x: 1780, y: 780},
-                {x: 1850, y: 780},
-                {x: 1920, y: 780},
-                {x: 1990, y: 780},
-                {x: 2060, y: 780},
-                {x: 2130, y: 780},
-                {x: 2200, y: 780},
-                {x: 2270, y: 780},
-                {x: 2340, y: 780},
-                {x: 2410, y: 780},
-                {x: 2480, y: 780},
-                {x: 2550, y: 780},
-                {x: 2620, y: 780},
-                {x: 2690, y: 780},
+                {x: 0, y: 780},
+                {x: 70, y: 780},
+                {x: 140, y: 780},
+                {x: 210, y: 780},
+                {x: 280, y: 780},
+                {x: 350, y: 780},
+                {x: 420, y: 780},
+                {x: 490, y: 780},
+                {x: 560, y: 780},
+                {x: 630, y: 780},
+                {x: 700, y: 780},
+                {x: 770, y: 780},
+                {x: 840, y: 780},
+                {x: 1330, y: 780},
+                {x: 1400, y: 780},
+                {x: 1470, y: 780},
+                {x: 1540, y: 780},
+                {x: 1610, y: 780},
+                {x: 1680, y: 780},
 
-                //硬幣平台
-                {x: 1500, y: 250},
-                {x: 1570, y: 250},
-                {x: 1640, y: 250},
-                {x: 1990, y: 350},
-                {x: 2060, y: 350},
-                {x: 2130, y: 350},
-                {x: 1080, y: 450},
-                {x: 1150, y: 450},
-                {x: 1220, y: 450},
+                //平台開始
+                {x: 1680, y: 500},
+                {x: 1750, y: 500},
+                {x: 1820, y: 220},
+                {x: 1960, y: 220},
+                {x: 2030, y: 220},
+                {x: 1890, y: 500},
+                {x: 1960, y: 500},
+                {x: 2100, y: 500},
+                {x: 2170, y: 500},
+                //平台結束
+
+                {x: 1750, y: 780},
+                {x: 1820, y: 780},
+                {x: 1890, y: 780},
+                {x: 1960, y: 780},
+                {x: 2030, y: 780},
+                {x: 2100, y: 780},
+                {x: 2170, y: 780},
+                {x: 2240, y: 780},
+                {x: 2310, y: 780},
+                {x: 2380, y: 780},
+                {x: 2450, y: 780},
+                {x: 2520, y: 780},
+                {x: 2590, y: 780},
+                {x: 2660, y: 780},
+                {x: 2730, y: 780},
+                {x: 2800, y: 780},
+                {x: 2870, y: 780},
+                {x: 2940, y: 780},
+                {x: 3010, y: 780},
+                {x: 3080, y: 780},
+                {x: 3150, y: 780},
+                {x: 3220, y: 780},
+                {x: 3290, y: 780},
+                {x: 3360, y: 780},
+                {x: 3430, y: 780},
+                {x: 3500, y: 780},
+                {x: 3570, y: 780},
+                {x: 3640, y: 780},
+                {x: 3990, y: 780},
+                {x: 4060, y: 780},
+                {x: 4130, y: 780},
+                {x: 4200, y: 780},
+                {x: 4270, y: 780},
             ]
         
         this.floorOps = 
@@ -196,16 +237,16 @@ class LevelTest extends Framework.Level
         }
         this.wallsPos = 
         [
-            {x: 30, y: 710},
-            {x: 30, y: 640},
-            {x: 30, y: 570},
-            {x: 30, y: 500},
-            {x: 30, y: 430},
-            {x: 30, y: 360},
-            {x: 30, y: 290},
-            {x: 30, y: 220},
-            {x: 30, y: 150},
-            {x: 30, y: 80},
+            // {x: 30, y: 710},
+            // {x: 30, y: 640},
+            // {x: 30, y: 570},
+            // {x: 30, y: 500},
+            // {x: 30, y: 430},
+            // {x: 30, y: 360},
+            // {x: 30, y: 290},
+            // {x: 30, y: 220},
+            // {x: 30, y: 150},
+            // {x: 30, y: 80},
         ]
         this.walls = new Array()
         for (var i = 0; i < this.wallsPos.length; i++)
@@ -225,9 +266,9 @@ class LevelTest extends Framework.Level
     {
         this.coinsPos =
         [
-            {x: 1570, y: 100},
-            {x: 2060, y: 200},
-            {x: 1150, y: 300},
+            {x: 490, y: 200},
+            {x: 1960, y: 100},
+            {x: 3010, y: 640},
         ]
 
         this.coinOps = 
@@ -264,7 +305,95 @@ class LevelTest extends Framework.Level
             haha: {wav: 'music/haha.wav'}
         })
     }
+    loadTrollBridge()
+    {
+        this.trollBridgesPos = 
+        [
+            {x: 3710, y: 780},//陷阱地板位置
+            {x: 3780, y: 780},//陷阱地板位置
+            {x: 3850, y: 780},//陷阱地板位置
+            {x: 3920, y: 780}//陷阱地板位置
+        ]
 
+        this.trollBridgeOps = 
+        {
+            label: 'trollBridge', 
+            friction: 0.05, 
+            density:0.002, 
+            isStatic:true, 
+            isSensor:true
+        }
+        this.trollBridges = new Array()
+        for (var i = 0; i < this.trollBridgesPos.length; i++)
+        {
+            this.trollBridges[i] = new block('images/grass.png', 
+                                            this.matter,
+                                            this.coinOps)
+            this.trollBridges[i].load()
+            this.trollBridges[i].initialize()
+            this.trollBridges[i].component.position = this.trollBridgesPos[i]
+            // this.coins[i].component.body.isSensor = true
+            this.rootScene.attach(this.trollBridges[i])
+        }
+    }
+    loadPipe()
+    {
+        this.PipePos = 
+        [
+            {x: 2660, y: 500},
+            {x: 3360, y: 500},
+        ]
+
+        this.PipeOps = 
+        {
+            label: 'Pipe', 
+            friction: 0.05, 
+            density:0.002, 
+            isStatic:true, 
+            isSensor:true
+        }
+        this.Pipes = new Array()
+        for (var i = 0; i < this.PipePos.length; i++)
+        {
+            this.Pipes[i] = new block('images/Pipe.png', 
+                                            this.matter,
+                                            this.coinOps)
+            this.Pipes[i].load()
+            this.Pipes[i].initialize()
+            this.Pipes[i].component.position = this.PipePos[i]
+            this.rootScene.attach(this.Pipes[i])
+        }
+    }
+    loadBlockQ()
+    {
+        this.BlockQPos = 
+        [
+            {x: 280, y: 430},//blockQ   
+            {x: 1820, y: 500},//blockQ
+            {x: 1890, y: 220},//blockQ
+            {x: 2030, y: 500}//blockQ
+        ]
+        this.BlockQOps = 
+        {
+            label: 'BlockQ', 
+            friction: 0.05, 
+            density:0.002, 
+            isStatic:true, 
+            isSensor:true
+        }
+        this.BlockQs = []
+        for (var i = 0; i < this.BlockQPos.length; i++)
+        {
+            this.BlockQs[i] = new block('images/blockQ.png', 
+                                            this.matter,
+                                            this.coinOps)
+            this.BlockQs[i].load()
+            this.BlockQs[i].initialize()
+            this.BlockQs[i].component.position = this.BlockQPos[i]
+            // this.coins[i].component.body.isSensor = true
+            this.rootScene.attach(this.BlockQs[i])
+        }
+    }
     loadTrollBridge()
     {
         this.trollBridgesPos = 
@@ -332,12 +461,15 @@ class LevelTest extends Framework.Level
         // console.log(this.viewCenter)
         Framework.Game.initialize()
         this.loadBackground()
+        this.loadTextbox()
         this.loadHero()
         this.loadGround()
         this.loadCoin()
         this.loadPrincess()
         this.loadCamera()
-        this.loadTrollBridge()
+        // this.loadTrollBridge()
+        this.loadPipe()
+        this.loadBlockQ()
         // this.loadAudio()
         // this.audio.play({name: 'bgm1', loop: true})
         // 載入 collision
@@ -404,23 +536,43 @@ class LevelTest extends Framework.Level
                     y: this.trollBridgesPos[i].y + this.trollBridges[i].component.sprite.height / 2
                 }
             }
+
+            // move Pipe
+            for	(var i = 0; i<this.Pipes.length; i++)
+            {
+                this.Pipes[i].component.position = 
+                {
+                    x: this.PipePos[i].x - this.camera.component.position.x + 500 + this.Pipes[i].component.sprite.width / 2,
+                    y: this.PipePos[i].y + this.Pipes[i].component.sprite.height / 2
+                }
+            }
+
+            // move blockQ
+            for	(var i = 0; i<this.BlockQs.length; i++)
+            {
+                this.BlockQs[i].component.position = 
+                {
+                    x: this.BlockQPos[i].x - this.camera.component.position.x + 500 + this.BlockQs[i].component.sprite.width / 2,
+                    y: this.BlockQPos[i].y + this.BlockQs[i].component.sprite.height / 2
+                }
+            }
         }
         //#endregion update
 
-
-        if (this.score <=3)
+        if (this.score <= 3)
         {
             if(!(this.isPrincess))
             {
                 this.rootScene.attach(this.princess.pic)
                 this.isPrincess = true
+                console.log("Princess is draw!!")
             }
             this.princess.update()
         }
 
         // triggle bridge & fall down  
             
-        console.log(this.bridgeFall)  
+        // console.log(this.bridgeFall)  
         if (this.isTriggleTrollBridge === true)
         {
             this.bridgeFall += 10
@@ -441,11 +593,11 @@ class LevelTest extends Framework.Level
         this.rootScene.update() // 對齊 component & sprite
         this.camera.update()
         
-        
         // textBox
-        // this.map1.heroInfoX._value = Math.round(this.hero.component.position.x)
-        // this.map1.heroInfoY._value = Math.round(this.hero.component.position.y)
-        // this.map1.mapInfoL._value = this.camera.component.position.x
+        this.heroInfoX._value = Math.round(this.hero.component.position.x)
+        this.heroInfoY._value = Math.round(this.hero.component.position.y)
+        this.mapInfoL._value = this.camera.component.position.x
+        this.ScoreInfo._value = this.score;
 
         //#endregion
 
@@ -488,7 +640,11 @@ class LevelTest extends Framework.Level
     }
     draw(parentCtx) 
     {
-        
+        this.heroInfoX.draw(parentCtx)
+        this.heroInfoY.draw(parentCtx)
+        this.ScoreInfo.draw(parentCtx)
+        this.mapInfoL.draw(parentCtx)
+        this.mapInfoR.draw(parentCtx)
     }
 
     keydown(e)
