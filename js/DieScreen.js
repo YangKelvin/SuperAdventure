@@ -25,7 +25,26 @@ var DieScreen = Framework.exClass(Framework.GameMainMenu,
 
         load: function () 
         {
-            this.backYellowGround = new Framework.Sprite(define.imagePath + 'background-yellow.png');
+            // this.backYellowGround = new Framework.Sprite(define.imagePath + 'background-yellow.png');
+            this.heroIcon = new Framework.Sprite(define.imagePath + 'icon-hero.png');
+            this.heroIcon.position = 
+            {
+                x:720,
+                y:430
+            }
+            this.heroIcon.scale = 0.3
+            this.rootScene.attach(this.heroIcon)
+            
+            this.IQ = new Textbox()
+            this.IQ._fillStyle = 'white'
+            this.IQ._fontColor = 'black'
+            this.IQ.position = 
+            {
+                x:870,
+                y:400
+            }
+            this.IQ._value = "IQ : " + Framework.Game.userIQ
+            this.rootScene.attach(this.IQ)
             console.log("this is die screen")
             this.myTime = new Date()
         },
@@ -35,16 +54,6 @@ var DieScreen = Framework.exClass(Framework.GameMainMenu,
             //注意, Position都是用中心點
             
             //最底層背景
-            this.backYellowGround.position = {
-                x: 0,
-                y: 0
-            };
-            this.backYellowGround.scale = 5;
-
-            this.rectPosition = {
-                x: Framework.Game.getCanvasWidth() / 2 - 130,
-                y: Framework.Game.getCanvasHeight() / 2
-            };
         },
 
         update: function () {

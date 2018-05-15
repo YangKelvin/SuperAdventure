@@ -430,6 +430,17 @@ class LevelTest extends Framework.Level
         //     this.rootScene.attach(this.monsters[i])
         // }
     }
+    loadICON()
+    {
+        this.back = new Framework.Sprite(define.imagePath + 'icon-back.png')
+        this.back.position =
+        {
+            x: 60,
+            y: 60
+        }
+        this.back.scale = 0.2
+        this.rootScene.attach(this.back)
+    }
     //#endregion
     load() 
     {
@@ -445,6 +456,7 @@ class LevelTest extends Framework.Level
         this.loadTrollBridge()
         this.loadPipe()
         this.loadBlockQ()
+        this.loadICON()
         // this.loadAudio()
         // this.audio.play({name: 'bgm1', loop: true})
         // 載入 collision
@@ -468,6 +480,7 @@ class LevelTest extends Framework.Level
             // reset levelTest
             Framework.Game._levels.splice(3,1,{name : "levelTest", level : new LevelTest()})
             Framework.Game.goToLevel("dieScreen")
+            Framework.Game.userIQ -= 50
             console.log("die")
         }
 
@@ -654,6 +667,18 @@ class LevelTest extends Framework.Level
         this.mapInfoR.draw(parentCtx)
     }
 
+    click(e)
+    {
+        if (e.x >= 3 && 
+            e.x <= 105 && 
+            e.y >= 10 && 
+            e.y <= 110) 
+        {
+            Framework.Game.goToLevel("chooseLevel");
+            Framework.Game._levels.splice(3,1,{name : "levelTest", level : new LevelTest()})
+            Framework.Game.userIQ = 250
+        }
+    }
     keydown(e)
     {
         // show matter world
@@ -709,7 +734,10 @@ class LevelTest extends Framework.Level
                 } 
             }
     }
-
+    mousemove(e) 
+    {
+        console.log(e.x + "  " + e.y)    
+    }
     collisionStart(event)
     {
         // console.log(this)
@@ -788,12 +816,13 @@ class LevelTest extends Framework.Level
             // this.audio.play({name: 'haha'})
             // Framework.Game.pause()
             Framework.Game.items[0].item = true
-
+            Framework.Game.userIQ = 250
             // 重置關卡
             Framework.Game._levels.splice(3,1,{name : "levelTest", level : new LevelTest()})
             // Framework.Game._levels[1] = {name : "leve1", level : new Level1()}
             // Framework.Game.addNewLevel({level1: new Level1()});
             Framework.Game.goToLevel("chooseLevel")
+            
         }
         //#endregion
     }
