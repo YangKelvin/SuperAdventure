@@ -22,10 +22,19 @@ class LevelTest extends Framework.Level
         this.bridgeFall = 0
     }
 
+    heroDie()
+    {
+        // 重置 levelTest
+        Framework.Game._levels.splice(3,1,{name : "levelTest", level : new LevelTest()})
+        Framework.Game.userIQ -= 50
+        Framework.Game.goToLevel("dieScreen")
+        console.log("hero die")
+    }
+
     //#region  load
     loadCamera()
     {
-        this.cameraPos = {x:200, y:20}
+        this.cameraPos = {x:200, y:930}
 
         this.cameraOps = 
         {
@@ -104,7 +113,7 @@ class LevelTest extends Framework.Level
             density:0.002
         }
 
-        this.hero = new AnimationCharacter('images/hero.png', 
+        this.hero = new AnimationCharacter('images/hero2.png', 
                                             this.animationOps, 
                                             this.matter, 
                                             this.heroPos, 
@@ -358,15 +367,15 @@ class LevelTest extends Framework.Level
             label: 'Pipe', 
             friction: 0.05, 
             density:0.002, 
-            isStatic:true, 
-            isSensor:true
+            isStatic:true,
+            // isSensor:true
         }
         this.Pipes = new Array()
         for (var i = 0; i < this.PipePos.length; i++)
         {
             this.Pipes[i] = new block('images/Pipe.png', 
                                             this.matter,
-                                            this.coinOps)
+                                            this.PipeOps)
             this.Pipes[i].load()
             this.Pipes[i].initialize()
             this.Pipes[i].component.position = this.PipePos[i]
@@ -404,31 +413,31 @@ class LevelTest extends Framework.Level
     }
     loadMonster()
     {
-        // this.monstersPos = 
-        // [
+        this.monstersPos = 
+        [
+            {x: 600, y: 700},
+        ]
 
-        // ]
+        this.monsterOps = 
+        {
+            label: 'Monster', 
+            friction: 0.05, 
+            density:0.002, 
+            // isSensor:true
+        }
 
-        // this.monsterOps = 
-        // {
-        //     label: 'Monster', 
-        //     friction: 0.05, 
-        //     density:0.002, 
-        //     isSensor:true
-        // }
-
-        // this.monsters = new Array()
-        // for (var i = 0; i < this.monstersPos.length; i++)
-        // {
-        //     this.monsters[i] = new Character('images/monster.png',
-        //                                         this.matter,
-        //                                         this.monsterOps,
-        //                                         this.monstersPos)
-        //     this.monsters[i].load()
-        //     this.monsters[i].initialize()
-        //     this.monsters[i].component.position = this.monstersPos[i]
-        //     this.rootScene.attach(this.monsters[i])
-        // }
+        this.monsters = new Array()
+        for (var i = 0; i < this.monstersPos.length; i++)
+        {
+            this.monsters[i] = new Character('images/monster.png',
+                                                this.matter,
+                                                this.monsterOps,
+                                                this.monstersPos)
+            this.monsters[i].load()
+            this.monsters[i].initialize()
+            this.monsters[i].component.position = this.monstersPos[i]
+            this.rootScene.attach(this.monsters[i])
+        }
     }
     loadICON()
     {
@@ -456,6 +465,7 @@ class LevelTest extends Framework.Level
         this.loadTrollBridge()
         this.loadPipe()
         this.loadBlockQ()
+        this.loadMonster()
         this.loadICON()
         // this.loadAudio()
         // this.audio.play({name: 'bgm1', loop: true})
@@ -472,16 +482,18 @@ class LevelTest extends Framework.Level
     update() 
     {
         // super.update()
-        
-        
+        // console.log(this.monsters[0].component.position)
+        console.log(this.camera.component.position.y)
+
         if (this.hero.component.position.y > 1000)
         {
             this.heroAlive = false
-            // reset levelTest
-            Framework.Game._levels.splice(3,1,{name : "levelTest", level : new LevelTest()})
-            Framework.Game.goToLevel("dieScreen")
-            Framework.Game.userIQ -= 50
-            console.log("die")
+        }
+
+        if(this.heroAlive === false)
+        {
+            console.log("this.heroAlive = flase")
+            this.heroDie()
         }
 
         //#region map move
@@ -561,6 +573,17 @@ class LevelTest extends Framework.Level
                 }
             }
             //#endregion
+
+            //#region move monsters
+            for	(var i = 0; i<this.monsters.length; i++)
+            {
+                this.monsters[i].component.position = 
+                {
+                    x: this.monstersPos[i].x - this.camera.component.position.x + 500 + this.monsters[i].component.sprite.width / 2,
+                    y: this.monstersPos[i].y + this.monsters[i].component.sprite.height / 2
+                }
+            }
+            //#endregion
         }
         //#endregion 
 
@@ -605,19 +628,20 @@ class LevelTest extends Framework.Level
         //#endregion
 
         //#region update
-        
         this.hero.update()
         this.matter.update()
         this.rootScene.update() // 對齊 component & sprite
         this.camera.update()
-        
+        //#endregion
+
+
         // textBox
         this.heroInfoX._value = Math.round(this.hero.component.position.x)
         this.heroInfoY._value = Math.round(this.hero.component.position.y)
         this.mapInfoL._value = this.camera.component.position.x
         this.ScoreInfo._value = this.score;
 
-        //#endregion
+        
 
         //#region camera move & hero move
         if (this.isPressWalk === true || this.isJump === true)
@@ -738,6 +762,8 @@ class LevelTest extends Framework.Level
     {
         console.log(e.x + "  " + e.y)    
     }
+
+    
     collisionStart(event)
     {
         // console.log(this)
@@ -769,7 +795,7 @@ class LevelTest extends Framework.Level
         }
         //#endregion
 
-        // #region collision between hero and floor
+        // #region collision between hero and floor 
         for (var i = 0, j = pairs.length; i != j; ++i) 
         {
             var pair = pairs[i];
@@ -777,6 +803,27 @@ class LevelTest extends Framework.Level
             for (var k = 0; k < this.floorsPos.length; k++)
             {
                 if (pair.bodyA === this.floors[k].component.body && pair.bodyB === this.hero.component.body) 
+                {
+                    // console.log("collision1")
+                    // this.audio.play({name: 'coin'})
+                    this.hero.isOnFloor = true
+                } 
+                else if (pair.bodyA === this.hero.component.body || pair.bodyB === this.hero.component.body)
+                {
+                    // console.log("No Collision")
+                }
+            }
+        }
+        //#endregion
+
+        //#region collision between hero and blockQ
+        for (var i = 0, j = pairs.length; i != j; ++i) 
+        {
+            var pair = pairs[i];
+
+            for (var k = 0; k < this.BlockQPos.length; k++)
+            {
+                if (pair.bodyA === this.BlockQs[k].component.body && pair.bodyB === this.hero.component.body) 
                 {
                     // console.log("collision1")
                     // this.audio.play({name: 'coin'})
@@ -822,6 +869,33 @@ class LevelTest extends Framework.Level
             // Framework.Game._levels[1] = {name : "leve1", level : new Level1()}
             // Framework.Game.addNewLevel({level1: new Level1()});
             Framework.Game.goToLevel("chooseLevel")
+        }
+        //#endregion 
+
+        //#region collision between hero and monster
+        if (pair.bodyA === this.monsters[0].component.body && pair.bodyB === this.hero.component.body) 
+        {
+            if (this.hero.component.position.y < 680)
+            {
+                this.monsters[0].pic = null
+                this.matter.removeBody(this.monsters[0].component.body)
+            }
+            else
+            {
+                console.log("The End because of monster")
+                this.heroDie()
+            }
+            
+
+            // this.audio.play({name: 'haha'})
+            // Framework.Game.pause()
+            // Framework.Game.items[0].item = true
+            // Framework.Game.userIQ = 250
+            // 重置關卡
+            // Framework.Game._levels.splice(3,1,{name : "levelTest", level : new LevelTest()})
+            // Framework.Game._levels[1] = {name : "leve1", level : new Level1()}
+            // Framework.Game.addNewLevel({level1: new Level1()});
+            // Framework.Game.goToLevel("chooseLevel")
             
         }
         //#endregion

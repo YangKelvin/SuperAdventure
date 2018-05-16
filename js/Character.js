@@ -32,7 +32,10 @@ class Character
     }
     draw()
     {
-        this.pic.draw()
+        if (this.pic != null)
+        {
+            this.pic.draw()
+        }
     }
 
     goRight()
