@@ -453,6 +453,34 @@ class LevelTest extends Framework.Level
             this.monsters[i].component.position = this.monstersPos[i]
             this.rootScene.attach(this.monsters[i])
         }
+
+        // #region Cloud
+        this.cloudMonstersPos = 
+        [
+            {x: 1100, y: 100}
+        ]
+
+        this.cloudMonsterOps = 
+        {
+            label: 'cloudMonster', 
+            friction: 0.05, 
+            density:0.002,
+            isStatic: true
+        }
+
+        this.cloudMonsters = []
+        for (var i = 0; i < this.cloudMonstersPos.length; i++)
+        {
+            this.cloudMonsters[i] = new Character('images/cloud.png',
+                                                this.matter,
+                                                this.cloudMonsterOps,
+                                                this.cloudMonstersPos)
+            this.cloudMonsters[i].load()
+            this.cloudMonsters[i].initialize()
+            this.cloudMonsters[i].component.position = this.cloudMonstersPos[i]
+            this.rootScene.attach(this.cloudMonsters[i])
+        }
+        // #endregion
     }
     loadICON()
     {
@@ -554,7 +582,7 @@ class LevelTest extends Framework.Level
         }
         //#endregion
 
-        //#region ,move princess
+        //#region move princess
         if (this.isPrincess)
         {
             this.matter.setBody(this.princess.component.body, 
@@ -565,17 +593,27 @@ class LevelTest extends Framework.Level
         else
         {
             this.princessPos.x -= 5
-        }
-        
+        }  
         //#endregion
+
+        //#region move cloudMonsters
+        for	(var i = 0; i<this.cloudMonsters.length; i++)
+        {
+            this.matter.setBody(this.cloudMonsters[i].component.body, 
+                "position", 
+                {x: this.cloudMonsters[i].component.position.x + moveLength, y: this.cloudMonsters[i].component.position.y})  
+            
+                // this.cloudMonsters[i].component.position = 
+            // {
+            //     x: this.cloudMonstersPos[i].x - this.camera.component.position.x + 500 + this.cloudMonsters[i].component.sprite.width / 2,
+            //     y: this.cloudMonstersPos[i].y + this.cloudMonsters[i].component.sprite.height / 2
+            // }
+        }
     }
 
 
     update() 
     {
-        // bridge 有問題
-        // console.log(this.princessPos)
-
         //#region hero die condition
         if (this.hero.component.position.y > 1000)
         {
@@ -647,42 +685,24 @@ class LevelTest extends Framework.Level
         }
         //#endregion
 
+        //#region 防止英雄滑落
         if (this.startLockHeroPos)
         {
             // this.hero.component.position = this.lockHeroPos
             this.hero.component.position.x = this.lockHeroPosx
         }
-        
-        // this.hero.component.position = this.lockHeroPos
+        //#endregion
 
-        //#region triggle bridge & fall down (remove)
+        //#region triggle bridge & fall down 
         if (this.isTriggleTrollBridge === true)
         {
             this.bridgeFall = 10
-            
 
             for (var i = 0; i < this.trollBridges.length; i++)
             {
                 this.matter.setBody(this.trollBridges[i].component.body, 
                     "position", 
                     {x: this.trollBridges[i].component.position.x, y: this.trollBridges[i].component.position.y + this.bridgeFall})  
-                // this.trollBridges[i].component.position = 
-                // {
-                //     x: this.trollBridgesPos[i].x - this.camera.component.position.x + 500 + this.trollBridges[i].component.sprite.width / 2,
-                //     y: this.trollBridgesPos[i].y + this.trollBridges[i].component.sprite.height / 2 + this.bridgeFall 
-                // }
-            }
-        }
-        else
-        {
-            for	(var i = 0; i<this.trollBridges.length; i++)
-            {
-                this.trollBridges[i].component.position.y = this.trollBridgesPos[i].y + this.trollBridges[i].component.sprite.height / 2
-                // this.trollBridges[i].component.position = 
-                // {
-                //     x: this.trollBridgesPos[i].x - this.camera.component.position.x + 500 + this.trollBridges[i].component.sprite.width / 2,
-                //     y: this.trollBridgesPos[i].y + this.trollBridges[i].component.sprite.height / 2
-                // }
             }
         }
         //#endregion
@@ -715,13 +735,6 @@ class LevelTest extends Framework.Level
         }
         // #endregion
 
-        //#region update
-        this.hero.update()
-        this.matter.update()
-        this.rootScene.update() // 對齊 component & sprite
-        this.camera.update()
-        //#endregion
-
         //#region textBox
         this.heroInfoX._value = Math.round(this.hero.component.position.x)
         this.heroInfoY._value = Math.round(this.hero.component.position.y)
@@ -729,9 +742,8 @@ class LevelTest extends Framework.Level
         this.ScoreInfo._value = this.score;
         //#endregion
 
-
         //#region show princess with score 
-        if (this.score >= 1)
+        if (this.score >= 3)
         {
             if(!(this.isPrincess))
             {
@@ -743,6 +755,13 @@ class LevelTest extends Framework.Level
             }
             this.princess.update()
         }
+        //#endregion
+
+        //#region update
+        this.hero.update()
+        this.matter.update()
+        this.rootScene.update() // 對齊 component & sprite
+        this.camera.update()
         //#endregion
 
     }
@@ -851,11 +870,7 @@ class LevelTest extends Framework.Level
                 if (pair.bodyA === this.trollBridges[k].component.body && pair.bodyB === this.hero.component.body) 
                 {
                     // 橋掉下去
-                    // console.log("collision1")
-                    // this.trollBridges[k].component.setBody('isSensor', true)
-                    // this.matter.removeBody(this.trollBridges[k].component)
                     this.isTriggleTrollBridge = true
-                    // this.audio.play({name: 'coin'})
                     // this.hero.isOnFloor = true
                 } 
                 else if (pair.bodyA === this.hero.component.body || pair.bodyB === this.hero.component.body)
@@ -875,8 +890,6 @@ class LevelTest extends Framework.Level
             {
                 if (pair.bodyA === this.floors[k].component.body && pair.bodyB === this.hero.component.body) 
                 {
-                    // console.log("collision1")
-                    // this.audio.play({name: 'coin'})
                     this.hero.isOnFloor = true
                 } 
                 else if (pair.bodyA === this.hero.component.body || pair.bodyB === this.hero.component.body)
@@ -896,10 +909,7 @@ class LevelTest extends Framework.Level
             {
                 if (pair.bodyA === this.BlockQs[k].component.body && pair.bodyB === this.hero.component.body) 
                 {
-                    // console.log("collision1")
-                    // this.audio.play({name: 'coin'})
                     this.hero.isOnFloor = true
-
 
                     var blockHalfWidth = this.BlockQs[k].component.sprite.width / 2
                     if ((this.hero.component.position.y - this.BlockQs[k].component.position.y - this.BlockQs[k].component.sprite.height >= 0) && (this.hero.component.position.x >= this.BlockQs[k].component.position.x - blockHalfWidth)
@@ -937,20 +947,20 @@ class LevelTest extends Framework.Level
         }
         // #endregion
 
-        // #region collision between hero and princess (remove)
-        // if (pair.bodyA === this.hero.component.body && pair.bodyB === this.princess.component.body) 
-        // {
-        //     console.log("The End")
-        //     // this.audio.play({name: 'haha'})
-        //     // Framework.Game.pause()
-        //     Framework.Game.items[0].item = true
-        //     Framework.Game.userIQ = 250
-        //     // 重置關卡
-        //     Framework.Game._levels.splice(3,1,{name : "levelTest", level : new LevelTest()})
-        //     // Framework.Game._levels[1] = {name : "leve1", level : new Level1()}
-        //     // Framework.Game.addNewLevel({level1: new Level1()});
-        //     Framework.Game.goToLevel("chooseLevel")
-        // }
+        // #region collision between hero and princess 
+        if (pair.bodyA === this.hero.component.body && pair.bodyB === this.princess.component.body) 
+        {
+            console.log("The End")
+            // this.audio.play({name: 'haha'})
+            // Framework.Game.pause()
+            Framework.Game.items[0].item = true
+            Framework.Game.userIQ = 250
+            // 重置關卡
+            Framework.Game._levels.splice(3,1,{name : "levelTest", level : new LevelTest()})
+            // Framework.Game._levels[1] = {name : "leve1", level : new Level1()}
+            // Framework.Game.addNewLevel({level1: new Level1()});
+            Framework.Game.goToLevel("chooseLevel")
+        }
         //#endregion 
 
         //#region collision between hero and monster 
@@ -966,6 +976,10 @@ class LevelTest extends Framework.Level
                 console.log("The End because of monster")
                 this.heroDie()
             }
+        }
+        if (pair.bodyA === this.cloudMonsters[0].component.body && pair.bodyB === this.hero.component.body)
+        {
+            this.heroDie()
         }
         //#endregion
     }
