@@ -24,7 +24,7 @@ var Framework = (function (Framework) {
 			{item: false},
 			{item: false}
 		]
-
+		that.userIQ = 250
 
 		that.fps = that._config.fps;
 		that.canvasWidth = that._config.canvasWidth;

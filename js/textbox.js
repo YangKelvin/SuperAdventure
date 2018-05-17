@@ -9,6 +9,8 @@ class Textbox
         this._text = ""
         this._width = 400
         this._height = 60
+        this._fillStyle = 'black'
+        this._fontColor = 'yellow'
     }
     load()
     {
@@ -24,7 +26,7 @@ class Textbox
     {
         //放入正方形
         ctx.globalAlpha=0.4;  //透明度
-        ctx.fillStyle = 'black';    //顏色：黑
+        ctx.fillStyle = this._fillStyle;    //顏色：黑
         //fillRect(x位置, y位置, 長, 寬)
         ctx.fillRect(this._position.x - 10, this._position.y, this._width, this._height); 
 
@@ -32,7 +34,7 @@ class Textbox
         //font = '(字體大小(pt) 字型 ' 
         ctx.font = '30pt Algerian';
         ctx.globalAlpha=1;
-        ctx.fillStyle = 'yellow'; 
+        ctx.fillStyle = this._fontColor; 
         ctx.textBaseline = 'top';   //??
         ctx.textAlign = 'left';     //??
         ctx.fillText(this._text + this._value, this._position.x, this._position.y);
