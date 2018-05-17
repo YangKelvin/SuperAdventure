@@ -507,18 +507,42 @@ class LevelTest extends Framework.Level
             {
                 if (this.walkDirection === 1)
                 {
+                    this.camera.goRight()
                     // go right
-                    this.hero.goRight()
+                    if (this.hero.component.position.x < 500)
+                    {
+                        this.hero.goRight()
+                    }
+                    else 
+                    {
+                        // move map
+                        this.hero.component.position.x = 510
+
+                        // this.matter.setBody(this.floors[0].component.body, 
+                        //         "position", 
+                        //         {x: this.floors[0].component.position.x - 5, y: this.floors[0].component.position.y})
+
+                        for	(var i = 0; i<this.floors.length; i++)
+                        {
+                            this.matter.setBody(this.floors[i].component.body, 
+                                "position", 
+                                {x: this.floors[i].component.position.x - 5, y: this.floors[i].component.position.y})  
+                        }
+                        // this.hero.component.position.x = 500
+                    }
                 }
                 else if (this.walkDirection === 2)
                 {
                     // go left
-                    this.hero.goLeft()
+                    if (this.hero.component.position.x > 70)
+                    {
+                        this.hero.goLeft()
+                    } 
                 }
             }
             if (this.walkDirection === 1 && this.camera.component.position.x < 4290)   // right
             {
-                this.camera.goRight()
+                // this.camera.goRight()
             }
             if (this.walkDirection === 2 && this.camera.component.position.x > 70)   // left
             {
@@ -580,18 +604,18 @@ class LevelTest extends Framework.Level
         //#endregion
     
 
-        //#region map move (new)
+        //#region map move (old)
         if (this.hero.component.position.x >= 500 && this.camera.component.position.x < 3240)
         {
             //#region move floors
-            for	(var i = 0; i<this.floors.length; i++)
-            {
-                this.floors[i].component.position = 
-                {
-                    x: this.floorsPos[i].x - this.camera.component.position.x + 500 + this.floors[i].component.sprite.width / 2,
-                    y: this.floorsPos[i].y + this.floors[i].component.sprite.height / 2
-                }   
-            }
+            // for	(var i = 0; i<this.floors.length; i++)
+            // {
+            //     this.floors[i].component.position = 
+            //     {
+            //         x: this.floorsPos[i].x - this.camera.component.position.x + 500 + this.floors[i].component.sprite.width / 2,
+            //         y: this.floorsPos[i].y + this.floors[i].component.sprite.height / 2
+            //     }   
+            // }
             //#endregion
             
             //#region (remove area)

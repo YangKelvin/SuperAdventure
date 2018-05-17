@@ -41,30 +41,31 @@ class Camera
 
     goRight()
     { 
-        // let force = (0.0004 * this.component.body.mass) ;
-        // console.log("hero goRight")
-        // this.matter.setBody(this.component.body, "velocity", {x: 5, y:this.component.body.velocity.y})
-        // this.matter.setBody(this.component.body, 
-        //     "velocity", 
-        //     {x: 5, y:this.component.body.velocity.y})
-        this.component.position = 
+        this.heroPosition = 
         {
-            x: this.component.position.x + 5,
-            y: this.characterPos.y - this.component.sprite.height / 2
+            x: this.component.position.x,
+            y: this.component.position.y - 1
         }
+        // this.matter.setBody(this.component.body, 
+        //                     "velocity", 
+        //                     {x: 5, y:this.component.body.velocity.y})
+        this.matter.setBody(this.component.body, 
+            "position", 
+            {x: this.heroPosition.x + 5, y:this.heroPosition.y})
     }
     goLeft()
     {
-        // console.log("hero goLeft")
-        // this.matter.setBody(this.component.body, "velocity", {x: -5, y:this.component.body.velocity.y})
-        // this.matter.setBody(this.component.body, 
-        //     "velocity", 
-        //     {x: -5, y:this.component.body.velocity.y})
-        this.component.position = 
+        this.heroPosition = 
         {
-            x: this.component.position.x - 5,
-            y: this.characterPos.y - this.component.sprite.height / 2
+            x: this.component.position.x,
+            y: this.component.position.y - 1
         }
+        // this.matter.setBody(this.component.body, 
+        //                     "velocity", 
+        //                     {x: -5, y:this.component.body.velocity.y})
+        this.matter.setBody(this.component.body, 
+            "position", 
+            {x: this.heroPosition.x - 5, y:this.heroPosition.y})
     }
     
     jump()
