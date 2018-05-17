@@ -64,15 +64,45 @@ class AnimationCharacter
     //charcter move
     goRight()
     { 
+        this.heroPosition = 
+        {
+            x: this.component.position.x,
+            y: this.component.position.y - 1
+        }
+        // this.matter.setBody(this.component.body, 
+        //                     "velocity", 
+        //                     {x: 5, y:this.component.body.velocity.y})
         this.matter.setBody(this.component.body, 
-                            "velocity", 
-                            {x: 5, y:this.component.body.velocity.y})
+            "position", 
+            {x: this.heroPosition.x + 5, y:this.heroPosition.y})
     }
     goLeft()
     {
+        this.heroPosition = 
+        {
+            x: this.component.position.x,
+            y: this.component.position.y - 1
+        }
+        // this.matter.setBody(this.component.body, 
+        //                     "velocity", 
+        //                     {x: -5, y:this.component.body.velocity.y})
         this.matter.setBody(this.component.body, 
-                            "velocity", 
-                            {x: -5, y:this.component.body.velocity.y})
+            "position", 
+            {x: this.heroPosition.x - 5, y:this.heroPosition.y})
+    }
+    goLeft2()
+    {
+        this.heroPosition = 
+        {
+            x: this.component.position.x,
+            y: this.component.position.y - 10
+        }
+        // this.matter.setBody(this.component.body, 
+        //                     "velocity", 
+        //                     {x: -5, y:this.component.body.velocity.y})
+        this.matter.setBody(this.component.body, 
+            "position", 
+            {x: this.heroPosition.x, y:this.heroPosition.y})
     }
     jump()
     {
