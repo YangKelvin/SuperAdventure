@@ -127,14 +127,14 @@ class LevelTest extends Framework.Level
     }
     loadPrincess()
     {
-        this.princessPos = {x:4130, y:200}
+        this.princessPos = {x:4200, y:606}
         
         this.princessOps = 
         { 
             label: 'princess', 
             friction: 0.05, 
             density:0.002,
-            isStatic: false
+            isStatic: true
         }
 
         this.princess =new Character('images/princess.png', 
@@ -368,9 +368,8 @@ class LevelTest extends Framework.Level
         {
             label: 'Pipe', 
             friction: 0.05, 
-            density:0.002, 
-            isStatic:true,
-            // isSensor:true
+            density: 0.002, 
+            isStatic:true
         }
         this.Pipes = new Array()
         for (var i = 0; i < this.PipePos.length; i++)
@@ -424,8 +423,7 @@ class LevelTest extends Framework.Level
         {
             label: 'Monster', 
             friction: 0.05, 
-            density:0.002, 
-            // isSensor:true
+            density:0.002
         }
 
         this.monsters = new Array()
@@ -499,7 +497,7 @@ class LevelTest extends Framework.Level
         }
 
         //#region map move
-        if (this.hero.component.position.x >= 500)
+        if (this.hero.component.position.x >= 500 && this.camera.component.position.x < 3240)
         {
             //#region move floors
             for	(var i = 0; i<this.floors.length; i++)
@@ -590,7 +588,7 @@ class LevelTest extends Framework.Level
         //#endregion 
 
         //#region show princess with score
-        if (this.score <= 3)
+        if (this.score >= 3)
         {
             if(!(this.isPrincess))
             {
@@ -648,7 +646,7 @@ class LevelTest extends Framework.Level
         //#region camera move & hero move
         if (this.isPressWalk === true || this.isJump === true)
         {
-            if (this.walkDirection === 1)   // right
+            if (this.walkDirection === 1 && this.camera.component.position.x < 4290)   // right
             {
                 this.camera.goRight()
             }
@@ -668,14 +666,24 @@ class LevelTest extends Framework.Level
         {
             this.hero.component.position.x = this.camera.component.position.x
         }
-        // 當position.x > 500 將here的position固定在500
-        else if (this.camera.component.position.x > 500)
+        // 當500 < camera.position.x < 3240 將here的position固定在500
+        else if (this.camera.component.position.x > 500 && this.camera.component.position.x < 3240)
         {
             this.hero.component.position.x = 500
         }
+        // 當camera.position.x >= 3240 將here的position設為: 500 + (this.camera.component.position.x - 3240)
+        else if (this.camera.component.position.x >= 3240)
+        {
+            this.hero.component.position.x = this.camera.component.position.x - 2740
+        }
+
         if (this.camera.component.position.x <= 70)
         {
             this.camera.component.position.x = 70
+        }
+        else if (this.camera.component.position.x >= 4290)
+        {
+            this.camera.component.position.x = 4290
         }
         
         //#endregion
@@ -719,7 +727,7 @@ class LevelTest extends Framework.Level
         {
             // jump
             // this.audio.play({name: 'jump'})
-            console.log("W")
+            // console.log("W")
             this.isJump = true
         }
         if(e.key === 'A') 
