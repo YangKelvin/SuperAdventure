@@ -459,13 +459,13 @@ class LevelTest extends Framework.Level
         this.loadTextbox()
         this.loadHero()
         this.loadGround()
-        this.loadCoin()
-        this.loadPrincess()
+        // this.loadCoin()
+        // this.loadPrincess()
         this.loadCamera()
-        this.loadTrollBridge()
-        this.loadPipe()
-        this.loadBlockQ()
-        this.loadMonster()
+        // this.loadTrollBridge()
+        // this.loadPipe()
+        // this.loadBlockQ()
+        // this.loadMonster()
         this.loadICON()
         // this.loadAudio()
         // this.audio.play({name: 'bgm1', loop: true})
@@ -510,79 +510,78 @@ class LevelTest extends Framework.Level
             }
             //#endregion
             
-            //#region move princess
-            // this.princess.component.position.x = this.princessPos.x - this.camera.component.position.x + 500 + this.princess.component.sprite.width/2
-            this.princess.component.position = 
-            {
-                x: this.princessPos.x - this.camera.component.position.x + 500 + this.princess.component.sprite.width / 2,
-                y: this.princess.component.position.y
-            }
+            //#region move princess (remove)
+            // this.princess.component.position = 
+            // {
+            //     x: this.princessPos.x - this.camera.component.position.x + 500 + this.princess.component.sprite.width / 2,
+            //     y: this.princess.component.position.y
+            // }
             //#endregion
             
-            //#region move coinBlock
-            for	(var i = 0; i<this.coinsPos.length; i++)
-            {
-                this.coins[i].component.position = 
-                {
-                    x: this.coinsPos[i].x - this.camera.component.position.x + 500 + this.coins[i].component.sprite.width / 2,
-                    y: this.coinsPos[i].y + this.coins[i].component.sprite.height / 2
-                }
-            }
+            //#region move coinBlock (remove)
+            // for	(var i = 0; i<this.coinsPos.length; i++)
+            // {
+            //     this.coins[i].component.position = 
+            //     {
+            //         x: this.coinsPos[i].x - this.camera.component.position.x + 500 + this.coins[i].component.sprite.width / 2,
+            //         y: this.coinsPos[i].y + this.coins[i].component.sprite.height / 2
+            //     }
+            // }
             //#endregion
             
-            // #region move walls
-            for	(var i = 0; i<this.walls.length; i++)
-            {
-                this.walls[i].component.position = 
-                {
-                    x: this.wallsPos[i].x - this.camera.component.position.x + 500 + this.walls[i].component.sprite.width / 2,
-                    y: this.wallsPos[i].y + this.walls[i].component.sprite.height / 2
-                }
-            }
+            // #region move walls (remove)
+            // for	(var i = 0; i<this.walls.length; i++)
+            // {
+            //     this.walls[i].component.position = 
+            //     {
+            //         x: this.wallsPos[i].x - this.camera.component.position.x + 500 + this.walls[i].component.sprite.width / 2,
+            //         y: this.wallsPos[i].y + this.walls[i].component.sprite.height / 2
+            //     }
+            // }
             //#endregion
 
-            // #region move Pipe
-            for	(var i = 0; i<this.Pipes.length; i++)
-            {
-                this.Pipes[i].component.position = 
-                {
-                    x: this.PipePos[i].x - this.camera.component.position.x + 500 + this.Pipes[i].component.sprite.width / 2,
-                    y: this.PipePos[i].y + this.Pipes[i].component.sprite.height / 2
-                }
-            }
+            // #region move Pipe (remove)
+            // for	(var i = 0; i<this.Pipes.length; i++)
+            // {
+            //     this.Pipes[i].component.position = 
+            //     {
+            //         x: this.PipePos[i].x - this.camera.component.position.x + 500 + this.Pipes[i].component.sprite.width / 2,
+            //         y: this.PipePos[i].y + this.Pipes[i].component.sprite.height / 2
+            //     }
+            // }
             //#endregion
 
-            // #region move blockQ
-            for	(var i = 0; i<this.BlockQs.length; i++)
-            {
-                this.BlockQs[i].component.position = 
-                {
-                    x: this.BlockQPos[i].x - this.camera.component.position.x + 500 + this.BlockQs[i].component.sprite.width / 2,
-                    y: this.BlockQPos[i].y + this.BlockQs[i].component.sprite.height / 2
-                }
-            }
+            // #region move blockQ (remove)
+            // for	(var i = 0; i<this.BlockQs.length; i++)
+            // {
+            //     this.BlockQs[i].component.position = 
+            //     {
+            //         x: this.BlockQPos[i].x - this.camera.component.position.x + 500 + this.BlockQs[i].component.sprite.width / 2,
+            //         y: this.BlockQPos[i].y + this.BlockQs[i].component.sprite.height / 2
+            //     }
+            // }
             //#endregion
 
-            // #region move trollBridge 
-            for	(var i = 0; i<this.trollBridges.length; i++)
-            {
-                this.trollBridges[i].component.position = 
-                {
-                    x: this.trollBridgesPos[i].x - this.camera.component.position.x + 500 + this.trollBridges[i].component.sprite.width / 2,
-                    y: this.trollBridgesPos[i].y + this.trollBridges[i].component.sprite.height / 2
-                }
-            }
+            // #region move trollBridge (remove)
+            // for	(var i = 0; i<this.trollBridges.length; i++)
+            // {
+            //     this.trollBridges[i].component.position = 
+            //     {
+            //         x: this.trollBridgesPos[i].x - this.camera.component.position.x + 500 + this.trollBridges[i].component.sprite.width / 2,
+            //         y: this.trollBridgesPos[i].y + this.trollBridges[i].component.sprite.height / 2
+            //     }
+            // }
             //#endregion
 
-            //#region move monsters
-            for	(var i = 0; i<this.monsters.length; i++)
-            {
-                this.monsters[i].component.position = 
-                {
-                    x: this.monstersPos[i].x - this.camera.component.position.x + 500 + this.monsters[i].component.sprite.width / 2,
-                    y: this.monstersPos[i].y + this.monsters[i].component.sprite.height / 2
-                }
-            }
+            //#region move monsters (remove)
+            // for	(var i = 0; i<this.monsters.length; i++)
+            // {
+            //     this.monsters[i].component.position = 
+            //     {
+            //         x: this.monstersPos[i].x - this.camera.component.position.x + 500 + this.monsters[i].component.sprite.width / 2,
+            //         y: this.monstersPos[i].y + this.monsters[i].component.sprite.height / 2
+            //     }
+            // }
             //#endregion
         }
         //#endregion 
@@ -600,31 +599,31 @@ class LevelTest extends Framework.Level
         }
         //#endregion
         
-        //#region triggle bridge & fall down
-        if (this.isTriggleTrollBridge === true)
-        {
-            this.bridgeFall += 10
-            for (var i = 0; i < this.trollBridges.length; i++)
-            {
-                this.trollBridges[i].component.position = 
-                {
-                    x: this.trollBridgesPos[i].x - this.camera.component.position.x + 500 + this.trollBridges[i].component.sprite.width / 2,
-                    y: this.trollBridgesPos[i].y + this.trollBridges[i].component.sprite.height / 2 + this.bridgeFall 
-                }
-            }
-        }
-        else
-        {
-            for	(var i = 0; i<this.trollBridges.length; i++)
-            {
-                this.trollBridges[i].component.position.y = this.trollBridgesPos[i].y + this.trollBridges[i].component.sprite.height / 2
-                // this.trollBridges[i].component.position = 
-                // {
-                //     x: this.trollBridgesPos[i].x - this.camera.component.position.x + 500 + this.trollBridges[i].component.sprite.width / 2,
-                //     y: this.trollBridgesPos[i].y + this.trollBridges[i].component.sprite.height / 2
-                // }
-            }
-        }
+        //#region triggle bridge & fall down (remove)
+        // if (this.isTriggleTrollBridge === true)
+        // {
+        //     this.bridgeFall += 10
+        //     for (var i = 0; i < this.trollBridges.length; i++)
+        //     {
+        //         this.trollBridges[i].component.position = 
+        //         {
+        //             x: this.trollBridgesPos[i].x - this.camera.component.position.x + 500 + this.trollBridges[i].component.sprite.width / 2,
+        //             y: this.trollBridgesPos[i].y + this.trollBridges[i].component.sprite.height / 2 + this.bridgeFall 
+        //         }
+        //     }
+        // }
+        // else
+        // {
+        //     for	(var i = 0; i<this.trollBridges.length; i++)
+        //     {
+        //         this.trollBridges[i].component.position.y = this.trollBridgesPos[i].y + this.trollBridges[i].component.sprite.height / 2
+        //         // this.trollBridges[i].component.position = 
+        //         // {
+        //         //     x: this.trollBridgesPos[i].x - this.camera.component.position.x + 500 + this.trollBridges[i].component.sprite.width / 2,
+        //         //     y: this.trollBridgesPos[i].y + this.trollBridges[i].component.sprite.height / 2
+        //         // }
+        //     }
+        // }
         //#endregion
 
         //#region update
@@ -782,29 +781,29 @@ class LevelTest extends Framework.Level
         
         var pairs = event.pairs;
         
-        // #region collision between hero and trollBridge
-        for (var i = 0, j = pairs.length; i != j; ++i) 
-        {
-            var pair = pairs[i];
+        // #region collision between hero and trollBridge (remove)
+        // for (var i = 0, j = pairs.length; i != j; ++i) 
+        // {
+        //     var pair = pairs[i];
 
-            for (var k = 2; k < this.trollBridgesPos.length; k++)
-            {
-                if (pair.bodyA === this.trollBridges[k].component.body && pair.bodyB === this.hero.component.body) 
-                {
-                    // 橋掉下去
-                    // console.log("collision1")
-                    // this.trollBridges[k].component.setBody('isSensor', true)
-                    // this.matter.removeBody(this.trollBridges[k].component)
-                    this.isTriggleTrollBridge = true
-                    // this.audio.play({name: 'coin'})
-                    // this.hero.isOnFloor = true
-                } 
-                else if (pair.bodyA === this.hero.component.body || pair.bodyB === this.hero.component.body)
-                {
-                    // console.log("No Collision")
-                }
-            }
-        }
+        //     for (var k = 2; k < this.trollBridgesPos.length; k++)
+        //     {
+        //         if (pair.bodyA === this.trollBridges[k].component.body && pair.bodyB === this.hero.component.body) 
+        //         {
+        //             // 橋掉下去
+        //             // console.log("collision1")
+        //             // this.trollBridges[k].component.setBody('isSensor', true)
+        //             // this.matter.removeBody(this.trollBridges[k].component)
+        //             this.isTriggleTrollBridge = true
+        //             // this.audio.play({name: 'coin'})
+        //             // this.hero.isOnFloor = true
+        //         } 
+        //         else if (pair.bodyA === this.hero.component.body || pair.bodyB === this.hero.component.body)
+        //         {
+        //             // console.log("No Collision")
+        //         }
+        //     }
+        // }
         //#endregion
 
         // #region collision between hero and floor 
@@ -828,88 +827,76 @@ class LevelTest extends Framework.Level
         }
         //#endregion
 
-        //#region collision between hero and blockQ
-        for (var i = 0, j = pairs.length; i != j; ++i) 
-        {
-            var pair = pairs[i];
+        //#region collision between hero and blockQ (remove)
+        // for (var i = 0, j = pairs.length; i != j; ++i) 
+        // {
+        //     var pair = pairs[i];
 
-            for (var k = 0; k < this.BlockQPos.length; k++)
-            {
-                if (pair.bodyA === this.BlockQs[k].component.body && pair.bodyB === this.hero.component.body) 
-                {
-                    // console.log("collision1")
-                    // this.audio.play({name: 'coin'})
-                    this.hero.isOnFloor = true
-                } 
-                else if (pair.bodyA === this.hero.component.body || pair.bodyB === this.hero.component.body)
-                {
-                    // console.log("No Collision")
-                }
-            }
-        }
+        //     for (var k = 0; k < this.BlockQPos.length; k++)
+        //     {
+        //         if (pair.bodyA === this.BlockQs[k].component.body && pair.bodyB === this.hero.component.body) 
+        //         {
+        //             // console.log("collision1")
+        //             // this.audio.play({name: 'coin'})
+        //             this.hero.isOnFloor = true
+        //         } 
+        //         else if (pair.bodyA === this.hero.component.body || pair.bodyB === this.hero.component.body)
+        //         {
+        //             // console.log("No Collision")
+        //         }
+        //     }
+        // }
         //#endregion
 
-        // #region collision between hero and coin
-        for (var i = 0, j = pairs.length; i != j; ++i) 
-        {
-            var pair = pairs[i];
+        // #region collision between hero and coin (remove)
+        // for (var i = 0, j = pairs.length; i != j; ++i) 
+        // {
+        //     var pair = pairs[i];
 
-            for (var k = 0; k < this.coinsPos.length; k++)
-            {
-                if (pair.bodyA === this.coins[k].component.body && pair.bodyB === this.hero.component.body) 
-                {
-                    // console.log("collision1")
-                    this.score += 1
-                    this.coins[k].pic = null
-                    this.matter.removeBody(this.coins[k].component.body)
-                    // this.audio.play({name: 'coin'})
-                } 
-            }
-        }
+        //     for (var k = 0; k < this.coinsPos.length; k++)
+        //     {
+        //         if (pair.bodyA === this.coins[k].component.body && pair.bodyB === this.hero.component.body) 
+        //         {
+        //             // console.log("collision1")
+        //             this.score += 1
+        //             this.coins[k].pic = null
+        //             this.matter.removeBody(this.coins[k].component.body)
+        //             // this.audio.play({name: 'coin'})
+        //         } 
+        //     }
+        // }
         //#endregion
 
-        // #region collision between hero and princess
-        if (pair.bodyA === this.hero.component.body && pair.bodyB === this.princess.component.body) 
-        {
-            console.log("The End")
-            // this.audio.play({name: 'haha'})
-            // Framework.Game.pause()
-            Framework.Game.items[0].item = true
-            Framework.Game.userIQ = 250
-            // 重置關卡
-            Framework.Game._levels.splice(3,1,{name : "levelTest", level : new LevelTest()})
-            // Framework.Game._levels[1] = {name : "leve1", level : new Level1()}
-            // Framework.Game.addNewLevel({level1: new Level1()});
-            Framework.Game.goToLevel("chooseLevel")
-        }
+        // #region collision between hero and princess (remove)
+        // if (pair.bodyA === this.hero.component.body && pair.bodyB === this.princess.component.body) 
+        // {
+        //     console.log("The End")
+        //     // this.audio.play({name: 'haha'})
+        //     // Framework.Game.pause()
+        //     Framework.Game.items[0].item = true
+        //     Framework.Game.userIQ = 250
+        //     // 重置關卡
+        //     Framework.Game._levels.splice(3,1,{name : "levelTest", level : new LevelTest()})
+        //     // Framework.Game._levels[1] = {name : "leve1", level : new Level1()}
+        //     // Framework.Game.addNewLevel({level1: new Level1()});
+        //     Framework.Game.goToLevel("chooseLevel")
+        // }
         //#endregion 
 
-        //#region collision between hero and monster
-        if (pair.bodyA === this.monsters[0].component.body && pair.bodyB === this.hero.component.body) 
-        {
-            if (this.hero.component.position.y < 680)
-            {
-                this.monsters[0].pic = null
-                this.matter.removeBody(this.monsters[0].component.body)
-            }
-            else
-            {
-                console.log("The End because of monster")
-                this.heroDie()
-            }
-            
-
-            // this.audio.play({name: 'haha'})
-            // Framework.Game.pause()
-            // Framework.Game.items[0].item = true
-            // Framework.Game.userIQ = 250
-            // 重置關卡
-            // Framework.Game._levels.splice(3,1,{name : "levelTest", level : new LevelTest()})
-            // Framework.Game._levels[1] = {name : "leve1", level : new Level1()}
-            // Framework.Game.addNewLevel({level1: new Level1()});
-            // Framework.Game.goToLevel("chooseLevel")
-            
-        }
+        //#region collision between hero and monster (remove)
+        // if (pair.bodyA === this.monsters[0].component.body && pair.bodyB === this.hero.component.body) 
+        // {
+        //     if (this.hero.component.position.y < 680)
+        //     {
+        //         this.monsters[0].pic = null
+        //         this.matter.removeBody(this.monsters[0].component.body)
+        //     }
+        //     else
+        //     {
+        //         console.log("The End because of monster")
+        //         this.heroDie()
+        //     }
+        // }
         //#endregion
     }
 };
