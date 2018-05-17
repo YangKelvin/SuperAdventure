@@ -501,12 +501,14 @@ class LevelTest extends Framework.Level
         //#region camera move & hero move (new)
         if (this.isPress)
         {
-            console.log(this.isPress)
+            // console.log(this.isPress)
 
             if (this.isPressWalk)
             {
+                let moveLength = 0
                 if (this.walkDirection === 1)
                 {
+                    moveLength = -5
                     this.camera.goRight()
                     // go right
                     if (this.hero.component.position.x < 500)
@@ -515,29 +517,49 @@ class LevelTest extends Framework.Level
                     }
                     else 
                     {
-                        // move map
                         this.hero.component.position.x = 510
 
-                        // this.matter.setBody(this.floors[0].component.body, 
-                        //         "position", 
-                        //         {x: this.floors[0].component.position.x - 5, y: this.floors[0].component.position.y})
+                        //#region move map
 
+                        //#region move floors
                         for	(var i = 0; i<this.floors.length; i++)
                         {
                             this.matter.setBody(this.floors[i].component.body, 
                                 "position", 
-                                {x: this.floors[i].component.position.x - 5, y: this.floors[i].component.position.y})  
+                                {x: this.floors[i].component.position.x + moveLength, y: this.floors[i].component.position.y})  
                         }
+                        //#endregion
+
+                        //#endregion
+
                         // this.hero.component.position.x = 500
                     }
                 }
                 else if (this.walkDirection === 2)
                 {
                     // go left
-                    if (this.hero.component.position.x > 70)
+                    moveLength = 5
+                    if (this.hero.component.position.x > 70)    //讓hero.position部會小於70
                     {
-                        this.hero.goLeft()
+                        console.log(this.floors[1].component.position.x)
+                        if (this.floors[1].component.position.x === 35)   // 如果第一個方塊的位置正確
+                        {
+                            this.hero.goLeft()
+                        }
+                        else
+                        {
+                            console.log("left map2")
+                            //#region move floors
+                            for	(var i = 0; i<this.floors.length; i++)
+                            {
+                                this.matter.setBody(this.floors[i].component.body, 
+                                    "position", 
+                                    {x: this.floors[i].component.position.x + moveLength, y: this.floors[i].component.position.y})  
+                            }
+                            //#endregion
+                        }
                     } 
+                    
                 }
             }
             if (this.walkDirection === 1 && this.camera.component.position.x < 4290)   // right
