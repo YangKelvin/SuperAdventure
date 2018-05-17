@@ -656,33 +656,38 @@ class LevelTest extends Framework.Level
         // this.hero.component.position = this.lockHeroPos
 
         //#region triggle bridge & fall down (remove)
-        // if (this.isTriggleTrollBridge === true)
-        // {
-        //     this.bridgeFall += 10
-        //     for (var i = 0; i < this.trollBridges.length; i++)
-        //     {
-        //         this.trollBridges[i].component.position = 
-        //         {
-        //             x: this.trollBridgesPos[i].x - this.camera.component.position.x + 500 + this.trollBridges[i].component.sprite.width / 2,
-        //             y: this.trollBridgesPos[i].y + this.trollBridges[i].component.sprite.height / 2 + this.bridgeFall 
-        //         }
-        //     }
-        // }
-        // else
-        // {
-        //     for	(var i = 0; i<this.trollBridges.length; i++)
-        //     {
-        //         this.trollBridges[i].component.position.y = this.trollBridgesPos[i].y + this.trollBridges[i].component.sprite.height / 2
-        //         // this.trollBridges[i].component.position = 
-        //         // {
-        //         //     x: this.trollBridgesPos[i].x - this.camera.component.position.x + 500 + this.trollBridges[i].component.sprite.width / 2,
-        //         //     y: this.trollBridgesPos[i].y + this.trollBridges[i].component.sprite.height / 2
-        //         // }
-        //     }
-        // }
+        if (this.isTriggleTrollBridge === true)
+        {
+            this.bridgeFall = 10
+            
+
+            for (var i = 0; i < this.trollBridges.length; i++)
+            {
+                this.matter.setBody(this.trollBridges[i].component.body, 
+                    "position", 
+                    {x: this.trollBridges[i].component.position.x, y: this.trollBridges[i].component.position.y + this.bridgeFall})  
+                // this.trollBridges[i].component.position = 
+                // {
+                //     x: this.trollBridgesPos[i].x - this.camera.component.position.x + 500 + this.trollBridges[i].component.sprite.width / 2,
+                //     y: this.trollBridgesPos[i].y + this.trollBridges[i].component.sprite.height / 2 + this.bridgeFall 
+                // }
+            }
+        }
+        else
+        {
+            for	(var i = 0; i<this.trollBridges.length; i++)
+            {
+                this.trollBridges[i].component.position.y = this.trollBridgesPos[i].y + this.trollBridges[i].component.sprite.height / 2
+                // this.trollBridges[i].component.position = 
+                // {
+                //     x: this.trollBridgesPos[i].x - this.camera.component.position.x + 500 + this.trollBridges[i].component.sprite.width / 2,
+                //     y: this.trollBridgesPos[i].y + this.trollBridges[i].component.sprite.height / 2
+                // }
+            }
+        }
         //#endregion
     
-        // region blockQ collision animation
+        // region blockQ collision animation (add by james)
         if (this.isblockQcollision && (this.hero.component.position.x < 500 || this.camera.component.position.x >= 3240))
         {
             if (this.waitCount < 15)
