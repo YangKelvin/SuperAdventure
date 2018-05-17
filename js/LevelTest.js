@@ -168,6 +168,7 @@ class LevelTest extends Framework.Level
                 // {x: 280, y: 710},
                 // ground
                 {x: 0, y: 780},
+                {x: 0, y: 500},//小跳板
                 {x: 70, y: 780},
                 {x: 140, y: 780},
                 {x: 210, y: 780},
@@ -177,6 +178,7 @@ class LevelTest extends Framework.Level
                 {x: 490, y: 780},
                 {x: 560, y: 780},
                 {x: 630, y: 780},
+                {x: 630, y: 360},//小跳板
                 {x: 700, y: 780},
                 {x: 770, y: 780},
                 {x: 840, y: 780},
@@ -234,6 +236,7 @@ class LevelTest extends Framework.Level
                 {x: 3500, y: 780},
                 {x: 3570, y: 780},
                 {x: 3640, y: 780},
+                
                 {x: 3990, y: 780},
                 {x: 4060, y: 780},
                 {x: 4130, y: 780},
