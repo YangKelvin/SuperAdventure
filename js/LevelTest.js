@@ -607,7 +607,8 @@ class LevelTest extends Framework.Level
             // {
             //     x: this.cloudMonstersPos[i].x - this.camera.component.position.x + 500 + this.cloudMonsters[i].component.sprite.width / 2,
             //     y: this.cloudMonstersPos[i].y + this.cloudMonsters[i].component.sprite.height / 2
-            // }
+            // } 
+            
         }
     }
 
