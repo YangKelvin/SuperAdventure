@@ -149,6 +149,8 @@ class LevelTest extends Framework.Level
         // floor
         this.floorsPos = 
             [
+                //test
+                {x: 280, y: 710},
                 // ground
                 {x: 0, y: 780},
                 {x: 70, y: 780},
@@ -483,7 +485,7 @@ class LevelTest extends Framework.Level
     {
         // super.update()
         // console.log(this.monsters[0].component.position)
-        console.log(this.camera.component.position.y)
+        // console.log(this.camera.component.position.y)
 
         if (this.hero.component.position.y > 1000)
         {
@@ -678,6 +680,8 @@ class LevelTest extends Framework.Level
         
         //#endregion
 
+        // this.hero.component.position.x = this.camera.component.position.x
+
         // console.log(this.princess.component.position, this.princess.component.sprite.position)
         // console.log(this.floors[0].component.position, this.floors[0].component.sprite.position)
         // console.log(this.hero.isOnFloor)
@@ -747,16 +751,16 @@ class LevelTest extends Framework.Level
             this.isJump = false
         }
         if(e.key === 'F11') 
-            {
-                this.isFullScreen = false
-                if(!this.isFullScreen) {
-                    Framework.Game.fullScreen();
-                    this.isFullScreen = true;
-                } else {
-                    Framework.Game.exitFullScreen();
-                    this.isFullScreen = false;
-                } 
-            }
+        {
+            this.isFullScreen = false
+            if(!this.isFullScreen) {
+                Framework.Game.fullScreen();
+                this.isFullScreen = true;
+            } else {
+                Framework.Game.exitFullScreen();
+                this.isFullScreen = false;
+            } 
+        }
     }
     mousemove(e) 
     {
