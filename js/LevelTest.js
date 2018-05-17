@@ -12,6 +12,7 @@ class LevelTest extends Framework.Level
 
 
         this.heroAlive = true
+        this.isPress = false
         this.isPressWalk = false
         this.isJump = false
         this.walkDirection = 0
@@ -481,22 +482,105 @@ class LevelTest extends Framework.Level
 
     update() 
     {
-        // super.update()
-        // console.log(this.monsters[0].component.position)
-        // console.log(this.camera.component.position.y)
-
+        //#region hero die condition
         if (this.hero.component.position.y > 1000)
         {
             this.heroAlive = false
         }
+        //#endregion
 
+        //#region judge hero die or not
         if(this.heroAlive === false)
         {
             console.log("this.heroAlive = flase")
             this.heroDie()
         }
+        //#endregion
 
-        //#region map move
+
+        //#region camera move & hero move (new)
+        if (this.isPress)
+        {
+            console.log(this.isPress)
+
+            if (this.isPressWalk)
+            {
+                if (this.walkDirection === 1)
+                {
+                    // go right
+                    this.hero.goRight()
+                }
+                else if (this.walkDirection === 2)
+                {
+                    // go left
+                    this.hero.goLeft()
+                }
+            }
+            if (this.walkDirection === 1 && this.camera.component.position.x < 4290)   // right
+            {
+                this.camera.goRight()
+            }
+            if (this.walkDirection === 2 && this.camera.component.position.x > 70)   // left
+            {
+                this.camera.goLeft()
+            }
+            if (this.isJump === true && this.hero.isOnFloor === true)   // jump
+            {
+                this.hero.jump()
+                this.hero.isOnFloor = false
+            }
+        }
+        //#endregion
+
+        //#region camera move & hero move (old) (remove)
+        // if (this.isPressWalk === true || this.isJump === true)
+        // {
+        //     if (this.walkDirection === 1 && this.camera.component.position.x < 4290)   // right
+        //     {
+        //         this.camera.goRight()
+        //     }
+        //     if (this.walkDirection === 2 && this.camera.component.position.x > 70)   // left
+        //     {
+        //         this.camera.goLeft()
+        //     }
+        //     if (this.isJump === true && this.hero.isOnFloor === true)   // jump
+        //     {
+        //         this.hero.jump()
+        //         this.hero.isOnFloor = false
+        //     }
+        // }
+
+        // 若移動的camera.x <= 500 hero位移（跟著camera）
+        // if (this.camera.component.position.x <= 500)
+        // {
+        //     this.hero.component.position.x = this.camera.component.position.x
+        // }
+
+        // 當500 < camera.position.x < 3240 將here的position固定在500
+        // else if (this.camera.component.position.x > 500 && this.camera.component.position.x < 3240)
+        // {
+        //     this.hero.component.position.x = 500
+        // } 
+
+        // 當camera.position.x >= 3240 將here的position設為: 500 + (this.camera.component.position.x - 3240)
+        // else if (this.camera.component.position.x >= 3240)
+        // {
+        //     this.hero.component.position.x = this.camera.component.position.x - 2740
+        // }
+
+        // if (this.camera.component.position.x <= 70)
+        // {
+        //     this.camera.component.position.x = 70
+        // }
+        // else if (this.camera.component.position.x >= 4290)
+        // {
+        //     this.camera.component.position.x = 4290
+        // }
+        
+        //#endregion
+    
+
+        //#region map move (new)
         if (this.hero.component.position.x >= 500 && this.camera.component.position.x < 3240)
         {
             //#region move floors
@@ -510,6 +594,8 @@ class LevelTest extends Framework.Level
             }
             //#endregion
             
+            //#region (remove area)
+
             //#region move princess (remove)
             // this.princess.component.position = 
             // {
@@ -583,20 +669,133 @@ class LevelTest extends Framework.Level
             //     }
             // }
             //#endregion
+        
+            //#endregion
         }
+        //#endregion
+
+
+        //#region update
+        this.hero.update()
+        this.matter.update()
+        this.rootScene.update() // 對齊 component & sprite
+        this.camera.update()
+        //#endregion
+
+        //#region textBox
+        this.heroInfoX._value = Math.round(this.hero.component.position.x)
+        this.heroInfoY._value = Math.round(this.hero.component.position.y)
+        this.mapInfoL._value = this.camera.component.position.x
+        this.ScoreInfo._value = this.score;
+        //#endregion
+
+        //#region map move (old) (remove)
+        /*
+        if (this.hero.component.position.x >= 500 && this.camera.component.position.x < 3240)
+        {
+            //#region move floors
+            for	(var i = 0; i<this.floors.length; i++)
+            {
+                this.floors[i].component.position = 
+                {
+                    x: this.floorsPos[i].x - this.camera.component.position.x + 500 + this.floors[i].component.sprite.width / 2,
+                    y: this.floorsPos[i].y + this.floors[i].component.sprite.height / 2
+                }   
+            }
+            //#endregion
+            
+            //#region (remove area)
+
+            //#region move princess (remove)
+            // this.princess.component.position = 
+            // {
+            //     x: this.princessPos.x - this.camera.component.position.x + 500 + this.princess.component.sprite.width / 2,
+            //     y: this.princess.component.position.y
+            // }
+            //#endregion
+            
+            //#region move coinBlock (remove)
+            // for	(var i = 0; i<this.coinsPos.length; i++)
+            // {
+            //     this.coins[i].component.position = 
+            //     {
+            //         x: this.coinsPos[i].x - this.camera.component.position.x + 500 + this.coins[i].component.sprite.width / 2,
+            //         y: this.coinsPos[i].y + this.coins[i].component.sprite.height / 2
+            //     }
+            // }
+            //#endregion
+            
+            // #region move walls (remove)
+            // for	(var i = 0; i<this.walls.length; i++)
+            // {
+            //     this.walls[i].component.position = 
+            //     {
+            //         x: this.wallsPos[i].x - this.camera.component.position.x + 500 + this.walls[i].component.sprite.width / 2,
+            //         y: this.wallsPos[i].y + this.walls[i].component.sprite.height / 2
+            //     }
+            // }
+            //#endregion
+
+            // #region move Pipe (remove)
+            // for	(var i = 0; i<this.Pipes.length; i++)
+            // {
+            //     this.Pipes[i].component.position = 
+            //     {
+            //         x: this.PipePos[i].x - this.camera.component.position.x + 500 + this.Pipes[i].component.sprite.width / 2,
+            //         y: this.PipePos[i].y + this.Pipes[i].component.sprite.height / 2
+            //     }
+            // }
+            //#endregion
+
+            // #region move blockQ (remove)
+            // for	(var i = 0; i<this.BlockQs.length; i++)
+            // {
+            //     this.BlockQs[i].component.position = 
+            //     {
+            //         x: this.BlockQPos[i].x - this.camera.component.position.x + 500 + this.BlockQs[i].component.sprite.width / 2,
+            //         y: this.BlockQPos[i].y + this.BlockQs[i].component.sprite.height / 2
+            //     }
+            // }
+            //#endregion
+
+            // #region move trollBridge (remove)
+            // for	(var i = 0; i<this.trollBridges.length; i++)
+            // {
+            //     this.trollBridges[i].component.position = 
+            //     {
+            //         x: this.trollBridgesPos[i].x - this.camera.component.position.x + 500 + this.trollBridges[i].component.sprite.width / 2,
+            //         y: this.trollBridgesPos[i].y + this.trollBridges[i].component.sprite.height / 2
+            //     }
+            // }
+            //#endregion
+
+            //#region move monsters (remove)
+            // for	(var i = 0; i<this.monsters.length; i++)
+            // {
+            //     this.monsters[i].component.position = 
+            //     {
+            //         x: this.monstersPos[i].x - this.camera.component.position.x + 500 + this.monsters[i].component.sprite.width / 2,
+            //         y: this.monstersPos[i].y + this.monsters[i].component.sprite.height / 2
+            //     }
+            // }
+            //#endregion
+        
+            //#endregion
+        }
+        */
         //#endregion 
 
-        //#region show princess with score
-        if (this.score >= 3)
-        {
-            if(!(this.isPrincess))
-            {
-                this.rootScene.attach(this.princess.pic)
-                this.isPrincess = true
-                console.log("Princess is draw!!")
-            }
-            this.princess.update()
-        }
+        //#region show princess with score (remove)
+        // if (this.score >= 3)
+        // {
+        //     if(!(this.isPrincess))
+        //     {
+        //         this.rootScene.attach(this.princess.pic)
+        //         this.isPrincess = true
+        //         console.log("Princess is draw!!")
+        //     }
+        //     this.princess.update()
+        // }
         //#endregion
         
         //#region triggle bridge & fall down (remove)
@@ -626,72 +825,14 @@ class LevelTest extends Framework.Level
         // }
         //#endregion
 
-        //#region update
-        this.hero.update()
-        this.matter.update()
-        this.rootScene.update() // 對齊 component & sprite
-        this.camera.update()
-        //#endregion
 
 
-        // textBox
-        this.heroInfoX._value = Math.round(this.hero.component.position.x)
-        this.heroInfoY._value = Math.round(this.hero.component.position.y)
-        this.mapInfoL._value = this.camera.component.position.x
-        this.ScoreInfo._value = this.score;
 
         
-
-        //#region camera move & hero move
-        if (this.isPressWalk === true || this.isJump === true)
-        {
-            if (this.walkDirection === 1 && this.camera.component.position.x < 4290)   // right
-            {
-                this.camera.goRight()
-            }
-            if (this.walkDirection === 2 && this.camera.component.position.x > 70)   // left
-            {
-                this.camera.goLeft()
-            }
-            if (this.isJump === true && this.hero.isOnFloor === true)   // jump
-            {
-                this.hero.jump()
-                this.hero.isOnFloor = false
-            }
-        }
-
-        // 若移動的camera.x <= 500 hero位移（跟著camera）
-        if (this.camera.component.position.x <= 500)
-        {
-            this.hero.component.position.x = this.camera.component.position.x
-        }
-        // 當500 < camera.position.x < 3240 將here的position固定在500
-        else if (this.camera.component.position.x > 500 && this.camera.component.position.x < 3240)
-        {
-            this.hero.component.position.x = 500
-        }
-        // 當camera.position.x >= 3240 將here的position設為: 500 + (this.camera.component.position.x - 3240)
-        else if (this.camera.component.position.x >= 3240)
-        {
-            this.hero.component.position.x = this.camera.component.position.x - 2740
-        }
-
-        if (this.camera.component.position.x <= 70)
-        {
-            this.camera.component.position.x = 70
-        }
-        else if (this.camera.component.position.x >= 4290)
-        {
-            this.camera.component.position.x = 4290
-        }
         
-        //#endregion
 
-        // this.hero.component.position.x = this.camera.component.position.x
 
-        // console.log(this.princess.component.position, this.princess.component.sprite.position)
-        // console.log(this.floors[0].component.position, this.floors[0].component.sprite.position)
-        // console.log(this.hero.isOnFloor)
+        
     }
     draw(parentCtx) 
     {
@@ -727,11 +868,13 @@ class LevelTest extends Framework.Level
             // jump
             // this.audio.play({name: 'jump'})
             // console.log("W")
+            this.isPress = true
             this.isJump = true
         }
         if(e.key === 'A') 
         {
             // left
+            this.isPress = true
             this.isPressWalk = true
             this.walkDirection = 2
             this.hero.animationGoLeft()
@@ -739,6 +882,7 @@ class LevelTest extends Framework.Level
         if(e.key === 'D') 
         {
             // right  
+            this.isPress = true
             this.isPressWalk = true
             this.walkDirection = 1
             this.hero.animationGoRight()
@@ -748,13 +892,14 @@ class LevelTest extends Framework.Level
     {
         if(e.key === 'D' || e.key === 'A')
         {
+            this.isPress = false
             this.isPressWalk = false
-            this.hero.isWalking = 0
             this.walkDirection = 0
             this.hero.animationStand()
         }
         if (e.key === 'W')
         {
+            this.isPress = false
             this.isJump = false
         }
         if(e.key === 'F11') 
