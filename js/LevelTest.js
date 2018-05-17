@@ -24,6 +24,11 @@ class LevelTest extends Framework.Level
 
 
         this.princessPos = {x:4200, y:606}
+
+        this.startLockHeroPos = false
+        
+        this.lockHeroPos
+        this.lockHeroPosx
     }
 
     heroDie()
@@ -621,11 +626,12 @@ class LevelTest extends Framework.Level
                         }
                     } 
                 }
-                this.lockHeroPos = 
-                {
-                    x: this.hero.component.position.x,
-                    y: this.hero.component.position.y
-                }
+                // this.lockHeroPos = 
+                // {
+                //     x: this.hero.component.position.x,
+                //     y: this.hero.component.position.y
+                // }
+                this.lockHeroPosx = this.hero.component.position.x
             }
 
             if(this.isJump && this.hero.isOnFloor)
@@ -636,10 +642,13 @@ class LevelTest extends Framework.Level
         }
         //#endregion
 
-
+        if (this.startLockHeroPos)
+        {
+            // this.hero.component.position = this.lockHeroPos
+            this.hero.component.position.x = this.lockHeroPosx
+        }
         
-        // this.he
-        ro.component.position = this.lockHeroPos
+        // this.hero.component.position = this.lockHeroPos
 
         //#region triggle bridge & fall down (remove)
         // if (this.isTriggleTrollBridge === true)
@@ -759,6 +768,8 @@ class LevelTest extends Framework.Level
     {
         if(e.key === 'D' || e.key === 'A')
         {
+            this.startLockHeroPos = true
+
             this.isPress = false
             this.isPressWalk = false
             this.walkDirection = 0
@@ -766,6 +777,7 @@ class LevelTest extends Framework.Level
         }
         if (e.key === 'W')
         {
+            this.startLockHeroPos = true
             // this.isPress = false
             this.isJump = false
         }
