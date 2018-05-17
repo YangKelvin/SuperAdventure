@@ -55,8 +55,8 @@ var loadGameEnd;
         { src: 'js/textbox.js', lookFor: 'Textbox' },
         { src: 'js/AnimationCharacter.js', lookFor: 'AnimationCharacter' },
         { src: 'js/score.js', lookFor: 'Score' },
-        { src: 'js/MapTile.js', lookFor: 'MapTile' },
-        { src: 'js/map1.js', lookFor: 'Map' },
+        // { src: 'js/MapTile.js', lookFor: 'MapTile' },
+        // { src: 'js/map1.js', lookFor: 'Map' },
         { src: 'js/mainGame.js'}
     ]
 

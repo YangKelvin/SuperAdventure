@@ -20,6 +20,10 @@ class LevelTest extends Framework.Level
 
         this.isTriggleTrollBridge = false
         this.bridgeFall = 0
+
+        this.isblockQcollision = false
+        this.blockIndex = 0
+        this.waitCount = 0
     }
 
     heroDie()
@@ -385,10 +389,10 @@ class LevelTest extends Framework.Level
     {
         this.BlockQPos = 
         [
-            {x: 280, y: 430},//blockQ   
-            {x: 1820, y: 500},//blockQ
-            {x: 1890, y: 220},//blockQ
-            {x: 2030, y: 500}//blockQ
+            {x: 280, y: 430},   
+            {x: 1820, y: 500},
+            {x: 1890, y: 220},
+            {x: 2030, y: 500}
         ]
         this.BlockQOps = 
         {
@@ -553,10 +557,31 @@ class LevelTest extends Framework.Level
             // #region move blockQ
             for	(var i = 0; i<this.BlockQs.length; i++)
             {
-                this.BlockQs[i].component.position = 
+                if (this.isblockQcollision && i === this.blockIndex && this.waitCount < 15)
                 {
-                    x: this.BlockQPos[i].x - this.camera.component.position.x + 500 + this.BlockQs[i].component.sprite.width / 2,
-                    y: this.BlockQPos[i].y + this.BlockQs[i].component.sprite.height / 2
+                    this.BlockQs[i].component.position = 
+                    {
+                        x: this.BlockQPos[i].x - this.camera.component.position.x + 500 + this.BlockQs[i].component.sprite.width / 2,
+                        y: this.BlockQs[this.blockIndex].component.position.y - 2.5
+                    }
+                    this.waitCount ++
+                }
+                else if (this.isblockQcollision && i === this.blockIndex && this.waitCount >= 15)
+                {
+                    this.BlockQs[i].component.position = 
+                    {
+                        x: this.BlockQPos[i].x - this.camera.component.position.x + 500 + this.BlockQs[i].component.sprite.width / 2,
+                        y: this.BlockQs[this.blockIndex].component.position.y + 2.5
+                    }
+                    this.waitCount ++
+                }
+                else
+                {
+                    this.BlockQs[i].component.position = 
+                    {
+                        x: this.BlockQPos[i].x - this.camera.component.position.x + 500 + this.BlockQs[i].component.sprite.width / 2,
+                        y: this.BlockQPos[i].y + this.BlockQs[i].component.sprite.height / 2
+                    }
                 }
             }
             //#endregion
@@ -625,20 +650,20 @@ class LevelTest extends Framework.Level
         }
         //#endregion
 
-        //#region update
+        // //#region update
         this.hero.update()
         this.matter.update()
-        this.rootScene.update() // 對齊 component & sprite
+        // this.rootScene.update() // 對齊 component & sprite
         this.camera.update()
-        //#endregion
+        // //#endregion
 
 
-        // textBox
+        // #region textBox
         this.heroInfoX._value = Math.round(this.hero.component.position.x)
         this.heroInfoY._value = Math.round(this.hero.component.position.y)
         this.mapInfoL._value = this.camera.component.position.x
         this.ScoreInfo._value = this.score;
-
+        //#endregion
         
 
         //#region camera move & hero move
@@ -689,6 +714,35 @@ class LevelTest extends Framework.Level
         // console.log(this.princess.component.position, this.princess.component.sprite.position)
         // console.log(this.floors[0].component.position, this.floors[0].component.sprite.position)
         // console.log(this.hero.isOnFloor)
+
+        // region blockQ collision animation
+        if (this.isblockQcollision && (this.hero.component.position.x < 500 || this.camera.component.position.x >= 3240))
+        {
+            if (this.waitCount < 15)
+            {
+                this.BlockQs[this.blockIndex].component.position = 
+                {
+                    x: this.BlockQs[this.blockIndex].component.position.x,
+                    y: this.BlockQs[this.blockIndex].component.position.y - 2.5
+                }
+            }
+            else
+            {
+                this.BlockQs[this.blockIndex].component.position = 
+                {
+                    x: this.BlockQs[this.blockIndex].component.position.x,
+                    y: this.BlockQs[this.blockIndex].component.position.y + 2.5
+                }
+            }
+            this.waitCount ++
+        }
+        if (this.waitCount === 30)
+        {
+            this.isblockQcollision = false
+            this.waitCount = 0
+        }
+        // #endregion
+        this.rootScene.update() // 對齊 component & sprite
     }
     draw(parentCtx) 
     {
@@ -768,7 +822,7 @@ class LevelTest extends Framework.Level
     }
     mousemove(e) 
     {
-        console.log(e.x + "  " + e.y)    
+        // console.log(e.x + "  " + e.y)
     }
 
     
@@ -824,7 +878,7 @@ class LevelTest extends Framework.Level
         }
         //#endregion
 
-        //#region collision between hero and blockQ
+        // #region collision between hero and blockQ
         for (var i = 0, j = pairs.length; i != j; ++i) 
         {
             var pair = pairs[i];
@@ -836,10 +890,15 @@ class LevelTest extends Framework.Level
                     // console.log("collision1")
                     // this.audio.play({name: 'coin'})
                     this.hero.isOnFloor = true
-                } 
-                else if (pair.bodyA === this.hero.component.body || pair.bodyB === this.hero.component.body)
-                {
-                    // console.log("No Collision")
+
+                    var blockHalfWidth = this.BlockQs[k].component.sprite.width / 2
+                    if ((this.hero.component.position.y - this.BlockQs[k].component.position.y - this.BlockQs[k].component.sprite.height >= 0) && (this.hero.component.position.x >= this.BlockQs[k].component.position.x - blockHalfWidth)
+                     && (this.hero.component.position.x <= this.BlockQs[k].component.position.x + blockHalfWidth))
+                    {
+                        this.isblockQcollision = true
+                        this.blockIndex = k
+                        console.log("blockIndex: " + this.blockIndex)
+                    }
                 }
             }
         }
