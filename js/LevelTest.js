@@ -155,6 +155,7 @@ class LevelTest extends Framework.Level
             [
                 // ground
                 {x: 0, y: 780},
+                {x: 0, y: 500},
                 {x: 70, y: 780},
                 {x: 140, y: 780},
                 {x: 210, y: 780},
@@ -164,6 +165,7 @@ class LevelTest extends Framework.Level
                 {x: 490, y: 780},
                 {x: 560, y: 780},
                 {x: 630, y: 780},
+                {x: 630, y: 360},
                 {x: 700, y: 780},
                 {x: 770, y: 780},
                 {x: 840, y: 780},
@@ -363,7 +365,7 @@ class LevelTest extends Framework.Level
         this.PipePos = 
         [
             {x: 2660, y: 500},
-            {x: 3360, y: 500},
+            {x: 3360, y: 500}
         ]
 
         this.PipeOps = 
@@ -373,7 +375,7 @@ class LevelTest extends Framework.Level
             density: 0.002, 
             isStatic:true
         }
-        this.Pipes = new Array()
+        this.Pipes = []
         for (var i = 0; i < this.PipePos.length; i++)
         {
             this.Pipes[i] = new block('images/Pipe.png', 
@@ -415,6 +417,7 @@ class LevelTest extends Framework.Level
     }
     loadMonster()
     {
+        // #region Monster
         this.monstersPos = 
         [
             {x: 600, y: 700},
@@ -427,7 +430,7 @@ class LevelTest extends Framework.Level
             density:0.002
         }
 
-        this.monsters = new Array()
+        this.monsters = []
         for (var i = 0; i < this.monstersPos.length; i++)
         {
             this.monsters[i] = new Character('images/monster.png',
@@ -438,6 +441,62 @@ class LevelTest extends Framework.Level
             this.monsters[i].initialize()
             this.monsters[i].component.position = this.monstersPos[i]
             this.rootScene.attach(this.monsters[i])
+        }
+        // #endregion
+
+        // #region Cloud
+        this.cloudMonstersPos = 
+        [
+            {x: 1100, y: 100}
+        ]
+
+        this.cloudMonsterOps = 
+        {
+            label: 'cloudMonster', 
+            friction: 0.05, 
+            density:0.002,
+            isStatic: true
+        }
+
+        this.cloudMonsters = []
+        for (var i = 0; i < this.cloudMonstersPos.length; i++)
+        {
+            this.cloudMonsters[i] = new Character('images/cloud.png',
+                                                this.matter,
+                                                this.cloudMonsterOps,
+                                                this.cloudMonstersPos)
+            this.cloudMonsters[i].load()
+            this.cloudMonsters[i].initialize()
+            this.cloudMonsters[i].component.position = this.cloudMonstersPos[i]
+            this.rootScene.attach(this.cloudMonsters[i])
+        }
+        // #endregion
+    }
+    loadRocket()
+    {
+        this.rocketPos =
+        [
+            {x: 2660, y: 500},
+            {x: 3360, y: 500}
+        ]
+
+        this.rocketOps = 
+        {
+            label: 'rocket', 
+            friction: 0.05, 
+            density: 0.002, 
+            isStatic:true
+        }
+        this.rockets = []
+        for (var i = 0; i < this.rocketPos.length; i++)
+        {
+            this.rockets[i] = new block('images/rocket.png', 
+                                            this.matter,
+                                            this.rocketOps)
+            this.rockets[i].load()
+            this.rockets[i].initialize()
+            this.rockets[i].component.position = this.rocketPos[i]
+            this.rootScene.attach(this.rockets[i])
         }
     }
     loadICON()
@@ -464,6 +523,7 @@ class LevelTest extends Framework.Level
         this.loadPrincess()
         this.loadCamera()
         this.loadTrollBridge()
+        this.loadRocket()
         this.loadPipe()
         this.loadBlockQ()
         this.loadMonster()
@@ -607,6 +667,28 @@ class LevelTest extends Framework.Level
                 }
             }
             //#endregion
+
+            //#region move cloudMonsters
+            for	(var i = 0; i<this.cloudMonsters.length; i++)
+            {
+                this.cloudMonsters[i].component.position = 
+                {
+                    x: this.cloudMonstersPos[i].x - this.camera.component.position.x + 500 + this.cloudMonsters[i].component.sprite.width / 2,
+                    y: this.cloudMonstersPos[i].y + this.cloudMonsters[i].component.sprite.height / 2
+                }
+            }
+            //#endregion
+
+            //#region move rockets
+            for	(var i = 0; i<this.rockets.length; i++)
+            {
+                this.rockets[i].component.position = 
+                {
+                    x: this.rocketPos[i].x - this.camera.component.position.x + 500 + this.rockets[i].component.sprite.width / 2,
+                    y: this.rocketPos[i].y + this.rockets[i].component.sprite.height / 2
+                }
+            }
+            //#endregion
         }
         //#endregion 
 
@@ -673,7 +755,7 @@ class LevelTest extends Framework.Level
             {
                 this.camera.goRight()
             }
-            if (this.walkDirection === 2 && this.camera.component.position.x > 70)   // left
+            if (this.walkDirection === 2 && this.camera.component.position.x > 50)   // left
             {
                 this.camera.goLeft()
             }
@@ -700,9 +782,9 @@ class LevelTest extends Framework.Level
             this.hero.component.position.x = this.camera.component.position.x - 2740
         }
 
-        if (this.camera.component.position.x <= 70)
+        if (this.camera.component.position.x <= 50)
         {
-            this.camera.component.position.x = 70
+            this.camera.component.position.x = 50
         }
         else if (this.camera.component.position.x >= 4290)
         {
@@ -964,6 +1046,10 @@ class LevelTest extends Framework.Level
             // Framework.Game.addNewLevel({level1: new Level1()});
             // Framework.Game.goToLevel("chooseLevel")
             
+        }
+        else if (pair.bodyA === this.cloudMonsters[0].component.body && pair.bodyB === this.hero.component.body)
+        {
+            this.heroDie()
         }
         //#endregion
     }
