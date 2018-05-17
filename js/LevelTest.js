@@ -955,6 +955,7 @@ class LevelTest extends Framework.Level
             // this.audio.play({name: 'haha'})
             // Framework.Game.pause()
             Framework.Game.items[0].item = true
+            Framework.Game.records[0].record = Framework.Game.userIQ
             Framework.Game.userIQ = 250
             // 重置關卡
             Framework.Game._levels.splice(3,1,{name : "levelTest", level : new LevelTest()})

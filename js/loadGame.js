@@ -45,6 +45,7 @@ var loadGameEnd;
         { src: 'js/StartSign.js', lookFor: 'StartSign' },
         { src: 'js/myMenu.js', lookFor: 'MyMenu' },
         { src: 'js/Bag.js', lookFor: 'Bag' },
+        { src: 'js/RecordScreen.js', lookFor: 'RecordScreen' },
         { src: 'js/ChooseLevel.js', lookFor: 'ChooseLevel' },
         { src: 'js/LevelTest.js', lookFor: 'LevelTest' },
         { src: 'js/DieScreen.js', lookFor: 'DieScreen' },
