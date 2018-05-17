@@ -29,6 +29,11 @@ class LevelTest extends Framework.Level
         
         this.lockHeroPos
         this.lockHeroPosx
+
+
+        this.isblockQcollision = false
+        this.blockIndex = 0
+        this.waitCount = 0
     }
 
     heroDie()
@@ -677,7 +682,33 @@ class LevelTest extends Framework.Level
         // }
         //#endregion
     
-
+        // region blockQ collision animation
+        if (this.isblockQcollision && (this.hero.component.position.x < 500 || this.camera.component.position.x >= 3240))
+        {
+            if (this.waitCount < 15)
+            {
+                this.BlockQs[this.blockIndex].component.position = 
+                {
+                    x: this.BlockQs[this.blockIndex].component.position.x,
+                    y: this.BlockQs[this.blockIndex].component.position.y - 2.5
+                }
+            }
+            else
+            {
+                this.BlockQs[this.blockIndex].component.position = 
+                {
+                    x: this.BlockQs[this.blockIndex].component.position.x,
+                    y: this.BlockQs[this.blockIndex].component.position.y + 2.5
+                }
+            }
+            this.waitCount ++
+        }
+        if (this.waitCount === 30)
+        {
+            this.isblockQcollision = false
+            this.waitCount = 0
+        }
+        // #endregion
 
         //#region update
         this.hero.update()
@@ -863,6 +894,16 @@ class LevelTest extends Framework.Level
                     // console.log("collision1")
                     // this.audio.play({name: 'coin'})
                     this.hero.isOnFloor = true
+
+
+                    var blockHalfWidth = this.BlockQs[k].component.sprite.width / 2
+                    if ((this.hero.component.position.y - this.BlockQs[k].component.position.y - this.BlockQs[k].component.sprite.height >= 0) && (this.hero.component.position.x >= this.BlockQs[k].component.position.x - blockHalfWidth)
+                     && (this.hero.component.position.x <= this.BlockQs[k].component.position.x + blockHalfWidth))
+                    {
+                        this.isblockQcollision = true
+                        this.blockIndex = k
+                        console.log("blockIndex: " + this.blockIndex)
+                    }
                 } 
                 else if (pair.bodyA === this.hero.component.body || pair.bodyB === this.hero.component.body)
                 {
