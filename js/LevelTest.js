@@ -34,6 +34,8 @@ class LevelTest extends Framework.Level
         this.isblockQcollision = false
         this.blockIndex = 0
         this.waitCount = 0
+
+        this.isShotRocket = false
     }
 
     heroDie()
@@ -432,6 +434,7 @@ class LevelTest extends Framework.Level
     }
     loadMonster()
     {
+        // region monsters
         this.monstersPos = 
         [
             {x: 600, y: 700},
@@ -456,6 +459,7 @@ class LevelTest extends Framework.Level
             this.monsters[i].component.position = this.monstersPos[i]
             this.rootScene.attach(this.monsters[i])
         }
+        // endregion
 
         // #region Cloud
         this.cloudMonstersPos = 
@@ -496,6 +500,38 @@ class LevelTest extends Framework.Level
         this.back.scale = 0.2
         this.rootScene.attach(this.back)
     }
+    loadRocket()
+    {
+        this.rocketPos = 
+        [
+            {x: 2730, y: 550},
+            {x: 3430, y: 550}
+        ]
+
+        this.rocketOps = 
+        {
+            label: 'rocket', 
+            friction: 0.05, 
+            density:0.002,
+            isStatic: true
+        }
+
+        this.rockets = []
+        for (var i = 0; i < this.rocketPos.length; i++)
+        {
+            // this.rockets[i] = new Character('images/rocket.png',
+            //                                     this.matter,
+            //                                     this.rocketOps,
+            //                                     this.rocketPos)
+            this.rockets[i] = new block('images/rocket.png', 
+                                                this.matter,
+                                                this.rocketOps)
+            this.rockets[i].load()
+            this.rockets[i].initialize()
+            this.rockets[i].component.position = this.rocketPos[i]
+            this.rootScene.attach(this.rockets[i])
+        }
+    }
     //#endregion
     load() 
     {
@@ -512,6 +548,7 @@ class LevelTest extends Framework.Level
         this.loadPrincess()
         this.loadCamera()
         
+        this.loadRocket()
         this.loadPipe()
         
         this.loadMonster()
@@ -610,8 +647,19 @@ class LevelTest extends Framework.Level
             // {
             //     x: this.cloudMonstersPos[i].x - this.camera.component.position.x + 500 + this.cloudMonsters[i].component.sprite.width / 2,
             //     y: this.cloudMonstersPos[i].y + this.cloudMonsters[i].component.sprite.height / 2
-            // }
+            // } 
+            
         }
+        // endregion
+
+        // region move rocket
+        for	(var i = 0; i<this.rockets.length; i++)
+        {
+            this.matter.setBody(this.rockets[i].component.body, 
+                "position", 
+                {x: this.rockets[i].component.position.x + moveLength, y: this.rockets[i].component.position.y})
+        }
+        // endregion
     }
 
 
@@ -657,7 +705,7 @@ class LevelTest extends Framework.Level
                 else if (this.walkDirection === 2)
                 {
                     // go left
-                    if (this.hero.component.position.x > 70)    //讓hero.position不會小於70
+                    if (this.hero.component.position.x > 50)    //讓hero.position不會小於70
                     {
                         if (this.floors[0].component.position.x === 35)   // 如果第一個方塊的位置正確
                         {
@@ -687,6 +735,46 @@ class LevelTest extends Framework.Level
             }
         }
         //#endregion
+
+        // #region 是否發射火箭
+        var pipeRangeMin = this.Pipes[0].component.position.x - (this.Pipes[0].component.sprite.width / 2)
+        var pipeRangeMax = this.Pipes[0].component.position.x + (this.Pipes[0].component.sprite.width / 2)
+        // console.log("pipeRangeMin: " + pipeRangeMin)
+        // console.log("pipeRangeMax: " + pipeRangeMax)
+        // console.log("hero.x: " + this.hero.component.position.x)
+        if (pipeRangeMin - 100 <= this.hero.component.position.x + this.hero.component.sprite.width/2 && this.hero.component.position.x - this.hero.component.sprite.width/2 <= pipeRangeMax+100)
+        {
+            this.isShotRocket = true
+        }
+        if (this.isShotRocket)
+        {
+            // console.log("shotRocket!!!")
+            for	(var i = 0; i<this.rockets.length; i++)
+            {
+                this.matter.setBody(this.rockets[i].component.body, 
+                    "position", 
+                    {x: this.rockets[i].component.position.x, y: this.rockets[i].component.position.y - 5})
+            }
+            // console.log(this.rockets[0].component.position.x + "," + this.rockets[0].component.position.y)
+            if (this.rockets[0].component.position.y <= -100 && this.rockets[1].component.position.y <= -100)
+            {
+                this.isShotRocket = false
+                console.log("stop shot")
+                for	(var i = 0; i<this.rockets.length; i++)
+                {
+                    // this.rockets[i].component.position =
+                    // {
+                    //     x: this.rockets[i].component.position.x,
+                    //     y: this.rocketPos[i].y
+                    // }
+
+                    this.matter.setBody(this.rockets[i].component.body, 
+                        "position", 
+                        {x: this.rockets[i].component.position.x, y: this.rocketPos[i].y + 100})
+                }
+            }
+        }
+        // endregion
 
         //#region 防止英雄滑落
         if (this.startLockHeroPos)
@@ -957,6 +1045,7 @@ class LevelTest extends Framework.Level
             // this.audio.play({name: 'haha'})
             // Framework.Game.pause()
             Framework.Game.items[0].item = true
+            Framework.Game.records[0].record = Framework.Game.userIQ
             Framework.Game.userIQ = 250
             // 重置關卡
             Framework.Game._levels.splice(3,1,{name : "levelTest", level : new LevelTest()})
@@ -985,5 +1074,22 @@ class LevelTest extends Framework.Level
             this.heroDie()
         }
         //#endregion
+    
+        // region collision between hero and rocket
+        if ((pair.bodyA === this.rockets[0].component.body && pair.bodyB === this.hero.component.body) || (pair.bodyA === this.rockets[1].component.body && pair.bodyB === this.hero.component.body))
+        {
+            this.heroDie()
+        }
+        // endregion
+
+        // region collision between hero and pipe
+        for(var i=0; i < this.Pipes.length; i++)
+        {
+            if (pair.bodyA === this.Pipes[i].component.body && pair.bodyB === this.hero.component.body)
+            {
+                this.hero.isOnFloor = true
+            }
+        }
+        // endregion
     }
 };

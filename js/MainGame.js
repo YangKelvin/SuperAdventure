@@ -11,6 +11,7 @@ Framework.Game.addNewLevel({chooseLevel: new ChooseLevel()})
 Framework.Game.addNewLevel({dieScreen: new DieScreen()});
 Framework.Game.addNewLevel({bag: new Bag()})
 Framework.Game.addNewLevel({levelTest: new LevelTest()});
+Framework.Game.addNewLevel({recordScreen: new RecordScreen()})
 // Framework.Game.addNewLevel({EndLevel1: new EndLevel1()})
 // Framework.Game.addNewLevel({level1: new MyGame()});
 

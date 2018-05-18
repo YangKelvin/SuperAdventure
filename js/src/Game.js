@@ -26,6 +26,16 @@ var Framework = (function (Framework) {
 		]
 		that.userIQ = 250
 
+		that.records= 
+		[
+			{record: 0},
+			{record: 0},
+			{record: 0},
+			{record: 0},
+			{record: 0},
+			{record: 0}
+		]
+
 		that.fps = that._config.fps;
 		that.canvasWidth = that._config.canvasWidth;
 		that.canvasHeight = that._config.canvasHeight;

@@ -32,6 +32,7 @@ var ChooseLevel = Framework.exClass(Framework.GameMainMenu,
             console.log(Framework.Game._levels)
             //讀取背包圖示
             this.bag = new Framework.Sprite(define.imagePath + 'bag.png');
+            this.record = new Framework.Sprite(define.imagePath + 'record2.png')
         },
 
         initialize: function () {
@@ -42,6 +43,7 @@ var ChooseLevel = Framework.exClass(Framework.GameMainMenu,
                 y: Framework.Game.getCanvasHeight() / 2
             };
             this.menu.scale = 1.5;
+            this.rootScene.attach(this.menu);
 
             //設定背包圖示位置
             this.bag.position =
@@ -50,9 +52,18 @@ var ChooseLevel = Framework.exClass(Framework.GameMainMenu,
                 y: Framework.Game.getCanvasHeight() / 5
             }
             this.bag.scale = 0.2
-
-            this.rootScene.attach(this.menu);
             this.rootScene.attach(this.bag);
+
+            // 設定紀錄圖示位置
+            this.record.position = 
+            {
+                x: Framework.Game.getCanvasWidth() * 14 / 15,
+                y: Framework.Game.getCanvasHeight() / 2
+            }
+            this.record.scale = 0.3
+            this.rootScene.attach(this.record)
+
+
 
             this.rectPosition = {
                 x: Framework.Game.getCanvasWidth() / 2 - 130,
@@ -101,9 +112,9 @@ var ChooseLevel = Framework.exClass(Framework.GameMainMenu,
                 e.y >= 285 && 
                 e.y <= 485) 
             {
-                Framework.Game.goToLevel("level2");
-                // console.log("startGame")
-                // alert("想玩？沒門！ 因為還沒有這一關")
+                // Framework.Game.goToLevel("level2");
+                console.log("startGame")
+                alert("想玩？沒門！ 因為還沒有這一關")
             }
             // level3
             if (e.x >= 1065 && 
@@ -154,11 +165,21 @@ var ChooseLevel = Framework.exClass(Framework.GameMainMenu,
                 Framework.Game.goToLevel("bag")
                 console.log("Open Bag")
             }
+
+            // 打開紀錄
+            if (e.x >= 1437 && 
+                e.x <= 1545 && 
+                e.y >= 360 && 
+                e.y <= 540)
+            {
+                Framework.Game.goToLevel("recordScreen")
+                console.log("Open Bag")
+            }
         },
 
         mousemove: function (e) 
         {
-            // console.log(e.x + "  " + e.y)    
+            console.log(e.x + "  " + e.y)    
         },
 
         mouseup: function (e) {
