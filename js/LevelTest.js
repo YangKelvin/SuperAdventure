@@ -767,7 +767,7 @@ class LevelTest extends Framework.Level
                     //     x: this.rockets[i].component.position.x,
                     //     y: this.rocketPos[i].y
                     // }
-
+                    console.log("image move")
                     this.matter.setBody(this.rockets[i].component.body, 
                         "position", 
                         {x: this.rockets[i].component.position.x, y: this.rocketPos[i].y + 100})
@@ -776,6 +776,8 @@ class LevelTest extends Framework.Level
         }
         // endregion
 
+        
+        
         //#region 防止英雄滑落
         if (this.startLockHeroPos)
         {
@@ -829,7 +831,8 @@ class LevelTest extends Framework.Level
         //#region textBox
         this.heroInfoX._value = Math.round(this.hero.component.position.x)
         this.heroInfoY._value = Math.round(this.hero.component.position.y)
-        this.mapInfoL._value = this.camera.component.position.x
+        // this.mapInfoL._value = this.camera.component.position.x
+        this.mapInfoL._value = 0
         this.ScoreInfo._value = this.score;
         //#endregion
 
@@ -849,10 +852,21 @@ class LevelTest extends Framework.Level
         //#endregion
 
         //#region update
+
+        // for	(var i = 0; i<this.rockets.length; i++)
+        // {
+        //    this.rockets[i].component.sprite.position = this.rockets[i].component.position
+        //    this.rockets[i].update()
+        // }
+        this.matter.setBody(this.camera.component.body, 
+            "position", 
+            {x: this.camera.component.position.x + 0, y: this.camera.y})
+        this.camera.pic = null
         this.hero.update()
         this.matter.update()
         this.rootScene.update() // 對齊 component & sprite
         this.camera.update()
+        
         //#endregion
 
     }
