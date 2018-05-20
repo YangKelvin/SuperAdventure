@@ -935,6 +935,8 @@ class LevelTest extends Framework.Level
         
         //#endregion
 
+
+        console.log(this.blockUVs.length)
     }
     draw(parentCtx) 
     {
@@ -1178,8 +1180,10 @@ class LevelTest extends Framework.Level
 
             for (var k = 0; k < this.blockUVsPos.length; k++)
             {
-                if (pair.bodyA === this.blockUVs[k].component.body && pair.bodyB === this.hero.component.body) 
+                if ((pair.bodyA === this.blockUVs[k].component.body && pair.bodyB === this.hero.component.body) || 
+                    (pair.bodyB === this.blockUVs[k].component.body && pair.bodyA === this.hero.component.body)) 
                 {
+                    console.log("blockUVC")
                     this.hero.isOnFloor = true
 
                     var blockHalfWidth = this.blockUVs[k].component.sprite.width / 2
@@ -1191,8 +1195,16 @@ class LevelTest extends Framework.Level
                         this.blockUVIndex = k
                         console.log("blockUVIndex: " + this.blockUVIndex)
 
+                        this.blockUVs[k].pic = null
+                        this.matter.removeBody(this.blockUVs[k].component.body)
 
-                        this.blockUVs[k].pic = Framework.Sprite("images/blockQ.png")
+                        this.blockUVs[k] = new block('images/blockQ.png', 
+                                            this.matter,
+                                            this.blockUVsOps)
+                        this.blockUVs[k].load()
+                        this.blockUVs[k].initialize()
+                        this.blockUVs[k].component.position = this.blockUVsPos[i]
+                        this.rootScene.attach(this.blockUVs[k])
                     }
                 } 
                 else if (pair.bodyA === this.hero.component.body || pair.bodyB === this.hero.component.body)
