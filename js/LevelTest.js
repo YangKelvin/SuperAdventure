@@ -11,26 +11,26 @@ class LevelTest extends Framework.Level
         this.collisionBlocks = this.collisionStart.bind(this)
 
 
-        this.heroAlive = true
-        this.isPress = false
-        this.isPressWalk = false
-        this.isJump = false
-        this.walkDirection = 0
-        this.score = 0
-        this.isPrincess = false     // load princess
+        this.heroAlive = true       // 判斷hero是否活著
+        this.isPress = false        // 判斷是否按下控制hero的按鍵
+        this.isPressWalk = false    // 判斷是否按下控制hero移動的按鍵
+        this.isJump = false         // 判斷是否按下控制hero跳躍的按鍵
+        this.walkDirection = 0      // 判斷hero移動的方向（左 or 右）
+        this.score = 0              // 關卡的計分
+        this.isPrincess = false     // 判斷公主是否載入關卡
 
-        this.isTriggleTrollBridge = false
-        this.bridgeFall = 0
+        this.isTriggleTrollBridge = false   // 判斷是否觸發陷阱橋掉落
+        this.bridgeFall = 0                 // 陷阱掉落的移動量
 
 
-        this.princessPos = {x:4200, y:606}
+        this.princessPos = {x:4200, y:606} // 公主初始位置
 
-        this.startLockHeroPos = false
-        
+        // 鎖定角色位置 -> 避免角色從方塊上滑落
+        this.startLockHeroPos = false   
         this.lockHeroPos
         this.lockHeroPosx
 
-        // blockQ
+        // blockQ collision
         this.isblockQcollision = false
         this.blockIndex = 0
         this.waitCount = 0
@@ -38,7 +38,6 @@ class LevelTest extends Framework.Level
         // blockUV
         this.isblockUVcollision = false
         this.blockUVIndex = 0
-        this.waitCount = 0
         this.isShotRocket = false
     }
 
@@ -50,8 +49,6 @@ class LevelTest extends Framework.Level
         Framework.Game.goToLevel("dieScreen")
         console.log("hero die")
     }
-
-
 
     //#region  load
     loadCamera()
