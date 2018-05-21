@@ -727,6 +727,8 @@ class LevelTest extends Framework.Level
 
     update() 
     {
+        
+
         //#region hero die condition
         if (this.hero.component.position.y > 1000)
         {

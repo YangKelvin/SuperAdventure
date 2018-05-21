@@ -383,7 +383,8 @@ class Level1 extends Framework.Level
     {
         this.PipePos = 
         [
-            
+            {x: 2660, y: 500},
+            {x: 3360, y: 500},
         ]
 
         this.PipeOps = 
@@ -766,6 +767,7 @@ class Level1 extends Framework.Level
 
     update() 
     {
+        console.log(this.floors[this.floors.length - 1].component.position)
         // console.log(this.hero.component.position)
 
         this.blockUpDown(this.isblockQcollision, this.BlockQs,this.blockIndex)
@@ -805,6 +807,10 @@ class Level1 extends Framework.Level
                     moveLength = -5
                     // go right
                     if (this.hero.component.position.x < 500)
+                    {
+                        this.hero.goRight()
+                    }
+                    else if (this.floors[this.floors.length - 1].component.position.x <= 1570)
                     {
                         this.hero.goRight()
                     }
@@ -1027,8 +1033,10 @@ class Level1 extends Framework.Level
 
             for (var k = 0; k < this.blockUVsPos.length; k++)
             {
-                if (pair.bodyA === this.blockUVs[k].component.body && pair.bodyB === this.hero.component.body) 
+                if ((pair.bodyA === this.blockUVs[k].component.body && pair.bodyB === this.hero.component.body) || 
+                    (pair.bodyB === this.blockUVs[k].component.body && pair.bodyA === this.hero.component.body)) 
                 {
+                    console.log("isOnFloor")
                     this.hero.isOnFloor = true
 
                     var blockHalfWidth = this.blockUVs[k].component.sprite.width / 2
@@ -1062,5 +1070,15 @@ class Level1 extends Framework.Level
         }
         
         //#endregion
+    
+        // region collision between hero and pipe
+        for(var i=0; i < this.Pipes.length; i++)
+        {
+            if (pair.bodyA === this.Pipes[i].component.body && pair.bodyB === this.hero.component.body)
+            {
+                this.hero.isOnFloor = true
+            }
+        }
+        // endregion
     }
 };
