@@ -410,6 +410,9 @@ class Level1 extends Framework.Level
         this.BlockQPos = 
         [
             {x: 350, y: 480},
+            {x: 1820, y: 500},//blockQ
+            {x: 1890, y: 220},//blockQ
+            {x: 2030, y: 500}//blockQ
         ]
         this.BlockQOps = 
         {
