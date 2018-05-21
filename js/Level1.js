@@ -39,8 +39,10 @@ class Level1 extends Framework.Level
         this.blockUVIndex = 0
         this.isShotRocket = false
 
+        this.isCollisionQ1 = false
+        this.isBlockGo= false
 
-        this.mapMoving = false
+
     }
 
     heroDie()
@@ -179,7 +181,6 @@ class Level1 extends Framework.Level
                 // {x: 280, y: 710},
                 // ground
                 {x: 0, y: 780},
-                {x: 0, y: 500},//小跳板
                 {x: 70, y: 780},
                 {x: 140, y: 780},
                 {x: 210, y: 780},
@@ -189,7 +190,6 @@ class Level1 extends Framework.Level
                 {x: 490, y: 780},
                 {x: 560, y: 780},
                 {x: 630, y: 780},
-                {x: 630, y: 360},//小跳板
                 {x: 700, y: 780},
                 {x: 770, y: 780},
                 {x: 840, y: 780},
@@ -409,7 +409,7 @@ class Level1 extends Framework.Level
     {
         this.BlockQPos = 
         [
-            
+            {x: 350, y: 480},
         ]
         this.BlockQOps = 
         {
@@ -535,7 +535,7 @@ class Level1 extends Framework.Level
         // unvisible block
         this.blockUVsPos = 
         [
-            
+            {x: 960, y: 480},//blockQ   
         ]
         this.blockUVsOps = 
         {
@@ -557,6 +557,30 @@ class Level1 extends Framework.Level
             this.rootScene.attach(this.blockUVs[i])
             
         }
+    }
+    loadGoBlock()
+    {
+        this.block_GOPos = 
+        {
+            x: 500,
+            y: 400
+        }
+        this.block_GOOps = 
+        {
+            label: 'block_GO', 
+            friction: 0.05, 
+            density:0.002, 
+            isStatic:true, 
+            isSensor:false
+        }
+
+        this.block_GO = new block('images/level1-GoBlock.png',
+                                        this.matter,
+                                        this.block_GOOps)
+        this.block_GO.load()
+        this.block_GO.initialize()
+        this.block_GO.component.position = {x:-100, y:0}
+        // this.rootScene.attach(this.block_GO)
     }
     //#endregion
     load() 
@@ -583,7 +607,7 @@ class Level1 extends Framework.Level
         this.loadMonster()
         this.loadPrincess()
 
-        
+        this.loadGoBlock()
 
         
         
@@ -616,6 +640,16 @@ class Level1 extends Framework.Level
             this.matter.setBody(this.BlockQs[i].component.body, 
                 "position", 
                 {x: this.BlockQs[i].component.position.x + moveLength, y: this.BlockQs[i].component.position.y})  
+        }
+        //#endregion
+
+        
+        //#region move blockUV
+        for	(var i = 0; i<this.blockUVs.length; i++)
+        {
+            this.matter.setBody(this.blockUVs[i].component.body, 
+                "position", 
+                {x: this.blockUVs[i].component.position.x + moveLength, y: this.blockUVs[i].component.position.y})  
         }
         //#endregion
 
@@ -686,6 +720,15 @@ class Level1 extends Framework.Level
                 {x: this.rockets[i].component.position.x + moveLength, y: this.rockets[i].component.position.y})
         }
         // endregion
+   
+        //#region  move blockGO
+        if (this.isBlockGo)
+        {
+            this.matter.setBody(this.block_GO.component.body, 
+                "position", 
+                {x: this.block_GO.component.position.x + moveLength, y: this.block_GO.component.position.y})
+        }
+        //#endregion
     }
 
     blockUpDown(isBlockCollision, blocks, blockIndex)
@@ -722,9 +765,14 @@ class Level1 extends Framework.Level
     {
         // console.log(this.hero.component.position)
 
-
+        this.blockUpDown(this.isblockQcollision, this.BlockQs,this.blockIndex)
         
-
+        if (this.isCollisionQ1 && !this.isBlockGo)
+        {
+            this.rootScene.attach(this.block_GO)
+            this.block_GO.component.position = this.block_GOPos
+            this.isBlockGo = true
+        }
         
 
         //#region hero die condition
@@ -930,6 +978,86 @@ class Level1 extends Framework.Level
                 }
             }
         }
+        //#endregion
+
+        //#region collision between hero and blockQ
+        for (var i = 0, j = pairs.length; i != j; ++i) 
+        {
+            var pair = pairs[i];
+
+            for (var k = 0; k < this.BlockQPos.length; k++)
+            {
+                if (pair.bodyA === this.BlockQs[k].component.body && pair.bodyB === this.hero.component.body) 
+                {
+                    this.hero.isOnFloor = true
+
+                    var blockHalfWidth = this.BlockQs[k].component.sprite.width / 2
+                    if ((this.hero.component.position.y - this.BlockQs[k].component.position.y - this.BlockQs[k].component.sprite.height >= 0) && (this.hero.component.position.x >= this.BlockQs[k].component.position.x - blockHalfWidth)
+                     && (this.hero.component.position.x <= this.BlockQs[k].component.position.x + blockHalfWidth))
+                    {
+                        this.isblockQcollision = true
+                        this.blockIndex = k
+                        console.log("blockIndex: " + this.blockIndex)
+                        if (pair.bodyA === this.BlockQs[0].component.body) // 碰撞到第一個問號方塊
+                        {
+                            console.log("撞第一個問號方塊")
+                            // add level1-GOBLOCK
+                            // this.loadGoBlock()
+                            this.isCollisionQ1 = true
+                            
+                        }
+                    }
+                } 
+                else if (pair.bodyA === this.hero.component.body || pair.bodyB === this.hero.component.body)
+                {
+                    // console.log("No Collision")
+                }
+                
+            }
+        }
+        //#endregion
+    
+        // region collision between hero and blockUV
+        for (var i = 0, j = pairs.length; i != j; ++i) 
+        {
+            var pair = pairs[i];
+
+            for (var k = 0; k < this.blockUVsPos.length; k++)
+            {
+                if (pair.bodyA === this.blockUVs[k].component.body && pair.bodyB === this.hero.component.body) 
+                {
+                    this.hero.isOnFloor = true
+
+                    var blockHalfWidth = this.blockUVs[k].component.sprite.width / 2
+                    if ((this.hero.component.position.y - this.blockUVs[k].component.position.y - this.blockUVs[k].component.sprite.height >= 0) && (this.hero.component.position.x >= this.BlockQs[k].component.position.x - blockHalfWidth)
+                     && (this.hero.component.position.x <= this.blockUVs[k].component.position.x + blockHalfWidth))
+                    {
+                        this.isblockQcollision = true
+                        this.blockIndex = k
+                        console.log("blockIndex: " + this.blockUVIndex)
+                        
+                        this.tempPos = this.blockUVs[k].component.sprite.position
+
+                        this.blockUVs[k].pic = null
+                        this.matter.removeBody(this.blockUVs[k].component.body)
+
+                        this.blockUVs[k] = new block('images/blockQ.png', 
+                                            this.matter,
+                                            this.blockUVsOps)
+                        this.blockUVs[k].load()
+                        this.blockUVs[k].initialize()
+                        this.blockUVs[k].component.position = this.tempPos
+                        this.rootScene.attach(this.blockUVs[k])
+                    }
+                } 
+                else if (pair.bodyA === this.hero.component.body || pair.bodyB === this.hero.component.body)
+                {
+                    // console.log("No Collision")
+                }
+                
+            }
+        }
+        
         //#endregion
     }
 };
