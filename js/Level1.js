@@ -51,6 +51,17 @@ class Level1 extends Framework.Level
         // block_GO 掉落和停止
         this.isBlockGo_Drop = false
         this.block_GO_Drop_stop = false
+        this.isUDIEcollision =
+        [
+            false,
+            false,
+            false,
+            false,
+            false,
+        ]
+
+        this.isShouldRemoveFloor = false
+        this.isRemoveFloor = false
     }
 
     heroDie()
@@ -63,6 +74,27 @@ class Level1 extends Framework.Level
     }
 
     //#region  load
+
+    loadPic()
+    {
+        this.picsPos = 
+        [
+            {x: -1000, y: 500},
+            {x: -1000, y: 500},
+            {x: -1000, y: 500},
+            {x: -1000, y: 500},
+            {x: -1000, y: 500},
+            {x: -1000, y: 500},
+        ]
+        
+        this.pics = new Array()
+        for (var i = 0; i < this.picsPos.length; i++)
+        {
+            this.pics = new Framework.Sprite('images/UDIE'+i+'.png')
+
+        }
+    }
+
     loadCamera()
     {
         this.cameraPos = {x:200, y:930}
@@ -216,7 +248,7 @@ class Level1 extends Framework.Level
                 {x: 1680, y: 780},
 
                 //平台開始
-                {x: 1680, y: 500},
+                {x: 1680, y: 500}, //20
                 {x: 1750, y: 500},
                 {x: 1820, y: 220},
                 {x: 1960, y: 220},
@@ -233,7 +265,7 @@ class Level1 extends Framework.Level
                 {x: 1960, y: 780},
                 {x: 2030, y: 780},
                 {x: 2100, y: 780},
-                {x: 2170, y: 780},
+                {x: 2170, y: 780}, // 35
                 {x: 2240, y: 780},
                 {x: 2310, y: 780},
                 {x: 2380, y: 780},
@@ -387,12 +419,48 @@ class Level1 extends Framework.Level
             this.rootScene.attach(this.trollBridges[i])
         }
     }
+    loadUDIE()
+    {
+        console.log("loadUDIE")
+        this.UDIEsPos = 
+        [
+            {x: 2870, y: 500},
+            {x: 2940, y: 500},
+            {x: 3010, y: 500},
+            {x: 3080, y: 500},
+            {x: 3150, y: 500},
+            {x: 3220, y: 500},
+        ]
+        
+        this.UDIEOps = 
+        {
+            label: 'UDIE', 
+            friction: 0.05, 
+            density:0.002, 
+            isStatic:true,
+            isSensor:true,
+        }
+
+        this.UDIEs = new Array()
+        for (var i = 0; i < this.UDIEsPos.length; i++)
+        {
+            this.UDIEs[i] = new block('images/blockUV.png', 
+                                            this.matter, 
+                                            this.UDIEOps)
+            this.UDIEs[i].load()
+            this.UDIEs[i].initialize()
+            this.UDIEs[i].component.position = this.UDIEsPos[i]
+
+            this.rootScene.attach(this.UDIEs[i])
+        }
+    }
+
     loadPipe()
     {
         this.PipePos = 
         [
-            {x: 2660, y: 500},
-            {x: 3360, y: 500},
+            {x: 2660, y: 483},
+            {x: 3290, y: 483},
         ]
 
         this.PipeOps = 
@@ -563,7 +631,7 @@ class Level1 extends Framework.Level
             friction: 0.05, 
             density:0.002, 
             isStatic:true, 
-            isSensor:false
+            isSensor:true
         }
         this.blockUVs = []
         for (var i = 0; i < this.blockUVsPos.length; i++)
@@ -616,16 +684,19 @@ class Level1 extends Framework.Level
         // console.log(this.viewCenter)
         Framework.Game.initialize()
         
+        this.loadPic()
+
         this.loadBackground()
         this.loadTextbox()
         this.loadICON()
 
-        this.loadHero()
+        
         this.loadCamera()
 
         this.loadGround()
 
         this.loadPipe()
+        this.loadUDIE()
         this.loadRocket()
         this.loadTrollBridge()
         this.loadBlockQ()
@@ -637,7 +708,7 @@ class Level1 extends Framework.Level
 
         this.loadGoBlock()
 
-        
+        this.loadHero()
         
 
         // 載入 collision
@@ -771,6 +842,15 @@ class Level1 extends Framework.Level
                 {x: this.block_GO_thorn.component.position.x + moveLength, y: this.block_GO_thorn.component.position.y})
         }
         //#endregion
+
+        //#region  move blockGO
+        for	(var i = 0; i<this.UDIEs.length; i++)
+        {
+            this.matter.setBody(this.UDIEs[i].component.body, 
+                "position", 
+                {x: this.UDIEs[i].component.position.x + moveLength, y: this.UDIEs[i].component.position.y})
+        }
+        //#endregion
     }
 
     blockUpDown(isBlockCollision, blocks, blockIndex)
@@ -827,6 +907,28 @@ class Level1 extends Framework.Level
     {
         // console.log(this.floors[this.floors.length - 1].component.position)
         // console.log(this.hero.component.position)
+
+        if (this.isUDIEcollision[0] === true &&
+            this.isUDIEcollision[1] === true &&
+            this.isUDIEcollision[2] === true &&
+            this.isUDIEcollision[3] === true &&
+            this.isUDIEcollision[4] === true &&
+            this.isUDIEcollision[5] === true)
+        {
+            // load rocket\
+            this.isShouldRemoveFloor = true
+            
+        }
+        if (this.isShouldRemoveFloor && !this.isRemoveFloor)
+        {
+            console.log("remove floor")
+            console.log(this.floors[49].component.position, this.floors[50].component.position)
+            this.floors[49].pic = null
+            this.floors[50].pic = null
+            this.matter.removeBody(this.floors[49].component.body)
+            this.matter.removeBody(this.floors[50].component.body)
+            this.isRemoveFloor = true
+        }
 
         this.blockUpDown(this.isblockQcollision, this.BlockQs,this.blockIndex)
         
@@ -887,12 +989,35 @@ class Level1 extends Framework.Level
                     {
                         if (this.floors[0].component.position.x === 35)   // 如果第一個方塊的位置正確
                         {
-                            this.hero.goLeft()
+                            if (this.floors[0].component.position.x === 35 && this.hero.component.position.x <= 502)
+                            {
+                                this.hero.goLeft()
+                            }
+                            else if (this.floors[this.floors.length - 1].component.position.x <= 1570 && this.hero.component.position.x <= 502)
+                            {
+                                console.log("A")
+                                this.moveMap(5)
+                                this.hero.component.position.x = 502
+                            }
+                            else if (this.floors[this.floors.length - 1].component.position.x <= 1570 && this.hero.component.position.x > 502)
+                            {
+                                this.hero.goLeft()
+                            }
                         }
                         else
                         {
-                            this.hero.component.position.x = 502
-                            this.moveMap(5)
+                            if (this.hero.component.position.x >= 504)
+                            {
+                                this.matter.setBody(this.hero.component.body, 
+                                    "position", 
+                                    {x: this.hero.component.position.x, y:this.hero.component.position.y})
+                            }
+                            else if (this.hero.component.position.x < 504)
+                            {
+                                
+                                this.moveMap(5)
+                            }
+                            
                         }
                     } 
                 }
@@ -1110,10 +1235,17 @@ class Level1 extends Framework.Level
 
                         this.blockUVs[k].pic = null
                         this.matter.removeBody(this.blockUVs[k].component.body)
-
+                        this.blockUVsOpsNEW = 
+                        {
+                            label: 'blockUV', 
+                            friction: 0.05, 
+                            density:0.002, 
+                            isStatic:true, 
+                            isSensor:false
+                        }
                         this.blockUVs[k] = new block('images/blockQ.png', 
                                             this.matter,
-                                            this.blockUVsOps)
+                                            this.blockUVsOpsNEW)
                         this.blockUVs[k].load()
                         this.blockUVs[k].initialize()
                         this.blockUVs[k].component.position = this.tempPos
@@ -1130,6 +1262,60 @@ class Level1 extends Framework.Level
         
         //#endregion
     
+
+        // region collision between hero and UDIEs
+        for (var i = 0, j = pairs.length; i != j; ++i) 
+        {
+            var pair = pairs[i];
+
+            for (var k = 0; k < this.UDIEsPos.length; k++)
+            {
+                if ((pair.bodyA === this.UDIEs[k].component.body && pair.bodyB === this.hero.component.body) || 
+                    (pair.bodyB === this.UDIEs[k].component.body && pair.bodyA === this.hero.component.body)) 
+                {
+                    console.log("isOnFloor")
+                    this.hero.isOnFloor = true
+
+                    var blockHalfWidth = this.UDIEs[k].component.sprite.width / 2
+                    if ((this.hero.component.position.y - this.UDIEs[k].component.position.y - this.UDIEs[k].component.sprite.height >= 0) && (this.hero.component.position.x >= this.UDIEs[k].component.position.x - blockHalfWidth)
+                     && (this.hero.component.position.x <= this.UDIEs[k].component.position.x + blockHalfWidth))
+                    {
+                        this.isUDIEcollision[k] = true
+                        console.log(this.isUDIEcollision)
+                        // this.blockIndex = k
+                        // console.log("blockIndex: " + this.blockUVIndex)
+                        
+                        this.tempPos = this.UDIEs[k].component.sprite.position
+
+                        this.UDIEs[k].pic = null
+                        this.matter.removeBody(this.UDIEs[k].component.body)
+                        this.blockUDIEsOpsNEW = 
+                        {
+                            label: 'UDIE', 
+                            friction: 0.05, 
+                            density:0.002, 
+                            isStatic:true, 
+                            isSensor:false
+                        }
+                        console.log("UDIE")
+                        this.UDIEs[k] = new block('images/UDIE'+ k + '.png', 
+                                            this.matter,
+                                            this.blockUDIEsOpsNEW)
+                        this.UDIEs[k].load()
+                        this.UDIEs[k].initialize()
+                        this.UDIEs[k].component.position = this.tempPos
+                        this.rootScene.attach(this.UDIEs[k])
+                    }
+                } 
+                else if (pair.bodyA === this.hero.component.body || pair.bodyB === this.hero.component.body)
+                {
+                    // console.log("No Collision")
+                }
+                
+            }
+        }
+
+        //#endregion
         // region collision between hero and pipe
         for(var i=0; i < this.Pipes.length; i++)
         {
