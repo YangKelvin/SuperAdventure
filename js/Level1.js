@@ -847,8 +847,18 @@ class Level1 extends Framework.Level
                         
                         else
                         {
-                            this.hero.component.position.x = 502
-                            this.moveMap(5)
+                            if (this.hero.component.position.x >= 504)
+                            {
+                                this.matter.setBody(this.hero.component.body, 
+                                    "position", 
+                                    {x: this.hero.component.position.x, y:this.hero.component.position.y})
+                            }
+                            else if (this.hero.component.position.x < 504)
+                            {
+                                
+                                this.moveMap(5)
+                            }
+                            
                         }
                     } 
                 }
