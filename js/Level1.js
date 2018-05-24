@@ -829,16 +829,20 @@ class Level1 extends Framework.Level
                     {
                         if (this.floors[0].component.position.x === 35 || this.floors[this.floors.length - 1].component.position.x <= 1570)   // 如果第一個方塊的位置正確
                         {
-                            if (this.hero.component.position.x <= 502)
-                            {
-                                this.moveMap(5)
-                                this.hero.component.position.x = 502
-                            }
-                            else
+                            if (this.floors[0].component.position.x === 35 && this.hero.component.position.x <= 502)
                             {
                                 this.hero.goLeft()
                             }
-                            
+                            else if (this.floors[this.floors.length - 1].component.position.x <= 1570 && this.hero.component.position.x <= 502)
+                            {
+                                console.log("A")
+                                this.moveMap(5)
+                                this.hero.component.position.x = 502
+                            }
+                            else if (this.floors[this.floors.length - 1].component.position.x <= 1570 && this.hero.component.position.x > 502)
+                            {
+                                this.hero.goLeft()
+                            }
                         }
                         
                         else
