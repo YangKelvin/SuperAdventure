@@ -380,12 +380,47 @@ class Level1 extends Framework.Level
             this.rootScene.attach(this.trollBridges[i])
         }
     }
+    loadUDIE()
+    {
+        console.log("loadUDIE")
+        this.UDIEsPos = 
+        [
+            {x: 2870, y: 500},
+            {x: 2940, y: 500},
+            {x: 3010, y: 500},
+            {x: 3080, y: 500},
+            {x: 3150, y: 500},
+            {x: 3220, y: 500},
+        ]
+        
+        this.UDIEOps = 
+        {
+            label: 'UDIE', 
+            friction: 0.05, 
+            density:0.002, 
+            isStatic:true
+        }
+
+        this.UDIEs = new Array()
+        for (var i = 0; i < this.UDIEsPos.length; i++)
+        {
+            this.UDIEs[i] = new block('images/UDIE'+i+'.png', 
+                                            this.matter, 
+                                            this.UDIEOps)
+            this.UDIEs[i].load()
+            this.UDIEs[i].initialize()
+            this.UDIEs[i].component.position = this.UDIEsPos[i]
+
+            this.rootScene.attach(this.UDIEs[i])
+        }
+    }
+
     loadPipe()
     {
         this.PipePos = 
         [
-            {x: 2660, y: 500},
-            {x: 3360, y: 500},
+            {x: 2660, y: 483},
+            {x: 3290, y: 483},
         ]
 
         this.PipeOps = 
@@ -603,6 +638,7 @@ class Level1 extends Framework.Level
         this.loadGround()
 
         this.loadPipe()
+        this.loadUDIE()
         this.loadRocket()
         this.loadTrollBridge()
         this.loadBlockQ()
@@ -732,6 +768,15 @@ class Level1 extends Framework.Level
             this.matter.setBody(this.block_GO.component.body, 
                 "position", 
                 {x: this.block_GO.component.position.x + moveLength, y: this.block_GO.component.position.y})
+        }
+        //#endregion
+
+        //#region  move blockGO
+        for	(var i = 0; i<this.UDIEs.length; i++)
+        {
+            this.matter.setBody(this.UDIEs[i].component.body, 
+                "position", 
+                {x: this.UDIEs[i].component.position.x + moveLength, y: this.UDIEs[i].component.position.y})
         }
         //#endregion
     }
