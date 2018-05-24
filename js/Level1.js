@@ -50,6 +50,7 @@ class Level1 extends Framework.Level
         // 重置 levelTest
         Framework.Game._levels.splice(0,1,{name : "level1", level : new Level1()})
         Framework.Game.userIQ -= 50
+        Framework.Game._goToLevelIs = "level1"
         Framework.Game.goToLevel("dieScreen")
         console.log("hero die")
     }
@@ -737,7 +738,7 @@ class Level1 extends Framework.Level
 
     blockUpDown(isBlockCollision, blocks, blockIndex)
     {
-        if (isBlockCollision )
+        if (isBlockCollision)
         {
             //console.log("BlockQs[" + blockIndex + "].y = " + blocks[blockIndex].component.position.y)
             if (this.waitCount < 15)
@@ -826,10 +827,20 @@ class Level1 extends Framework.Level
                     // go left
                     if (this.hero.component.position.x > 50)    //讓hero.position不會小於70
                     {
-                        if (this.floors[0].component.position.x === 35)   // 如果第一個方塊的位置正確
+                        if (this.floors[0].component.position.x === 35 || this.floors[this.floors.length - 1].component.position.x <= 1570)   // 如果第一個方塊的位置正確
                         {
-                            this.hero.goLeft()
+                            if (this.hero.component.position.x <= 502)
+                            {
+                                this.moveMap(5)
+                                this.hero.component.position.x = 502
+                            }
+                            else
+                            {
+                                this.hero.goLeft()
+                            }
+                            
                         }
+                        
                         else
                         {
                             this.hero.component.position.x = 502
