@@ -1,4 +1,4 @@
-class LevelTest extends Framework.Level 
+class Level1 extends Framework.Level 
 {
     constructor()
     {
@@ -22,7 +22,6 @@ class LevelTest extends Framework.Level
         this.isTriggleTrollBridge = false   // 判斷是否觸發陷阱橋掉落
         this.bridgeFall = 0                 // 陷阱掉落的移動量
 
-
         this.princessPos = {x:4200, y:606} // 公主初始位置
 
         // 鎖定角色位置 -> 避免角色從方塊上滑落
@@ -39,12 +38,17 @@ class LevelTest extends Framework.Level
         this.isblockUVcollision = false
         this.blockUVIndex = 0
         this.isShotRocket = false
+
+        this.isCollisionQ1 = false
+        this.isBlockGo= false
+
+
     }
 
     heroDie()
     {
         // 重置 levelTest
-        Framework.Game._levels.splice(2,1,{name : "levelTest", level : new LevelTest()})
+        Framework.Game._levels.splice(0,1,{name : "level1", level : new Level1()})
         Framework.Game.userIQ -= 50
         Framework.Game.goToLevel("dieScreen")
         console.log("hero die")
@@ -84,6 +88,7 @@ class LevelTest extends Framework.Level
         }
         this.background.scale = 2;
         this.rootScene.attach(this.background)
+        console.log("load bg")
     }
     loadTextbox()
     {
@@ -91,10 +96,13 @@ class LevelTest extends Framework.Level
         this.heroInfoX = new Textbox()
         this.heroInfoX.position = {x:1000, y:0}
         this.heroInfoX._text= "hero_x : "
+        this.rootScene.attach(this.heroInfoX)
+
 
         this.heroInfoY = new Textbox()
         this.heroInfoY.position = {x:1000, y:80}
         this.heroInfoY._text= "hero_y : "
+        this.rootScene.attach(this.heroInfoY)
 
         //score
         this.ScoreInfo = new Textbox()
@@ -173,7 +181,6 @@ class LevelTest extends Framework.Level
                 // {x: 280, y: 710},
                 // ground
                 {x: 0, y: 780},
-                {x: 0, y: 500},//小跳板
                 {x: 70, y: 780},
                 {x: 140, y: 780},
                 {x: 210, y: 780},
@@ -183,7 +190,6 @@ class LevelTest extends Framework.Level
                 {x: 490, y: 780},
                 {x: 560, y: 780},
                 {x: 630, y: 780},
-                {x: 630, y: 360},//小跳板
                 {x: 700, y: 780},
                 {x: 770, y: 780},
                 {x: 840, y: 780},
@@ -308,9 +314,7 @@ class LevelTest extends Framework.Level
     {
         this.coinsPos =
         [
-            {x: 490, y: 200},
-            {x: 1960, y: 100},
-            {x: 3010, y: 640},
+            
         ]
 
         this.coinOps = 
@@ -351,11 +355,7 @@ class LevelTest extends Framework.Level
     {
         this.trollBridgesPos = 
         [
-            {x: 980, y: 780},
-            {x: 1050, y: 780},
-            {x: 1120, y: 780},
-            {x: 1190, y: 780},
-            {x: 1260, y: 780},
+            
         ]
 
         this.trollBridgeOps = 
@@ -410,7 +410,7 @@ class LevelTest extends Framework.Level
     {
         this.BlockQPos = 
         [
-            {x: 280, y: 430},//blockQ   
+            {x: 350, y: 480},
             {x: 1820, y: 500},//blockQ
             {x: 1890, y: 220},//blockQ
             {x: 2030, y: 500}//blockQ
@@ -440,7 +440,7 @@ class LevelTest extends Framework.Level
         // region monsters
         this.monstersPos = 
         [
-            {x: 600, y: 700},
+            
         ]
 
         this.monsterOps = 
@@ -507,8 +507,7 @@ class LevelTest extends Framework.Level
     {
         this.rocketPos = 
         [
-            {x: 2730, y: 550},
-            {x: 3430, y: 550}
+            
         ]
 
         this.rocketOps = 
@@ -540,7 +539,7 @@ class LevelTest extends Framework.Level
         // unvisible block
         this.blockUVsPos = 
         [
-            {x: 380, y: 430},//blockQ   
+            {x: 960, y: 480},//blockQ   
         ]
         this.blockUVsOps = 
         {
@@ -563,31 +562,60 @@ class LevelTest extends Framework.Level
             
         }
     }
+    loadGoBlock()
+    {
+        this.block_GOPos = 
+        {
+            x: 500,
+            y: 400
+        }
+        this.block_GOOps = 
+        {
+            label: 'block_GO', 
+            friction: 0.05, 
+            density:0.002, 
+            isStatic:true, 
+            isSensor:false
+        }
+
+        this.block_GO = new block('images/level1-GoBlock.png',
+                                        this.matter,
+                                        this.block_GOOps)
+        this.block_GO.load()
+        this.block_GO.initialize()
+        this.block_GO.component.position = {x:-100, y:0}
+        // this.rootScene.attach(this.block_GO)
+    }
     //#endregion
     load() 
     {
         // console.log(this.viewCenter)
         Framework.Game.initialize()
+        
         this.loadBackground()
         this.loadTextbox()
-        this.loadHero()
-
-        this.loadGround()
-        this.loadBlockQ()
-        this.loadTrollBridge()
-        this.loadCoin()
-        this.loadPrincess()
-        this.loadCamera()
-        
-        this.loadRocket()
-        this.loadPipe()
-        
-        this.loadMonster()
         this.loadICON()
 
+        this.loadHero()
+        this.loadCamera()
+
+        this.loadGround()
+
+        this.loadPipe()
+        this.loadRocket()
+        this.loadTrollBridge()
+        this.loadBlockQ()
         this.loadBlockUV()
-        // this.loadAudio()
-        // this.audio.play({name: 'bgm1', loop: true})
+        this.loadCoin()
+
+        this.loadMonster()
+        this.loadPrincess()
+
+        this.loadGoBlock()
+
+        
+        
+
         // 載入 collision
         this.matter.addEventListener("collisionStart",(this.collisionBlocks))
         console.log("Level1")
@@ -616,6 +644,16 @@ class LevelTest extends Framework.Level
             this.matter.setBody(this.BlockQs[i].component.body, 
                 "position", 
                 {x: this.BlockQs[i].component.position.x + moveLength, y: this.BlockQs[i].component.position.y})  
+        }
+        //#endregion
+
+        
+        //#region move blockUV
+        for	(var i = 0; i<this.blockUVs.length; i++)
+        {
+            this.matter.setBody(this.blockUVs[i].component.body, 
+                "position", 
+                {x: this.blockUVs[i].component.position.x + moveLength, y: this.blockUVs[i].component.position.y})  
         }
         //#endregion
 
@@ -675,13 +713,6 @@ class LevelTest extends Framework.Level
             this.matter.setBody(this.cloudMonsters[i].component.body, 
                 "position", 
                 {x: this.cloudMonsters[i].component.position.x + moveLength, y: this.cloudMonsters[i].component.position.y})  
-            
-                // this.cloudMonsters[i].component.position = 
-            // {
-            //     x: this.cloudMonstersPos[i].x - this.camera.component.position.x + 500 + this.cloudMonsters[i].component.sprite.width / 2,
-            //     y: this.cloudMonstersPos[i].y + this.cloudMonsters[i].component.sprite.height / 2
-            // } 
-            
         }
         // endregion
 
@@ -693,12 +724,22 @@ class LevelTest extends Framework.Level
                 {x: this.rockets[i].component.position.x + moveLength, y: this.rockets[i].component.position.y})
         }
         // endregion
+   
+        //#region  move blockGO
+        if (this.isBlockGo)
+        {
+            this.matter.setBody(this.block_GO.component.body, 
+                "position", 
+                {x: this.block_GO.component.position.x + moveLength, y: this.block_GO.component.position.y})
+        }
+        //#endregion
     }
 
     blockUpDown(isBlockCollision, blocks, blockIndex)
     {
-        if (isBlockCollision && (this.hero.component.position.x < 500 || this.camera.component.position.x >= 3240))
+        if (isBlockCollision )
         {
+            //console.log("BlockQs[" + blockIndex + "].y = " + blocks[blockIndex].component.position.y)
             if (this.waitCount < 15)
             {
                 blocks[blockIndex].component.position = 
@@ -727,6 +768,17 @@ class LevelTest extends Framework.Level
 
     update() 
     {
+        // console.log(this.floors[this.floors.length - 1].component.position)
+        // console.log(this.hero.component.position)
+
+        this.blockUpDown(this.isblockQcollision, this.BlockQs,this.blockIndex)
+        
+        if (this.isCollisionQ1 && !this.isBlockGo)
+        {
+            this.rootScene.attach(this.block_GO)
+            this.block_GO.component.position = this.block_GOPos
+            this.isBlockGo = true
+        }
         
 
         //#region hero die condition
@@ -743,8 +795,9 @@ class LevelTest extends Framework.Level
             this.heroDie()
         }
         //#endregion
+        
+        //#region hero move & map move(new)
 
-        //#region camera move & hero move & map move(new)
         if (this.isPress || this.isJump)
         {
             if (this.isPressWalk)
@@ -753,9 +806,12 @@ class LevelTest extends Framework.Level
                 if (this.walkDirection === 1)
                 {
                     moveLength = -5
-                    this.camera.goRight()
                     // go right
                     if (this.hero.component.position.x < 500)
+                    {
+                        this.hero.goRight()
+                    }
+                    else if (this.floors[this.floors.length - 1].component.position.x <= 1570)
                     {
                         this.hero.goRight()
                     }
@@ -763,7 +819,6 @@ class LevelTest extends Framework.Level
                     {
                         this.hero.component.position.x = 502
                         this.moveMap(moveLength)
-                        // this.hero.component.position.x = 500
                     }
                 }
                 else if (this.walkDirection === 2)
@@ -777,18 +832,11 @@ class LevelTest extends Framework.Level
                         }
                         else
                         {
-                            // this.hero.component.position.x = 502
-
-                            this.hero.goLeft()
-                            // this.moveMap(5)
+                            this.hero.component.position.x = 502
+                            this.moveMap(5)
                         }
                     } 
                 }
-                // this.lockHeroPos = 
-                // {
-                //     x: this.hero.component.position.x,
-                //     y: this.hero.component.position.y
-                // }
                 this.lockHeroPosx = this.hero.component.position.x
             }
 
@@ -798,50 +846,8 @@ class LevelTest extends Framework.Level
                 this.hero.isOnFloor = false
             }
         }
-        //#endregion
+        //#endregion    
 
-        // #region 是否發射火箭
-        var pipeRangeMin = this.Pipes[0].component.position.x - (this.Pipes[0].component.sprite.width / 2)
-        var pipeRangeMax = this.Pipes[0].component.position.x + (this.Pipes[0].component.sprite.width / 2)
-        // console.log("pipeRangeMin: " + pipeRangeMin)
-        // console.log("pipeRangeMax: " + pipeRangeMax)
-        // console.log("hero.x: " + this.hero.component.position.x)
-        if (pipeRangeMin - 100 <= this.hero.component.position.x + this.hero.component.sprite.width/2 && this.hero.component.position.x - this.hero.component.sprite.width/2 <= pipeRangeMax+100)
-        {
-            this.isShotRocket = true
-        }
-        if (this.isShotRocket)
-        {
-            // console.log("shotRocket!!!")
-            for	(var i = 0; i<this.rockets.length; i++)
-            {
-                this.matter.setBody(this.rockets[i].component.body, 
-                    "position", 
-                    {x: this.rockets[i].component.position.x, y: this.rockets[i].component.position.y - 5})
-            }
-            // console.log(this.rockets[0].component.position.x + "," + this.rockets[0].component.position.y)
-            if (this.rockets[0].component.position.y <= -100 && this.rockets[1].component.position.y <= -100)
-            {
-                this.isShotRocket = false
-                console.log("stop shot")
-                for	(var i = 0; i<this.rockets.length; i++)
-                {
-                    // this.rockets[i].component.position =
-                    // {
-                    //     x: this.rockets[i].component.position.x,
-                    //     y: this.rocketPos[i].y
-                    // }
-                    console.log("image move")
-                    this.matter.setBody(this.rockets[i].component.body, 
-                        "position", 
-                        {x: this.rockets[i].component.position.x, y: this.rocketPos[i].y + 100})
-                }
-            }
-        }
-        // endregion
-
-        
-        
         //#region 防止英雄滑落
         if (this.startLockHeroPos)
         {
@@ -849,80 +855,13 @@ class LevelTest extends Framework.Level
             this.hero.component.position.x = this.lockHeroPosx
         }
         //#endregion
-
-        //#region triggle bridge & fall down 
-        if (this.isTriggleTrollBridge === true)
-        {
-            this.bridgeFall = 10
-
-            for (var i = 0; i < this.trollBridges.length; i++)
-            {
-                this.matter.setBody(this.trollBridges[i].component.body, 
-                    "position", 
-                    {x: this.trollBridges[i].component.position.x, y: this.trollBridges[i].component.position.y + this.bridgeFall})  
-            }
-        }
-        //#endregion
-    
-        // region blockQ collision animation (add by james)
-        // if (this.isblockQcollision && (this.hero.component.position.x < 500 || this.camera.component.position.x >= 3240))
-        // {
-        //     if (this.waitCount < 15)
-        //     {
-        //         this.BlockQs[this.blockIndex].component.position = 
-        //         {
-        //             x: this.BlockQs[this.blockIndex].component.position.x,
-        //             y: this.BlockQs[this.blockIndex].component.position.y - 2.5
-        //         }
-        //     }
-        //     else
-        //     {
-        //         this.BlockQs[this.blockIndex].component.position = 
-        //         {
-        //             x: this.BlockQs[this.blockIndex].component.position.x,
-        //             y: this.BlockQs[this.blockIndex].component.position.y + 2.5
-        //         }
-        //     }
-        //     this.waitCount ++
-        // }
-        // if (this.waitCount === 30)
-        // {
-        //     this.isblockQcollision = false
-        //     this.waitCount = 0
-        // }
-        this.blockUpDown(this.isblockQcollision, this.BlockQs, this.blockIndex)
-        // #endregion
-
-        //#region 
-        this.blockUpDown(this.isblockUVcollision, this.blockUVs,this.blockUVIndex)
-        //#endregion
-
-        //#region textBox
+        
+        //#region update textbox
         this.heroInfoX._value = Math.round(this.hero.component.position.x)
         this.heroInfoY._value = Math.round(this.hero.component.position.y)
-        // this.mapInfoL._value = this.camera.component.position.x
-        this.mapInfoL._value = 0
-        this.ScoreInfo._value = this.score;
         //#endregion
-
-        //#region show princess with score 
-        if (this.score >= 3)
-        {
-            if(!(this.isPrincess))
-            {
-                // this.loadPrincess()
-                this.rootScene.attach(this.princess)
-                this.isPrincess = true
-                this.princess.component.position = this.princessPos
-                console.log("Princess is draw!!")
-            }
-            this.princess.update()
-        }
-        //#endregion
-
-        //#region update
-
-        // 為了讓matter持續更新
+        
+        //#region update 註解和非註解 有奇怪的差異...
         this.matter.setBody(this.camera.component.body, 
             "position", 
             {x: this.camera.component.position.x + 0, y: this.camera.y})
@@ -931,23 +870,25 @@ class LevelTest extends Framework.Level
         this.matter.update()
         this.rootScene.update() // 對齊 component & sprite
         this.camera.update()
+
+        // this.matter.setBody(this.camera.component.body, 
+        //     "position", 
+        //     {x: this.camera.component.position.x + 0, y: this.camera.component.position.y})
         
+        // this.hero.update()
+        // this.matter.update()
+        // this.rootScene.update() // 對齊 component & sprite
+        // this.camera.update()
         //#endregion
-
-
-        // console.log(this.blockUVs.length)
     }
     draw(parentCtx) 
     {
-        this.heroInfoX.draw(parentCtx)
-        this.heroInfoY.draw(parentCtx)
-        this.ScoreInfo.draw(parentCtx)
-        this.mapInfoL.draw(parentCtx)
-        this.mapInfoR.draw(parentCtx)
+
     }
 
     click(e)
     {
+        // 返回選關卡頁面
         if (e.x >= 3 && 
             e.x <= 105 && 
             e.y >= 10 && 
@@ -968,9 +909,6 @@ class LevelTest extends Framework.Level
 
         if(e.key === 'W') 
         {
-            // jump
-            // this.audio.play({name: 'jump'})
-            // console.log("W")
             this.isPress = true
             this.isJump = true
         }
@@ -995,12 +933,16 @@ class LevelTest extends Framework.Level
     {
         if(e.key === 'D' || e.key === 'A')
         {
+            // 鎖定hero位置 （避免英雄從方塊下滑落）
             this.startLockHeroPos = true
 
             this.isPress = false
             this.isPressWalk = false
             this.walkDirection = 0
             this.hero.animationStand()
+
+
+
         }
         if (e.key === 'W')
         {
@@ -1021,36 +963,13 @@ class LevelTest extends Framework.Level
     }
     mousemove(e) 
     {
-        console.log(e.x + "  " + e.y)    
+        // console.log(e.x + "  " + e.y)    
     }
 
     
     collisionStart(event)
     {
-        // console.log(this)
-        
-        var pairs = event.pairs;
-        
-        // #region collision between hero and trollBridge 
-        for (var i = 0, j = pairs.length; i != j; ++i) 
-        {
-            var pair = pairs[i];
-
-            for (var k = 2; k < this.trollBridgesPos.length; k++)
-            {
-                if (pair.bodyA === this.trollBridges[k].component.body && pair.bodyB === this.hero.component.body) 
-                {
-                    // 橋掉下去
-                    this.isTriggleTrollBridge = true
-                    // this.hero.isOnFloor = true
-                } 
-                else if (pair.bodyA === this.hero.component.body || pair.bodyB === this.hero.component.body)
-                {
-                    // console.log("No Collision")
-                }
-            }
-        }
-        //#endregion
+        var pairs = event.pairs
 
         // #region collision between hero and floor 
         for (var i = 0, j = pairs.length; i != j; ++i) 
@@ -1089,88 +1008,23 @@ class LevelTest extends Framework.Level
                         this.isblockQcollision = true
                         this.blockIndex = k
                         console.log("blockIndex: " + this.blockIndex)
+                        if (pair.bodyA === this.BlockQs[0].component.body) // 碰撞到第一個問號方塊
+                        {
+                            console.log("撞第一個問號方塊")
+                            // add level1-GOBLOCK
+                            // this.loadGoBlock()
+                            this.isCollisionQ1 = true
+                        }
                     }
                 } 
                 else if (pair.bodyA === this.hero.component.body || pair.bodyB === this.hero.component.body)
                 {
                     // console.log("No Collision")
                 }
+                
             }
         }
         //#endregion
-
-        // #region collision between hero and coin 
-        for (var i = 0, j = pairs.length; i != j; ++i) 
-        {
-            var pair = pairs[i];
-
-            for (var k = 0; k < this.coinsPos.length; k++)
-            {
-                if (pair.bodyA === this.coins[k].component.body && pair.bodyB === this.hero.component.body) 
-                {
-                    // console.log("collision1")
-                    this.score += 1
-                    this.coins[k].pic = null
-                    this.matter.removeBody(this.coins[k].component.body)
-                    // this.audio.play({name: 'coin'})
-                } 
-            }
-        }
-        // #endregion
-
-        // #region collision between hero and princess 
-        if (pair.bodyA === this.hero.component.body && pair.bodyB === this.princess.component.body) 
-        {
-            console.log("The End")
-            // this.audio.play({name: 'haha'})
-            // Framework.Game.pause()
-            Framework.Game.items[0].item = true
-            Framework.Game.records[0].record = Framework.Game.userIQ
-            Framework.Game.userIQ = 250
-            // 重置關卡
-            Framework.Game._levels.splice(2,1,{name : "levelTest", level : new LevelTest()})
-            // Framework.Game._levels[1] = {name : "leve1", level : new Level1()}
-            // Framework.Game.addNewLevel({level1: new Level1()});
-            Framework.Game.goToLevel("chooseLevel")
-        }
-        //#endregion 
-
-        //#region collision between hero and monster 
-        if (pair.bodyA === this.monsters[0].component.body && pair.bodyB === this.hero.component.body) 
-        {
-            if (this.hero.component.position.y < 680)
-            {
-                this.monsters[0].pic = null
-                this.matter.removeBody(this.monsters[0].component.body)
-            }
-            else
-            {
-                console.log("The End because of monster")
-                this.heroDie()
-            }
-        }
-        if (pair.bodyA === this.cloudMonsters[0].component.body && pair.bodyB === this.hero.component.body)
-        {
-            this.heroDie()
-        }
-        //#endregion
-    
-        // region collision between hero and rocket
-        if ((pair.bodyA === this.rockets[0].component.body && pair.bodyB === this.hero.component.body) || (pair.bodyA === this.rockets[1].component.body && pair.bodyB === this.hero.component.body))
-        {
-            this.heroDie()
-        }
-        // endregion
-
-        // region collision between hero and pipe
-        for(var i=0; i < this.Pipes.length; i++)
-        {
-            if (pair.bodyA === this.Pipes[i].component.body && pair.bodyB === this.hero.component.body)
-            {
-                this.hero.isOnFloor = true
-            }
-        }
-        // endregion
     
         // region collision between hero and blockUV
         for (var i = 0, j = pairs.length; i != j; ++i) 
@@ -1182,17 +1036,18 @@ class LevelTest extends Framework.Level
                 if ((pair.bodyA === this.blockUVs[k].component.body && pair.bodyB === this.hero.component.body) || 
                     (pair.bodyB === this.blockUVs[k].component.body && pair.bodyA === this.hero.component.body)) 
                 {
-                    console.log("blockUVC")
+                    console.log("isOnFloor")
                     this.hero.isOnFloor = true
 
                     var blockHalfWidth = this.blockUVs[k].component.sprite.width / 2
-                    if ((this.hero.component.position.y - this.blockUVs[k].component.position.y - this.blockUVs[k].component.sprite.height >= 0) && 
-                        (this.hero.component.position.x >= this.blockUVs[k].component.position.x - blockHalfWidth) && 
-                        (this.hero.component.position.x <= this.blockUVs[k].component.position.x + blockHalfWidth))
+                    if ((this.hero.component.position.y - this.blockUVs[k].component.position.y - this.blockUVs[k].component.sprite.height >= 0) && (this.hero.component.position.x >= this.BlockQs[k].component.position.x - blockHalfWidth)
+                     && (this.hero.component.position.x <= this.blockUVs[k].component.position.x + blockHalfWidth))
                     {
-                        this.isblockUVcollision = true
-                        this.blockUVIndex = k
-                        console.log("blockUVIndex: " + this.blockUVIndex)
+                        this.isblockQcollision = true
+                        this.blockIndex = k
+                        console.log("blockIndex: " + this.blockUVIndex)
+                        
+                        this.tempPos = this.blockUVs[k].component.sprite.position
 
                         this.blockUVs[k].pic = null
                         this.matter.removeBody(this.blockUVs[k].component.body)
@@ -1202,7 +1057,7 @@ class LevelTest extends Framework.Level
                                             this.blockUVsOps)
                         this.blockUVs[k].load()
                         this.blockUVs[k].initialize()
-                        this.blockUVs[k].component.position = this.blockUVsPos[i]
+                        this.blockUVs[k].component.position = this.tempPos
                         this.rootScene.attach(this.blockUVs[k])
                     }
                 } 
@@ -1210,8 +1065,20 @@ class LevelTest extends Framework.Level
                 {
                     // console.log("No Collision")
                 }
+                
             }
         }
+        
         //#endregion
+    
+        // region collision between hero and pipe
+        for(var i=0; i < this.Pipes.length; i++)
+        {
+            if (pair.bodyA === this.Pipes[i].component.body && pair.bodyB === this.hero.component.body)
+            {
+                this.hero.isOnFloor = true
+            }
+        }
+        // endregion
     }
 };

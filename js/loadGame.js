@@ -48,6 +48,7 @@ var loadGameEnd;
         { src: 'js/RecordScreen.js', lookFor: 'RecordScreen' },
         { src: 'js/ChooseLevel.js', lookFor: 'ChooseLevel' },
         { src: 'js/LevelTest.js', lookFor: 'LevelTest' },
+        { src: 'js/Level1.js', lookFor: 'Level1' },
         { src: 'js/DieScreen.js', lookFor: 'DieScreen' },
         { src: 'js/EndLevel.js', lookFor: 'EndLevel' },
         { src: 'js/Character.js', lookFor: 'Character' },

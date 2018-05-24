@@ -5,12 +5,14 @@ Framework.Game.isBackwardCompatiable = false;
 
 //當有要加關卡時, 可以使用addNewLevel
 //第一個被加進來的Level就是啟動點, 所以一開始遊戲就進入MyMenu
-// Framework.Game.addNewLevel({dieScreen: new DieScreen()});
-// Framework.Game.addNewLevel({levelTest: new LevelTest()});
+Framework.Game.addNewLevel({level1: new Level1()});
+Framework.Game.addNewLevel({myMenu: new MyMenu()})
 Framework.Game.addNewLevel({chooseLevel: new ChooseLevel()})
+Framework.Game.addNewLevel({levelTest: new LevelTest()});
+// Framework.Game.addNewLevel({level1: new Level1()});
+
 Framework.Game.addNewLevel({dieScreen: new DieScreen()});
 Framework.Game.addNewLevel({bag: new Bag()})
-Framework.Game.addNewLevel({levelTest: new LevelTest()});
 Framework.Game.addNewLevel({recordScreen: new RecordScreen()})
 // Framework.Game.addNewLevel({EndLevel1: new EndLevel1()})
 // Framework.Game.addNewLevel({level1: new MyGame()});
