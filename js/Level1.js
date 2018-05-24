@@ -42,7 +42,15 @@ class Level1 extends Framework.Level
         this.isCollisionQ1 = false
         this.isBlockGo= false
 
+        // 判斷是否顯示Block_Go的尖刺
+        this.isblock_Go_thorn = false
 
+        // 判斷是否顯示雲的尖刺
+        this.iscloud_thorn = false
+
+        // block_GO 掉落和停止
+        this.isBlockGo_Drop = false
+        this.block_GO_Drop_stop = false
     }
 
     heroDie()
@@ -50,7 +58,6 @@ class Level1 extends Framework.Level
         // 重置 levelTest
         Framework.Game._levels.splice(0,1,{name : "level1", level : new Level1()})
         Framework.Game.userIQ -= 50
-        Framework.Game._goToLevelIs = "level1"
         Framework.Game.goToLevel("dieScreen")
         console.log("hero die")
     }
@@ -483,14 +490,22 @@ class Level1 extends Framework.Level
         for (var i = 0; i < this.cloudMonstersPos.length; i++)
         {
             this.cloudMonsters[i] = new Character('images/cloud.png',
-                                                this.matter,
-                                                this.cloudMonsterOps,
-                                                this.cloudMonstersPos)
+                                                    this.matter,
+                                                    this.cloudMonsterOps,
+                                                    this.cloudMonstersPos)
             this.cloudMonsters[i].load()
             this.cloudMonsters[i].initialize()
             this.cloudMonsters[i].component.position = this.cloudMonstersPos[i]
             this.rootScene.attach(this.cloudMonsters[i])
         }
+
+        this.cloudMonster_thorn = new Character('images/cloudThorn.png',
+                                                    this.matter,
+                                                    this.cloudMonsterOps,
+                                                    this.cloudMonstersPos)
+        this.cloudMonster_thorn.load()
+        this.cloudMonster_thorn.initialize()
+        this.cloudMonster_thorn.component.position = {x: -200, y: -200}
         // #endregion
     }
     loadICON()
@@ -586,6 +601,14 @@ class Level1 extends Framework.Level
         this.block_GO.initialize()
         this.block_GO.component.position = {x:-100, y:0}
         // this.rootScene.attach(this.block_GO)
+
+        this.block_GO_thorn = new block('images/level1-GOBlockThorn.png',
+                                            this.matter,
+                                            this.block_GOOps)
+        this.block_GO_thorn.load()
+        this.block_GO_thorn.initialize()
+        this.block_GO_thorn.component.position = {x:-100, y:0}
+        // this.rootScene.attach(this.block_GO_thorn)
     }
     //#endregion
     load() 
@@ -715,6 +738,13 @@ class Level1 extends Framework.Level
                 "position", 
                 {x: this.cloudMonsters[i].component.position.x + moveLength, y: this.cloudMonsters[i].component.position.y})  
         }
+
+        if (this.iscloud_thorn)
+        {
+            this.matter.setBody(this.cloudMonster_thorn.component.body, 
+                "position", 
+                {x: this.cloudMonster_thorn.component.position.x + moveLength, y: this.cloudMonster_thorn.component.position.y})  
+        }
         // endregion
 
         // region move rocket
@@ -733,12 +763,19 @@ class Level1 extends Framework.Level
                 "position", 
                 {x: this.block_GO.component.position.x + moveLength, y: this.block_GO.component.position.y})
         }
+
+        if (this.isblock_Go_thorn)
+        {
+            this.matter.setBody(this.block_GO_thorn.component.body, 
+                "position",
+                {x: this.block_GO_thorn.component.position.x + moveLength, y: this.block_GO_thorn.component.position.y})
+        }
         //#endregion
     }
 
     blockUpDown(isBlockCollision, blocks, blockIndex)
     {
-        if (isBlockCollision)
+        if (isBlockCollision )
         {
             //console.log("BlockQs[" + blockIndex + "].y = " + blocks[blockIndex].component.position.y)
             if (this.waitCount < 15)
@@ -767,6 +804,25 @@ class Level1 extends Framework.Level
         }
     }
 
+    block_GO_Drop()
+    {
+        // 是否觸發block_GO掉落
+        if (this.block_GO.component.position.x - this.block_GO.component.sprite.width / 4 <= this.hero.component.position.x &&
+            this.hero.component.position.x <= this.block_GO.component.position.x + this.block_GO.component.sprite.width / 4 &&
+            this.hero.component.position.y >= this.block_GO.component.position.y)
+        {
+            this.isBlockGo_Drop = true
+        }
+
+        // block_GO是否繼續掉落 (當砸到人物時會停止掉落)
+        if (this.isBlockGo_Drop && !this.block_GO_Drop_stop)
+        {
+            this.matter.setBody(this.block_GO.component.body, 
+                "position", 
+                {x: this.block_GO.component.position.x, y: this.block_GO.component.position.y + 5})
+        }
+    }
+
     update() 
     {
         // console.log(this.floors[this.floors.length - 1].component.position)
@@ -780,7 +836,9 @@ class Level1 extends Framework.Level
             this.block_GO.component.position = this.block_GOPos
             this.isBlockGo = true
         }
-        
+
+        // 判斷block_Go是否向下掉落並執行
+        this.block_GO_Drop()
 
         //#region hero die condition
         if (this.hero.component.position.y > 1000)
@@ -827,20 +885,10 @@ class Level1 extends Framework.Level
                     // go left
                     if (this.hero.component.position.x > 50)    //讓hero.position不會小於70
                     {
-                        if (this.floors[0].component.position.x === 35 || this.floors[this.floors.length - 1].component.position.x <= 1570)   // 如果第一個方塊的位置正確
+                        if (this.floors[0].component.position.x === 35)   // 如果第一個方塊的位置正確
                         {
-                            if (this.hero.component.position.x <= 502)
-                            {
-                                this.moveMap(5)
-                                this.hero.component.position.x = 502
-                            }
-                            else
-                            {
-                                this.hero.goLeft()
-                            }
-                            
+                            this.hero.goLeft()
                         }
-                        
                         else
                         {
                             this.hero.component.position.x = 502
@@ -1001,7 +1049,7 @@ class Level1 extends Framework.Level
         }
         //#endregion
 
-        //#region collision between hero and blockQ
+        // #region collision between hero and blockQ
         for (var i = 0, j = pairs.length; i != j; ++i) 
         {
             var pair = pairs[i];
@@ -1047,7 +1095,7 @@ class Level1 extends Framework.Level
                 if ((pair.bodyA === this.blockUVs[k].component.body && pair.bodyB === this.hero.component.body) || 
                     (pair.bodyB === this.blockUVs[k].component.body && pair.bodyA === this.hero.component.body)) 
                 {
-                    console.log("isOnFloor")
+                    // console.log("isOnFloor")
                     this.hero.isOnFloor = true
 
                     var blockHalfWidth = this.blockUVs[k].component.sprite.width / 2
@@ -1089,6 +1137,53 @@ class Level1 extends Framework.Level
             {
                 this.hero.isOnFloor = true
             }
+        }
+        // endregion
+
+        // region collision between hero and block_GO
+        if (pair.bodyA === this.hero.component.body && pair.bodyB === this.block_GO.component.body)
+        {
+            this.hero.isOnFloor = true
+
+            // 如果人物碰觸到block_GO下方 (有兩種情況)
+            if(this.hero.component.position.y >= this.block_GO.component.position.y && !this.isblock_Go_thorn)
+            {
+                // 被block_Go刺死
+                if (!this.isBlockGo_Drop)
+                {
+                    this.isblock_Go_thorn = true
+                    this.rootScene.attach(this.block_GO_thorn)
+                    this.block_GO_thorn.component.position = 
+                    {
+                        x: this.block_GO.component.position.x - this.block_GO.component.sprite.width / 2,
+                        y: this.block_GO.component.position.y - this.block_GO.component.sprite.height / 2,
+                    }
+                }
+                // 被block_Go砸死
+                else
+                {
+                    this.block_GO_Drop_stop = true
+                }
+
+                console.log("hero die")
+                // this.heroDie()
+            }
+        }
+        // endregion
+
+        // region collision between hero and cloud
+        if (pair.bodyA === this.cloudMonsters[0].component.body && pair.bodyB === this.hero.component.body)
+        {
+            this.iscloud_thorn = true
+            this.rootScene.attach(this.cloudMonster_thorn)
+            this.cloudMonster_thorn.component.position =
+            {
+                x: this.cloudMonsters[0].component.position.x - this.cloudMonsters[0].component.sprite.width / 2 - 25,
+                y: this.cloudMonsters[0].component.position.y - this.cloudMonsters[0].component.sprite.height / 2 - 13
+            }
+
+            console.log("hero die")
+            // this.heroDie()
         }
         // endregion
     }

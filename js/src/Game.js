@@ -12,7 +12,6 @@ var Framework = (function (Framework) {
 	{
         var that = {};
 		that._config = new Framework.Config();
-		that._goToLevelIs = ""
 		// gameloop fps
 		that.items= 
 		[
