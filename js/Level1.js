@@ -67,6 +67,9 @@ class Level1 extends Framework.Level
 
         this.isShouldRemoveFloor = false
         this.isRemoveFloor = false
+
+        // 換關卡
+        this.dieUpdateCount = 0
     }
     sleep(milliseconds) 
     {
@@ -841,7 +844,7 @@ class Level1 extends Framework.Level
         }
         //#endregion
 
-        //#region  move blockGO
+        //#region  move UDIES
         for	(var i = 0; i<this.UDIEs.length; i++)
         {
             this.matter.setBody(this.UDIEs[i].component.body, 
@@ -901,7 +904,7 @@ class Level1 extends Framework.Level
     }
     update() 
     {
-        console.log(this.heroDiePic.position)
+        console.log(this.dieUpdateCount)
         // this.hero.animationDie()
         // console.log(this.floors[this.floors.length - 1].component.position)
         // console.log(this.hero.component.position)
@@ -953,22 +956,14 @@ class Level1 extends Framework.Level
         if(this.heroAlive === false)
         {
             console.log("this.heroAlive = flase")
-            // this.heroDiePic.position = {
-            //     x: this.hero.component.position.x - 45, 
-            //     y: this.hero.component.position.y - 60
-            // }
-            // this.rootScene.update()
-            // console.log(this.heroDiePic.position)
-            this.heroDiePicPos2 = [{x: -100, y: -100},]
-            this.heroDiePic2 = new Framework.Sprite('images/heroDiePic.png')
-            this.heroDiePic2.position = {
-                x: this.hero.component.position.x - 45, 
-                y: this.hero.component.position.y - 60
-            }
-            this.rootScene.attach(this.heroDiePic2)
-            this.rootScene.update()
-            // this.hero.animationDie()
-
+            
+            this.hero.animationDie()
+            this.dieUpdateCount++
+            // this.heroDie()
+        }
+        if (this.dieUpdateCount >= 120)
+        {
+            this.dieUpdateCount = 0
             this.heroDie()
         }
         //#endregion
@@ -1115,26 +1110,29 @@ class Level1 extends Framework.Level
             this.matter.toggleRenderWireframes()   
         }
 
-        if(e.key === 'W') 
+        if (this.heroAlive)
         {
-            this.isPress = true
-            this.isJump = true
-        }
-        if(e.key === 'A') 
-        {
-            // left
-            this.isPress = true
-            this.isPressWalk = true
-            this.walkDirection = 2
-            this.hero.animationGoLeft()
-        }
-        if(e.key === 'D') 
-        {
-            // right  
-            this.isPress = true
-            this.isPressWalk = true
-            this.walkDirection = 1
-            this.hero.animationGoRight()
+            if(e.key === 'W') 
+            {
+                this.isPress = true
+                this.isJump = true
+            }
+            if(e.key === 'A') 
+            {
+                // left
+                this.isPress = true
+                this.isPressWalk = true
+                this.walkDirection = 2
+                this.hero.animationGoLeft()
+            }
+            if(e.key === 'D') 
+            {
+                // right  
+                this.isPress = true
+                this.isPressWalk = true
+                this.walkDirection = 1
+                this.hero.animationGoRight()
+            }
         }
     }
     keyup(e, list)
@@ -1370,6 +1368,8 @@ class Level1 extends Framework.Level
                         x: this.block_GO.component.position.x - this.block_GO.component.sprite.width / 2,
                         y: this.block_GO.component.position.y - this.block_GO.component.sprite.height / 2,
                     }
+                    this.block_GO.pic = null
+                    this.matter.stopWorld()
                 }
                 // 被block_Go砸死
                 else
