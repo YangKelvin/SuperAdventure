@@ -10,6 +10,7 @@ Framework.Game.isBackwardCompatiable = false;
 Framework.Game.addNewLevel({chooseLevel: new ChooseLevel()})
 Framework.Game.addNewLevel({levelTest: new LevelTest()});
 Framework.Game.addNewLevel({level1: new Level1()});
+Framework.Game.addNewLevel({level2: new Level2()});
 
 Framework.Game.addNewLevel({dieScreen: new DieScreen()});
 Framework.Game.addNewLevel({bag: new Bag()})
