@@ -18,11 +18,18 @@ Framework.Matter = class MatterUtil
                 }
             })
             this.isWireframeRendering = false
-
+            
             this.Event = Matter.Event
             this.test = 1
+
+            this.runner = Matter.Runner
         }
 
+
+        stopWorld()
+        {
+            Matter.Runner.stop(this.runner)
+        }
         toggleRenderWireframes() 
         {
             // console.log("P")
@@ -68,9 +75,4 @@ Framework.Matter = class MatterUtil
         update() {
             Matter.Engine.update(this.engine, 1000 / Framework.Config.fps, 1)
         }
-
-        ////////
-
-
-        
     }
