@@ -572,13 +572,9 @@ class Level1 extends Framework.Level
             this.rootScene.attach(this.cloudMonsters[i])
         }
 
-        this.cloudMonster_thorn = new Character('images/cloudThorn.png',
-                                                    this.matter,
-                                                    this.cloudMonsterOps,
-                                                    this.cloudMonstersPos)
-        this.cloudMonster_thorn.load()
-        this.cloudMonster_thorn.initialize()
-        this.cloudMonster_thorn.component.position = {x: -200, y: -200}
+
+        this.cloudMonster_thorn = new Framework.Sprite(define.imagePath + 'cloudThorn.png')
+        this.cloudMonster_thorn.position = {x: -200, y: -200}
         // #endregion
     }
     loadICON()
@@ -676,12 +672,9 @@ class Level1 extends Framework.Level
         this.block_GO.component.position = {x:-100, y:0}
         // this.rootScene.attach(this.block_GO)
 
-        this.block_GO_thorn = new block('images/level1-GOBlockThorn.png',
-                                            this.matter,
-                                            this.block_GOOps)
-        this.block_GO_thorn.load()
-        this.block_GO_thorn.initialize()
-        this.block_GO_thorn.component.position = {x:-100, y:0}
+
+        this.block_GO_thorn = new Framework.Sprite(define.imagePath + 'level1-GOBlockThorn.png')
+        this.block_GO_thorn.position = {x: -100, y: 0}
     }
     //#endregion
     load() 
@@ -983,6 +976,7 @@ class Level1 extends Framework.Level
                             {
                                 this.hero.goLeft()
                             }
+                            // 
                             else if (this.floors[this.floors.length - 1].component.position.x <= 1570 && this.hero.component.position.x <= 502)
                             {
                                 console.log("A")
@@ -1335,7 +1329,7 @@ class Level1 extends Framework.Level
                 {
                     this.isblock_Go_thorn = true
                     this.rootScene.attach(this.block_GO_thorn)
-                    this.block_GO_thorn.component.position = 
+                    this.block_GO_thorn.position = 
                     {
                         x: this.block_GO.component.position.x - this.block_GO.component.sprite.width / 2,
                         y: this.block_GO.component.position.y - this.block_GO.component.sprite.height / 2,
@@ -1358,7 +1352,7 @@ class Level1 extends Framework.Level
         {
             this.iscloud_thorn = true
             this.rootScene.attach(this.cloudMonster_thorn)
-            this.cloudMonster_thorn.component.position =
+            this.cloudMonster_thorn.position =
             {
                 x: this.cloudMonsters[0].component.position.x - this.cloudMonsters[0].component.sprite.width / 2 - 25,
                 y: this.cloudMonsters[0].component.position.y - this.cloudMonsters[0].component.sprite.height / 2 - 13
