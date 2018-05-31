@@ -67,14 +67,27 @@ class Level1 extends Framework.Level
         this.isShouldRemoveFloor = false
         this.isRemoveFloor = false
     }
-
+    sleep(milliseconds) 
+    {
+        var start = new Date().getTime();
+        for (var i = 0; i < 1e7; i++) 
+        {
+            if ((new Date().getTime() - start) > milliseconds)
+            {
+                break;
+            }
+        }
+    }
     heroDie()
     {
         // 重置 levelTest
         Framework.Game._levels.splice(0,1,{name : "level1", level : new Level1()})
         Framework.Game.userIQ -= 50
         Framework.Game._goToLevelIs = "level1"
+
+        this.sleep(1000);
         Framework.Game.goToLevel("dieScreen")
+        
         console.log("hero die")
     }
 
@@ -681,7 +694,7 @@ class Level1 extends Framework.Level
     {
         // console.log(this.viewCenter)
         Framework.Game.initialize()
-        
+
         this.loadPic()
 
         this.loadBackground()
@@ -1340,9 +1353,8 @@ class Level1 extends Framework.Level
                 {
                     this.block_GO_Drop_stop = true
                 }
-
+                this.heroAlive = false
                 console.log("hero die")
-                this.heroDie()
             }
         }
         // endregion
@@ -1350,16 +1362,16 @@ class Level1 extends Framework.Level
         // region collision between hero and cloud
         if (pair.bodyA === this.cloudMonsters[0].component.body && pair.bodyB === this.hero.component.body)
         {
-            this.iscloud_thorn = true
+            this.iscloud_thorn = true   // 出現尖刺
             this.rootScene.attach(this.cloudMonster_thorn)
             this.cloudMonster_thorn.position =
             {
                 x: this.cloudMonsters[0].component.position.x - this.cloudMonsters[0].component.sprite.width / 2 - 25,
                 y: this.cloudMonsters[0].component.position.y - this.cloudMonsters[0].component.sprite.height / 2 - 13
             }
-
+            console.log(this.cloudMonster_thorn.dwposition)
+            this.heroAlive = false
             console.log("hero die")
-            this.heroDie()
         }
         // endregion
 
