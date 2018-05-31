@@ -1369,7 +1369,7 @@ class Level1 extends Framework.Level
                         y: this.block_GO.component.position.y - this.block_GO.component.sprite.height / 2,
                     }
                     this.block_GO.pic = null
-                    this.matter.stopWorld()
+                    // this.matter.stopWorld()
                 }
                 // 被block_Go砸死
                 else
