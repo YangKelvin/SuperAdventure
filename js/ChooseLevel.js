@@ -25,7 +25,7 @@ var ChooseLevel = Framework.exClass(Framework.GameMainMenu,
 
         load: function () {
             console.log(Framework.Game._levels) // 顯示現有的levels
-            this.menu = new Framework.Sprite(define.imagePath + 'chooseLevel_background2.png')
+            this.menu = new Framework.Sprite(define.imagePath + 'chooseLevel_background3.png')
             
             this.item1 = false
             this.item2 = false
@@ -33,7 +33,34 @@ var ChooseLevel = Framework.exClass(Framework.GameMainMenu,
             //讀取背包圖示
             this.bag = new Framework.Sprite(define.imagePath + 'bag.png');
             this.record = new Framework.Sprite(define.imagePath + 'record2.png')
+
+            
+
+            
             Framework.Game.items[0].item = true
+
+
+            this.locks = new Array()
+
+            this.locksPos = 
+            [
+                {x: 440, y: 390},
+                {x: 800, y: 390},
+                {x: 1160, y: 390},
+
+                {x: 440, y: 715},
+                {x: 800, y: 715},
+                {x: 1160, y: 715},
+            ]
+            for (var i = 0; i < this.locksPos.length; i++)
+            {
+                this.locks[i] = new Framework.Sprite('images/lock.png')
+                this.locks[i].scale = 0.3
+                this.locks[i].position = this.locksPos[i]
+                this.rootScene.attach(this.locks[i])
+            }
+
+            
         },
 
         initialize: function () {
@@ -70,6 +97,23 @@ var ChooseLevel = Framework.exClass(Framework.GameMainMenu,
                 x: Framework.Game.getCanvasWidth() / 2 - 130,
                 y: Framework.Game.getCanvasHeight() / 2
             };
+
+
+            for (var i = 1; i < this.locksPos.length; i++)
+            {
+                this.rootScene.attach(this.locks[i])
+            }
+
+
+            for (var i = 0; i < 6; i++)
+            {
+                console.log(Framework.Game.items[i].item)
+                if (Framework.Game.items[i].item === true)
+                {
+                    console.log(i)
+                    this.locks[i+1].position = {x: -500, y: -500}
+                }
+            }
         },
 
         update: function () {
@@ -98,6 +142,7 @@ var ChooseLevel = Framework.exClass(Framework.GameMainMenu,
         },
 
         click: function (e) {
+            console.log(e.x + "  " + e.y)  
             // level1
             if (e.x >= 340 && 
                 e.x <= 540 && 
@@ -114,7 +159,7 @@ var ChooseLevel = Framework.exClass(Framework.GameMainMenu,
             {
                 // Framework.Game.goToLevel("level2");
                 console.log("startGame")
-                alert("想玩？沒門！ 因為還沒有這一關")
+                alert("想玩？沒門！ 還沒通過前面關卡，還想來挑戰")
             }
             // level3
             if (e.x >= 1065 && 
