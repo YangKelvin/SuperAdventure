@@ -30,17 +30,18 @@ class Level1 extends Framework.Level
         this.startLockHeroPos = false   
         this.lockHeroPos
         this.lockHeroPosx
-
+        
         // blockQ collision
         this.isblockQcollision = false
         this.blockIndex = 0
         this.waitCount = 0
 
-        // blockUV
+        // blockUV collision
         this.isblockUVcollision = false
         this.blockUVIndex = 0
         this.isShotRocket = false
 
+        // blockQ1 collision
         this.isCollisionQ1 = false
         this.isBlockGo= false
 
