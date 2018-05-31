@@ -40,7 +40,9 @@ var Bag = Framework.exClass(Framework.GameMainMenu,
                     this.bagSquareArray.push(new Framework.Sprite(define.imagePath + 'GoldSword.png'))
                 }
             }
-            this.isInstruction = false
+
+            this.instruction_GoldSword = new Framework.Sprite(define.imagePath + 'GoldSwordInstruction.png')
+            this.isGoldSwordClick = false
             console.log(Framework.Game.items)
         },
 
@@ -97,13 +99,20 @@ var Bag = Framework.exClass(Framework.GameMainMenu,
                 x: Framework.Game.getCanvasWidth() / 2 - 130,
                 y: Framework.Game.getCanvasHeight() / 2
             };
+
+            this.instruction_GoldSword.position = 
+            {
+                x: Framework.Game.getCanvasWidth(),
+                y: Framework.Game.getCanvasHeight() / 2
+            }
+            this.rootScene.attach(this.instruction_GoldSword)
+            
         },
 
         update: function () {
             //this.rootScene.update();一定要在第一行
             this.rootScene.update();
             //目前的Framework, 當任何一個GameObject不做attach時, 則必須要自行update
-            this.draw()
         },
 
         draw: function (parentCtx) {
@@ -112,11 +121,6 @@ var Bag = Framework.exClass(Framework.GameMainMenu,
             // this.menu.draw(parentCtx);
             //this.rootScene.draw();
             //可支援畫各種單純的圖形和字
-            if (this.isInstruction)
-            {
-                this.instruction.draw(parentCtx)
-                console.log("draw")
-            }
         },
 
         mouseup: function (e) {
@@ -129,108 +133,107 @@ var Bag = Framework.exClass(Framework.GameMainMenu,
         },
 
         click: function (e) {
-            // 點擊關閉(返回關卡選單)
-            if (e.x >= 1270 && 
-                e.x <= 1390 && 
-                e.y >= 181 && 
-                e.y <= 300) 
+            if(this.isGoldSwordClick)
             {
-                Framework.Game.goToLevel("chooseLevel");
-            }
-            // 點擊物品1
-            if (e.x >= 295 && 
-                e.x <= 465 && 
-                e.y >= 265 && 
-                e.y <= 430) 
-            {
-                if (Framework.Game.items[0].item === true)
+                this.instruction_GoldSword.position = 
                 {
-                    //alert("傳說中的神器：金刀")
-                    if (!this.isInstruction)
+                    x: Framework.Game.getCanvasWidth(),
+                    y: Framework.Game.getCanvasHeight() / 2
+                }
+                this.isGoldSwordClick = false
+            }
+            else
+            {
+                // 點擊關閉(返回關卡選單)
+                if (e.x >= 1270 && 
+                    e.x <= 1390 && 
+                    e.y >= 181 && 
+                    e.y <= 300) 
+                {
+                    Framework.Game.goToLevel("chooseLevel");
+                }
+                // 點擊物品1
+                if (e.x >= 295 && 
+                    e.x <= 465 && 
+                    e.y >= 265 && 
+                    e.y <= 430) 
+                {
+                    if (Framework.Game.items[0].item === true && !this.isGoldSwordClick)
                     {
-                        this.instruction = new Framework.Sprite(define.imagePath + 'GoldSwordInstruction.png')
-                        this.instruction.position = 
+                        this.instruction_GoldSword.position = 
                         {
-                            x: Framework.Game.getCanvasWidth() / 2,
-                            y: Framework.Game.getCanvasHeight() / 2
+                            x: Framework.Game.getCanvasWidth() / 2 - 500,
+                            y: Framework.Game.getCanvasHeight() / 2 - 281
                         }
-                        this.isInstruction = true
-                        // this.instruction.draw()
-                        //this.rootScene.attach(this.instruction)
-                        console.log("new instrction")
+                        this.isGoldSwordClick = true
                     }
                     else
                     {
-                        this.isInstruction = false
-                        console.log("Remove")
+                        alert("你還沒拿到這樣東西呢，傻瓜！")
                     }
                 }
-                else
+                // 點擊物品2
+                if (e.x >= 535 && 
+                    e.x <= 705 && 
+                    e.y >= 265 && 
+                    e.y <= 430) 
                 {
                     alert("你還沒拿到這樣東西呢，傻瓜！")
                 }
-            }
-            // 點擊物品2
-            if (e.x >= 535 && 
-                e.x <= 705 && 
-                e.y >= 265 && 
-                e.y <= 430) 
-            {
-                alert("你還沒拿到這樣東西呢，傻瓜！")
-            }
-            // 點擊物品3
-            if (e.x >= 775 && 
-                e.x <= 945 && 
-                e.y >= 265 && 
-                e.y <= 430) 
-            {
-                alert("你還沒拿到這樣東西呢，傻瓜！")
-            }
-            // 點擊物品4
-            if (e.x >= 1015 && 
-                e.x <= 1185 && 
-                e.y >= 265 && 
-                e.y <= 430) 
-            {
-                alert("你還沒拿到這樣東西呢，傻瓜！")
-            }
-            // 點擊物品5
-            if (e.x >= 295 && 
-                e.x <= 465 && 
-                e.y >= 515 && 
-                e.y <= 680) 
-            {
-                alert("你還沒拿到這樣東西呢，傻瓜！")
-            }
-            // 點擊物品6
-            if (e.x >= 535 && 
-                e.x <= 705 && 
-                e.y >= 515 && 
-                e.y <= 680) 
-            {
-                alert("你還沒拿到這樣東西呢，傻瓜！")
-            }
-            // 點擊物品7
-            if (e.x >= 775 && 
-                e.x <= 945 && 
-                e.y >= 515 && 
-                e.y <= 680) 
-            {
-                alert("你還沒拿到這樣東西呢，傻瓜！")
-            }
-            // 點擊物品8
-            if (e.x >= 1015 && 
-                e.x <= 1185 && 
-                e.y >= 515 && 
-                e.y <= 680) 
-            {
-                alert("你還沒拿到這樣東西呢，傻瓜！")
+                // 點擊物品3
+                if (e.x >= 775 && 
+                    e.x <= 945 && 
+                    e.y >= 265 && 
+                    e.y <= 430) 
+                {
+                    alert("你還沒拿到這樣東西呢，傻瓜！")
+                }
+                // 點擊物品4
+                if (e.x >= 1015 && 
+                    e.x <= 1185 && 
+                    e.y >= 265 && 
+                    e.y <= 430) 
+                {
+                    alert("你還沒拿到這樣東西呢，傻瓜！")
+                }
+                // 點擊物品5
+                if (e.x >= 295 && 
+                    e.x <= 465 && 
+                    e.y >= 515 && 
+                    e.y <= 680) 
+                {
+                    alert("你還沒拿到這樣東西呢，傻瓜！")
+                }
+                // 點擊物品6
+                if (e.x >= 535 && 
+                    e.x <= 705 && 
+                    e.y >= 515 && 
+                    e.y <= 680) 
+                {
+                    alert("你還沒拿到這樣東西呢，傻瓜！")
+                }
+                // 點擊物品7
+                if (e.x >= 775 && 
+                    e.x <= 945 && 
+                    e.y >= 515 && 
+                    e.y <= 680) 
+                {
+                    alert("你還沒拿到這樣東西呢，傻瓜！")
+                }
+                // 點擊物品8
+                if (e.x >= 1015 && 
+                    e.x <= 1185 && 
+                    e.y >= 515 && 
+                    e.y <= 680) 
+                {
+                    alert("你還沒拿到這樣東西呢，傻瓜！")
+                }
             }
         },
 
         mousemove: function (e) 
         {
-            console.log(e.x + "  " + e.y)    
+            // console.log(e.x + "  " + e.y)    
         },
 
         mouseup: function (e) {
