@@ -990,6 +990,10 @@ class LevelTest extends Framework.Level
             this.walkDirection = 1
             this.hero.animationGoRight()
         }
+        if(e.key === 'Z')
+        {
+            this.score = 3
+        }
     }
     keyup(e, list)
     {

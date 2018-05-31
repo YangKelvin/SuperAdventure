@@ -620,10 +620,6 @@ class Level1 extends Framework.Level
         this.rockets = []
         for (var i = 0; i < this.rocketPos.length; i++)
         {
-            // this.rockets[i] = new Character('images/rocket.png',
-            //                                     this.matter,
-            //                                     this.rocketOps,
-            //                                     this.rocketPos)
             this.rockets[i] = new block('images/rocket.png', 
                                                 this.matter,
                                                 this.rocketOps)
