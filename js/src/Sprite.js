@@ -177,7 +177,6 @@ var Framework = (function (Framework) {
         teardown:function(){
             if(this.type === 'image'){
                 Framework.ResourceManager.destroyResource(this.id);
-                console.log("teardown: " + this.id)
             }
         }
     });

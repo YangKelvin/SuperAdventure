@@ -82,11 +82,11 @@ class Level1 extends Framework.Level
     heroDie()
     {
         // 重置 levelTest
+        this.sleep(1000);
         Framework.Game._levels.splice(0,1,{name : "level1", level : new Level1()})
         Framework.Game.userIQ -= 50
         Framework.Game._goToLevelIs = "level1"
-
-        this.sleep(1000);
+        
         Framework.Game.goToLevel("dieScreen")
         
         console.log("hero die")
@@ -112,6 +112,11 @@ class Level1 extends Framework.Level
             this.pics = new Framework.Sprite('images/UDIE'+i+'.png')
 
         }
+
+        this.heroDiePicPos = [{x: -100, y: -100},]
+        this.heroDiePic = new Framework.Sprite('images/heroDiePic.png')
+        this.heroDiePic.position = {x: -100, y: -100}
+        this.rootScene.attach(this.heroDiePic)
     }
 
     loadCamera()
@@ -692,12 +697,12 @@ class Level1 extends Framework.Level
         // console.log(this.viewCenter)
         Framework.Game.initialize()
 
-        this.loadPic()
+        
 
         this.loadBackground()
         this.loadTextbox()
         this.loadICON()
-
+        
         
         this.loadCamera()
 
@@ -718,7 +723,7 @@ class Level1 extends Framework.Level
 
         this.loadHero()
         
-
+        this.loadPic()
         // 載入 collision
         this.matter.addEventListener("collisionStart",(this.collisionBlocks))
         console.log("Level1 Start")
@@ -896,6 +901,8 @@ class Level1 extends Framework.Level
     }
     update() 
     {
+        console.log(this.heroDiePic.position)
+        // this.hero.animationDie()
         // console.log(this.floors[this.floors.length - 1].component.position)
         // console.log(this.hero.component.position)
 
@@ -946,6 +953,22 @@ class Level1 extends Framework.Level
         if(this.heroAlive === false)
         {
             console.log("this.heroAlive = flase")
+            // this.heroDiePic.position = {
+            //     x: this.hero.component.position.x - 45, 
+            //     y: this.hero.component.position.y - 60
+            // }
+            // this.rootScene.update()
+            // console.log(this.heroDiePic.position)
+            this.heroDiePicPos2 = [{x: -100, y: -100},]
+            this.heroDiePic2 = new Framework.Sprite('images/heroDiePic.png')
+            this.heroDiePic2.position = {
+                x: this.hero.component.position.x - 45, 
+                y: this.hero.component.position.y - 60
+            }
+            this.rootScene.attach(this.heroDiePic2)
+            this.rootScene.update()
+            // this.hero.animationDie()
+
             this.heroDie()
         }
         //#endregion
@@ -1059,6 +1082,9 @@ class Level1 extends Framework.Level
         // this.rootScene.update() // 對齊 component & sprite
         // this.camera.update()
         //#endregion
+
+
+        
     }
     draw(parentCtx) 
     {
@@ -1351,7 +1377,7 @@ class Level1 extends Framework.Level
                     this.block_GO_Drop_stop = true
                 }
                 this.heroAlive = false
-                console.log("hero die")
+                // console.log("hero die")
             }
         }
         // endregion

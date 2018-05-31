@@ -5,7 +5,7 @@ class AnimationCharacter
         //AnimationSprite
         this.url = _url
         this.options = _option
-        this.sprite = new Framework.AnimationSprite({url:this.url, col:4 , row:4 , loop:true , speed:1})
+        this.sprite = new Framework.AnimationSprite({url:this.url, col:4 , row:5 , loop:true , speed:1})
         this.sprite.position = this.options.position || {x: 0, y: 0}
         this.sprite.scale = this.options.scale || 1
     
@@ -25,7 +25,7 @@ class AnimationCharacter
     {
         this.sprite = new Framework.AnimationSprite({url:this.url, 
                                                         col:4, 
-                                                        row:4, 
+                                                        row:5, 
                                                         loop:true, 
                                                         speed:2}); 
         
@@ -128,6 +128,11 @@ class AnimationCharacter
     animationStand()
     {
         this.sprite.start( {from: 1, to: 1, loop:false})
+    }
+
+    animationDie()
+    {
+        this.sprite.start( {from: 16, to: 16, loop:true})
     }
 
 }
