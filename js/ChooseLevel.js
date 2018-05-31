@@ -33,6 +33,7 @@ var ChooseLevel = Framework.exClass(Framework.GameMainMenu,
             //讀取背包圖示
             this.bag = new Framework.Sprite(define.imagePath + 'bag.png');
             this.record = new Framework.Sprite(define.imagePath + 'record2.png')
+            Framework.Game.items[0].item = true
         },
 
         initialize: function () {

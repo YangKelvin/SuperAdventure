@@ -9,7 +9,8 @@ var Bag = Framework.exClass(Framework.GameMainMenu,
                 x: Framework.Game.getCanvasWidth() / 2, 
                 y: Framework.Game.getCanvasHeight() / 2 
             };
-            //為了或得到this.loading這個Sprite的絕對位置, 故需要先計算一次(在Game Loop執行時, 則會自動計算, 但因為loadingProgress只支援draw故需要自行計算)                  
+            //為了或得到this.loading這個Sprite的絕對位置, 故需要先計算一次(在Game Loop執行時, 則會自動計算, 但因為loadingProgress只支援draw故需要自行計算)
+                    
         },
 
         //在initialize時會觸發的事件
@@ -39,7 +40,7 @@ var Bag = Framework.exClass(Framework.GameMainMenu,
                     this.bagSquareArray.push(new Framework.Sprite(define.imagePath + 'GoldSword.png'))
                 }
             }
-
+            this.isInstruction = false
             console.log(Framework.Game.items)
         },
 
@@ -102,6 +103,7 @@ var Bag = Framework.exClass(Framework.GameMainMenu,
             //this.rootScene.update();一定要在第一行
             this.rootScene.update();
             //目前的Framework, 當任何一個GameObject不做attach時, 則必須要自行update
+            this.draw()
         },
 
         draw: function (parentCtx) {
@@ -110,8 +112,11 @@ var Bag = Framework.exClass(Framework.GameMainMenu,
             // this.menu.draw(parentCtx);
             //this.rootScene.draw();
             //可支援畫各種單純的圖形和字
-
-            
+            if (this.isInstruction)
+            {
+                this.instruction.draw(parentCtx)
+                console.log("draw")
+            }
         },
 
         mouseup: function (e) {
@@ -140,7 +145,25 @@ var Bag = Framework.exClass(Framework.GameMainMenu,
             {
                 if (Framework.Game.items[0].item === true)
                 {
-                    alert("傳說中的神器：金刀")
+                    //alert("傳說中的神器：金刀")
+                    if (!this.isInstruction)
+                    {
+                        this.instruction = new Framework.Sprite(define.imagePath + 'GoldSwordInstruction.png')
+                        this.instruction.position = 
+                        {
+                            x: Framework.Game.getCanvasWidth() / 2,
+                            y: Framework.Game.getCanvasHeight() / 2
+                        }
+                        this.isInstruction = true
+                        // this.instruction.draw()
+                        //this.rootScene.attach(this.instruction)
+                        console.log("new instrction")
+                    }
+                    else
+                    {
+                        this.isInstruction = false
+                        console.log("Remove")
+                    }
                 }
                 else
                 {
