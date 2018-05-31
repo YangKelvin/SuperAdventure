@@ -64,7 +64,7 @@ var DieScreen = Framework.exClass(Framework.GameMainMenu,
             console.log(this.myTime.getSeconds() - this.newTime.getSeconds())
             if(this.newTime.getSeconds() - this.myTime.getSeconds() >= 3)
             {
-                Framework.Game.goToLevel("levelTest");
+                Framework.Game.goToLevel(Framework.Game._goToLevelIs);
             }
             //目前的Framework, 當任何一個GameObject不做attach時, 則必須要自行update
         },

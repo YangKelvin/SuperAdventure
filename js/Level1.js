@@ -1,3 +1,5 @@
+// 使用 matter製造的物件的position為圖片的左上角
+
 class Level1 extends Framework.Level 
 {
     constructor()
@@ -17,7 +19,7 @@ class Level1 extends Framework.Level
         this.isJump = false         // 判斷是否按下控制hero跳躍的按鍵
         this.walkDirection = 0      // 判斷hero移動的方向（左 or 右）
         this.score = 0              // 關卡的計分
-        this.isPrincess = false     // 判斷公主是否載入關卡
+        this.isPrincess = true     // 判斷公主是否載入關卡
 
         this.isTriggleTrollBridge = false   // 判斷是否觸發陷阱橋掉落
         this.bridgeFall = 0                 // 陷阱掉落的移動量
@@ -131,7 +133,7 @@ class Level1 extends Framework.Level
         }
         this.background.scale = 2;
         this.rootScene.attach(this.background)
-        console.log("load bg")
+        // console.log("Finish loaded bg")
     }
     loadTextbox()
     {
@@ -213,7 +215,7 @@ class Level1 extends Framework.Level
         this.princess.load()
         this.princess.initialize()
         this.princess.component.position = this.princessPos
-        // this.rootScene.attach(this.princess)
+        this.rootScene.attach(this.princess)
     }
     loadGround()
     {
@@ -424,7 +426,6 @@ class Level1 extends Framework.Level
     }
     loadUDIE()
     {
-        console.log("loadUDIE")
         this.UDIEsPos = 
         [
             {x: 2870, y: 500},
@@ -456,6 +457,7 @@ class Level1 extends Framework.Level
 
             this.rootScene.attach(this.UDIEs[i])
         }
+        // console.log("Finish loaded UDIEs ")
     }
 
     loadPipe()
@@ -626,7 +628,8 @@ class Level1 extends Framework.Level
         // unvisible block
         this.blockUVsPos = 
         [
-            {x: 960, y: 480},//blockQ   
+            {x: 960, y: 480},   // 懸崖旁的隱藏方塊
+            {x: 2830, y: 220},   // pipe上的隱藏方塊
         ]
         this.blockUVsOps = 
         {
@@ -715,8 +718,7 @@ class Level1 extends Framework.Level
 
         // 載入 collision
         this.matter.addEventListener("collisionStart",(this.collisionBlocks))
-        console.log("Level1")
-        console.log(Framework.Game._levels)
+        console.log("Level1 Start")
     }
 
     initialize() 
@@ -894,6 +896,7 @@ class Level1 extends Framework.Level
         // console.log(this.floors[this.floors.length - 1].component.position)
         // console.log(this.hero.component.position)
 
+        //#region triggle UDIE
         if (this.isUDIEcollision[0] === true &&
             this.isUDIEcollision[1] === true &&
             this.isUDIEcollision[2] === true &&
@@ -915,8 +918,9 @@ class Level1 extends Framework.Level
             this.matter.removeBody(this.floors[50].component.body)
             this.isRemoveFloor = true
         }
+        //#endregion
 
-        this.blockUpDown(this.isblockQcollision, this.BlockQs,this.blockIndex)
+        this.blockUpDown(this.isblockQcollision, this.BlockQs,this.blockIndex)  // 方塊上下移動
         
         if (this.isCollisionQ1 && !this.isBlockGo)
         {
@@ -1059,14 +1063,17 @@ class Level1 extends Framework.Level
 
     click(e)
     {
+
+        console.log(e.x + "  " + e.y)  
         // 返回選關卡頁面
         if (e.x >= 3 && 
             e.x <= 105 && 
             e.y >= 10 && 
             e.y <= 110) 
         {
+            Framework.Game._goToLevelIs = ""
             Framework.Game.goToLevel("chooseLevel");
-            Framework.Game._levels.splice(2,1,{name : "levelTest", level : new LevelTest()})
+            Framework.Game._levels.splice(2,1,{name : "level1", level : new Level1()})
             Framework.Game.userIQ = 250
         }
     }
@@ -1303,6 +1310,7 @@ class Level1 extends Framework.Level
         }
 
         //#endregion
+       
         // region collision between hero and pipe
         for(var i=0; i < this.Pipes.length; i++)
         {
@@ -1340,7 +1348,7 @@ class Level1 extends Framework.Level
                 }
 
                 console.log("hero die")
-                // this.heroDie()
+                this.heroDie()
             }
         }
         // endregion
@@ -1357,8 +1365,22 @@ class Level1 extends Framework.Level
             }
 
             console.log("hero die")
-            // this.heroDie()
+            this.heroDie()
         }
         // endregion
+
+        // #region  collision between hero and princess
+        if (pair.bodyA === this.princess.component.body && pair.bodyB === this.hero.component.body)
+        {
+            console.log("win")
+            Framework.Game.records[0].record = Framework.Game.userIQ
+            Framework.Game._goToLevelIs = ""
+            Framework.Game.userIQ = 250
+
+            Framework.Game.items[0].item = true
+            Framework.Game.goToLevel("chooseLevel");
+            Framework.Game._levels.splice(2,1,{name : "level1", level : new Level1()})
+        }
+        //#endregion
     }
 };

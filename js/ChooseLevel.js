@@ -24,12 +24,12 @@ var ChooseLevel = Framework.exClass(Framework.GameMainMenu,
         },
 
         load: function () {
+            console.log(Framework.Game._levels) // 顯示現有的levels
             this.menu = new Framework.Sprite(define.imagePath + 'chooseLevel_background2.png')
             
             this.item1 = false
             this.item2 = false
             this.item3 = false
-            console.log(Framework.Game._levels)
             //讀取背包圖示
             this.bag = new Framework.Sprite(define.imagePath + 'bag.png');
             this.record = new Framework.Sprite(define.imagePath + 'record2.png')
@@ -103,8 +103,7 @@ var ChooseLevel = Framework.exClass(Framework.GameMainMenu,
                 e.y >= 285 && 
                 e.y <= 485) 
             {
-                Framework.Game.goToLevel("levelTest");
-                console.log("startGame")
+                Framework.Game.goToLevel("level1");
             }
             // level2
             if (e.x >= 705 && 
@@ -179,7 +178,7 @@ var ChooseLevel = Framework.exClass(Framework.GameMainMenu,
 
         mousemove: function (e) 
         {
-            console.log(e.x + "  " + e.y)    
+            // console.log(e.x + "  " + e.y)    
         },
 
         mouseup: function (e) {
