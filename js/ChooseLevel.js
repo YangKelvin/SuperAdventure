@@ -107,10 +107,10 @@ var ChooseLevel = Framework.exClass(Framework.GameMainMenu,
 
             for (var i = 0; i < 6; i++)
             {
-                console.log(Framework.Game.items[i].item)
+                // console.log(Framework.Game.items[i].item)
                 if (Framework.Game.items[i].item === true)
                 {
-                    console.log(i)
+                    // console.log(i)
                     this.locks[i+1].position = {x: -500, y: -500}
                 }
             }

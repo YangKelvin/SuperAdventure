@@ -7,6 +7,7 @@ Framework.Game.isBackwardCompatiable = false;
 //第一個被加進來的Level就是啟動點, 所以一開始遊戲就進入MyMenu
 // Framework.Game.addNewLevel({myMenu: new MyMenu()})
 // Framework.Game.addNewLevel({level1Test: new Level1()});
+Framework.Game.addNewLevel({level3Test: new Level3()});
 Framework.Game.addNewLevel({chooseLevel: new ChooseLevel()})
 Framework.Game.addNewLevel({levelTest: new LevelTest()});
 Framework.Game.addNewLevel({level1: new Level1()});
