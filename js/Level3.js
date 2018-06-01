@@ -18,6 +18,30 @@ class Level3 extends Framework.Level
         this.isJump = false         // 判斷是否按下控制hero跳躍的按鍵
         this.walkDirection = 0      // 判斷hero移動的方向（左 or 右）
 
+
+        // boss
+        this.bossHP = 100
+        this.bossAttack = 1
+        this.level = 1
+
+        // hero
+        this.attackMode = 0
+
+        // 武器
+        this.weaponCount = 0
+
+
+
+        this.goldSwordBag = 100
+        this.goldSwords = new Array()
+        this.goldSwordCount = 0
+        this.goldSwordDamage = 1
+        
+        this.keyboradBag = 100
+        this.keyborads = new Array()
+        this.keyboardCount = 0
+        this.keyboardDamage = 1
+
     }
     sleep(milliseconds) 
     {
@@ -44,6 +68,34 @@ class Level3 extends Framework.Level
     }
 
     //#region load
+    loadCamera()
+    {
+        this.cameraPos = {x:200, y:-100}
+
+        this.cameraOps = 
+        {
+            label: 'camera', 
+            friction: 0.05, 
+            // frictionAir: 99999,
+            density:0.002,
+            // isStatic: true
+        }
+
+        this.camera = new Camera('images/brickWall.png',
+                                        this.matter,
+                                        this.cameraOps,
+                                        this.cameraPos
+        )
+
+        this.camera.load()
+        this.camera.initialize()
+        this.rootScene.attach(this.camera.pic)
+    }
+
+    loadPic()
+    {
+        this.GoldSWPic = new Framework.Sprite('images/weapon-goldSword.png')
+    }
     loadBackground()
     {
         this.background = new Framework.Sprite(define.imagePath + 'background.jpg');
@@ -56,7 +108,6 @@ class Level3 extends Framework.Level
         this.rootScene.attach(this.background)
         // console.log("Finish loaded bg")
     }
-
     loadHero()
     {
         //new animation
@@ -91,6 +142,28 @@ class Level3 extends Framework.Level
         this.rootScene.attach(this.hero.sprite)
     }
     
+    loadBoss()
+    {
+        this.bossPos = 
+        {
+            x: 1000, y:340
+        }
+        this.bossPos = 
+        {
+            label: 'block', 
+            friction: 0.05, 
+            density:0.002, 
+            // isStatic:true
+        }
+
+        this.boss = new block('images/boss.png',
+                                this.matter,
+                                this.blockOps)
+        this.boss.load()
+        this.boss.initialize()
+        this.boss.component.position = {x: 1000, y:130}
+        this.rootScene.attach(this.boss)
+    }
     loadGround()
     {
         // floor
@@ -327,6 +400,9 @@ class Level3 extends Framework.Level
         this.loadBackground()
         this.loadMap()
         this.loadHero()
+        this.loadBoss()
+        this.loadPic()
+        this.loadCamera()
         // 載入 collision
         this.matter.addEventListener("collisionStart",(this.collisionBlocks))
         console.log("Level3 Start")
@@ -337,9 +413,20 @@ class Level3 extends Framework.Level
     }
 
 
-
+    shoot(weapon, speed)
+    {
+        this.matter.setBody(weapon.component.body, 
+            "position", 
+            {x: weapon.component.position.x + speed, y: weapon.component.position.y})
+    }
     update() 
     {
+        console.log(this.camera.component.position)
+        for	(var i = 0; i < this.goldSwords.length; i++)
+        {
+            this.shoot(this.goldSwords[i],10)
+        }
+
         // this.hero.animationDie()
         // console.log(this.floors[this.floors.length - 1].component.position)
         // console.log(this.hero.component.position)
@@ -410,8 +497,10 @@ class Level3 extends Framework.Level
         this.hero.update()
         this.matter.update()
         this.rootScene.update() // 對齊 component & sprite
-
-
+        this.matter.setBody(this.camera.component.body, 
+            "position", 
+            {x: this.camera.component.position.x + 1, y: this.camera.component.position.y})
+        this.camera.update()
         // this.matter.setBody(this.camera.component.body, 
         //     "position", 
         //     {x: this.camera.component.position.x + 0, y: this.camera.component.position.y})
@@ -421,6 +510,7 @@ class Level3 extends Framework.Level
         // this.rootScene.update() // 對齊 component & sprite
         // this.camera.update()
         //#endregion
+
 
 
         
@@ -476,6 +566,32 @@ class Level3 extends Framework.Level
                 this.isPressWalk = true
                 this.walkDirection = 1
                 this.hero.animationGoRight()
+            }
+
+            if(e.key === 'J')
+            {
+                // 發射金刀
+                if (this.goldSwordBag > 0)
+                {
+                    this.goldSwordBag -= 1
+                    this.goldSwords.push(
+                        /*sword-block*/
+                        new block('images/weapon-goldSword.png',
+                                    this.matter,
+                                    {label:'gold-sword', friction:0.05, density: 0.002, isStatic: true}
+                                )
+                    )
+                    // console.log(this.goldSwords)
+                    this.goldSwordCount ++
+                    this.goldSwords[this.goldSwordCount-1].load()
+                    this.goldSwords[this.goldSwordCount-1].initialize()
+                    this.goldSwords[this.goldSwordCount-1].component.position = 
+                    {
+                        x: this.hero.component.position.x + 40,
+                        y: this.hero.component.position.y -20
+                    }
+                    this.rootScene.attach(this.goldSwords[this.goldSwordCount-1])
+                }
             }
         }
     }
