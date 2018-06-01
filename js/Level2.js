@@ -46,9 +46,17 @@ class Level2 extends Framework.Level
         // 判斷是否顯示雲的尖刺
         this.iscloud_thorn = false
 
-        // block_GO 掉落和停止
-        this.isBlockGo_Drop = false
-        this.block_GO_Drop_stop = false
+        // block_Prompt停止掉落
+        this.block_Prompt_Stop = false
+
+        //開關是否打開
+        this.isSwitchOn = false
+        
+        //地板尖刺是否出現
+        this.isGroundThorn = false
+
+        //草的尖刺
+        this.isGrassThorn = false
     }
     sleep(milliseconds) 
     {
@@ -284,6 +292,52 @@ class Level2 extends Framework.Level
             this.rootScene.attach(this.floors[i])
         }
     }
+    loadWall()
+    {
+        this.wallsPos = 
+        [
+            {x: 1540, y: 220},
+            {x: 1610, y: 220},
+
+            {x: 1540, y: 710},
+            {x: 1540, y: 640},
+            {x: 1540, y: 570},
+            {x: 1540, y: 500},
+            {x: 1540, y: 430},
+            {x: 1540, y: 360},
+            {x: 1540, y: 290},
+            
+            {x: 1610, y: 710},
+            {x: 1610, y: 640},
+            {x: 1610, y: 570},
+            {x: 1610, y: 500},
+            {x: 1610, y: 430},
+            {x: 1610, y: 360},
+            {x: 1610, y: 290}
+        ]
+        
+        this.wallOps = 
+        {
+            label: 'wall', 
+            friction: 0.05, 
+            density:0.002, 
+            isStatic:true,
+            isSensor:false
+        }
+
+        this.walls = []
+        for (var i = 0; i < this.wallsPos.length; i++)
+        {
+            this.walls[i] = new block('images/blockNone.png', 
+                                            this.matter, 
+                                            this.wallOps)
+            this.walls[i].load()
+            this.walls[i].initialize()
+            this.walls[i].component.position = this.wallsPos[i]
+
+            this.rootScene.attach(this.walls[i])
+        }
+    }
     loadAudio()
     {
         this.audio = new Framework.Audio(
@@ -326,10 +380,7 @@ class Level2 extends Framework.Level
     {
         this.BlockQPos = 
         [
-            {x: 350, y: 480},
-            {x: 1820, y: 500},//blockQ
-            {x: 1890, y: 220},//blockQ
-            {x: 2030, y: 500}//blockQ
+            {x: 1470, y: 500}
         ]
         this.BlockQOps = 
         {
@@ -391,33 +442,74 @@ class Level2 extends Framework.Level
             
         }
     }
-    loadGoBlock()
+    loadBlockPrompt()
     {
-        this.block_GOPos = 
+        this.block_PromptOps = 
         {
-            x: 500,
-            y: 400
-        }
-        this.block_GOOps = 
-        {
-            label: 'block_GO', 
+            label: 'block_Prompt', 
             friction: 0.05, 
             density:0.002, 
             isStatic:true, 
             isSensor:false
         }
 
-        this.block_GO = new block('images/level1-GoBlock.png',
+        this.block_Prompt = new block('images/blockPrompt.png',
                                         this.matter,
-                                        this.block_GOOps)
-        this.block_GO.load()
-        this.block_GO.initialize()
-        this.block_GO.component.position = {x:-100, y:0}
-        // this.rootScene.attach(this.block_GO)
+                                        this.block_PromptOps)
+        this.block_Prompt.load()
+        this.block_Prompt.initialize()
+        this.block_Prompt.component.position = {x: 500, y: 100}
+        this.rootScene.attach(this.block_Prompt)
+    }
+    loadSwitch()
+    {
+        this.switchOn = new Framework.Sprite(define.imagePath + 'switch-on.png')
+        this.switchOn.position = {x: -100, y: -100}
+        this.rootScene.attach(this.switchOn)
 
+        this.switchOff = new Framework.Sprite(define.imagePath + 'switch-off.png')
+        this.switchOff.position = {x: 560, y: 730}
+        this.rootScene.attach(this.switchOff)
+    }
+    loadGrass()
+    {
+        this.grassPos = 
+        [
+            {x: 1050, y: 750},
+            {x: 1120, y: 750},
+            {x: 1190, y: 750},
+            {x: 1260, y: 750}
+        ]
+        this.grassArray = []
+        this.grassThorns = []
+        for (var i = 0; i < this.grassPos.length; i++)
+        {
+            this.grassArray[i] = new Framework.Sprite(define.imagePath + 'trap-grass1.png')
+            this.grassArray[i].position = this.grassPos[i]
+            this.rootScene.attach(this.grassArray[i])
+        }
 
-        this.block_GO_thorn = new Framework.Sprite(define.imagePath + 'level1-GOBlockThorn.png')
-        this.block_GO_thorn.position = {x: -100, y: 0}
+        for(var i = 0; i < this.grassPos.length; i++)
+        {
+            this.grassThorns[i] = new Framework.Sprite(define.imagePath + 'trap-grass2.png')
+            this.grassThorns[i].position = this.grassPos[i]
+        }
+    }
+    loadGroundThorn()
+    {
+        this.GroundThornPos = 
+        [
+            {x: 1540, y: 190},
+            {x: 1610, y: 190}
+        ]
+        this.GroundThorns = []
+
+        for (var i = 0; i < this.GroundThornPos.length; i++)
+        {
+            this.GroundThorns[i] = new Framework.Sprite(define.imagePath + 'groundThorn.png')
+            this.GroundThorns[i].position = this.GroundThornPos[i]
+            // this.rootScene.attach(this.GroundThorns[i])
+        }
     }
     //#endregion
     load() 
@@ -431,6 +523,7 @@ class Level2 extends Framework.Level
         this.loadCamera()
 
         this.loadGround()
+        this.loadWall()
 
         this.loadTrollBridge()
         this.loadBlockQ()
@@ -438,7 +531,10 @@ class Level2 extends Framework.Level
 
         this.loadPrincess()
 
-        this.loadGoBlock()
+        this.loadBlockPrompt()
+        this.loadSwitch()
+        this.loadGrass()
+        this.loadGroundThorn()
 
         this.loadHero()
         
@@ -505,14 +601,44 @@ class Level2 extends Framework.Level
         }  
         //#endregion
    
-        //#region  move blockGO
-        if (this.isBlockGo)
-        {
-            this.matter.setBody(this.block_GO.component.body, 
-                "position", 
-                {x: this.block_GO.component.position.x + moveLength, y: this.block_GO.component.position.y})
-        }
+        //#region move block_Prompt
+        this.matter.setBody(this.block_Prompt.component.body, 
+            "position", 
+            {x: this.block_Prompt.component.position.x + moveLength, y: this.block_Prompt.component.position.y})
         //#endregion
+
+        // region move switch
+        this.switchOn.position = {x: this.switchOn.position.x + moveLength, y: this.switchOn.position.y}
+        this.switchOff.position = {x: this.switchOff.position.x + moveLength, y: this.switchOff.position.y}
+        // endregion
+
+        // region move grass
+        for(var i = 0; i < this.grassArray.length; i++)
+        {
+            this.grassArray[i].position = {x: this.grassArray[i].position.x + moveLength, y: this.grassArray[i].position.y}
+            this.grassThorns[i].position = {x: this.grassThorns[i].position.x + moveLength, y: this.grassThorns[i].position.y}
+        }
+        // endregion
+
+        // region move walls
+        for(var i = 0; i < this.walls.length; i++)
+        {
+            this.matter.setBody(this.walls[i].component.body,
+                "position", 
+                {x: this.walls[i].component.position.x + moveLength, y: this.walls[i].component.position.y})
+        }
+        // endregion
+
+        // region move GroundThorns
+        for(var i = 0; i < this.GroundThorns.length; i++)
+        {
+            this.GroundThorns[i].position =
+            {
+                x: this.GroundThorns[i].position.x + moveLength,
+                y: this.GroundThorns[i].position.y
+            }
+        }
+        // endregion
     }
 
     blockUpDown(isBlockCollision, blocks, blockIndex)
@@ -544,38 +670,29 @@ class Level2 extends Framework.Level
             this.waitCount = 0
         }
     }
-    block_GO_Drop()
+    block_Prompt_Drop()
     {
-        // 是否觸發block_GO掉落
-        if (this.block_GO.component.position.x - this.block_GO.component.sprite.width / 4 <= this.hero.component.position.x &&
-            this.hero.component.position.x <= this.block_GO.component.position.x + this.block_GO.component.sprite.width / 4 &&
-            this.hero.component.position.y >= this.block_GO.component.position.y)
+        if(!this.block_Prompt_Stop && this.isSwitchOn && this.block_Prompt.component.position.y + this.block_Prompt.component.sprite.height / 2 <= 780)
         {
-            this.isBlockGo_Drop = true
-        }
-
-        // block_GO是否繼續掉落 (當砸到人物時會停止掉落)
-        if (this.isBlockGo_Drop && !this.block_GO_Drop_stop)
-        {
-            this.matter.setBody(this.block_GO.component.body, 
+            this.matter.setBody(this.block_Prompt.component.body, 
                 "position", 
-                {x: this.block_GO.component.position.x, y: this.block_GO.component.position.y + 5})
+                {x: this.block_Prompt.component.position.x + 0, y: this.block_Prompt.component.position.y + 10})
         }
     }
     update() 
     {
+        //判斷是否觸發開關
+        if(!this.isSwitchOn && this.switchOff.position.x <= 520 && this.switchOff.position.x >= 410 && this.hero.component.position.y >= 720)
+        {
+            this.switchOn.position = {x: this.switchOff.position.x, y: this.switchOff.position.y}
+            this.switchOff.position = {x: -100, y: -100}
+            this.isSwitchOn = true
+        }
+
         this.blockUpDown(this.isblockQcollision, this.BlockQs,this.blockIndex)  // 方塊上下移動
         
-        if (this.isCollisionQ1 && !this.isBlockGo)
-        {
-            this.rootScene.attach(this.block_GO)
-            this.block_GO.component.position = this.block_GOPos
-            this.isBlockGo = true
-        }
-        
         // 判斷block_Go是否向下掉落並執行
-        this.block_GO_Drop()
-
+        this.block_Prompt_Drop()
         //#region hero die condition
         if (this.hero.component.position.y > 1000)
         {
@@ -697,6 +814,25 @@ class Level2 extends Framework.Level
         this.heroInfoY._value = Math.round(this.hero.component.position.y)
         //#endregion
         
+
+        // 碰到地板尖刺
+        if(this.isGroundThorn)
+        {
+            this.rootScene.attach(this.GroundThorns[0])
+            this.rootScene.attach(this.GroundThorns[1])
+            this.heroAlive = false
+        }
+
+        // 碰到草叢尖刺
+        if(this.isGrassThorn)
+        {
+            for(var i = 0; i < this.grassThorns.length; i++)
+            {
+                this.rootScene.attach(this.grassThorns[i])
+            }
+            this.heroAlive = false
+        }
+
         //#region update 註解和非註解 有奇怪的差異...
         this.matter.setBody(this.camera.component.body, 
             "position", 
@@ -793,7 +929,7 @@ class Level2 extends Framework.Level
     }
     mousemove(e) 
     {
-        // console.log(e.x + "  " + e.y)    
+        console.log(e.x + "  " + e.y)    
     }
 
     collisionStart(event)
@@ -810,13 +946,48 @@ class Level2 extends Framework.Level
                 if (pair.bodyA === this.floors[k].component.body && pair.bodyB === this.hero.component.body) 
                 {
                     this.hero.isOnFloor = true
-                } 
-                else if (pair.bodyA === this.hero.component.body || pair.bodyB === this.hero.component.body)
-                {
-                    // console.log("No Collision")
+                    if (k >= 15 && k < 19)
+                    {
+                        this.isGrassThorn = true
+                    }
                 }
             }
         }
         //#endregion
+
+        //#region collision between hero and blockQ
+        for (var i = 0, j = pairs.length; i != j; ++i) 
+        {
+            var pair = pairs[i];
+
+            for (var k = 0; k < this.BlockQPos.length; k++)
+            {
+                if (pair.bodyA === this.BlockQs[k].component.body && pair.bodyB === this.hero.component.body) 
+                {
+                    this.hero.isOnFloor = true
+                }
+            }
+        }
+        //#endregion
+
+        // region collision between hero and block_Prompt
+        if (pair.bodyA === this.block_Prompt.component.body && pair.bodyB === this.hero.component.body)
+        {
+            this.hero.isOnFloor = true
+            // console.log(this.hero.sprite.width/0.3 + ", " + this.hero.sprite.height/0.3)
+        }
+        // endregion
+
+        // region collision between hero and wall
+        for(var i = 0; i < 2; i++)
+        {
+            if (pair.bodyA === this.walls[i].component.body && pair.bodyB === this.hero.component.body
+                && this.walls[i].component.position.x-this.walls[i].component.sprite.width/0.3/2 < this.hero.component.position.x
+                && this.walls[i].component.position.y-this.walls[i].component.sprite.height/0.3/2 < this.hero.component.position.y)
+            {
+                this.isGroundThorn = true
+            }
+        }
+        // endregion
     }
 };
