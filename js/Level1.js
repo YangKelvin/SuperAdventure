@@ -4,6 +4,7 @@ class Level1 extends Framework.Level
 {
     constructor()
     {
+        console.log("Level1")
         super() // 繼承
 
         // 宣告this.matter 並建立物理世界MatterUtil.js
@@ -86,7 +87,7 @@ class Level1 extends Framework.Level
     {
         // 重置 levelTest
         this.sleep(1000);
-        Framework.Game._levels.splice(0,1,{name : "level1", level : new Level1()})
+        Framework.Game._levels.splice(2,1,{name : "level1", level : new Level1()})
         Framework.Game.userIQ -= 50
         Framework.Game._goToLevelIs = "level1"
         

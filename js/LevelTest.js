@@ -2,6 +2,7 @@ class LevelTest extends Framework.Level
 {
     constructor()
     {
+        console.log("LevelTest")
         super() // 繼承
 
         // 宣告this.matter 並建立物理世界MatterUtil.js
