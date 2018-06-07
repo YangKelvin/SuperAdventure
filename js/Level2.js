@@ -798,6 +798,9 @@ class Level2 extends Framework.Level
         if(this.heroAlive === false)
         {
             console.log("this.heroAlive = flase")
+            this.isPress = false
+            this.isJump = false
+            this.isPressWalk = false
             
             this.hero.animationDie()
             this.dieUpdateCount++
@@ -959,13 +962,13 @@ class Level2 extends Framework.Level
     keydown(e)
     {
         // show matter world
+        if(e.key === 'P') 
+        {
+            this.matter.toggleRenderWireframes()   
+        }
+
         if (this.heroAlive)
         {
-            if(e.key === 'P') 
-            {
-                this.matter.toggleRenderWireframes()   
-            }
-    
             if(e.key === 'W') 
             {
                 this.isPress = true
@@ -988,7 +991,6 @@ class Level2 extends Framework.Level
                 this.hero.animationGoRight()
             }
         }
-        
     }
     keyup(e, list)
     {
@@ -1077,7 +1079,6 @@ class Level2 extends Framework.Level
         for(var i = 0; i < 2; i++)
         {
             if (pair.bodyA === this.walls[i].component.body && pair.bodyB === this.hero.component.body
-                && this.walls[i].component.position.x-this.walls[i].component.sprite.width/2 < this.hero.component.position.x
                 && this.walls[i].component.position.y-this.walls[i].component.sprite.height/2 >= this.hero.component.position.y)
             {
                 this.isGroundThorn = true

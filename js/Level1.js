@@ -1370,7 +1370,7 @@ class Level1 extends Framework.Level
                         y: this.block_GO.component.position.y - this.block_GO.component.sprite.height / 2,
                     }
                     this.block_GO.pic = null
-                    this.matter.stopWorld()
+                    // this.matter.stopWorld()
                 }
                 // 被block_Go砸死
                 else
@@ -1393,6 +1393,7 @@ class Level1 extends Framework.Level
                 x: this.cloudMonsters[0].component.position.x - this.cloudMonsters[0].component.sprite.width / 2 - 25,
                 y: this.cloudMonsters[0].component.position.y - this.cloudMonsters[0].component.sprite.height / 2 - 13
             }
+            console.log(this.cloudMonster_thorn.dwposition)
             this.heroAlive = false
             console.log("hero die")
         }
