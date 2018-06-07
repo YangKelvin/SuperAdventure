@@ -6,6 +6,7 @@ class block
         this.matter = _matter
         this.url = _url
         this.blockOps = _blockOps
+        this.firstCollision = false
     }
 
     load()
@@ -22,7 +23,16 @@ class block
     }
     update()
     {
+        
         this.component.update()
+    }
+    Firstcollision()
+    {
+        this.pic = new Framework.Sprite('images/blockNone.png')
+        this.component = new Framework.RectangleComponent(
+            this.matter, 
+            this.pic, 
+            this.blockOps)
     }
     draw()
     {

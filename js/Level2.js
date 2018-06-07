@@ -20,6 +20,7 @@ class Level2 extends Framework.Level
         this.walkDirection = 0      // 判斷hero移動的方向（左 or 右）
         this.score = 0              // 關卡的計分
         this.isPrincess = true     // 判斷公主是否載入關卡
+        this.dieUpdateCount = 0
 
         this.isTriggleTrollBridge = false   // 判斷是否觸發陷阱橋掉落
         this.bridgeFall = 0                 // 陷阱掉落的移動量
@@ -55,8 +56,12 @@ class Level2 extends Framework.Level
         //地板尖刺是否出現
         this.isGroundThorn = false
 
-        //草的尖刺
+        //草的尖刺是否出現
         this.isGrassThorn = false
+
+        //方塊陷阱是否觸發
+        this.blockStart = false
+        this.blockStop = false
     }
     sleep(milliseconds) 
     {
@@ -261,14 +266,33 @@ class Level2 extends Framework.Level
                 {x: 1960, y: 780},
                 {x: 2030, y: 780},
                 {x: 2100, y: 780},
-                {x: 2170, y: 780},
-                {x: 2240, y: 780},
-                {x: 2310, y: 780},
-                {x: 2380, y: 780},
-                {x: 2450, y: 780},
-                {x: 2520, y: 780},
-                {x: 2590, y: 780},
-                {x: 2660, y: 780},
+
+                {x: 2190, y: 260},
+                {x: 2260, y: 260},
+                {x: 2330, y: 260},
+                {x: 2400, y: 260},
+                {x: 2470, y: 260},
+
+                {x: 2840, y: 780},//36
+                {x: 2910, y: 780},
+                {x: 2980, y: 780},
+                {x: 3050, y: 780},
+                {x: 3120, y: 780},
+                {x: 3190, y: 780},
+                {x: 3260, y: 780},
+                {x: 3330, y: 780},
+                {x: 3400, y: 780},
+                {x: 3470, y: 780},
+                {x: 3540, y: 780},
+                {x: 3610, y: 780},
+
+                {x: 3090, y: 480},//48
+                {x: 3160, y: 480},//49
+
+
+                {x: 3680, y: 780},
+                {x: 3750, y: 780},
+                {x: 3820, y: 780}
             ]
         
         this.floorOps = 
@@ -418,8 +442,10 @@ class Level2 extends Framework.Level
         // unvisible block
         this.blockUVsPos = 
         [
-            {x: 960, y: 480},   // 懸崖旁的隱藏方塊
-            {x: 2830, y: 220},   // pipe上的隱藏方塊
+           {x: 980, y: 290},
+           {x: 1370, y: 240},
+           {x: 2120, y: 500},
+           {x: 2990, y: 240}
         ]
         this.blockUVsOps = 
         {
@@ -478,7 +504,14 @@ class Level2 extends Framework.Level
             {x: 1050, y: 750},
             {x: 1120, y: 750},
             {x: 1190, y: 750},
-            {x: 1260, y: 750}
+            {x: 1260, y: 750},
+            {x: 2840, y: 750},
+            {x: 2910, y: 750},
+            {x: 2980, y: 750},
+            {x: 3050, y: 750},
+            {x: 3120, y: 750},
+            {x: 3190, y: 750},
+            {x: 3260, y: 750},
         ]
         this.grassArray = []
         this.grassThorns = []
@@ -511,6 +544,30 @@ class Level2 extends Framework.Level
             // this.rootScene.attach(this.GroundThorns[i])
         }
     }
+    loadMonsterCloud()
+    {
+        this.cloudOps = 
+        {
+            label: 'cloud', 
+            friction: 0.05, 
+            density:0.002, 
+            isStatic:true, 
+            isSensor:false
+        }
+        
+        this.cloud = new block('images/cloud.png',
+                                        this.matter,
+                                        this.cloudOps)
+
+        this.cloud.load()
+        this.cloud.initialize()
+        this.cloud.component.position = {x: 1820, y: 80-200}
+        this.rootScene.attach(this.cloud)
+
+        this.cloudThorn = new Framework.Sprite(define.imagePath + 'cloudThorn.png')
+        this.cloudThorn.position = {x: -200, y: -200}
+        this.rootScene.attach(this.cloudThorn)
+    }
     //#endregion
     load() 
     {
@@ -535,6 +592,7 @@ class Level2 extends Framework.Level
         this.loadSwitch()
         this.loadGrass()
         this.loadGroundThorn()
+        this.loadMonsterCloud()
 
         this.loadHero()
         
@@ -639,26 +697,34 @@ class Level2 extends Framework.Level
             }
         }
         // endregion
+
+        // region move cloud
+        this.matter.setBody(this.cloud.component.body, 
+            "position", 
+            {x: this.cloud.component.position.x + moveLength, y: this.cloud.component.position.y})
+
+        this.cloudThorn.position = {x: this.cloudThorn.position.x + moveLength, y: this.cloudThorn.position.y}
+        // endregion
     }
 
-    blockUpDown(isBlockCollision, blocks, blockIndex)
+    blockUpDown()
     {
-        if (isBlockCollision)
+        if (this.isBlockCollision)
         {
             if (this.waitCount < 15)
             {
-                blocks[blockIndex].component.position = 
+                blocks[this.blockIndex].component.position = 
                 {
-                    x: blocks[blockIndex].component.position.x,
-                    y: blocks[blockIndex].component.position.y - 2.5
+                    x: blocks[this.blockIndex].component.position.x,
+                    y: blocks[this.blockIndex].component.position.y - 2.5
                 }
             }
             else
             {
-                blocks[blockIndex].component.position = 
+                blocks[this.blockIndex].component.position = 
                 {
-                    x: blocks[blockIndex].component.position.x,
-                    y: blocks[blockIndex].component.position.y + 2.5
+                    x: blocks[this.blockIndex].component.position.x,
+                    y: blocks[this.blockIndex].component.position.y + 2.5
                 }
             }
             this.waitCount ++
@@ -676,7 +742,21 @@ class Level2 extends Framework.Level
         {
             this.matter.setBody(this.block_Prompt.component.body, 
                 "position", 
-                {x: this.block_Prompt.component.position.x + 0, y: this.block_Prompt.component.position.y + 10})
+                {x: this.block_Prompt.component.position.x + 0, y: this.block_Prompt.component.position.y + 8})
+        }
+    }
+    blockOpen()
+    {
+        this.matter.setBody(this.floors[48].component.body, 
+            "position", 
+            {x: this.floors[48].component.position.x - 5, y: this.floors[48].component.position.y})
+        this.matter.setBody(this.floors[49].component.body, 
+            "position", 
+            {x: this.floors[49].component.position.x + 5, y: this.floors[49].component.position.y})
+        if(this.floors[48].component.position.x <= this.floors[37].component.position.x)
+        {
+            console.log('stop')
+            this.blockStop = true
         }
     }
     update() 
@@ -689,10 +769,11 @@ class Level2 extends Framework.Level
             this.isSwitchOn = true
         }
 
-        this.blockUpDown(this.isblockQcollision, this.BlockQs,this.blockIndex)  // 方塊上下移動
+        this.blockUpDown()  // 方塊上下移動
         
-        // 判斷block_Go是否向下掉落並執行
+        // 判斷block_Promp是否向下掉落並執行
         this.block_Prompt_Drop()
+
         //#region hero die condition
         if (this.hero.component.position.y > 1000)
         {
@@ -700,26 +781,31 @@ class Level2 extends Framework.Level
         }
         //#endregion
 
+        // region block open
+        if (this.hero.component.position.y < 480 && this.hero.component.position.y >= 200 && this.floors[31].component.position.x <= 0)
+        {
+            console.log('trigger')
+            this.blockStart = true
+        }
+        if (this.blockStart && !this.blockStop)
+        {
+            console.log('start move')
+            this.blockOpen()
+        }
+        // endregion
+
         //#region judge hero die or not
         if(this.heroAlive === false)
         {
             console.log("this.heroAlive = flase")
-            // this.heroDiePic.position = {
-            //     x: this.hero.component.position.x - 45, 
-            //     y: this.hero.component.position.y - 60
-            // }
-            // this.rootScene.update()
-            // console.log(this.heroDiePic.position)
-            this.heroDiePicPos2 = [{x: -100, y: -100},]
-            this.heroDiePic2 = new Framework.Sprite('images/heroDiePic.png')
-            this.heroDiePic2.position = {
-                x: this.hero.component.position.x - 45, 
-                y: this.hero.component.position.y - 60
-            }
-            this.rootScene.attach(this.heroDiePic2)
-            this.rootScene.update()
-            // this.hero.animationDie()
-
+            
+            this.hero.animationDie()
+            this.dieUpdateCount++
+            // this.heroDie()
+        }
+        if (this.dieUpdateCount >= 120)
+        {
+            this.dieUpdateCount = 0
             this.heroDie()
         }
         //#endregion
@@ -815,15 +901,16 @@ class Level2 extends Framework.Level
         //#endregion
         
 
-        // 碰到地板尖刺
+        // region 碰到地板尖刺
         if(this.isGroundThorn)
         {
             this.rootScene.attach(this.GroundThorns[0])
             this.rootScene.attach(this.GroundThorns[1])
             this.heroAlive = false
         }
+        // endregion
 
-        // 碰到草叢尖刺
+        // region 碰到草叢尖刺
         if(this.isGrassThorn)
         {
             for(var i = 0; i < this.grassThorns.length; i++)
@@ -832,6 +919,7 @@ class Level2 extends Framework.Level
             }
             this.heroAlive = false
         }
+        // endregion
 
         //#region update 註解和非註解 有奇怪的差異...
         this.matter.setBody(this.camera.component.body, 
@@ -871,32 +959,36 @@ class Level2 extends Framework.Level
     keydown(e)
     {
         // show matter world
-        if(e.key === 'P') 
+        if (this.heroAlive)
         {
-            this.matter.toggleRenderWireframes()   
+            if(e.key === 'P') 
+            {
+                this.matter.toggleRenderWireframes()   
+            }
+    
+            if(e.key === 'W') 
+            {
+                this.isPress = true
+                this.isJump = true
+            }
+            if(e.key === 'A') 
+            {
+                // left
+                this.isPress = true
+                this.isPressWalk = true
+                this.walkDirection = 2
+                this.hero.animationGoLeft()
+            }
+            if(e.key === 'D') 
+            {
+                // right  
+                this.isPress = true
+                this.isPressWalk = true
+                this.walkDirection = 1
+                this.hero.animationGoRight()
+            }
         }
-
-        if(e.key === 'W') 
-        {
-            this.isPress = true
-            this.isJump = true
-        }
-        if(e.key === 'A') 
-        {
-            // left
-            this.isPress = true
-            this.isPressWalk = true
-            this.walkDirection = 2
-            this.hero.animationGoLeft()
-        }
-        if(e.key === 'D') 
-        {
-            // right  
-            this.isPress = true
-            this.isPressWalk = true
-            this.walkDirection = 1
-            this.hero.animationGoRight()
-        }
+        
     }
     keyup(e, list)
     {
@@ -929,7 +1021,7 @@ class Level2 extends Framework.Level
     }
     mousemove(e) 
     {
-        console.log(e.x + "  " + e.y)    
+        // console.log(e.x + "  " + e.y)    
     }
 
     collisionStart(event)
@@ -947,6 +1039,10 @@ class Level2 extends Framework.Level
                 {
                     this.hero.isOnFloor = true
                     if (k >= 15 && k < 19)
+                    {
+                        this.isGrassThorn = true
+                    }
+                    else if (k >= 36 && k < 43)
                     {
                         this.isGrassThorn = true
                     }
@@ -974,7 +1070,6 @@ class Level2 extends Framework.Level
         if (pair.bodyA === this.block_Prompt.component.body && pair.bodyB === this.hero.component.body)
         {
             this.hero.isOnFloor = true
-            // console.log(this.hero.sprite.width/0.3 + ", " + this.hero.sprite.height/0.3)
         }
         // endregion
 
@@ -982,11 +1077,71 @@ class Level2 extends Framework.Level
         for(var i = 0; i < 2; i++)
         {
             if (pair.bodyA === this.walls[i].component.body && pair.bodyB === this.hero.component.body
-                && this.walls[i].component.position.x-this.walls[i].component.sprite.width/0.3/2 < this.hero.component.position.x
-                && this.walls[i].component.position.y-this.walls[i].component.sprite.height/0.3/2 < this.hero.component.position.y)
+                && this.walls[i].component.position.x-this.walls[i].component.sprite.width/2 < this.hero.component.position.x
+                && this.walls[i].component.position.y-this.walls[i].component.sprite.height/2 >= this.hero.component.position.y)
             {
                 this.isGroundThorn = true
             }
+        }
+        // endregion
+    
+        // region collision between hreo and blockUV
+        for (var i = 0, j = pairs.length; i != j; ++i) 
+        {
+            var pair = pairs[i];
+
+            for (var k = 0; k < this.blockUVsPos.length; k++)
+            {
+                if ((pair.bodyA === this.blockUVs[k].component.body && pair.bodyB === this.hero.component.body) || 
+                    (pair.bodyB === this.blockUVs[k].component.body && pair.bodyA === this.hero.component.body)) 
+                {
+                    var blockHalfWidth = this.blockUVs[k].component.sprite.width / 2
+                    var blockHalfHeight = this.blockUVs[k].component.sprite.height / 2
+
+                    this.hero.isOnFloor = true
+                    // if(this.hero.component.position.y + this.hero.sprite.height / 0.3 / 2 <= this.blockUVs[k].component.position.y - blockHalfHeight)
+                    // {
+                    //     console.log('onfloor')
+                    //     this.hero.isOnFloor = true
+                    // }
+                    if (this.hero.component.position.y >= this.blockUVs[k].component.position.y + blockHalfHeight)
+                    {   
+                        this.tempPos = this.blockUVs[k].component.sprite.position
+
+                        this.blockUVs[k].pic = null
+                        this.matter.removeBody(this.blockUVs[k].component.body)
+                        this.blockUVsOpsNEW = 
+                        {
+                            label: 'blockUV', 
+                            friction: 0.05, 
+                            density:0.002, 
+                            isStatic:true, 
+                            isSensor:false
+                        }
+                        this.blockUVs[k] = new block('images/blockQ.png', 
+                                            this.matter,
+                                            this.blockUVsOpsNEW)
+                        this.blockUVs[k].load()
+                        this.blockUVs[k].initialize()
+                        this.blockUVs[k].component.position = this.tempPos
+                        this.rootScene.attach(this.blockUVs[k])
+                    }
+                }
+                
+            }
+        }
+        // endregion
+
+        // region collision between hero and cloud
+        if (pair.bodyA === this.cloud.component.body && pair.bodyB === this.hero.component.body)
+        {
+            this.iscloud_thorn = true
+            this.cloudThorn.position =
+            {
+                x: this.cloud.component.position.x - this.cloud.component.sprite.width / 2 - 25,
+                y: this.cloud.component.position.y - this.cloud.component.sprite.height / 2 - 13
+            }
+            this.heroAlive = false
         }
         // endregion
     }
