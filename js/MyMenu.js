@@ -25,8 +25,13 @@ var MyMenu = Framework.exClass(Framework.GameMainMenu,
 
         load: function () {
             this.menu = new Framework.Sprite(define.imagePath + 'menuBackground.jpg')
-            this.startSign = new StartSign()
-            this.startSign.load(Framework.Game.getCanvasWidth() / 2 - 200, Framework.Game.getCanvasHeight() / 2 - 150)
+            // this.startSign = new StartSign()
+            // this.startSign.load(Framework.Game.getCanvasWidth() / 2 - 200, Framework.Game.getCanvasHeight() / 2 - 150)
+            
+            this.startSign = new Framework.Sprite(define.imagePath + 'btn-start.png')
+            this.aboutSigh = new Framework.Sprite(define.imagePath + 'btn-about.png')
+            this.cheatSign = new Framework.Sprite(define.imagePath + 'btn-cheat.png')
+            this.settingSign = new Framework.Sprite(define.imagePath + 'btn-setting.png')
         },
 
         initialize: function () {
@@ -39,12 +44,40 @@ var MyMenu = Framework.exClass(Framework.GameMainMenu,
             this.menu.scale = 1.2;
 
             // this.rootScene.attach(this.menu);
-            this.rootScene.attach(this.startSign.startPic)
+            
 
             this.rectPosition = {
                 x: Framework.Game.getCanvasWidth() / 2 - 130,
                 y: Framework.Game.getCanvasHeight() / 2
             };
+
+            this.startSign.position = 
+            {
+                x:635,
+                y:640
+            }
+            
+
+            
+            this.aboutSigh.position = 
+            {
+                x:270,
+                y:380
+            }
+            this.settingSign.position = 
+            {
+                x:650,
+                y:380
+            }
+            this.cheatSign.position =
+            {
+                x:1030,
+                y:380
+            }
+            this.rootScene.attach(this.startSign)
+            this.rootScene.attach(this.aboutSigh)
+            this.rootScene.attach(this.settingSign)
+            this.rootScene.attach(this.cheatSign)
         },
 
         update: function () {
@@ -75,21 +108,56 @@ var MyMenu = Framework.exClass(Framework.GameMainMenu,
             // Framework.Game.goToNextLevel();
         },
 
-        click: function (e) {
-            if (e)
+        click: function (e) 
+        {
+            console.log(e.x + "  " + e.y)    
+            // if (e)
+            // {
+            //     console.log(this.startSign.startPic.upperLeft.x)
+            //     console.log(this.startSign.startPic.upperRight.x)
+            //     console.log(this.startSign.startPic.upperLeft.y)
+            //     console.log(this.startSign.startPic.upperRight.y)
+            // }
+
+            // this.startSign.mousedown(e)
+            // start
+            if (e.x >= 630 && 
+                e.x <= 980 && 
+                e.y >= 640 && 
+                e.y <= 865) 
             {
-                console.log(this.startSign.startPic.upperLeft.x)
-                console.log(this.startSign.startPic.upperRight.x)
-                console.log(this.startSign.startPic.upperLeft.y)
-                console.log(this.startSign.startPic.upperRight.y)
+                Framework.Game.goToLevel("chooseLevel");
             }
 
-            this.startSign.mousedown(e)
+            // about
+            if (e.x >= 270 && 
+                e.x <= 570 && 
+                e.y >= 380 && 
+                e.y <= 570) 
+            {
+                // Framework.Game.goToLevel("aboutScreen");
+            }
+            // setting
+            if (e.x >= 650 && 
+                e.x <= 950 && 
+                e.y >= 380 && 
+                e.y <= 570) 
+            {
+                // Framework.Game.goToLevel("settingScreen");
+            }
+            // cheat
+            if (e.x >= 1030 && 
+                e.x <= 1330 && 
+                e.y >= 380 && 
+                e.y <= 570) 
+            {
+                // Framework.Game.goToLevel("aboutScreen");
+            }
         },
 
         mousemove: function (e) 
         {
-            console.log(e.x + "  " + e.y)    
+            // console.log(e.x + "  " + e.y)    
         },
 
         mouseup: function (e) {
