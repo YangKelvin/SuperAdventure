@@ -37,12 +37,24 @@ var Bag = Framework.exClass(Framework.GameMainMenu,
                 }
                 else
                 {
-                    this.bagSquareArray.push(new Framework.Sprite(define.imagePath + 'GoldSword.png'))
+                    if (i === 0)
+                    {
+                        this.bagSquareArray.push(new Framework.Sprite(define.imagePath + 'GoldSword.png'))
+                    }
+                    else if (i === 1)
+                    {
+                        this.bagSquareArray.push(new Framework.Sprite(define.imagePath + 'Keyboard.png'))
+                    }
                 }
             }
 
             this.instruction_GoldSword = new Framework.Sprite(define.imagePath + 'GoldSwordInstruction.png')
             this.isGoldSwordClick = false
+
+            this.instruction_Keyboard = new Framework.Sprite(define.imagePath + 'KeyboardInstruction.png')
+            this.isKeyboardClick = false
+
+            this.isItemsClick = false
             console.log(Framework.Game.items)
         },
 
@@ -106,6 +118,13 @@ var Bag = Framework.exClass(Framework.GameMainMenu,
                 y: Framework.Game.getCanvasHeight() / 2
             }
             this.rootScene.attach(this.instruction_GoldSword)
+
+            this.instruction_Keyboard.position = 
+            {
+                x: Framework.Game.getCanvasWidth(),
+                y: Framework.Game.getCanvasHeight() / 2
+            }
+            this.rootScene.attach(this.instruction_Keyboard)
             
         },
 
@@ -141,6 +160,17 @@ var Bag = Framework.exClass(Framework.GameMainMenu,
                     y: Framework.Game.getCanvasHeight() / 2
                 }
                 this.isGoldSwordClick = false
+                this.isItemsClick = false
+            }
+            else if(this.isKeyboardClick)
+            {
+                this.instruction_Keyboard.position =
+                {
+                    x: Framework.Game.getCanvasWidth(),
+                    y: Framework.Game.getCanvasHeight() / 2
+                }
+                this.isKeyboardClick = false
+                this.isItemsClick = false
             }
             else
             {
@@ -158,7 +188,7 @@ var Bag = Framework.exClass(Framework.GameMainMenu,
                     e.y >= 265 && 
                     e.y <= 430) 
                 {
-                    if (Framework.Game.items[0].item === true && !this.isGoldSwordClick)
+                    if (Framework.Game.items[0].item === true && !this.isItemsClick)
                     {
                         this.instruction_GoldSword.position = 
                         {
@@ -166,6 +196,7 @@ var Bag = Framework.exClass(Framework.GameMainMenu,
                             y: Framework.Game.getCanvasHeight() / 2 - 281
                         }
                         this.isGoldSwordClick = true
+                        this.isItemsClick = true
                     }
                     else
                     {
@@ -178,7 +209,20 @@ var Bag = Framework.exClass(Framework.GameMainMenu,
                     e.y >= 265 && 
                     e.y <= 430) 
                 {
-                    alert("你還沒拿到這樣東西呢，傻瓜！")
+                    if (Framework.Game.items[1].item === true && !this.isItemsClick)
+                    {
+                        this.instruction_Keyboard.position = 
+                        {
+                            x: Framework.Game.getCanvasWidth() / 2 - 500,
+                            y: Framework.Game.getCanvasHeight() / 2 - 281
+                        }
+                        this.isKeyboardClick = true
+                        this.isItemsClick = true
+                    }
+                    else
+                    {
+                        alert("你還沒拿到這樣東西呢，傻瓜！")
+                    }
                 }
                 // 點擊物品3
                 if (e.x >= 775 && 

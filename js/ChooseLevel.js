@@ -36,8 +36,9 @@ var ChooseLevel = Framework.exClass(Framework.GameMainMenu,
 
             
 
-            
+            //測試道具(正常遊戲時請註解)
             Framework.Game.items[0].item = true
+            Framework.Game.items[1].item = true
 
 
             this.locks = new Array()

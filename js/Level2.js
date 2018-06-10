@@ -20,6 +20,7 @@ class Level2 extends Framework.Level
         this.walkDirection = 0      // 判斷hero移動的方向（左 or 右）
         this.score = 0              // 關卡的計分
         this.isPrincess = true     // 判斷公主是否載入關卡
+        this.dieUpdateCount = 0
 
         this.isTriggleTrollBridge = false   // 判斷是否觸發陷阱橋掉落
         this.bridgeFall = 0                 // 陷阱掉落的移動量
@@ -46,9 +47,21 @@ class Level2 extends Framework.Level
         // 判斷是否顯示雲的尖刺
         this.iscloud_thorn = false
 
-        // block_GO 掉落和停止
-        this.isBlockGo_Drop = false
-        this.block_GO_Drop_stop = false
+        // block_Prompt停止掉落
+        this.block_Prompt_Stop = false
+
+        //開關是否打開
+        this.isSwitchOn = false
+        
+        //地板尖刺是否出現
+        this.isGroundThorn = false
+
+        //草的尖刺是否出現
+        this.isGrassThorn = false
+
+        //方塊陷阱是否觸發
+        this.blockStart = false
+        this.blockStop = false
     }
     sleep(milliseconds) 
     {
@@ -253,14 +266,33 @@ class Level2 extends Framework.Level
                 {x: 1960, y: 780},
                 {x: 2030, y: 780},
                 {x: 2100, y: 780},
-                {x: 2170, y: 780},
-                {x: 2240, y: 780},
-                {x: 2310, y: 780},
-                {x: 2380, y: 780},
-                {x: 2450, y: 780},
-                {x: 2520, y: 780},
-                {x: 2590, y: 780},
-                {x: 2660, y: 780},
+
+                {x: 2190, y: 260},
+                {x: 2260, y: 260},
+                {x: 2330, y: 260},
+                {x: 2400, y: 260},
+                {x: 2470, y: 260},
+
+                {x: 2840, y: 780},//36
+                {x: 2910, y: 780},
+                {x: 2980, y: 780},
+                {x: 3050, y: 780},
+                {x: 3120, y: 780},
+                {x: 3190, y: 780},
+                {x: 3260, y: 780},
+                {x: 3330, y: 780},
+                {x: 3400, y: 780},
+                {x: 3470, y: 780},
+                {x: 3540, y: 780},
+                {x: 3610, y: 780},
+
+                {x: 3090, y: 480},//48
+                {x: 3160, y: 480},//49
+
+
+                {x: 3680, y: 780},
+                {x: 3750, y: 780},
+                {x: 3820, y: 780}
             ]
         
         this.floorOps = 
@@ -282,6 +314,52 @@ class Level2 extends Framework.Level
             this.floors[i].component.position = this.floorsPos[i]
 
             this.rootScene.attach(this.floors[i])
+        }
+    }
+    loadWall()
+    {
+        this.wallsPos = 
+        [
+            {x: 1540, y: 220},
+            {x: 1610, y: 220},
+
+            {x: 1540, y: 710},
+            {x: 1540, y: 640},
+            {x: 1540, y: 570},
+            {x: 1540, y: 500},
+            {x: 1540, y: 430},
+            {x: 1540, y: 360},
+            {x: 1540, y: 290},
+            
+            {x: 1610, y: 710},
+            {x: 1610, y: 640},
+            {x: 1610, y: 570},
+            {x: 1610, y: 500},
+            {x: 1610, y: 430},
+            {x: 1610, y: 360},
+            {x: 1610, y: 290}
+        ]
+        
+        this.wallOps = 
+        {
+            label: 'wall', 
+            friction: 0.05, 
+            density:0.002, 
+            isStatic:true,
+            isSensor:false
+        }
+
+        this.walls = []
+        for (var i = 0; i < this.wallsPos.length; i++)
+        {
+            this.walls[i] = new block('images/blockNone.png', 
+                                            this.matter, 
+                                            this.wallOps)
+            this.walls[i].load()
+            this.walls[i].initialize()
+            this.walls[i].component.position = this.wallsPos[i]
+
+            this.rootScene.attach(this.walls[i])
         }
     }
     loadAudio()
@@ -326,10 +404,7 @@ class Level2 extends Framework.Level
     {
         this.BlockQPos = 
         [
-            {x: 350, y: 480},
-            {x: 1820, y: 500},//blockQ
-            {x: 1890, y: 220},//blockQ
-            {x: 2030, y: 500}//blockQ
+            {x: 1470, y: 500}
         ]
         this.BlockQOps = 
         {
@@ -367,8 +442,10 @@ class Level2 extends Framework.Level
         // unvisible block
         this.blockUVsPos = 
         [
-            {x: 960, y: 480},   // 懸崖旁的隱藏方塊
-            {x: 2830, y: 220},   // pipe上的隱藏方塊
+           {x: 980, y: 290},
+           {x: 1370, y: 240},
+           {x: 2120, y: 500},
+           {x: 2990, y: 240}
         ]
         this.blockUVsOps = 
         {
@@ -391,33 +468,105 @@ class Level2 extends Framework.Level
             
         }
     }
-    loadGoBlock()
+    loadBlockPrompt()
     {
-        this.block_GOPos = 
+        this.block_PromptOps = 
         {
-            x: 500,
-            y: 400
-        }
-        this.block_GOOps = 
-        {
-            label: 'block_GO', 
+            label: 'block_Prompt', 
             friction: 0.05, 
             density:0.002, 
             isStatic:true, 
             isSensor:false
         }
 
-        this.block_GO = new block('images/level1-GoBlock.png',
+        this.block_Prompt = new block('images/blockPrompt.png',
                                         this.matter,
-                                        this.block_GOOps)
-        this.block_GO.load()
-        this.block_GO.initialize()
-        this.block_GO.component.position = {x:-100, y:0}
-        // this.rootScene.attach(this.block_GO)
+                                        this.block_PromptOps)
+        this.block_Prompt.load()
+        this.block_Prompt.initialize()
+        this.block_Prompt.component.position = {x: 500, y: 100}
+        this.rootScene.attach(this.block_Prompt)
+    }
+    loadSwitch()
+    {
+        this.switchOn = new Framework.Sprite(define.imagePath + 'switch-on.png')
+        this.switchOn.position = {x: -100, y: -100}
+        this.rootScene.attach(this.switchOn)
 
+        this.switchOff = new Framework.Sprite(define.imagePath + 'switch-off.png')
+        this.switchOff.position = {x: 560, y: 730}
+        this.rootScene.attach(this.switchOff)
+    }
+    loadGrass()
+    {
+        this.grassPos = 
+        [
+            {x: 1050, y: 750},
+            {x: 1120, y: 750},
+            {x: 1190, y: 750},
+            {x: 1260, y: 750},
+            {x: 2840, y: 750},
+            {x: 2910, y: 750},
+            {x: 2980, y: 750},
+            {x: 3050, y: 750},
+            {x: 3120, y: 750},
+            {x: 3190, y: 750},
+            {x: 3260, y: 750},
+        ]
+        this.grassArray = []
+        this.grassThorns = []
+        for (var i = 0; i < this.grassPos.length; i++)
+        {
+            this.grassArray[i] = new Framework.Sprite(define.imagePath + 'trap-grass1.png')
+            this.grassArray[i].position = this.grassPos[i]
+            this.rootScene.attach(this.grassArray[i])
+        }
 
-        this.block_GO_thorn = new Framework.Sprite(define.imagePath + 'level1-GOBlockThorn.png')
-        this.block_GO_thorn.position = {x: -100, y: 0}
+        for(var i = 0; i < this.grassPos.length; i++)
+        {
+            this.grassThorns[i] = new Framework.Sprite(define.imagePath + 'trap-grass2.png')
+            this.grassThorns[i].position = this.grassPos[i]
+        }
+    }
+    loadGroundThorn()
+    {
+        this.GroundThornPos = 
+        [
+            {x: 1540, y: 190},
+            {x: 1610, y: 190}
+        ]
+        this.GroundThorns = []
+
+        for (var i = 0; i < this.GroundThornPos.length; i++)
+        {
+            this.GroundThorns[i] = new Framework.Sprite(define.imagePath + 'groundThorn.png')
+            this.GroundThorns[i].position = this.GroundThornPos[i]
+            // this.rootScene.attach(this.GroundThorns[i])
+        }
+    }
+    loadMonsterCloud()
+    {
+        this.cloudOps = 
+        {
+            label: 'cloud', 
+            friction: 0.05, 
+            density:0.002, 
+            isStatic:true, 
+            isSensor:false
+        }
+        
+        this.cloud = new block('images/cloud.png',
+                                        this.matter,
+                                        this.cloudOps)
+
+        this.cloud.load()
+        this.cloud.initialize()
+        this.cloud.component.position = {x: 1820, y: 80-200}
+        this.rootScene.attach(this.cloud)
+
+        this.cloudThorn = new Framework.Sprite(define.imagePath + 'cloudThorn.png')
+        this.cloudThorn.position = {x: -200, y: -200}
+        this.rootScene.attach(this.cloudThorn)
     }
     //#endregion
     load() 
@@ -431,6 +580,7 @@ class Level2 extends Framework.Level
         this.loadCamera()
 
         this.loadGround()
+        this.loadWall()
 
         this.loadTrollBridge()
         this.loadBlockQ()
@@ -438,7 +588,11 @@ class Level2 extends Framework.Level
 
         this.loadPrincess()
 
-        this.loadGoBlock()
+        this.loadBlockPrompt()
+        this.loadSwitch()
+        this.loadGrass()
+        this.loadGroundThorn()
+        this.loadMonsterCloud()
 
         this.loadHero()
         
@@ -505,34 +659,72 @@ class Level2 extends Framework.Level
         }  
         //#endregion
    
-        //#region  move blockGO
-        if (this.isBlockGo)
-        {
-            this.matter.setBody(this.block_GO.component.body, 
-                "position", 
-                {x: this.block_GO.component.position.x + moveLength, y: this.block_GO.component.position.y})
-        }
+        //#region move block_Prompt
+        this.matter.setBody(this.block_Prompt.component.body, 
+            "position", 
+            {x: this.block_Prompt.component.position.x + moveLength, y: this.block_Prompt.component.position.y})
         //#endregion
+
+        // region move switch
+        this.switchOn.position = {x: this.switchOn.position.x + moveLength, y: this.switchOn.position.y}
+        this.switchOff.position = {x: this.switchOff.position.x + moveLength, y: this.switchOff.position.y}
+        // endregion
+
+        // region move grass
+        for(var i = 0; i < this.grassArray.length; i++)
+        {
+            this.grassArray[i].position = {x: this.grassArray[i].position.x + moveLength, y: this.grassArray[i].position.y}
+            this.grassThorns[i].position = {x: this.grassThorns[i].position.x + moveLength, y: this.grassThorns[i].position.y}
+        }
+        // endregion
+
+        // region move walls
+        for(var i = 0; i < this.walls.length; i++)
+        {
+            this.matter.setBody(this.walls[i].component.body,
+                "position", 
+                {x: this.walls[i].component.position.x + moveLength, y: this.walls[i].component.position.y})
+        }
+        // endregion
+
+        // region move GroundThorns
+        for(var i = 0; i < this.GroundThorns.length; i++)
+        {
+            this.GroundThorns[i].position =
+            {
+                x: this.GroundThorns[i].position.x + moveLength,
+                y: this.GroundThorns[i].position.y
+            }
+        }
+        // endregion
+
+        // region move cloud
+        this.matter.setBody(this.cloud.component.body, 
+            "position", 
+            {x: this.cloud.component.position.x + moveLength, y: this.cloud.component.position.y})
+
+        this.cloudThorn.position = {x: this.cloudThorn.position.x + moveLength, y: this.cloudThorn.position.y}
+        // endregion
     }
 
-    blockUpDown(isBlockCollision, blocks, blockIndex)
+    blockUpDown()
     {
-        if (isBlockCollision)
+        if (this.isBlockCollision)
         {
             if (this.waitCount < 15)
             {
-                blocks[blockIndex].component.position = 
+                blocks[this.blockIndex].component.position = 
                 {
-                    x: blocks[blockIndex].component.position.x,
-                    y: blocks[blockIndex].component.position.y - 2.5
+                    x: blocks[this.blockIndex].component.position.x,
+                    y: blocks[this.blockIndex].component.position.y - 2.5
                 }
             }
             else
             {
-                blocks[blockIndex].component.position = 
+                blocks[this.blockIndex].component.position = 
                 {
-                    x: blocks[blockIndex].component.position.x,
-                    y: blocks[blockIndex].component.position.y + 2.5
+                    x: blocks[this.blockIndex].component.position.x,
+                    y: blocks[this.blockIndex].component.position.y + 2.5
                 }
             }
             this.waitCount ++
@@ -544,37 +736,43 @@ class Level2 extends Framework.Level
             this.waitCount = 0
         }
     }
-    block_GO_Drop()
+    block_Prompt_Drop()
     {
-        // 是否觸發block_GO掉落
-        if (this.block_GO.component.position.x - this.block_GO.component.sprite.width / 4 <= this.hero.component.position.x &&
-            this.hero.component.position.x <= this.block_GO.component.position.x + this.block_GO.component.sprite.width / 4 &&
-            this.hero.component.position.y >= this.block_GO.component.position.y)
+        if(!this.block_Prompt_Stop && this.isSwitchOn && this.block_Prompt.component.position.y + this.block_Prompt.component.sprite.height / 2 <= 780)
         {
-            this.isBlockGo_Drop = true
-        }
-
-        // block_GO是否繼續掉落 (當砸到人物時會停止掉落)
-        if (this.isBlockGo_Drop && !this.block_GO_Drop_stop)
-        {
-            this.matter.setBody(this.block_GO.component.body, 
+            this.matter.setBody(this.block_Prompt.component.body, 
                 "position", 
-                {x: this.block_GO.component.position.x, y: this.block_GO.component.position.y + 5})
+                {x: this.block_Prompt.component.position.x + 0, y: this.block_Prompt.component.position.y + 8})
+        }
+    }
+    blockOpen()
+    {
+        this.matter.setBody(this.floors[48].component.body, 
+            "position", 
+            {x: this.floors[48].component.position.x - 5, y: this.floors[48].component.position.y})
+        this.matter.setBody(this.floors[49].component.body, 
+            "position", 
+            {x: this.floors[49].component.position.x + 5, y: this.floors[49].component.position.y})
+        if(this.floors[48].component.position.x <= this.floors[37].component.position.x)
+        {
+            console.log('stop')
+            this.blockStop = true
         }
     }
     update() 
     {
-        this.blockUpDown(this.isblockQcollision, this.BlockQs,this.blockIndex)  // 方塊上下移動
-        
-        if (this.isCollisionQ1 && !this.isBlockGo)
+        //判斷是否觸發開關
+        if(!this.isSwitchOn && this.switchOff.position.x <= 520 && this.switchOff.position.x >= 410 && this.hero.component.position.y >= 720)
         {
-            this.rootScene.attach(this.block_GO)
-            this.block_GO.component.position = this.block_GOPos
-            this.isBlockGo = true
+            this.switchOn.position = {x: this.switchOff.position.x, y: this.switchOff.position.y}
+            this.switchOff.position = {x: -100, y: -100}
+            this.isSwitchOn = true
         }
+
+        this.blockUpDown()  // 方塊上下移動
         
-        // 判斷block_Go是否向下掉落並執行
-        this.block_GO_Drop()
+        // 判斷block_Promp是否向下掉落並執行
+        this.block_Prompt_Drop()
 
         //#region hero die condition
         if (this.hero.component.position.y > 1000)
@@ -583,26 +781,34 @@ class Level2 extends Framework.Level
         }
         //#endregion
 
+        // region block open
+        if (this.hero.component.position.y < 480 && this.hero.component.position.y >= 200 && this.floors[31].component.position.x <= 0)
+        {
+            console.log('trigger')
+            this.blockStart = true
+        }
+        if (this.blockStart && !this.blockStop)
+        {
+            console.log('start move')
+            this.blockOpen()
+        }
+        // endregion
+
         //#region judge hero die or not
         if(this.heroAlive === false)
         {
             console.log("this.heroAlive = flase")
-            // this.heroDiePic.position = {
-            //     x: this.hero.component.position.x - 45, 
-            //     y: this.hero.component.position.y - 60
-            // }
-            // this.rootScene.update()
-            // console.log(this.heroDiePic.position)
-            this.heroDiePicPos2 = [{x: -100, y: -100},]
-            this.heroDiePic2 = new Framework.Sprite('images/heroDiePic.png')
-            this.heroDiePic2.position = {
-                x: this.hero.component.position.x - 45, 
-                y: this.hero.component.position.y - 60
-            }
-            this.rootScene.attach(this.heroDiePic2)
-            this.rootScene.update()
-            // this.hero.animationDie()
-
+            this.isPress = false
+            this.isJump = false
+            this.isPressWalk = false
+            
+            this.hero.animationDie()
+            this.dieUpdateCount++
+            // this.heroDie()
+        }
+        if (this.dieUpdateCount >= 120)
+        {
+            this.dieUpdateCount = 0
             this.heroDie()
         }
         //#endregion
@@ -697,6 +903,27 @@ class Level2 extends Framework.Level
         this.heroInfoY._value = Math.round(this.hero.component.position.y)
         //#endregion
         
+
+        // region 碰到地板尖刺
+        if(this.isGroundThorn)
+        {
+            this.rootScene.attach(this.GroundThorns[0])
+            this.rootScene.attach(this.GroundThorns[1])
+            this.heroAlive = false
+        }
+        // endregion
+
+        // region 碰到草叢尖刺
+        if(this.isGrassThorn)
+        {
+            for(var i = 0; i < this.grassThorns.length; i++)
+            {
+                this.rootScene.attach(this.grassThorns[i])
+            }
+            this.heroAlive = false
+        }
+        // endregion
+
         //#region update 註解和非註解 有奇怪的差異...
         this.matter.setBody(this.camera.component.body, 
             "position", 
@@ -740,26 +967,29 @@ class Level2 extends Framework.Level
             this.matter.toggleRenderWireframes()   
         }
 
-        if(e.key === 'W') 
+        if (this.heroAlive)
         {
-            this.isPress = true
-            this.isJump = true
-        }
-        if(e.key === 'A') 
-        {
-            // left
-            this.isPress = true
-            this.isPressWalk = true
-            this.walkDirection = 2
-            this.hero.animationGoLeft()
-        }
-        if(e.key === 'D') 
-        {
-            // right  
-            this.isPress = true
-            this.isPressWalk = true
-            this.walkDirection = 1
-            this.hero.animationGoRight()
+            if(e.key === 'W') 
+            {
+                this.isPress = true
+                this.isJump = true
+            }
+            if(e.key === 'A') 
+            {
+                // left
+                this.isPress = true
+                this.isPressWalk = true
+                this.walkDirection = 2
+                this.hero.animationGoLeft()
+            }
+            if(e.key === 'D') 
+            {
+                // right  
+                this.isPress = true
+                this.isPressWalk = true
+                this.walkDirection = 1
+                this.hero.animationGoRight()
+            }
         }
     }
     keyup(e, list)
@@ -810,13 +1040,110 @@ class Level2 extends Framework.Level
                 if (pair.bodyA === this.floors[k].component.body && pair.bodyB === this.hero.component.body) 
                 {
                     this.hero.isOnFloor = true
-                } 
-                else if (pair.bodyA === this.hero.component.body || pair.bodyB === this.hero.component.body)
-                {
-                    // console.log("No Collision")
+                    if (k >= 15 && k < 19)
+                    {
+                        this.isGrassThorn = true
+                    }
+                    else if (k >= 36 && k < 43)
+                    {
+                        this.isGrassThorn = true
+                    }
                 }
             }
         }
         //#endregion
+
+        //#region collision between hero and blockQ
+        for (var i = 0, j = pairs.length; i != j; ++i) 
+        {
+            var pair = pairs[i];
+
+            for (var k = 0; k < this.BlockQPos.length; k++)
+            {
+                if (pair.bodyA === this.BlockQs[k].component.body && pair.bodyB === this.hero.component.body) 
+                {
+                    this.hero.isOnFloor = true
+                }
+            }
+        }
+        //#endregion
+
+        // region collision between hero and block_Prompt
+        if (pair.bodyA === this.block_Prompt.component.body && pair.bodyB === this.hero.component.body)
+        {
+            this.hero.isOnFloor = true
+        }
+        // endregion
+
+        // region collision between hero and wall
+        for(var i = 0; i < 2; i++)
+        {
+            if (pair.bodyA === this.walls[i].component.body && pair.bodyB === this.hero.component.body
+                && this.walls[i].component.position.y-this.walls[i].component.sprite.height/2 >= this.hero.component.position.y)
+            {
+                this.isGroundThorn = true
+            }
+        }
+        // endregion
+    
+        // region collision between hreo and blockUV
+        for (var i = 0, j = pairs.length; i != j; ++i) 
+        {
+            var pair = pairs[i];
+
+            for (var k = 0; k < this.blockUVsPos.length; k++)
+            {
+                if ((pair.bodyA === this.blockUVs[k].component.body && pair.bodyB === this.hero.component.body) || 
+                    (pair.bodyB === this.blockUVs[k].component.body && pair.bodyA === this.hero.component.body)) 
+                {
+                    var blockHalfWidth = this.blockUVs[k].component.sprite.width / 2
+                    var blockHalfHeight = this.blockUVs[k].component.sprite.height / 2
+
+                    this.hero.isOnFloor = true
+                    // if(this.hero.component.position.y + this.hero.sprite.height / 0.3 / 2 <= this.blockUVs[k].component.position.y - blockHalfHeight)
+                    // {
+                    //     console.log('onfloor')
+                    //     this.hero.isOnFloor = true
+                    // }
+                    if (this.hero.component.position.y >= this.blockUVs[k].component.position.y + blockHalfHeight)
+                    {   
+                        this.tempPos = this.blockUVs[k].component.sprite.position
+
+                        this.blockUVs[k].pic = null
+                        this.matter.removeBody(this.blockUVs[k].component.body)
+                        this.blockUVsOpsNEW = 
+                        {
+                            label: 'blockUV', 
+                            friction: 0.05, 
+                            density:0.002, 
+                            isStatic:true, 
+                            isSensor:false
+                        }
+                        this.blockUVs[k] = new block('images/blockQ.png', 
+                                            this.matter,
+                                            this.blockUVsOpsNEW)
+                        this.blockUVs[k].load()
+                        this.blockUVs[k].initialize()
+                        this.blockUVs[k].component.position = this.tempPos
+                        this.rootScene.attach(this.blockUVs[k])
+                    }
+                }
+                
+            }
+        }
+        // endregion
+
+        // region collision between hero and cloud
+        if (pair.bodyA === this.cloud.component.body && pair.bodyB === this.hero.component.body)
+        {
+            this.iscloud_thorn = true
+            this.cloudThorn.position =
+            {
+                x: this.cloud.component.position.x - this.cloud.component.sprite.width / 2 - 25,
+                y: this.cloud.component.position.y - this.cloud.component.sprite.height / 2 - 13
+            }
+            this.heroAlive = false
+        }
+        // endregion
     }
 };
