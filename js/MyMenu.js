@@ -111,15 +111,6 @@ var MyMenu = Framework.exClass(Framework.GameMainMenu,
         click: function (e) 
         {
             console.log(e.x + "  " + e.y)    
-            // if (e)
-            // {
-            //     console.log(this.startSign.startPic.upperLeft.x)
-            //     console.log(this.startSign.startPic.upperRight.x)
-            //     console.log(this.startSign.startPic.upperLeft.y)
-            //     console.log(this.startSign.startPic.upperRight.y)
-            // }
-
-            // this.startSign.mousedown(e)
             // start
             if (e.x >= 630 && 
                 e.x <= 980 && 
@@ -151,7 +142,7 @@ var MyMenu = Framework.exClass(Framework.GameMainMenu,
                 e.y >= 380 && 
                 e.y <= 570) 
             {
-                // Framework.Game.goToLevel("aboutScreen");
+                Framework.Game.goToLevel("cheatScreen");
             }
         },
 

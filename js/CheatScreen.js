@@ -1,0 +1,138 @@
+var CheatScreen = Framework.exClass(Framework.GameMainMenu,
+    {
+        //初始化loadingProgress需要用到的圖片
+        initializeProgressResource: function () 
+        {
+            this.loading = new Framework.Sprite(define.imagePath + 'loading.jpg');
+            this.loading.position = 
+            { 
+                x: Framework.Game.getCanvasWidth() / 2, 
+                y: Framework.Game.getCanvasHeight() / 2 
+            };
+            //為了或得到this.loading這個Sprite的絕對位置, 故需要先計算一次(在Game Loop執行時, 則會自動計算, 但因為loadingProgress只支援draw故需要自行計算)
+                    
+        },
+
+        //在initialize時會觸發的事件
+        loadingProgress: function (ctx, requestInfo) 
+        {
+            //console.log(Framework.ResourceManager.getFinishedRequestPercent())
+            this.loading.draw(ctx);
+            ctx.font = '90px Arial';
+            ctx.textAlign = 'center';
+            ctx.fillStyle = 'white';
+            ctx.fillText(Math.round(requestInfo.percent) + '%', ctx.canvas.width / 2, ctx.canvas.height / 2 + 300);
+        },
+
+        load: function () {
+            this.backYellowGround = new Framework.Sprite(define.imagePath + 'background-yellow.png');
+            this.backGround = new Framework.Sprite(define.imagePath + 'background-CheatScreen.png');
+            // this.bagTitle = new Framework.Sprite(define.imagePath + 'bagTitlepic.png');
+            
+            this.lv1_clear = new Framework.Sprite(define.imagePath + 'clear.png');
+            this.lv1_unclear = new Framework.Sprite(define.imagePath + 'unclear.png');
+
+            this.lv2_clear = new Framework.Sprite(define.imagePath + 'clear.png');
+            this.lv2_unclear = new Framework.Sprite(define.imagePath + 'unclear.png');
+
+            this.lv3_clear = new Framework.Sprite(define.imagePath + 'clear.png');
+            this.lv3_unclear = new Framework.Sprite(define.imagePath + 'unclear.png');
+            
+        },
+
+        initialize: function () {
+            //為了讓之後的位置較好操控, new出一個位於中心點且可以黏貼任何東西的容器
+            //注意, Position都是用中心點
+            
+            //最底層背景
+            this.backYellowGround.position = {
+                x: 0,
+                y: 0
+            };
+            this.backYellowGround.scale = 5;
+
+            //背包框架
+            this.backGround.position = {
+                x: 0,
+                y: 0
+            };
+            this.backGround.scale = 1;
+
+
+            this.rootScene.attach(this.backYellowGround);
+            this.rootScene.attach(this.backGround);
+
+            
+
+            this.rectPosition = {
+                x: Framework.Game.getCanvasWidth() / 2 - 130,
+                y: Framework.Game.getCanvasHeight() / 2
+            };
+
+            //#region 關卡是否通關
+            if (Framework.Game.items[0].item === true)
+            {
+                this.lv1_clear.position
+            }
+            //#endregion
+            
+        },
+
+        update: function () {
+            //this.rootScene.update();一定要在第一行
+            this.rootScene.update();
+            //目前的Framework, 當任何一個GameObject不做attach時, 則必須要自行update
+        },
+
+        draw: function (parentCtx) {
+            //this.rootScene.draw();一定要在第一行
+            // this.rootScene.draw(parentCtx);
+            // this.menu.draw(parentCtx);
+            //this.rootScene.draw();
+            //可支援畫各種單純的圖形和字
+        },
+
+        mouseup: function (e) {
+
+        },
+
+        mousedown: function (e) {
+            //console.log為Browser提供的function, 可以在debugger的console內看到被印出的訊息                    
+            // Framework.Game.goToNextLevel();
+        },
+
+        click: function (e) {
+            console.log(e.x + " " + e.y)
+            // 點擊關閉(返回關卡選單)
+            if (e.x >= 1270 && 
+                e.x <= 1390 && 
+                e.y >= 181 && 
+                e.y <= 300) 
+            {
+                Framework.Game.goToLevel("chooseLevel");
+            }
+        },
+
+        mousemove: function (e) 
+        {
+            // console.log(e.x + "  " + e.y)    
+        },
+
+        mouseup: function (e) {
+            this.isTouchArrow = false;
+        },
+
+        touchstart: function (e) {
+            //為了要讓Mouse和Touch都有一樣的事件
+            //又要減少Duplicated code, 故在Touch事件被觸發時, 去Trigger Mouse事件
+            this.mousedown(e[0]);
+        },
+
+        touchend: function (e) {
+            this.mouseup();
+        },
+
+        touchmove: function (e) {
+            this.mousemove(e[0]);
+        }
+    });
