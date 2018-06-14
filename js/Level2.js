@@ -22,10 +22,11 @@ class Level2 extends Framework.Level
         this.isPrincess = true     // 判斷公主是否載入關卡
         this.dieUpdateCount = 0
 
-        this.isTriggleTrollBridge = false   // 判斷是否觸發陷阱橋掉落
-        this.bridgeFall = 0                 // 陷阱掉落的移動量
-
         this.princessPos = {x:4200, y:606} // 公主初始位置
+
+        //地板是否掉落
+        this.isBreakDown = false
+        this.isBreakDown_stop = false
 
         // 鎖定角色位置 -> 避免角色從方塊上滑落
         this.startLockHeroPos = false   
@@ -68,6 +69,14 @@ class Level2 extends Framework.Level
         this.isflower = false
         this.Firstflower = true
         this.flower_stop = false
+
+        // 是否觸發火箭
+        this.isRocket = false
+        this.isRocket_stop = false
+
+        // 是否觸發巨臉
+        this.isBigFace = false
+        this.isBigFace_stop = false
     }
     sleep(milliseconds) 
     {
@@ -82,9 +91,9 @@ class Level2 extends Framework.Level
     }
     heroDie()
     {
-        // 重置 levelTest
+        // 重置 level
         this.sleep(1000);
-        Framework.Game._levels.splice(3,1,{name : "level2", level : new Level2()})
+        Framework.Game._levels.splice(7,1,{name : "level2", level : new Level2()})
         Framework.Game.userIQ -= 50
         Framework.Game._goToLevelIs = "level2"
         
@@ -97,23 +106,6 @@ class Level2 extends Framework.Level
 
     loadPic()
     {
-        this.picsPos = 
-        [
-            {x: -1000, y: 500},
-            {x: -1000, y: 500},
-            {x: -1000, y: 500},
-            {x: -1000, y: 500},
-            {x: -1000, y: 500},
-            {x: -1000, y: 500},
-        ]
-        
-        this.pics = new Array()
-        for (var i = 0; i < this.picsPos.length; i++)
-        {
-            this.pics = new Framework.Sprite('images/UDIE'+i+'.png')
-
-        }
-
         this.heroDiePicPos = [{x: -100, y: -100},]
         this.heroDiePic = new Framework.Sprite('images/heroDiePic.png')
         this.heroDiePic.position = {x: -100, y: -100}
@@ -128,7 +120,6 @@ class Level2 extends Framework.Level
         {
             label: 'camera', 
             friction: 0.05, 
-            // frictionAir: 99999,
             density:0.002,
             // isStatic: true
         }
@@ -218,7 +209,7 @@ class Level2 extends Framework.Level
     }
     loadPrincess()
     {
-        this.princessPos = {x:3000, y:606}
+        this.princessPos = {x:3740, y:606}
         
         this.princessOps = 
         { 
@@ -266,9 +257,9 @@ class Level2 extends Framework.Level
                 {x: 1540, y: 780},
                 {x: 1610, y: 780},
                 {x: 1680, y: 780},
-                {x: 1750, y: 780},
-                {x: 1820, y: 780},
-                {x: 1890, y: 780},
+                {x: 1750, y: 780},//會向下坍塌25
+                {x: 1820, y: 780},//會向下坍塌26
+                {x: 1890, y: 780},//會向下坍塌27
                 {x: 1960, y: 780},
                 {x: 2030, y: 780},
                 {x: 2100, y: 780},
@@ -377,34 +368,6 @@ class Level2 extends Framework.Level
             jump: {mp3: 'music/jump.mp3'},
             haha: {wav: 'music/haha.wav'}
         })
-    }
-    loadTrollBridge()
-    {
-        this.trollBridgesPos = 
-        [
-            
-        ]
-
-        this.trollBridgeOps = 
-        {
-            label: 'trollBridge', 
-            friction: 0.05, 
-            density:0.002,
-            isStatic:true, 
-            isSensor:true
-        }
-        this.trollBridges = new Array()
-        for (var i = 0; i < this.trollBridgesPos.length; i++)
-        {
-            this.trollBridges[i] = new block('images/bridge.png', 
-                                            this.matter,
-                                            this.trollBridgeOps)
-            this.trollBridges[i].load()
-            this.trollBridges[i].initialize()
-            this.trollBridges[i].component.position = this.trollBridgesPos[i]
-            // this.coins[i].component.body.isSensor = true
-            this.rootScene.attach(this.trollBridges[i])
-        }
     }
     loadBlockQ()
     {
@@ -567,7 +530,7 @@ class Level2 extends Framework.Level
 
         this.cloud.load()
         this.cloud.initialize()
-        this.cloud.component.position = {x: 1820, y: 80-200}
+        this.cloud.component.position = {x: 1820, y: 80}
         this.rootScene.attach(this.cloud)
 
         this.cloudThorn = new Framework.Sprite(define.imagePath + 'cloudThorn.png')
@@ -594,6 +557,53 @@ class Level2 extends Framework.Level
         this.flower.component.position = {x: -200, y: -200}
         this.rootScene.attach(this.flower)
     }
+    loadRocket()
+    {
+        this.rocketsPos = 
+        [
+            {x: 3500, y: 190},
+            {x: 3500, y: 120},
+            {x: 3500, y: 50},
+            {x: 3500, y: -20},
+        ]
+        this.rocketsOps = 
+        {
+            label: 'rocket', 
+            friction: 0.05, 
+            density:0.002, 
+            isStatic:true,
+        }
+        this.rockets = []
+        for (var i = 0; i < this.rocketsPos.length; i++)
+        {
+            this.rockets[i] = new block('images/rocket_left.png', 
+                                            this.matter,
+                                            this.rocketsOps)
+            this.rockets[i].load()
+            this.rockets[i].initialize()
+            this.rockets[i].component.position = this.rocketsPos[i]
+            this.rootScene.attach(this.rockets[i])
+        }
+    }
+    loadBigFace()
+    {
+        this.bigFaceOps =
+        {
+            label: 'bigFace', 
+            friction: 0.05, 
+            density:0.002, 
+            isStatic:true,
+        }
+
+        this.bigFace = new block('images/bigFace.png',
+                                        this.matter,
+                                        this.bigFaceOps)
+
+        this.bigFace.load()
+        this.bigFace.initialize()
+        this.bigFace.component.position = {x: 3550, y: 20}
+        this.rootScene.attach(this.bigFace)
+    }
     //#endregion
     load() 
     {
@@ -608,7 +618,6 @@ class Level2 extends Framework.Level
         this.loadGround()
         this.loadWall()
 
-        this.loadTrollBridge()
         this.loadflower()
         this.loadBlockQ()
         this.loadBlockUV()
@@ -620,6 +629,8 @@ class Level2 extends Framework.Level
         this.loadGrass()
         this.loadGroundThorn()
         this.loadMonsterCloud()
+        this.loadRocket()
+        this.loadBigFace()
         
 
         this.loadHero()
@@ -661,15 +672,6 @@ class Level2 extends Framework.Level
             this.matter.setBody(this.blockUVs[i].component.body, 
                 "position", 
                 {x: this.blockUVs[i].component.position.x + moveLength, y: this.blockUVs[i].component.position.y})  
-        }
-        //#endregion
-
-        //#region move trollBridge
-        for	(var i = 0; i<this.trollBridges.length; i++)
-        {
-            this.matter.setBody(this.trollBridges[i].component.body, 
-                "position", 
-                {x: this.trollBridges[i].component.position.x + moveLength, y: this.trollBridges[i].component.position.y})  
         }
         //#endregion
 
@@ -739,6 +741,27 @@ class Level2 extends Framework.Level
             "position", 
             {x: this.flower.component.position.x + moveLength, y: this.flower.component.position.y})
         // endregion
+
+        // region move rockets
+        if(!this.isRocket_stop)
+        {
+            for(var i = 0; i < 4; i++)
+            {
+                this.matter.setBody(this.rockets[i].component.body, 
+                    "position", 
+                    {x: this.rockets[i].component.position.x + moveLength, y: this.rockets[i].component.position.y})
+            }
+        }
+        // endregion
+
+        // region move bigFace
+        if (!this.isBigFace_stop)
+        {
+            this.matter.setBody(this.bigFace.component.body, 
+                "position", 
+                {x: this.bigFace.component.position.x + moveLength, y: this.bigFace.component.position.y})
+        }
+        // endregion
     }
 
     blockUpDown(target)
@@ -802,8 +825,38 @@ class Level2 extends Framework.Level
             {x: this.floors[49].component.position.x + 5, y: this.floors[49].component.position.y})
         if(this.floors[48].component.position.x <= this.floors[37].component.position.x)
         {
-            console.log('stop')
             this.blockStop = true
+        }
+    }
+    RocketAttack()
+    {
+        for(var i = 0; i < 4; i++)
+        {
+            this.matter.setBody(this.rockets[i].component.body, 
+                "position", 
+                {x: this.rockets[i].component.position.x - 14, y: this.rockets[i].component.position.y + 0})
+        }
+        if (this.rockets[3].component.position.x <= this.floors[14].component.position.x)
+        {
+            this.isRocket_stop = true
+            for(var i = 0; i < 4; i++)
+            {
+                this.rockets[i].pic = null
+                this.matter.removeBody(this.rockets[i].component.body)
+            }
+        }
+    }
+    BigFaceAttack()
+    {
+        this.matter.setBody(this.bigFace.component.body, 
+            "position", 
+            {x: this.bigFace.component.position.x - 14, y: this.bigFace.component.position.y + 0})
+
+        if (this.bigFace.component.position.x <= this.floors[14].component.position.x)
+        {
+            this.isBigFace_stop = true
+            this.bigFace.pic = null
+            this.matter.removeBody(this.bigFace.component.body)
         }
     }
     update() 
@@ -827,6 +880,44 @@ class Level2 extends Framework.Level
         // 判斷block_Promp是否向下掉落並執行
         this.block_Prompt_Drop()
 
+        // region 地板掉落陷阱是否觸發
+        if (this.isBreakDown && !this.isBreakDown_stop)
+        {
+            for(var i = 25; i < 28; i++)
+            {
+                this.matter.setBody(this.floors[i].component.body, 
+                    "position", 
+                    {x: this.floors[i].component.position.x + 0, y: this.floors[i].component.position.y + 10})
+            }
+            if(this.floors[28].component.position.y >= 900)
+            {
+                this.isBreakDown_stop = true
+            }
+        }
+        //endregion
+
+        // region 火箭攻擊
+        if (this.hero.component.position.x >= this.floors[33].component.position.x)
+        {
+            this.isRocket = true
+        }
+        if (this.isRocket && !this.isRocket_stop)
+        {
+            this.RocketAttack()
+        }
+        // endregion
+
+        // region 巨臉攻擊
+        if (this.isRocket_stop && this.hero.component.position.x >= this.floors[33].component.position.x)
+        {
+            this.isBigFace = true
+        }
+        if (this.isBigFace && !this.isBigFace_stop)
+        {
+            this.BigFaceAttack()
+        }
+        // endregion
+
         //#region hero die condition
         if (this.hero.component.position.y > 1000)
         {
@@ -837,7 +928,6 @@ class Level2 extends Framework.Level
         // region 花朵出現
         if (this.isflower && !this.isblockQcollision && !this.flower_stop)
         {
-            console.log('flower')
             if (this.Firstflower && this.isflower)
             {
                 this.matter.setBody(this.flower.component.body, 
@@ -1107,6 +1197,10 @@ class Level2 extends Framework.Level
                     {
                         this.isGrassThorn = true
                     }
+                    else if (k >= 25 && k < 28)
+                    {
+                        this.isBreakDown = true
+                    }
                     else if (k >= 36 && k < 43)
                     {
                         this.isGrassThorn = true
@@ -1125,7 +1219,6 @@ class Level2 extends Framework.Level
             {
                 if (pair.bodyA === this.BlockQs[k].component.body && pair.bodyB === this.hero.component.body) 
                 {
-                    console.log('k = ' + k)
                     this.hero.isOnFloor = true
 
                     var blockHalfWidth = this.BlockQs[k].component.sprite.width / 2
@@ -1133,7 +1226,6 @@ class Level2 extends Framework.Level
                         (this.hero.component.position.x >= this.BlockQs[k].component.position.x - blockHalfWidth) && 
                         (this.hero.component.position.x <= this.BlockQs[k].component.position.x + blockHalfWidth))
                     {
-                        console.log('true')
                         this.isblockQcollision = true
                         this.blockIndex = k
 
@@ -1141,9 +1233,6 @@ class Level2 extends Framework.Level
                         {
                             this.Firstflower = true
                             this.isflower = true
-                            // this.matter.setBody(this.flower.component.body, 
-                            //     "position", 
-                            //     {x: this.BlockQs[k].component.position.x + 0, y: this.BlockQs[k].component.position.y+10})
                         }
                     }
                 }
@@ -1195,7 +1284,6 @@ class Level2 extends Framework.Level
                     {   
                         if (!this.blockUVs[k].isUVshow)
                         {
-                            console.log('remove blockUV')
                             this.tempPos = this.blockUVs[k].component.sprite.position
 
                             this.blockUVs[k].pic = null
@@ -1209,7 +1297,7 @@ class Level2 extends Framework.Level
                                 isSensor:false
                             }
 
-                            this.blockUVs[k] = new block('images/blockQ.png', 
+                            this.blockUVs[k] = new block('images/blockNone.png', 
                                             this.matter,
                                             this.blockUVsOpsNEW)
                             this.blockUVs[k].load()
@@ -1244,6 +1332,39 @@ class Level2 extends Framework.Level
             this.flower.pic = null
             this.matter.removeBody(this.flower.component.body)
             this.heroAlive = false
+        }
+        // endregion
+
+        // region collision between hero and rocket
+        for(var i = 0; i < 4; i++)
+        {
+            if (pair.bodyA === this.rockets[i].component.body && pair.bodyB === this.hero.component.body)
+            {
+                this.heroAlive = false
+                this.isRocket_stop = true
+            }
+        }
+        // endregion
+
+        // region collision between hero and bigface
+        if (pair.bodyA === this.bigFace.component.body && pair.bodyB === this.hero.component.body)
+        {
+            this.heroAlive = false
+            this.isBigFace_stop = true
+        }
+        // endregion
+
+        // region  collision between hero and princess
+        if (pair.bodyA === this.princess.component.body && pair.bodyB === this.hero.component.body)
+        {
+            console.log("win")
+            Framework.Game.records[1].record = Framework.Game.userIQ
+            Framework.Game._goToLevelIs = ""
+            Framework.Game.userIQ = 250
+
+            Framework.Game.items[1].item = true
+            Framework.Game.goToLevel("chooseLevel");
+            Framework.Game._levels.splice(7,1,{name : "level2", level : new Level2()})
         }
         // endregion
     }

@@ -167,8 +167,6 @@ var ChooseLevel = Framework.exClass(Framework.GameMainMenu,
                 e.y <= 485) 
             {
                 Framework.Game.goToLevel("level2");
-                // console.log("startGame")
-                // alert("想玩？沒門！ 因為還沒有這一關")
             }
             // level3
             if (e.x >= 1065 && 
@@ -176,9 +174,7 @@ var ChooseLevel = Framework.exClass(Framework.GameMainMenu,
                 e.y >= 285 && 
                 e.y <= 485) 
             {
-                // Framework.Game.goToLevel("level1");
-                // console.log("startGame")
-                alert("想玩？沒門！ 因為還沒有這一關")
+                Framework.Game.goToLevel("level3Test");
             }
             // level4
             if (e.x >= 340 && 
