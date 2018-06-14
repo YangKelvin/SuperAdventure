@@ -61,7 +61,7 @@ var ChooseLevel = Framework.exClass(Framework.GameMainMenu,
                 this.rootScene.attach(this.locks[i])
             }
 
-            
+            this.back = new Framework.Sprite(define.imagePath + 'icon-back.png')
         },
 
         initialize: function () {
@@ -115,6 +115,14 @@ var ChooseLevel = Framework.exClass(Framework.GameMainMenu,
                     this.locks[i+1].position = {x: -500, y: -500}
                 }
             }
+
+            this.back.position =
+            {
+                x: 60,
+                y: 60
+            }
+            this.back.scale = 0.2
+            this.rootScene.attach(this.back)
         },
 
         update: function () {
@@ -220,6 +228,15 @@ var ChooseLevel = Framework.exClass(Framework.GameMainMenu,
             {
                 Framework.Game.goToLevel("recordScreen")
                 console.log("Open Bag")
+            }
+
+            // 返回選關卡頁面
+            if (e.x >= 3 && 
+                e.x <= 105 && 
+                e.y >= 10 && 
+                e.y <= 110) 
+            {
+                Framework.Game.goToLevel("myMenu");
             }
         },
 
