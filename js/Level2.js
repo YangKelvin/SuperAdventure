@@ -36,6 +36,7 @@ class Level2 extends Framework.Level
         this.isblockQcollision = false
         this.blockIndex = 0
         this.waitCount = 0
+        this.count = 0
 
         // blockUV collision
         this.isblockUVcollision = false
@@ -62,6 +63,9 @@ class Level2 extends Framework.Level
         //方塊陷阱是否觸發
         this.blockStart = false
         this.blockStop = false
+
+        // 花朵是否出現
+        this.isflower = false
     }
     sleep(milliseconds) 
     {
@@ -568,6 +572,26 @@ class Level2 extends Framework.Level
         this.cloudThorn.position = {x: -200, y: -200}
         this.rootScene.attach(this.cloudThorn)
     }
+    loadflower()
+    {
+        this.flowerOps = 
+        {
+            label: 'flower', 
+            friction: 0.05, 
+            density:0.002, 
+            isStatic:true, 
+            isSensor:true
+        }
+        
+        this.flower = new block('images/trap-flower.png',
+                                        this.matter,
+                                        this.flowerOps)
+
+        this.flower.load()
+        this.flower.initialize()
+        this.flower.component.position = {x: -200, y: -200}
+        this.rootScene.attach(this.flower)
+    }
     //#endregion
     load() 
     {
@@ -583,6 +607,7 @@ class Level2 extends Framework.Level
         this.loadWall()
 
         this.loadTrollBridge()
+        this.loadflower()
         this.loadBlockQ()
         this.loadBlockUV()
 
@@ -593,6 +618,7 @@ class Level2 extends Framework.Level
         this.loadGrass()
         this.loadGroundThorn()
         this.loadMonsterCloud()
+        
 
         this.loadHero()
         
@@ -705,35 +731,49 @@ class Level2 extends Framework.Level
 
         this.cloudThorn.position = {x: this.cloudThorn.position.x + moveLength, y: this.cloudThorn.position.y}
         // endregion
+
+        // region move flower
+        this.matter.setBody(this.flower.component.body, 
+            "position", 
+            {x: this.flower.component.position.x + moveLength, y: this.flower.component.position.y})
+        // endregion
     }
 
-    blockUpDown()
+    blockUpDown(target)
     {
-        if (this.isBlockCollision)
+        if (this.waitCount < 15)
         {
-            if (this.waitCount < 15)
-            {
-                blocks[this.blockIndex].component.position = 
-                {
-                    x: blocks[this.blockIndex].component.position.x,
-                    y: blocks[this.blockIndex].component.position.y - 2.5
-                }
-            }
-            else
-            {
-                blocks[this.blockIndex].component.position = 
-                {
-                    x: blocks[this.blockIndex].component.position.x,
-                    y: blocks[this.blockIndex].component.position.y + 2.5
-                }
-            }
-            this.waitCount ++
+            this.matter.setBody(target.body, 
+                "position", 
+                {x: target.position.x, y: target.position.y - 2.5})
         }
+        else
+        {
+            this.matter.setBody(target.body, 
+                "position", 
+                {x: target.position.x, y: target.position.y + 2.5})
+        }
+        this.waitCount ++
+
         if (this.waitCount === 30)
         {
             this.isblockQcollision = false
-            this.isblockUVcollision = false
             this.waitCount = 0
+        }
+    }
+    blockDisplay(target, stop)
+    {
+        if (this.count < 15)
+        {
+            this.matter.setBody(target.body, 
+                "position", 
+                {x: target.position.x, y: target.position.y - 5})
+            this.count ++
+        }
+        else
+        {
+            this.count = 0
+            this.isflower = false
         }
     }
     block_Prompt_Drop()
@@ -761,16 +801,21 @@ class Level2 extends Framework.Level
     }
     update() 
     {
-        //判斷是否觸發開關
+        // region判斷是否觸發開關
         if(!this.isSwitchOn && this.switchOff.position.x <= 520 && this.switchOff.position.x >= 410 && this.hero.component.position.y >= 720)
         {
             this.switchOn.position = {x: this.switchOff.position.x, y: this.switchOff.position.y}
             this.switchOff.position = {x: -100, y: -100}
             this.isSwitchOn = true
         }
+        // endregion
 
-        this.blockUpDown()  // 方塊上下移動
         
+        if (this.isblockQcollision)
+        {
+            this.blockUpDown(this.BlockQs[this.blockIndex].component)  // 方塊上下移動
+        }
+
         // 判斷block_Promp是否向下掉落並執行
         this.block_Prompt_Drop()
 
@@ -781,15 +826,21 @@ class Level2 extends Framework.Level
         }
         //#endregion
 
+        // region 花朵出現
+        if (this.isflower && !this.isblockQcollision)
+        {
+            console.log('flower')
+            this.blockDisplay(this.flower.component, this.isflower)
+        }
+        // endregion
+
         // region block open
         if (this.hero.component.position.y < 480 && this.hero.component.position.y >= 200 && this.floors[31].component.position.x <= 0)
         {
-            console.log('trigger')
             this.blockStart = true
         }
         if (this.blockStart && !this.blockStop)
         {
-            console.log('start move')
             this.blockOpen()
         }
         // endregion
@@ -1058,11 +1109,31 @@ class Level2 extends Framework.Level
         {
             var pair = pairs[i];
 
-            for (var k = 0; k < this.BlockQPos.length; k++)
+            for (var k = 0; k < this.BlockQs.length; k++)
             {
                 if (pair.bodyA === this.BlockQs[k].component.body && pair.bodyB === this.hero.component.body) 
                 {
+                    console.log('k = ' + k)
                     this.hero.isOnFloor = true
+
+                    var blockHalfWidth = this.BlockQs[k].component.sprite.width / 2
+                    if ((this.hero.component.position.y - this.BlockQs[k].component.position.y - this.BlockQs[k].component.sprite.height >= 0) && 
+                        (this.hero.component.position.x >= this.BlockQs[k].component.position.x - blockHalfWidth) && 
+                        (this.hero.component.position.x <= this.BlockQs[k].component.position.x + blockHalfWidth))
+                    {
+                        console.log('true')
+                        this.isblockQcollision = true
+                        this.blockIndex = k
+
+                        if (k === 0)
+                        {
+                            this.Firstflower = true
+                            this.isflower = true
+                            this.matter.setBody(this.flower.component.body, 
+                                "position", 
+                                {x: this.BlockQs[k].component.position.x + 0, y: this.BlockQs[k].component.position.y+10})
+                        }
+                    }
                 }
             }
         }
@@ -1143,6 +1214,13 @@ class Level2 extends Framework.Level
                 y: this.cloud.component.position.y - this.cloud.component.sprite.height / 2 - 13
             }
             this.heroAlive = false
+        }
+        // endregion
+
+        // region collision between hero and flower
+        if (pair.bodyA === this.flower.component.body && pair.bodyB === this.hero.component.body)
+        {
+            // this.heroAlive = false
         }
         // endregion
     }

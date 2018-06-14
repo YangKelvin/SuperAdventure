@@ -14,6 +14,7 @@ Framework.Game.addNewLevel({level1: new Level1()});
 Framework.Game.addNewLevel({level2: new Level2()});
 Framework.Game.addNewLevel({level3Test: new Level3()});
 
+
 Framework.Game.addNewLevel({dieScreen: new DieScreen()});
 Framework.Game.addNewLevel({bag: new Bag()})
 Framework.Game.addNewLevel({recordScreen: new RecordScreen()})
