@@ -1,4 +1,4 @@
-var CheatScreen = Framework.exClass(Framework.GameMainMenu,
+var AboutScreen = Framework.exClass(Framework.GameMainMenu,
     {
         //初始化loadingProgress需要用到的圖片
         initializeProgressResource: function () 
@@ -28,7 +28,7 @@ var CheatScreen = Framework.exClass(Framework.GameMainMenu,
             this.matter = new Framework.Matter() 
 
             this.backYellowGround = new Framework.Sprite(define.imagePath + 'background-yellow.png');
-            this.backGround = new Framework.Sprite(define.imagePath + 'background-CheatScreen.png');
+            this.backGround = new Framework.Sprite(define.imagePath + 'background-AboutScreen.png');
             // this.bagTitle = new Framework.Sprite(define.imagePath + 'bagTitlepic.png');
             
             this.lv1_clear = new Framework.Sprite(define.imagePath + 'clear.png');
@@ -68,28 +68,6 @@ var CheatScreen = Framework.exClass(Framework.GameMainMenu,
             this.txt_KeyboardSwordCount._height = 0
             this.txt_KeyboardSwordCount._fontColor = 'black'
             this.txt_KeyboardSwordCount.position = {x:590, y:610}
-            
-
-            this.cameraPos = {x:200, y:930}
-
-            this.cameraOps = 
-            {
-                label: 'camera', 
-                friction: 0.05, 
-                // frictionAir: 99999,
-                density:0.002,
-                // isStatic: true
-            }
-
-            this.camera = new Camera('images/brickWall.png',
-                                            this.matter,
-                                            this.cameraOps,
-                                            this.cameraPos
-            )
-
-            this.camera.load()
-            this.camera.initialize()
-            this.rootScene.attach(this.camera.pic)
         },
 
 
@@ -126,125 +104,15 @@ var CheatScreen = Framework.exClass(Framework.GameMainMenu,
             
             //#endregion
             
-            this.rootScene.attach(this.lv1_clear)
-            this.rootScene.attach(this.lv1_unclear)
-            this.rootScene.attach(this.lv2_clear)
-            this.rootScene.attach(this.lv2_unclear)
-            this.rootScene.attach(this.lv3_clear)
-            this.rootScene.attach(this.lv3_unclear)
-
-            this.rootScene.attach(this.txt_GoldSwordCount)
-            this.rootScene.attach(this.txt_GoldSwordAtk)
-            this.rootScene.attach(this.txt_KeyboardSwordAtk)
-            this.rootScene.attach(this.txt_KeyboardSwordCount)
         },
 
         update: function () {
             //this.rootScene.update();一定要在第一行
             
-            this.txt_GoldSwordAtk._value = Framework.Game.goldSwordAtk
-            this.txt_GoldSwordCount._value = Framework.Game.goldSwordCount
-            this.txt_KeyboardSwordAtk._text = Framework.Game.keyboardAtk
-            this.txt_KeyboardSwordCount._text = Framework.Game.keyboardCount
 
-
-            console.log(this.txt_GoldSwordAtk._value)
             //目前的Framework, 當任何一個GameObject不做attach時, 則必須要自行update
 
-            //#region level clear or not
-            // console.log(Framework.Game.items)
-            
-            //#region level1
-            if (Framework.Game.items[0].item === true)
-            {
-                this.lv1_clear.position = 
-                {
-                    x:520,
-                    y:180
-                }
-                this.lv1_unclear.position = 
-                {
-                    x:-200,
-                    y:-200
-                }
-            }
-            else
-            {
-                this.lv1_clear.position = 
-                {
-                    x:-200,
-                    y:-200
-                }
-                this.lv1_unclear.position = 
-                {
-                    x:520,
-                    y:180
-                }
-            }
-            //#endregion
-
-            //#region level2
-            if (Framework.Game.items[1].item === true)
-            {
-                this.lv2_clear.position = 
-                {
-                    x:520,
-                    y:240
-                }
-                this.lv2_unclear.position = 
-                {
-                    x:-200,
-                    y:-200
-                }
-            }
-            else
-            {
-                this.lv2_clear.position = 
-                {
-                    x:-200,
-                    y:-200
-                }
-                this.lv2_unclear.position = 
-                {
-                    x:520,
-                    y:240
-                }
-            }
-            //#endregion
-
-            //#region level3
-            if (Framework.Game.items[2].item === true)
-            {
-                this.lv3_clear.position = 
-                {
-                    x:520,
-                    y:300
-                }
-                this.lv3_unclear.position = 
-                {
-                    x:-200,
-                    y:-200
-                }
-            }
-            else
-            {
-                this.lv3_clear.position = 
-                {
-                    x:-200,
-                    y:-200
-                }
-                this.lv3_unclear.position = 
-                {
-                    x:520,
-                    y:300
-                }
-            }
-            //#endregion
-            //#endregion
-
             this.rootScene.update()
-            this.matter.update()
-            this.camera.update()
         },
 
         draw: function (parentCtx) {

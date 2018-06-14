@@ -1,4 +1,4 @@
-var CheatScreen = Framework.exClass(Framework.GameMainMenu,
+var InstructionScreen = Framework.exClass(Framework.GameMainMenu,
     {
         //初始化loadingProgress需要用到的圖片
         initializeProgressResource: function () 
@@ -28,7 +28,7 @@ var CheatScreen = Framework.exClass(Framework.GameMainMenu,
             this.matter = new Framework.Matter() 
 
             this.backYellowGround = new Framework.Sprite(define.imagePath + 'background-yellow.png');
-            this.backGround = new Framework.Sprite(define.imagePath + 'background-CheatScreen.png');
+            this.backGround = new Framework.Sprite(define.imagePath + 'background-InstructionScreen.png');
             // this.bagTitle = new Framework.Sprite(define.imagePath + 'bagTitlepic.png');
             
             this.lv1_clear = new Framework.Sprite(define.imagePath + 'clear.png');
@@ -126,17 +126,6 @@ var CheatScreen = Framework.exClass(Framework.GameMainMenu,
             
             //#endregion
             
-            this.rootScene.attach(this.lv1_clear)
-            this.rootScene.attach(this.lv1_unclear)
-            this.rootScene.attach(this.lv2_clear)
-            this.rootScene.attach(this.lv2_unclear)
-            this.rootScene.attach(this.lv3_clear)
-            this.rootScene.attach(this.lv3_unclear)
-
-            this.rootScene.attach(this.txt_GoldSwordCount)
-            this.rootScene.attach(this.txt_GoldSwordAtk)
-            this.rootScene.attach(this.txt_KeyboardSwordAtk)
-            this.rootScene.attach(this.txt_KeyboardSwordCount)
         },
 
         update: function () {
