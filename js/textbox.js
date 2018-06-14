@@ -42,7 +42,7 @@ class Textbox
 
     addScore(score)
     {
-        this._value += _value;
+        this._value += score;
     }
 
     resetValue()

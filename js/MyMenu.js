@@ -31,7 +31,7 @@ var MyMenu = Framework.exClass(Framework.GameMainMenu,
             this.startSign = new Framework.Sprite(define.imagePath + 'btn-start.png')
             this.aboutSigh = new Framework.Sprite(define.imagePath + 'btn-about.png')
             this.cheatSign = new Framework.Sprite(define.imagePath + 'btn-cheat.png')
-            this.settingSign = new Framework.Sprite(define.imagePath + 'btn-setting.png')
+            this.settingSign = new Framework.Sprite(define.imagePath + 'btn-instructions.png')
         },
 
         initialize: function () {
@@ -126,7 +126,7 @@ var MyMenu = Framework.exClass(Framework.GameMainMenu,
                 e.y >= 380 && 
                 e.y <= 570) 
             {
-                // Framework.Game.goToLevel("aboutScreen");
+                Framework.Game.goToLevel("aboutScreen");
             }
             // setting
             if (e.x >= 650 && 
@@ -134,7 +134,7 @@ var MyMenu = Framework.exClass(Framework.GameMainMenu,
                 e.y >= 380 && 
                 e.y <= 570) 
             {
-                // Framework.Game.goToLevel("settingScreen");
+                Framework.Game.goToLevel("instructionScreen");
             }
             // cheat
             if (e.x >= 1030 && 

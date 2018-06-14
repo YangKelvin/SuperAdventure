@@ -10,6 +10,8 @@ Framework.Game.addNewLevel({myMenu: new MyMenu()})
 
 Framework.Game.addNewLevel({chooseLevel: new ChooseLevel()})
 Framework.Game.addNewLevel({cheatScreen: new CheatScreen()})
+Framework.Game.addNewLevel({instructionScreen: new InstructionScreen()})
+Framework.Game.addNewLevel({aboutScreen: new AboutScreen()})
 Framework.Game.addNewLevel({levelTest: new LevelTest()});
 Framework.Game.addNewLevel({level1: new Level1()});
 Framework.Game.addNewLevel({level2: new Level2()});

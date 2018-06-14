@@ -44,6 +44,8 @@ var loadGameEnd;
         { src: 'js/define.js', lookFor: 'define' },
         { src: 'js/myMenu.js', lookFor: 'MyMenu' },
         { src: 'js/CheatScreen.js', lookFor: 'CheatScreen' },
+        { src: 'js/InstructionScreen.js', lookFor: 'InstructionScreen' },
+        { src: 'js/AboutScreen.js', lookFor: 'AboutScreen' },
         { src: 'js/Bag.js', lookFor: 'Bag' },
         { src: 'js/RecordScreen.js', lookFor: 'RecordScreen' },
         { src: 'js/ChooseLevel.js', lookFor: 'ChooseLevel' },

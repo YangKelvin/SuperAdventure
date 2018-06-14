@@ -35,6 +35,11 @@ var Framework = (function (Framework) {
 			{record: 0},
 			{record: 0}
 		]
+		that.goldSwordCount = 0;
+		that.goldSwordAtk = 1;
+		that.keyboardCount = 0;
+		that.keyboardAtk = 1;
+
 
 		that.fps = that._config.fps;
 		that.canvasWidth = that._config.canvasWidth;
