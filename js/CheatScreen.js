@@ -141,12 +141,11 @@ var CheatScreen = Framework.exClass(Framework.GameMainMenu,
 
         update: function () {
             //this.rootScene.update();一定要在第一行
-            
+            console.log()
             this.txt_GoldSwordAtk._value = Framework.Game.goldSwordAtk
             this.txt_GoldSwordCount._value = Framework.Game.goldSwordCount
             this.txt_KeyboardSwordAtk._text = Framework.Game.keyboardAtk
             this.txt_KeyboardSwordCount._text = Framework.Game.keyboardCount
-
 
             console.log(this.txt_GoldSwordAtk._value)
             //目前的Framework, 當任何一個GameObject不做attach時, 則必須要自行update
@@ -308,7 +307,7 @@ var CheatScreen = Framework.exClass(Framework.GameMainMenu,
                 e.y <= 455 && Framework.Game.goldSwordAtk < 100)
             {
                 Framework.Game.goldSwordAtk += 5
-                console.log('goldSwordAtk += 5')
+                console.log('goldSwordAtk += 5 : ' + Framework.Game.goldSwordAtk)
             }
             else if (e.x >= 780 && 
                 e.x <= 820 && 

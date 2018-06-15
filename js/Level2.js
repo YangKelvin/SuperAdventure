@@ -1108,7 +1108,7 @@ class Level2 extends Framework.Level
         {
             Framework.Game._goToLevelIs = ""
             Framework.Game.goToLevel("chooseLevel");
-            Framework.Game._levels.splice(3,1,{name : "level2", level : new Level2()})
+            Framework.Game._levels.splice(7,1,{name : "level2", level : new Level2()})
             Framework.Game.userIQ = 250
         }
     }
