@@ -32,15 +32,15 @@ class Level3 extends Framework.Level
 
 
 
-        this.goldSwordBag = 100
+        this.goldSwordBag = Framework.Game.goldSwordCount
         this.goldSwords = new Array()
         this.goldSwordCount = 0
-        this.goldSwordDamage = 1
+        this.goldSwordDamage = Framework.Game.goldSwordAtk
         
-        this.keyboradBag = 100
+        this.keyboradBag = Framework.Game.keyboardCount
         this.keyborads = new Array()
         this.keyboardCount = 0
-        this.keyboardDamage = 1
+        this.keyboardDamage = Framework.Game.keyboardAtk
 
     }
     sleep(milliseconds) 
@@ -58,7 +58,7 @@ class Level3 extends Framework.Level
     {
         // 重置 levelTest
         this.sleep(1000);
-        Framework.Game._levels.splice(0,1,{name : "level3", level : new Level1()})
+        Framework.Game._levels.splice(8,1,{name : "level3", level : new Level1()})
         Framework.Game.userIQ -= 50
         Framework.Game._goToLevelIs = "level3"
         
@@ -140,6 +140,15 @@ class Level3 extends Framework.Level
 
         this.hero.animationStand()
         this.rootScene.attach(this.hero.sprite)
+    }    
+    loadBossHP()
+    {
+        this.bossHPShow = new Textbox()
+        this.bossHPShow._height = 25
+        this.bossHPShow._fillStyle = 'red'
+        this.bossHPShow._value = ''
+        this.bossHPShow.position = {x:1110, y:100}
+        this.rootScene.attach(this.bossHPShow)
     }
     
     loadBoss()
@@ -150,7 +159,7 @@ class Level3 extends Framework.Level
         }
         this.bossPos = 
         {
-            label: 'block', 
+            label: 'boss', 
             friction: 0.05, 
             density:0.002, 
             // isStatic:true
@@ -313,6 +322,8 @@ class Level3 extends Framework.Level
             haha: {wav: 'music/haha.wav'}
         })
     }
+
+
     //#endregion
     loadMap()
     {
@@ -403,6 +414,7 @@ class Level3 extends Framework.Level
         this.loadBoss()
         this.loadPic()
         this.loadCamera()
+        this.loadBossHP()
         // 載入 collision
         this.matter.addEventListener("collisionStart",(this.collisionBlocks))
         console.log("Level3 Start")
@@ -417,11 +429,17 @@ class Level3 extends Framework.Level
     {
         this.matter.setBody(weapon.component.body, 
             "position", 
-            {x: weapon.component.position.x + speed, y: weapon.component.position.y})
+            {x: weapon.component.position.x + speed, y: weapon.component.initPosition.y + 10})
+        if (weapon.component.position.x >= 1000)
+        {
+            weapon.pic = null
+        }
     }
     update() 
     {
-        console.log(this.camera.component.position)
+        // bossHP
+        this.bossHPShow._width = this.bossHP * 4
+
         for	(var i = 0; i < this.goldSwords.length; i++)
         {
             this.shoot(this.goldSwords[i],10)
@@ -462,7 +480,6 @@ class Level3 extends Framework.Level
             {
                 if(this.walkDirection === 1)
                 {
-                    console.log("go right")
                     this.hero.goRight()
                 }
                 else if(this.walkDirection === 2)
@@ -532,7 +549,7 @@ class Level3 extends Framework.Level
         {
             Framework.Game._goToLevelIs = ""
             Framework.Game.goToLevel("chooseLevel");
-            Framework.Game._levels.splice(0,1,{name : "level3", level : new Level3()})
+            Framework.Game._levels.splice(8,1,{name : "level3", level : new Level3()})
             Framework.Game.userIQ = 250
         }
     }
@@ -578,7 +595,7 @@ class Level3 extends Framework.Level
                         /*sword-block*/
                         new block('images/weapon-goldSword.png',
                                     this.matter,
-                                    {label:'gold-sword', friction:0.05, density: 0.002, isStatic: true}
+                                    {label:'gold-sword', friction:0.05, density: 0.002, isStatic: false}
                                 )
                     )
                     // console.log(this.goldSwords)
@@ -590,6 +607,10 @@ class Level3 extends Framework.Level
                         x: this.hero.component.position.x + 40,
                         y: this.hero.component.position.y -20
                     }
+
+                    this.goldSwords[this.goldSwordCount-1].component.initPosition = this.goldSwords[this.goldSwordCount-1].component.position
+
+                    
                     this.rootScene.attach(this.goldSwords[this.goldSwordCount-1])
                 }
             }
@@ -635,18 +656,19 @@ class Level3 extends Framework.Level
     
     collisionStart(event)
     {
+        console.log("A")
         var pairs = event.pairs
 
         // #region collision between hero and floor 
         for (var i = 0, j = pairs.length; i != j; ++i) 
         {
             var pair = pairs[i];
-
             for (var k = 0; k < this.blocksPos.length; k++)
             {
                 if (pair.bodyA === this.blocks[k].component.body && pair.bodyB === this.hero.component.body) 
                 {
                     this.hero.isOnFloor = true
+                    // console.log("A")
                 } 
                 else if (pair.bodyA === this.hero.component.body || pair.bodyB === this.hero.component.body)
                 {
@@ -656,8 +678,40 @@ class Level3 extends Framework.Level
         }
         //#endregion
 
-        //#region 
-        
+        //#region boss & hero 
+        for (var i = 0, j = pairs.length; i != j; ++i) 
+        {
+            var pair = pairs[i];
+            if (pair.bodyA === this.boss.component.body && pair.bodyB === this.hero.component.body) 
+            {
+                console.log("The End because of boss")
+                // this.heroDie()
+            }
+        }
         //#endregion
+
+        //#region boss & weapon
+        for (var i = 0, j = pairs.length; i != j; ++i) 
+        {
+            var pair = pairs[i];
+            for (var k = 0; k < this.goldSwords.length; k++)
+            {
+                if (pair.bodyA === this.goldSwords[k].component.body && pair.bodyB === this.boss.component.body) 
+                {
+                    // console.log("A")
+                    this.goldSwords[k].pic = null
+                    this.matter.removeBody(this.goldSwords[k].component.body)
+                } 
+                else if (pair.bodyA === this.boss.component.body && pair.bodyB === this.goldSwords[k].component.body)
+                {
+                    console.log("boss Atk")
+                    this.goldSwords[k].pic = null
+                    this.matter.removeBody(this.goldSwords[k].component.body)
+                    this.bossHP -= this.goldSwordDamage
+                }
+            }
+        }
+        //#endregion
+        
     }
 };

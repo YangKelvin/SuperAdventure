@@ -86,7 +86,7 @@ class Level1 extends Framework.Level
     {
         // 重置 levelTest
         this.sleep(1000);
-        Framework.Game._levels.splice(2,1,{name : "level1", level : new Level1()})
+        Framework.Game._levels.splice(6,1,{name : "level1", level : new Level1()})
         Framework.Game.userIQ -= 50
         Framework.Game._goToLevelIs = "level1"
         
@@ -1098,7 +1098,7 @@ class Level1 extends Framework.Level
         {
             Framework.Game._goToLevelIs = ""
             Framework.Game.goToLevel("chooseLevel");
-            Framework.Game._levels.splice(2,1,{name : "level1", level : new Level1()})
+            Framework.Game._levels.splice(6,1,{name : "level1", level : new Level1()})
             Framework.Game.userIQ = 250
         }
     }
@@ -1403,7 +1403,7 @@ class Level1 extends Framework.Level
 
             Framework.Game.items[0].item = true
             Framework.Game.goToLevel("chooseLevel");
-            Framework.Game._levels.splice(2,1,{name : "level1", level : new Level1()})
+            Framework.Game._levels.splice(6,1,{name : "level1", level : new Level1()})
         }
         //#endregion
     }
