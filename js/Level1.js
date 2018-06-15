@@ -1329,12 +1329,7 @@ class Level1 extends Framework.Level
                         this.UDIEs[k].component.position = this.tempPos
                         this.rootScene.attach(this.UDIEs[k])
                     }
-                } 
-                else if (pair.bodyA === this.hero.component.body || pair.bodyB === this.hero.component.body)
-                {
-                    // console.log("No Collision")
                 }
-                
             }
         }
 

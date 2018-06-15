@@ -6,6 +6,7 @@ class block
         this.matter = _matter
         this.url = _url
         this.blockOps = _blockOps
+        this.isUVshow = false
     }
 
     load()
