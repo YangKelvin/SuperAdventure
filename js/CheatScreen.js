@@ -70,26 +70,8 @@ var CheatScreen = Framework.exClass(Framework.GameMainMenu,
             this.txt_KeyboardSwordCount.position = {x:590, y:610}
             
 
-            this.cameraPos = {x:200, y:930}
-
-            this.cameraOps = 
-            {
-                label: 'camera', 
-                friction: 0.05, 
-                // frictionAir: 99999,
-                density:0.002,
-                // isStatic: true
-            }
-
-            this.camera = new Camera('images/brickWall.png',
-                                            this.matter,
-                                            this.cameraOps,
-                                            this.cameraPos
-            )
-
-            this.camera.load()
-            this.camera.initialize()
-            this.rootScene.attach(this.camera.pic)
+            this.trigger = new Framework.Sprite('images/blockQ.png')
+            this.trigger.position = {x:-100, y:-100}
         },
 
 
@@ -137,11 +119,15 @@ var CheatScreen = Framework.exClass(Framework.GameMainMenu,
             this.rootScene.attach(this.txt_GoldSwordAtk)
             this.rootScene.attach(this.txt_KeyboardSwordAtk)
             this.rootScene.attach(this.txt_KeyboardSwordCount)
+
+            this.rootScene.attach(this.trigger)
         },
 
         update: function () {
-            //this.rootScene.update();一定要在第一行
-            
+            var game = this;
+            this.rootScene.update(); // 一定要在第一行
+            this.trigger.position.x += 1
+            console.log(this.trigger.position)
             this.txt_GoldSwordAtk._value = Framework.Game.goldSwordAtk
             this.txt_GoldSwordCount._value = Framework.Game.goldSwordCount
             this.txt_KeyboardSwordAtk._text = Framework.Game.keyboardAtk
@@ -243,8 +229,6 @@ var CheatScreen = Framework.exClass(Framework.GameMainMenu,
             //#endregion
 
             this.rootScene.update()
-            this.matter.update()
-            this.camera.update()
         },
 
         draw: function (parentCtx) {
