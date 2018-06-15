@@ -35,9 +35,9 @@ var Framework = (function (Framework) {
 			{record: 0},
 			{record: 0}
 		]
-		that.goldSwordCount = 0;
+		that.goldSwordCount = 100;
 		that.goldSwordAtk = 1;
-		that.keyboardCount = 0;
+		that.keyboardCount = 100;
 		that.keyboardAtk = 1;
 
 
