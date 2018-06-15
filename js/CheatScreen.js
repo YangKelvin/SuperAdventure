@@ -133,6 +133,7 @@ var CheatScreen = Framework.exClass(Framework.GameMainMenu,
             this.txt_KeyboardSwordAtk._text = Framework.Game.keyboardAtk
             this.txt_KeyboardSwordCount._text = Framework.Game.keyboardCount
 
+            
             console.log(this.txt_GoldSwordAtk._value)
             //目前的Framework, 當任何一個GameObject不做attach時, 則必須要自行update
 
