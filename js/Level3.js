@@ -36,7 +36,6 @@ class Level3 extends Framework.Level
         this.goldSwords = new Array()
         this.goldSwordCount = 0
         this.goldSwordDamage = Framework.Game.goldSwordAtk
-        
         this.keyboradBag = Framework.Game.keyboardCount
         this.keyborads = new Array()
         this.keyboardCount = 0
@@ -418,6 +417,7 @@ class Level3 extends Framework.Level
         // 載入 collision
         this.matter.addEventListener("collisionStart",(this.collisionBlocks))
         console.log("Level3 Start")
+        console.log('this.goldSWDamage = ' + this.goldSwordDamage)
     }
 
     initialize() 
