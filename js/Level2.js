@@ -763,7 +763,6 @@ class Level2 extends Framework.Level
         }
         // endregion
     }
-
     blockUpDown(target)
     {
         if (this.waitCount < 10)
@@ -861,26 +860,26 @@ class Level2 extends Framework.Level
     }
     update() 
     {
-        // region判斷是否觸發開關
+        // #region 判斷是否觸發開關
         if(!this.isSwitchOn && this.switchOff.position.x <= 520 && this.switchOff.position.x >= 410 && this.hero.component.position.y >= 720)
         {
             this.switchOn.position = {x: this.switchOff.position.x, y: this.switchOff.position.y}
             this.switchOff.position = {x: -100, y: -100}
             this.isSwitchOn = true
         }
-        // endregion
+        // #endregion
 
-        // region 如果撞到Q方塊，Q方塊上下移動
+        // #region 如果撞到Q方塊，Q方塊上下移動
         if (this.isblockQcollision)
         {
             this.blockUpDown(this.BlockQs[this.blockIndex].component)  // 方塊上下移動
         }
-        // endregion
+        // #endregion
 
         // 判斷block_Promp是否向下掉落並執行
         this.block_Prompt_Drop()
 
-        // region 地板掉落陷阱是否觸發
+        // #region 地板掉落陷阱是否觸發
         if (this.isBreakDown && !this.isBreakDown_stop)
         {
             for(var i = 25; i < 28; i++)
@@ -894,9 +893,9 @@ class Level2 extends Framework.Level
                 this.isBreakDown_stop = true
             }
         }
-        //endregion
+        // #endregion
 
-        // region 火箭攻擊
+        // #region 火箭攻擊
         if (this.hero.component.position.x >= this.floors[33].component.position.x)
         {
             this.isRocket = true
@@ -905,9 +904,9 @@ class Level2 extends Framework.Level
         {
             this.RocketAttack()
         }
-        // endregion
+        // #endregion
 
-        // region 巨臉攻擊
+        // #region 巨臉攻擊
         if (this.isRocket_stop && this.hero.component.position.x >= this.floors[33].component.position.x)
         {
             this.isBigFace = true
@@ -916,7 +915,7 @@ class Level2 extends Framework.Level
         {
             this.BigFaceAttack()
         }
-        // endregion
+        // #endregion
 
         //#region hero die condition
         if (this.hero.component.position.y > 1000)
@@ -925,7 +924,7 @@ class Level2 extends Framework.Level
         }
         //#endregion
 
-        // region 花朵出現
+        // #region 花朵出現
         if (this.isflower && !this.isblockQcollision && !this.flower_stop)
         {
             if (this.Firstflower && this.isflower)
@@ -937,9 +936,9 @@ class Level2 extends Framework.Level
             }
             this.blockDisplay(this.flower.component)
         }
-        // endregion
+        // #endregion
 
-        // region block open
+        // #region block open
         if (this.hero.component.position.y < 480 && this.hero.component.position.y >= 200 && this.floors[31].component.position.x <= 0)
         {
             this.blockStart = true
@@ -948,9 +947,9 @@ class Level2 extends Framework.Level
         {
             this.blockOpen()
         }
-        // endregion
+        // #endregion
 
-        //#region judge hero die or not
+        // #region judge hero die or not
         if(this.heroAlive === false)
         {
             console.log("this.heroAlive = flase")
@@ -967,76 +966,178 @@ class Level2 extends Framework.Level
             this.dieUpdateCount = 0
             this.heroDie()
         }
-        //#endregion
+        // #endregion
         
         //#region hero move & map move(new)
 
+        // if (this.isPress || this.isJump)
+        // {
+        //     if (this.isPressWalk)
+        //     {
+        //         let moveLength = 0
+        //         if (this.walkDirection === 1)
+        //         {
+        //             moveLength = -5
+        //             // go right
+        //             if (this.hero.component.position.x < 500)
+        //             {
+        //                 this.hero.goRight()
+        //             }
+        //             else if (this.floors[this.floors.length - 1].component.position.x <= 1570)
+        //             {
+        //                 this.hero.goRight()
+        //             }
+        //             else 
+        //             {
+        //                 this.hero.component.position.x = 502
+        //                 this.moveMap(moveLength)
+        //             }
+        //         }
+        //         else if (this.walkDirection === 2)
+        //         {
+        //             // go left
+        //             if (this.hero.component.position.x > 50)    //讓hero.position不會小於70
+        //             {
+        //                 if (this.floors[0].component.position.x === 35 || this.floors[this.floors.length - 1].component.position.x <= 1570)   // 如果第一個方塊的位置正確
+        //                 {
+        //                     if (this.floors[0].component.position.x === 35 && this.hero.component.position.x <= 502)
+        //                     {
+        //                         this.hero.goLeft()
+        //                     }
+        //                     // 
+        //                     else if (this.floors[this.floors.length - 1].component.position.x <= 1570 && this.hero.component.position.x <= 502)
+        //                     {
+        //                         console.log("A")
+        //                         this.moveMap(5)
+        //                         this.hero.component.position.x = 502
+        //                     }
+        //                     else if (this.floors[this.floors.length - 1].component.position.x <= 1570 && this.hero.component.position.x > 502)
+        //                     {
+        //                         this.hero.goLeft()
+        //                     }
+        //                 }
+                        
+        //                 else
+        //                 {
+        //                     if (this.hero.component.position.x >= 504)
+        //                     {
+        //                         this.matter.setBody(this.hero.component.body, 
+        //                             "position", 
+        //                             {x: this.hero.component.position.x, y:this.hero.component.position.y})
+        //                     }
+        //                     else if (this.hero.component.position.x < 504)
+        //                     {
+                                
+        //                         this.moveMap(5)
+        //                     }
+                            
+        //                 }
+        //             } 
+        //         }
+        //     }
+
+        //     if(this.isJump && this.hero.isOnFloor)
+        //     {
+        //         this.hero.jump()
+        //         this.hero.isOnFloor = false
+        //     }
+        //     this.lockHeroPosx = this.hero.component.position.x
+        // }
+        //#endregion    
+
+        //#region hero move (v2)
+        // 分三區域 
+        // 第一區：角色在地圖左邊 且 不需移動地圖
+        // 第二區：角色在中間（控制地圖整體往左 or 往右）
+        // 第三區：角色在地圖右邊 且 不需移動地圖
+
         if (this.isPress || this.isJump)
         {
-            if (this.isPressWalk)
+            //#region area 1
+            if (this.floors[0].component.position.x >= 0 && this.hero.component.position.x < 510)
             {
-                let moveLength = 0
-                if (this.walkDirection === 1)
+                
+                if (this.walkDirection === 1)   // 往右
                 {
-                    moveLength = -5
-                    // go right
                     if (this.hero.component.position.x < 500)
                     {
                         this.hero.goRight()
                     }
-                    else if (this.floors[this.floors.length - 1].component.position.x <= 1570)
+                    else
                     {
-                        this.hero.goRight()
-                    }
-                    else 
-                    {
-                        this.hero.component.position.x = 502
-                        this.moveMap(moveLength)
+                        this.moveMap(-5)
                     }
                 }
-                else if (this.walkDirection === 2)
+    
+                if (this.walkDirection === 2)   // 往左
                 {
-                    // go left
-                    if (this.hero.component.position.x > 50)    //讓hero.position不會小於70
+                    if (this.hero.component.position.x > 50)    // 設定 hero 往左移動的邊界
                     {
-                        if (this.floors[0].component.position.x === 35 || this.floors[this.floors.length - 1].component.position.x <= 1570)   // 如果第一個方塊的位置正確
+                        if (this.hero.component.position.x < 510)
                         {
-                            if (this.floors[0].component.position.x === 35 && this.hero.component.position.x <= 502)
-                            {
-                                this.hero.goLeft()
-                            }
-                            // 
-                            else if (this.floors[this.floors.length - 1].component.position.x <= 1570 && this.hero.component.position.x <= 502)
-                            {
-                                console.log("A")
-                                this.moveMap(5)
-                                this.hero.component.position.x = 502
-                            }
-                            else if (this.floors[this.floors.length - 1].component.position.x <= 1570 && this.hero.component.position.x > 502)
-                            {
-                                this.hero.goLeft()
-                            }
+                            this.hero.goLeft()
                         }
-                        
                         else
                         {
-                            if (this.hero.component.position.x >= 504)
-                            {
-                                this.matter.setBody(this.hero.component.body, 
-                                    "position", 
-                                    {x: this.hero.component.position.x, y:this.hero.component.position.y})
-                            }
-                            else if (this.hero.component.position.x < 504)
-                            {
-                                
-                                this.moveMap(5)
-                            }
-                            
+                            // this.moveMap(-5)
                         }
-                    } 
+                    }
                 }
-                this.lockHeroPosx = this.hero.component.position.x
             }
+            //#endregion
+
+            //#region area 2
+            if (this.floors[0].component.position.x < 0 && this.floors[this.floors.length - 1].component.position.x >= 1570)
+            {
+                if (this.walkDirection === 1)   // 往右
+                {
+                    this.hero.goRight()
+                    if (this.hero.component.position.x >= 502)
+                    {
+                        this.moveMap(-5)
+                        this.matter.setBody(this.hero.component.body, 
+                            "position", 
+                            {x: this.hero.component.position.x - 5, y: this.hero.component.position.y})   
+                    }
+                }
+    
+                if (this.walkDirection === 2)   // 往左
+                {
+                    this.hero.goLeft()
+                    if (this.hero.component.position.x <= 502)
+                    {
+                        this.moveMap(5)
+                        this.matter.setBody(this.hero.component.body, 
+                            "position", 
+                            {x: this.hero.component.position.x + 5, y: this.hero.component.position.y})   
+                    }
+                }
+            }
+            //#endregion
+            
+            //#region area 3
+            if (this.floors[this.floors.length - 1].component.position.x < 1570)
+            {
+                if (this.walkDirection === 1)   // 往右
+                {
+                    this.hero.goRight()
+                }
+    
+                if (this.walkDirection === 2)   // 往左
+                {
+                    if (this.hero.component.position.x <= 502)
+                    {
+                        this.moveMap(5)
+                    }
+                    else
+                    {
+                        this.hero.goLeft()
+                    }
+                }
+            }
+            //#endregion
+            
+            this.lockHeroPosx = this.hero.component.position.x
 
             if(this.isJump && this.hero.isOnFloor)
             {
@@ -1044,7 +1145,7 @@ class Level2 extends Framework.Level
                 this.hero.isOnFloor = false
             }
         }
-        //#endregion    
+        //#endregion
 
         //#region 防止英雄滑落
         if (this.startLockHeroPos)

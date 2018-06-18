@@ -30,6 +30,7 @@ class Level1 extends Framework.Level
         this.startLockHeroPos = false   
         this.lockHeroPos
         this.lockHeroPosx
+        this.lockHeroPosy
         
         // blockQ collision
         this.isblockQcollision = false
@@ -247,7 +248,7 @@ class Level1 extends Framework.Level
                 //test
                 // {x: 280, y: 710},
                 // ground
-                {x: 0, y: 780},
+                {x: 0, y: 780},     // 最左邊的方塊
                 {x: 70, y: 780},
                 {x: 140, y: 780},
                 {x: 210, y: 780},
@@ -256,23 +257,19 @@ class Level1 extends Framework.Level
                 {x: 420, y: 780},
                 {x: 490, y: 780},
                 {x: 560, y: 780},
-                {x: 630, y: 780},
+                {x: 630, y: 780},  // 10
                 {x: 700, y: 780},
                 {x: 770, y: 780},
                 {x: 840, y: 780},
                 {x: 910, y: 780},
                 
-                // {x: 980, y: 780},
-                // {x: 1050, y: 780},
-                // {x: 1120, y: 780},
-                // {x: 1190, y: 780},
 
                 {x: 1330, y: 780},
                 {x: 1400, y: 780},
                 {x: 1470, y: 780},
                 {x: 1540, y: 780},
                 {x: 1610, y: 780},
-                {x: 1680, y: 780},
+                {x: 1680, y: 780},  // 20
 
                 //平台開始
                 {x: 1680, y: 500}, //20
@@ -319,7 +316,7 @@ class Level1 extends Framework.Level
                 {x: 4060, y: 780},
                 {x: 4130, y: 780},
                 {x: 4200, y: 780},
-                {x: 4270, y: 780},
+                {x: 4270, y: 780},  // 最右邊的方塊
             ]
         
         this.floorOps = 
@@ -969,82 +966,202 @@ class Level1 extends Framework.Level
         }
         //#endregion
         
-        //#region hero move & map move(new)
+        //#region hero move & map move(v1)
+        // if (this.isPress || this.isJump)
+        // {
+        //     if (this.isPressWalk)
+        //     {
+        //         let moveLength = 0
+        //         if (this.walkDirection === 1)
+        //         {
+        //             moveLength = -5
+        //             // go right
+        //             // 在地圖 "左邊區域"
+        //             if (this.hero.component.position.x < 500)
+        //             {
+        //                 this.hero.goRight()
+        //             }
+        //             // 在地圖 "右邊區域"
+        //             else if (this.floors[this.floors.length - 1].component.position.x <= 1570)
+        //             {
+        //                 this.hero.goRight()
+        //             }
+        //             else 
+        //             {
+        //                 this.hero.component.position.x = 502
+        //                 this.moveMap(moveLength)
+        //             }
+        //         }
+        //         else if (this.walkDirection === 2)
+        //         {
+        //             // go left
+        //             if (this.hero.component.position.x > 50)    //讓hero.position不會小於70
+        //             {
+        //                 if (this.floors[0].component.position.x === 35 || this.floors[this.floors.length - 1].component.position.x <= 1570)   // 如果第一個方塊的位置正確
+        //                 {
+        //                     if (this.floors[0].component.position.x === 35 && this.hero.component.position.x <= 550)
+        //                     {
+        //                         this.hero.goLeft()
+        //                     }
+        //                     // 
+        //                     else if (this.floors[this.floors.length - 1].component.position.x <= 1570 && this.hero.component.position.x <= 550)
+        //                     {
+        //                         console.log("A")
+        //                         this.moveMap(5)
+        //                         this.hero.component.position.x = 502
+        //                     }
+        //                     else if (this.floors[this.floors.length - 1].component.position.x <= 1570 && this.hero.component.position.x > 550)
+        //                     {
+        //                         this.hero.goLeft()
+        //                     }
+        //                 }
+                        
+        //                 else
+        //                 {
+        //                     if (this.hero.component.position.x >= 550)
+        //                     {
+        //                         this.matter.setBody(this.hero.component.body, 
+        //                             "position", 
+        //                             {x: this.hero.component.position.x, y:this.hero.component.position.y})
+        //                     }
+        //                     else if (this.hero.component.position.x < 550)
+        //                     {
+                                
+        //                         this.moveMap(5)
+        //                     }
+                            
+        //                 }
+        //             } 
+        //         }
+        //     }
+
+        //     if(this.isJump && this.hero.isOnFloor)
+        //     {
+        //         this.hero.jump()
+        //         this.hero.isOnFloor = false
+        //     }
+        //     this.lockHeroPosx = this.hero.component.position.x
+        // }
+
+        // fix move
+        // if (true)
+        // {
+        //     console.log('0fix hero position = 502')
+        //     if (this.floors[0].component.position.x < 10 )
+        //     {
+        //         console.log('1fix hero position = 502')
+        //         this.hero.component.position.x = 502
+        //         // let tempPosition = {x:502, y:this.hero.component.position.heroInfoY}
+        //         // this.matter.setBody(this.hero.component.body, 
+        //         //     "position", 
+        //         //     {x: 0, y: 0})
+        //         console.log('2fix hero position = 502')
+        //     }
+        // }
+        //#endregion    
+
+        //#region hero move (v2)
+        // 分三區域 
+        // 第一區：角色在地圖左邊 且 不需移動地圖
+        // 第二區：角色在中間（控制地圖整體往左 or 往右）
+        // 第三區：角色在地圖右邊 且 不需移動地圖
+
         if (this.isPress || this.isJump)
         {
-            if (this.isPressWalk)
+            //#region area 1
+            if (this.floors[0].component.position.x >= 0 && this.hero.component.position.x < 510)
             {
-                let moveLength = 0
-                if (this.walkDirection === 1)
+                
+                if (this.walkDirection === 1)   // 往右
                 {
-                    moveLength = -5
-                    // go right
                     if (this.hero.component.position.x < 500)
                     {
                         this.hero.goRight()
                     }
-                    else if (this.floors[this.floors.length - 1].component.position.x <= 1570)
+                    else
                     {
-                        this.hero.goRight()
-                    }
-                    else 
-                    {
-                        this.hero.component.position.x = 502
-                        this.moveMap(moveLength)
+                        this.moveMap(-5)
                     }
                 }
-                else if (this.walkDirection === 2)
+    
+                if (this.walkDirection === 2)   // 往左
                 {
-                    // go left
-                    if (this.hero.component.position.x > 50)    //讓hero.position不會小於70
+                    if (this.hero.component.position.x > 50)    // 設定 hero 往左移動的邊界
                     {
-                        if (this.floors[0].component.position.x === 35 || this.floors[this.floors.length - 1].component.position.x <= 1570)   // 如果第一個方塊的位置正確
+                        if (this.hero.component.position.x < 510)
                         {
-                            if (this.floors[0].component.position.x === 35 && this.hero.component.position.x <= 502)
-                            {
-                                this.hero.goLeft()
-                            }
-                            // 
-                            else if (this.floors[this.floors.length - 1].component.position.x <= 1570 && this.hero.component.position.x <= 502)
-                            {
-                                console.log("A")
-                                this.moveMap(5)
-                                this.hero.component.position.x = 502
-                            }
-                            else if (this.floors[this.floors.length - 1].component.position.x <= 1570 && this.hero.component.position.x > 502)
-                            {
-                                this.hero.goLeft()
-                            }
+                            this.hero.goLeft()
                         }
-                        
                         else
                         {
-                            if (this.hero.component.position.x >= 504)
-                            {
-                                this.matter.setBody(this.hero.component.body, 
-                                    "position", 
-                                    {x: this.hero.component.position.x, y:this.hero.component.position.y})
-                            }
-                            else if (this.hero.component.position.x < 504)
-                            {
-                                
-                                this.moveMap(5)
-                            }
-                            
+                            // this.moveMap(-5)
                         }
-                    } 
+                    }
                 }
             }
+            //#endregion
+
+            //#region area 2
+            if (this.floors[0].component.position.x < 0 && this.floors[this.floors.length - 1].component.position.x >= 1570)
+            {
+                if (this.walkDirection === 1)   // 往右
+                {
+                    this.hero.goRight()
+                    if (this.hero.component.position.x >= 502)
+                    {
+                        this.moveMap(-5)
+                        this.matter.setBody(this.hero.component.body, 
+                            "position", 
+                            {x: this.hero.component.position.x - 5, y: this.hero.component.position.y})   
+                    }
+                }
+    
+                if (this.walkDirection === 2)   // 往左
+                {
+                    this.hero.goLeft()
+                    if (this.hero.component.position.x <= 502)
+                    {
+                        this.moveMap(5)
+                        this.matter.setBody(this.hero.component.body, 
+                            "position", 
+                            {x: this.hero.component.position.x + 5, y: this.hero.component.position.y})   
+                    }
+                }
+            }
+            //#endregion
+            
+            //#region area 3
+            if (this.floors[this.floors.length - 1].component.position.x < 1570)
+            {
+                if (this.walkDirection === 1)   // 往右
+                {
+                    this.hero.goRight()
+                }
+    
+                if (this.walkDirection === 2)   // 往左
+                {
+                    if (this.hero.component.position.x <= 502)
+                    {
+                        this.moveMap(5)
+                    }
+                    else
+                    {
+                        this.hero.goLeft()
+                    }
+                }
+            }
+            //#endregion
+            
+            this.lockHeroPosx = this.hero.component.position.x
 
             if(this.isJump && this.hero.isOnFloor)
             {
                 this.hero.jump()
                 this.hero.isOnFloor = false
             }
-            this.lockHeroPosx = this.hero.component.position.x
         }
-        //#endregion    
-
+        //#endregion
+        
         //#region 防止英雄滑落
         if (this.startLockHeroPos)
         {
@@ -1154,6 +1271,7 @@ class Level1 extends Framework.Level
         {
             this.startLockHeroPos = true
             this.isJump = false
+            this.isPress = true // add
         }
         if(e.key === 'F11') 
         {
