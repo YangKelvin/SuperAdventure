@@ -904,7 +904,7 @@ class Level1 extends Framework.Level
     }
     update() 
     {
-        console.log(this.dieUpdateCount)
+        // console.log(this.dieUpdateCount)
         // this.hero.animationDie()
         // console.log(this.floors[this.floors.length - 1].component.position)
         // console.log(this.hero.component.position)
@@ -935,6 +935,7 @@ class Level1 extends Framework.Level
 
         this.blockUpDown(this.isblockQcollision, this.BlockQs,this.blockIndex)  // 方塊上下移動
         
+        // add BolckGo
         if (this.isCollisionQ1 && !this.isBlockGo)
         {
             this.rootScene.attach(this.block_GO)
@@ -945,7 +946,7 @@ class Level1 extends Framework.Level
         // 判斷block_Go是否向下掉落並執行
         this.block_GO_Drop()
 
-        //#region hero die condition
+        //#region 若 hero 的位置 > 1000 則判定玩家死亡
         if (this.hero.component.position.y > 1000)
         {
             this.heroAlive = false
@@ -969,7 +970,6 @@ class Level1 extends Framework.Level
         //#endregion
         
         //#region hero move & map move(new)
-
         if (this.isPress || this.isJump)
         {
             if (this.isPressWalk)
@@ -1034,7 +1034,6 @@ class Level1 extends Framework.Level
                         }
                     } 
                 }
-                this.lockHeroPosx = this.hero.component.position.x
             }
 
             if(this.isJump && this.hero.isOnFloor)
@@ -1042,6 +1041,7 @@ class Level1 extends Framework.Level
                 this.hero.jump()
                 this.hero.isOnFloor = false
             }
+            this.lockHeroPosx = this.hero.component.position.x
         }
         //#endregion    
 
