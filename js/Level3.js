@@ -26,10 +26,11 @@ class Level3 extends Framework.Level
 
         // hero
         this.attackMode = 0
-
+        this.dieUpdateCount = 0
         // 武器
         this.weaponCount = 0
-
+        
+        
 
 
         this.goldSwordBag = Framework.Game.goldSwordCount
@@ -41,6 +42,9 @@ class Level3 extends Framework.Level
         this.keyboardCount = 0
         this.keyboardDamage = Framework.Game.keyboardAtk
 
+        this.mode1_rockets = new Array()
+        this.attackMode1_time = 0
+        this.attackMode1_count = 0
     }
     sleep(milliseconds) 
     {
@@ -57,7 +61,7 @@ class Level3 extends Framework.Level
     {
         // 重置 levelTest
         this.sleep(1000);
-        Framework.Game._levels.splice(8,1,{name : "level3", level : new Level1()})
+        Framework.Game._levels.splice(8,1,{name : "level3", level : new Level3()})
         Framework.Game.userIQ -= 50
         Framework.Game._goToLevelIs = "level3"
         
@@ -94,6 +98,7 @@ class Level3 extends Framework.Level
     loadPic()
     {
         this.GoldSWPic = new Framework.Sprite('images/weapon-goldSword.png')
+        this.rocketPic = new Framework.Sprite('images/rocket_left.png')
     }
     loadBackground()
     {
@@ -322,8 +327,6 @@ class Level3 extends Framework.Level
         })
     }
 
-
-    //#endregion
     loadMap()
     {
         this.blocksPos = 
@@ -401,7 +404,18 @@ class Level3 extends Framework.Level
             this.rootScene.attach(this.blocks[i])
         }
     }
-
+    loadICON()
+    {
+        this.back = new Framework.Sprite(define.imagePath + 'icon-back.png')
+        this.back.position =
+        {
+            x: 60,
+            y: 60
+        }
+        this.back.scale = 0.2
+        this.rootScene.attach(this.back)
+    }
+    //#endregion
     load() 
     {
         // console.log(this.viewCenter)
@@ -414,6 +428,7 @@ class Level3 extends Framework.Level
         this.loadPic()
         this.loadCamera()
         this.loadBossHP()
+        this.loadICON()
         // 載入 collision
         this.matter.addEventListener("collisionStart",(this.collisionBlocks))
         console.log("Level3 Start")
@@ -429,25 +444,81 @@ class Level3 extends Framework.Level
     {
         this.matter.setBody(weapon.component.body, 
             "position", 
-            {x: weapon.component.position.x + speed, y: weapon.component.initPosition.y + 10})
-        if (weapon.component.position.x >= 1000)
+            {x: weapon.component.position.x + speed, y: weapon.component.initPosition.y})
+        if (weapon.component.position.x <= 100)
         {
             weapon.pic = null
         }
     }
+
+    attackMode1()
+    {
+        this.mode1_rockets.push(
+                new block('images/rocket_left.png',
+                this.matter,
+                {label:'mode1_rocket', friction:0.05, density:0.002, isStatic:false}
+            )
+        )
+        this.attackMode1_count++
+        this.mode1_rockets[this.attackMode1_count-1].load()
+        this.mode1_rockets[this.attackMode1_count-1].initialize()
+        this.mode1_rockets[this.attackMode1_count-1].component.position = 
+        {
+            x:935,
+            y:770
+        }
+        this.mode1_rockets[this.attackMode1_count-1].component.initPosition = 
+        {
+            x:935,
+            y:770
+        }
+        this.rootScene.attach(this.mode1_rockets[this.attackMode1_count-1])
+    }
     update() 
     {
-        // bossHP
-        this.bossHPShow._width = this.bossHP * 4
+        this.goldSwordBag = Framework.Game.goldSwordCount
+        this.goldSwordDamage = Framework.Game.goldSwordAtk
+        this.keyboradBag = Framework.Game.keyboardCount
+        this.keyboardDamage = Framework.Game.keyboardAtk
 
+        //#region boss
+        // bossHP
+        this.bossHPShow._width = this.bossHP * 4    // boss 血條
+
+        // attack mode 1
+        if (this.bossHP < 80)
+        {
+            this.attackMode1_time++
+            if (this.attackMode1_time % 100 === 0)
+            {
+                // attack mode 1
+                this.attackMode1()
+            }
+            for	(var i = 0; i < this.mode1_rockets.length; i++)
+            {
+                console.log("shoot")
+                this.shoot(this.mode1_rockets[i], -10)
+            }
+        }
+        //#endregion
+
+        // 新增 goldSword 並把他加入陣列
         for	(var i = 0; i < this.goldSwords.length; i++)
         {
             this.shoot(this.goldSwords[i],10)
         }
 
-        // this.hero.animationDie()
-        // console.log(this.floors[this.floors.length - 1].component.position)
-        // console.log(this.hero.component.position)
+        if (this.bossHP <= 0)
+        {
+            this.bossHP = 0
+            console.log('win')
+            Framework.Game.items[2].item = true
+            Framework.Game.items[3].item = true
+            Framework.Game.items[4].item = true
+            Framework.Game._goToLevelIs = ""
+        
+            Framework.Game.goToLevel("chooseLevel")
+        }
 
         //#region hero die condition
         if (this.hero.component.position.y > 1000)
@@ -463,7 +534,6 @@ class Level3 extends Framework.Level
             
             this.hero.animationDie()
             this.dieUpdateCount++
-            // this.heroDie()
         }
         if (this.dieUpdateCount >= 120)
         {
@@ -495,19 +565,6 @@ class Level3 extends Framework.Level
             }
         }
         //#endregion    
-
-        //#region 防止英雄滑落
-        // if (this.startLockHeroPos)
-        // {
-        //     // this.hero.component.position = this.lockHeroPos
-        //     this.hero.component.position.x = this.lockHeroPosx
-        // }
-        //#endregion
-        
-        //#region update textbox
-        // this.heroInfoX._value = Math.round(this.hero.component.position.x)
-        // this.heroInfoY._value = Math.round(this.hero.component.position.y)
-        //#endregion
         
         //#region update 註解和非註解 有奇怪的差異...
         
@@ -518,19 +575,8 @@ class Level3 extends Framework.Level
             "position", 
             {x: this.camera.component.position.x + 1, y: this.camera.component.position.y})
         this.camera.update()
-        // this.matter.setBody(this.camera.component.body, 
-        //     "position", 
-        //     {x: this.camera.component.position.x + 0, y: this.camera.component.position.y})
-        
-        // this.hero.update()
-        // this.matter.update()
-        // this.rootScene.update() // 對齊 component & sprite
-        // this.camera.update()
-        //#endregion
 
-
-
-        
+        //#endregion      
     }
     draw(parentCtx) 
     {
@@ -656,7 +702,6 @@ class Level3 extends Framework.Level
     
     collisionStart(event)
     {
-        console.log("A")
         var pairs = event.pairs
 
         // #region collision between hero and floor 
@@ -685,7 +730,7 @@ class Level3 extends Framework.Level
             if (pair.bodyA === this.boss.component.body && pair.bodyB === this.hero.component.body) 
             {
                 console.log("The End because of boss")
-                // this.heroDie()
+                this.heroAlive = false
             }
         }
         //#endregion
@@ -713,5 +758,62 @@ class Level3 extends Framework.Level
         }
         //#endregion
         
+        //#region rockets
+        
+        for (var i = 0, j = pairs.length; i != j; ++i) 
+        {
+            var pair = pairs[i];
+            for (var k = 0; k < this.mode1_rockets.length; k++)
+            {
+                // 碰到邊界
+                for (var q = 0; q < this.blocksPos.length; q++)
+                {
+                    if (pair.bodyA === this.mode1_rockets[k].component.body && pair.bodyB === this.blocks[q].component.body) 
+                    {
+                        this.mode1_rockets[k].pic = null
+                        this.matter.removeBody(this.mode1_rockets[k].component.body)
+                    } 
+                    else if (pair.bodyA === this.blocks[q].component.body 
+                        && pair.bodyB === this.mode1_rockets[k].component.body) 
+                    {
+                        this.mode1_rockets[k].pic = null
+                        this.matter.removeBody(this.mode1_rockets[k].component.body)
+                    } 
+                } 
+
+                // 碰到金刀
+                for (var w = 0; w < this.goldSwords.length; w++)
+                {
+                    if (pair.bodyA === this.mode1_rockets[k].component.body && pair.bodyB === this.goldSwords[w].component.body) 
+                    {
+                        // this.mode1_rockets[k].pic = null
+                        // this.matter.removeBody(this.mode1_rockets[k].component.body)
+                        
+                        this.goldSwords[w].pic = null
+                        this.matter.removeBody(this.goldSwords[w].component.body)
+
+                    } 
+                    else if (pair.bodyA === this.goldSwords[w].component.body 
+                        && pair.bodyB === this.mode1_rockets[k].component.body) 
+                    {
+                        // this.mode1_rockets[k].pic = null
+                        // this.matter.removeBody(this.mode1_rockets[k].component.body)
+
+                        this.goldSwords[w].pic = null
+                        this.matter.removeBody(this.goldSwords[w].component.body)
+                    } 
+                } 
+
+                // 碰到 hero
+                if (pair.bodyB === this.mode1_rockets[k].component.body && pair.bodyA === this.hero.component.body) 
+                {
+                    this.mode1_rockets[k].pic = null
+                    this.matter.removeBody(this.mode1_rockets[k].component.body)
+                    this.heroAlive = false
+                    // this.heroDie()
+                } 
+            }
+        }
+        //#endregion
     }
 };

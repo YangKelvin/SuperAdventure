@@ -103,7 +103,6 @@ class Level2 extends Framework.Level
     }
 
     //#region  load
-
     loadPic()
     {
         this.heroDiePicPos = [{x: -100, y: -100},]

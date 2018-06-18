@@ -1350,7 +1350,7 @@ class Level1 extends Framework.Level
         }
         //#endregion
     
-        // region collision between hero and blockUV
+        // #region collision between hero and blockUV
         for (var i = 0, j = pairs.length; i != j; ++i) 
         {
             var pair = pairs[i];
@@ -1400,10 +1400,10 @@ class Level1 extends Framework.Level
             }
         }
         
-        //#endregion
+        // #endregion
     
 
-        // region collision between hero and UDIEs
+        // #region collision between hero and UDIEs
         for (var i = 0, j = pairs.length; i != j; ++i) 
         {
             var pair = pairs[i];
@@ -1452,7 +1452,7 @@ class Level1 extends Framework.Level
 
         //#endregion
        
-        // region collision between hero and pipe
+        // #region collision between hero and pipe
         for(var i=0; i < this.Pipes.length; i++)
         {
             if (pair.bodyA === this.Pipes[i].component.body && pair.bodyB === this.hero.component.body)
@@ -1460,10 +1460,10 @@ class Level1 extends Framework.Level
                 this.hero.isOnFloor = true
             }
         }
-        // endregion
+        // #endregion
 
 
-        // region collision between hero and block_GO
+        // #region collision between hero and block_GO
         if (pair.bodyA === this.hero.component.body && pair.bodyB === this.block_GO.component.body)
         {
             this.hero.isOnFloor = true
@@ -1493,9 +1493,9 @@ class Level1 extends Framework.Level
                 // console.log("hero die")
             }
         }
-        // endregion
+        // #endregion
 
-        // region collision between hero and cloud
+        // #region collision between hero and cloud
         if (pair.bodyA === this.cloudMonsters[0].component.body && pair.bodyB === this.hero.component.body)
         {
             this.iscloud_thorn = true   // 出現尖刺
@@ -1509,7 +1509,7 @@ class Level1 extends Framework.Level
             this.heroAlive = false
             console.log("hero die")
         }
-        // endregion
+        // #endregion
 
         // #region  collision between hero and princess
         if (pair.bodyA === this.princess.component.body && pair.bodyB === this.hero.component.body)

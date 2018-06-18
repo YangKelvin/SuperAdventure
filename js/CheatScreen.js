@@ -282,6 +282,8 @@ var CheatScreen = Framework.exClass(Framework.GameMainMenu,
                 e.y <= 360) 
             {
                 Framework.Game.items[2].item = !(Framework.Game.items[2].item)
+                Framework.Game.items[3].item = !(Framework.Game.items[3].item)
+                Framework.Game.items[4].item = !(Framework.Game.items[4].item)
             }
             //#endregion
        
