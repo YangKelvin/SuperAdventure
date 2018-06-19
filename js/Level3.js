@@ -512,6 +512,9 @@ class Level3 extends Framework.Level
         {
             this.bossHP = 0
             console.log('win')
+            Framework.Game.records[2].record = Framework.Game.userIQ
+            Framework.Game.userIQ = 250
+            
             Framework.Game.items[2].item = true
             Framework.Game.items[3].item = true
             Framework.Game.items[4].item = true
