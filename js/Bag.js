@@ -26,7 +26,7 @@ var Bag = Framework.exClass(Framework.GameMainMenu,
 
         load: function () {
             this.backYellowGround = new Framework.Sprite(define.imagePath + 'background-yellow.png');
-            this.backGround = new Framework.Sprite(define.imagePath + 'background-AboutScreen.png');
+            this.backGround = new Framework.Sprite(define.imagePath + 'bagBackground.png');
             this.bagTitle = new Framework.Sprite(define.imagePath + 'bagTitlepic.png');
             this.bagSquareArray = []
             for(var i = 0; i < 8; i++)
