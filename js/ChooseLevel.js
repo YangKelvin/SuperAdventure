@@ -25,7 +25,7 @@ var ChooseLevel = Framework.exClass(Framework.GameMainMenu,
 
         load: function () {
             console.log(Framework.Game._levels) // 顯示現有的levels
-            this.menu = new Framework.Sprite(define.imagePath + 'chooseLevel_background3.png')
+            this.menu = new Framework.Sprite(define.imagePath + 'chooseLevel_background.png')
             
             this.item1 = false
             this.item2 = false
@@ -37,8 +37,8 @@ var ChooseLevel = Framework.exClass(Framework.GameMainMenu,
             
 
             //測試道具(正常遊戲時請註解)
-            Framework.Game.items[0].item = true
-            Framework.Game.items[1].item = true
+            // Framework.Game.items[0].item = true
+            // Framework.Game.items[1].item = true
 
 
             this.locks = new Array()
@@ -164,7 +164,7 @@ var ChooseLevel = Framework.exClass(Framework.GameMainMenu,
             if (e.x >= 705 && 
                 e.x <= 905 && 
                 e.y >= 285 && 
-                e.y <= 485) 
+                e.y <= 485 && Framework.Game.items[0].item === true) 
             {
                 Framework.Game.goToLevel("level2");
             }
@@ -172,39 +172,19 @@ var ChooseLevel = Framework.exClass(Framework.GameMainMenu,
             if (e.x >= 1065 && 
                 e.x <= 1265 && 
                 e.y >= 285 && 
-                e.y <= 485) 
+                e.y <= 485 && Framework.Game.items[1].item === true) 
             {
-                Framework.Game.goToLevel("level3Test");
+                Framework.Game.goToLevel("level3");
             }
             // level4
             if (e.x >= 340 && 
                 e.x <= 530 && 
                 e.y >= 615 && 
-                e.y <= 815) 
+                e.y <= 815 && Framework.Game.items[2].item === true) 
             {
                 // Framework.Game.goToLevel("level1");
                 // console.log("startGame")
-                alert("想玩？沒門！ 因為還沒有這一關")
-            }
-            // level5
-            if (e.x >= 705 && 
-                e.x <= 905 && 
-                e.y >= 615 && 
-                e.y <= 815) 
-            {
-                // Framework.Game.goToLevel("level1");
-                // console.log("startGame")
-                alert("想玩？沒門！ 因為還沒有這一關")
-            }
-            // level6
-            if (e.x >= 1065 && 
-                e.x <= 1265 && 
-                e.y >= 615 && 
-                e.y <= 815) 
-            {
-                // Framework.Game.goToLevel("level1");
-                // console.log("startGame")
-                alert("想玩？沒門！ 因為還沒有這一關")
+                alert("恭喜通關")
             }
             // 打開背包
             if (e.x >= 1437 && 

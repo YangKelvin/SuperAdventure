@@ -60,7 +60,6 @@ var loadGameEnd;
         { src: 'js/Camera.js', lookFor: 'Camera' },
         { src: 'js/textbox.js', lookFor: 'Textbox' },
         { src: 'js/AnimationCharacter.js', lookFor: 'AnimationCharacter' },
-        { src: 'js/score.js', lookFor: 'Score' },
         { src: 'js/mainGame.js'}
     ]
 
