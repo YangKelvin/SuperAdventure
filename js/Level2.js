@@ -600,7 +600,7 @@ class Level2 extends Framework.Level
 
         this.bigFace.load()
         this.bigFace.initialize()
-        this.bigFace.component.position = {x: 3550, y: 20}
+        this.bigFace.component.position = {x: 3600, y: 20}
         this.rootScene.attach(this.bigFace)
     }
     //#endregion
@@ -609,7 +609,7 @@ class Level2 extends Framework.Level
         Framework.Game.initialize()
 
         this.loadBackground()
-        this.loadTextbox()
+        // this.loadTextbox()
         this.loadICON()
         
         this.loadCamera()
@@ -1155,8 +1155,8 @@ class Level2 extends Framework.Level
         //#endregion
         
         //#region update textbox
-        this.heroInfoX._value = Math.round(this.hero.component.position.x)
-        this.heroInfoY._value = Math.round(this.hero.component.position.y)
+        // this.heroInfoX._value = Math.round(this.hero.component.position.x)
+        // this.heroInfoY._value = Math.round(this.hero.component.position.y)
         //#endregion
         
 

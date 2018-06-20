@@ -19,7 +19,7 @@ class Level1 extends Framework.Level
         this.isJump = false         // 判斷是否按下控制hero跳躍的按鍵
         this.walkDirection = 0      // 判斷hero移動的方向（左 or 右）
         this.score = 0              // 關卡的計分
-        this.isPrincess = true     // 判斷公主是否載入關卡
+        this.isPrincess = true      // 判斷公主是否載入關卡
 
         this.isTriggleTrollBridge = false   // 判斷是否觸發陷阱橋掉落
         this.bridgeFall = 0                 // 陷阱掉落的移動量
@@ -40,12 +40,11 @@ class Level1 extends Framework.Level
         // blockUV collision
         this.isblockUVcollision = false
         this.blockUVIndex = 0
-        this.isShotRocket = false
+        
 
         // blockQ1 collision
         this.isCollisionQ1 = false
         this.isBlockGo= false
-
 
         // 判斷是否顯示Block_Go的尖刺
         this.isblock_Go_thorn = false
@@ -57,6 +56,11 @@ class Level1 extends Framework.Level
         this.isBlockGo_Drop = false
         this.block_GO_Drop_stop = false
 
+        // 發射火箭
+        this.isRocketTrigger1 = false
+        this.isRocketTrigger2 = false
+
+        // YOUDIE方塊
         this.isUDIEcollision =
         [
             false,
@@ -65,7 +69,6 @@ class Level1 extends Framework.Level
             false,
             false,
         ]
-
         this.isShouldRemoveFloor = false
         this.isRemoveFloor = false
 
@@ -257,11 +260,11 @@ class Level1 extends Framework.Level
                 {x: 420, y: 780},
                 {x: 490, y: 780},
                 {x: 560, y: 780},
-                {x: 630, y: 780},  // 10
+                {x: 630, y: 780},  // 9
                 {x: 700, y: 780},
                 {x: 770, y: 780},
                 {x: 840, y: 780},
-                {x: 910, y: 780},
+                {x: 910, y: 780}, //13
                 
 
                 {x: 1330, y: 780},
@@ -269,10 +272,10 @@ class Level1 extends Framework.Level
                 {x: 1470, y: 780},
                 {x: 1540, y: 780},
                 {x: 1610, y: 780},
-                {x: 1680, y: 780},  // 20
+                {x: 1680, y: 780}, // 19
 
                 //平台開始
-                {x: 1680, y: 500}, //20
+                {x: 1680, y: 500},
                 {x: 1750, y: 500},
                 {x: 1820, y: 220},
                 {x: 1960, y: 220},
@@ -280,7 +283,7 @@ class Level1 extends Framework.Level
                 {x: 1890, y: 500},
                 {x: 1960, y: 500},
                 {x: 2100, y: 500},
-                {x: 2170, y: 500},
+                {x: 2170, y: 500}, // 28
                 //平台結束
 
                 {x: 1750, y: 780},
@@ -289,30 +292,30 @@ class Level1 extends Framework.Level
                 {x: 1960, y: 780},
                 {x: 2030, y: 780},
                 {x: 2100, y: 780},
-                {x: 2170, y: 780}, // 35
+                {x: 2170, y: 780},
                 {x: 2240, y: 780},
                 {x: 2310, y: 780},
                 {x: 2380, y: 780},
                 {x: 2450, y: 780},
                 {x: 2520, y: 780},
-                {x: 2590, y: 780},
-                {x: 2660, y: 780},
-                {x: 2730, y: 780},
-                {x: 2800, y: 780},
-                {x: 2870, y: 780},
+                {x: 2590, y: 780}, //trigger rocket1 41
+                {x: 2660, y: 780}, //trigger rocket1 42
+                {x: 2730, y: 780}, //trigger rocket1 43
+                {x: 2800, y: 780}, //trigger rocket1 44
+                {x: 2870, y: 780}, //trigger rocket1 45
                 {x: 2940, y: 780},
                 {x: 3010, y: 780},
                 {x: 3080, y: 780},
                 {x: 3150, y: 780},
-                {x: 3220, y: 780},
-                {x: 3290, y: 780},
-                {x: 3360, y: 780},
-                {x: 3430, y: 780},
-                {x: 3500, y: 780},
+                {x: 3220, y: 780}, //trigger rocket1 50
+                {x: 3290, y: 780}, //trigger rocket2 51
+                {x: 3360, y: 780}, //trigger rocket2 52
+                {x: 3430, y: 780}, //trigger rocket2 53
+                {x: 3500, y: 780}, //trigger rocket1 54
                 {x: 3570, y: 780},
                 {x: 3640, y: 780},
                 
-                {x: 3990, y: 780},
+                {x: 3990, y: 780}, // 57
                 {x: 4060, y: 780},
                 {x: 4130, y: 780},
                 {x: 4200, y: 780},
@@ -339,40 +342,6 @@ class Level1 extends Framework.Level
 
             this.rootScene.attach(this.floors[i])
         }
-        
-        this.wallOps = 
-        {
-            label : 'wall',
-            friction: 0.05,
-            density: 0.002,
-            isStatic: true
-        }
-        this.wallsPos = 
-        [
-            // {x: 30, y: 710},
-            // {x: 30, y: 640},
-            // {x: 30, y: 570},
-            // {x: 30, y: 500},
-            // {x: 30, y: 430},
-            // {x: 30, y: 360},
-            // {x: 30, y: 290},
-            // {x: 30, y: 220},
-            // {x: 30, y: 150},
-            // {x: 30, y: 80},
-        ]
-        this.walls = new Array()
-        for (var i = 0; i < this.wallsPos.length; i++)
-        {
-            this.walls[i] = new block('images/brickWall.png',
-                                            this.matter,
-                                            this.wallOps)
-            this.walls[i].load()
-            this.walls[i].initialize()
-            this.walls[i].component.position = this.wallsPos[i]
-
-            this.rootScene.attach(this.walls[i])
-        }
-
     }
     loadCoin()
     {
@@ -476,15 +445,14 @@ class Level1 extends Framework.Level
 
             this.rootScene.attach(this.UDIEs[i])
         }
-        // console.log("Finish loaded UDIEs ")
     }
 
     loadPipe()
     {
         this.PipePos = 
         [
-            {x: 2660, y: 483},
-            {x: 3290, y: 483},
+            {x: 2660, y: 485},
+            {x: 3290, y: 485},
         ]
 
         this.PipeOps = 
@@ -611,7 +579,8 @@ class Level1 extends Framework.Level
     {
         this.rocketPos = 
         [
-            
+            {x: 2730, y: 510},
+            {x: 3360, y: 510}
         ]
 
         this.rocketOps = 
@@ -639,8 +608,8 @@ class Level1 extends Framework.Level
         // unvisible block
         this.blockUVsPos = 
         [
-            {x: 960, y: 480},   // 懸崖旁的隱藏方塊
-            {x: 2830, y: 220},   // pipe上的隱藏方塊
+            {x: 960, y: 520},   // 懸崖旁的隱藏方塊
+            {x: 2880, y: 240},   // pipe上的隱藏方塊
         ]
         this.blockUVsOps = 
         {
@@ -660,8 +629,15 @@ class Level1 extends Framework.Level
             this.blockUVs[i].initialize()
             this.blockUVs[i].component.position = this.blockUVsPos[i]
             this.rootScene.attach(this.blockUVs[i])
-            
         }
+        this.blockUVs[this.blockUVsPos.length] = new block('images/blockNone.png',
+                                                        this.matter,
+                                                        this.blockUVsOps)
+        this.blockUVs[this.blockUVsPos.length]
+        this.blockUVs[this.blockUVsPos.length].load()
+        this.blockUVs[this.blockUVsPos.length].initialize()
+        this.blockUVs[this.blockUVsPos.length].component.position = {x: -100, y: -100}
+        this.rootScene.attach(this.blockUVs[this.blockUVsPos.length])
     }
     loadGoBlock()
     {
@@ -700,7 +676,7 @@ class Level1 extends Framework.Level
         
 
         this.loadBackground()
-        this.loadTextbox()
+        // this.loadTextbox()
         this.loadICON()
         
         
@@ -708,9 +684,9 @@ class Level1 extends Framework.Level
 
         this.loadGround()
 
+        this.loadRocket()
         this.loadPipe()
         this.loadUDIE()
-        this.loadRocket()
         this.loadTrollBridge()
         this.loadBlockQ()
         this.loadBlockUV()
@@ -754,22 +730,12 @@ class Level1 extends Framework.Level
         }
         //#endregion
 
-        
         //#region move blockUV
         for	(var i = 0; i<this.blockUVs.length; i++)
         {
             this.matter.setBody(this.blockUVs[i].component.body, 
                 "position", 
                 {x: this.blockUVs[i].component.position.x + moveLength, y: this.blockUVs[i].component.position.y})  
-        }
-        //#endregion
-
-        //#region move trollBridge
-        for	(var i = 0; i<this.trollBridges.length; i++)
-        {
-            this.matter.setBody(this.trollBridges[i].component.body, 
-                "position", 
-                {x: this.trollBridges[i].component.position.x + moveLength, y: this.trollBridges[i].component.position.y})  
         }
         //#endregion
 
@@ -855,7 +821,6 @@ class Level1 extends Framework.Level
     {
         if (isBlockCollision)
         {
-            //console.log("BlockQs[" + blockIndex + "].y = " + blocks[blockIndex].component.position.y)
             if (this.waitCount < 15)
             {
                 blocks[blockIndex].component.position = 
@@ -899,13 +864,31 @@ class Level1 extends Framework.Level
                 {x: this.block_GO.component.position.x, y: this.block_GO.component.position.y + 5})
         }
     }
+    ShotRocket(target)
+    {
+        if (this.heroAlive)
+        {
+            this.matter.setBody(target.body, 
+                "position", 
+                {x: target.position.x + 0, y: target.position.y - 8})
+        }
+        if (target.position.y <= -100)
+        {
+            if (target === this.rockets[0].component)
+            {
+                this.isRocketTrigger1 = false
+            }
+            else
+            {
+                this.isRocketTrigger2 = false
+            }
+            this.matter.setBody(target.body, 
+                "position", 
+                {x: target.position.x + 0, y: 560})
+        }
+    }
     update() 
     {
-        // console.log(this.dieUpdateCount)
-        // this.hero.animationDie()
-        // console.log(this.floors[this.floors.length - 1].component.position)
-        // console.log(this.hero.component.position)
-
         //#region triggle UDIE
         if (this.isUDIEcollision[0] === true &&
             this.isUDIEcollision[1] === true &&
@@ -916,7 +899,6 @@ class Level1 extends Framework.Level
         {
             // load rocket\
             this.isShouldRemoveFloor = true
-            
         }
         if (this.isShouldRemoveFloor && !this.isRemoveFloor)
         {
@@ -932,16 +914,38 @@ class Level1 extends Framework.Level
 
         this.blockUpDown(this.isblockQcollision, this.BlockQs,this.blockIndex)  // 方塊上下移動
         
-        // add BolckGo
+        // region add BolckGo
         if (this.isCollisionQ1 && !this.isBlockGo)
         {
             this.rootScene.attach(this.block_GO)
             this.block_GO.component.position = this.block_GOPos
             this.isBlockGo = true
         }
+        // endregion
         
         // 判斷block_Go是否向下掉落並執行
         this.block_GO_Drop()
+
+        // region 發射火箭
+        if (this.hero.component.position.x >= this.floors[41].component.position.x + 30 &&
+            this.hero.component.position.x <= this.floors[45].component.position.x - 30)
+        {
+            this.isRocketTrigger1 = true
+        }
+        if (this.hero.component.position.x >= this.floors[50].component.position.x + 30 &&
+            this.hero.component.position.x <= this.floors[54].component.position.x - 30)
+        {
+            this.isRocketTrigger2 = true
+        }
+        if (this.isRocketTrigger1)
+        {
+            this.ShotRocket(this.rockets[0].component, this.isRocketTrigger1)
+        }
+        if (this.isRocketTrigger2)
+        {
+            this.ShotRocket(this.rockets[1].component, this.isRocketTrigger2)
+        }
+        // endregion
 
         //#region 若 hero 的位置 > 1000 則判定玩家死亡
         if (this.hero.component.position.y > 1000)
@@ -954,10 +958,12 @@ class Level1 extends Framework.Level
         if(this.heroAlive === false)
         {
             console.log("this.heroAlive = flase")
+            this.isPress = false
+            this.isJump = false
+            this.isPressWalk = false
             
             this.hero.animationDie()
             this.dieUpdateCount++
-            // this.heroDie()
         }
         if (this.dieUpdateCount >= 120)
         {
@@ -1165,14 +1171,13 @@ class Level1 extends Framework.Level
         //#region 防止英雄滑落
         if (this.startLockHeroPos)
         {
-            // this.hero.component.position = this.lockHeroPos
             this.hero.component.position.x = this.lockHeroPosx
         }
         //#endregion
         
         //#region update textbox
-        this.heroInfoX._value = Math.round(this.hero.component.position.x)
-        this.heroInfoY._value = Math.round(this.hero.component.position.y)
+        // this.heroInfoX._value = Math.round(this.hero.component.position.x)
+        // this.heroInfoY._value = Math.round(this.hero.component.position.y)
         //#endregion
         
         //#region update 註解和非註解 有奇怪的差異...
@@ -1184,19 +1189,7 @@ class Level1 extends Framework.Level
         this.matter.update()
         this.rootScene.update() // 對齊 component & sprite
         this.camera.update()
-
-        // this.matter.setBody(this.camera.component.body, 
-        //     "position", 
-        //     {x: this.camera.component.position.x + 0, y: this.camera.component.position.y})
-        
-        // this.hero.update()
-        // this.matter.update()
-        // this.rootScene.update() // 對齊 component & sprite
-        // this.camera.update()
         //#endregion
-
-
-        
     }
     draw(parentCtx) 
     {
@@ -1205,7 +1198,6 @@ class Level1 extends Framework.Level
 
     click(e)
     {
-
         console.log(e.x + "  " + e.y)  
         // 返回選關卡頁面
         if (e.x >= 3 && 
@@ -1263,9 +1255,6 @@ class Level1 extends Framework.Level
             this.isPressWalk = false
             this.walkDirection = 0
             this.hero.animationStand()
-
-
-
         }
         if (e.key === 'W')
         {
@@ -1305,10 +1294,6 @@ class Level1 extends Framework.Level
                 if (pair.bodyA === this.floors[k].component.body && pair.bodyB === this.hero.component.body) 
                 {
                     this.hero.isOnFloor = true
-                } 
-                else if (pair.bodyA === this.hero.component.body || pair.bodyB === this.hero.component.body)
-                {
-                    // console.log("No Collision")
                 }
             }
         }
@@ -1335,17 +1320,10 @@ class Level1 extends Framework.Level
                         if (pair.bodyA === this.BlockQs[0].component.body) // 碰撞到第一個問號方塊
                         {
                             console.log("撞第一個問號方塊")
-                            // add level1-GOBLOCK
-                            // this.loadGoBlock()
                             this.isCollisionQ1 = true
                         }
                     }
-                } 
-                else if (pair.bodyA === this.hero.component.body || pair.bodyB === this.hero.component.body)
-                {
-                    // console.log("No Collision")
                 }
-                
             }
         }
         //#endregion
@@ -1360,49 +1338,41 @@ class Level1 extends Framework.Level
                 if ((pair.bodyA === this.blockUVs[k].component.body && pair.bodyB === this.hero.component.body) || 
                     (pair.bodyB === this.blockUVs[k].component.body && pair.bodyA === this.hero.component.body)) 
                 {
-                    console.log("isOnFloor")
-                    this.hero.isOnFloor = true
-
                     var blockHalfWidth = this.blockUVs[k].component.sprite.width / 2
-                    if ((this.hero.component.position.y - this.blockUVs[k].component.position.y - this.blockUVs[k].component.sprite.height >= 0) && (this.hero.component.position.x >= this.BlockQs[k].component.position.x - blockHalfWidth)
-                     && (this.hero.component.position.x <= this.blockUVs[k].component.position.x + blockHalfWidth))
-                    {
-                        this.isblockQcollision = true
-                        this.blockIndex = k
-                        console.log("blockIndex: " + this.blockUVIndex)
-                        
-                        this.tempPos = this.blockUVs[k].component.sprite.position
+                    var blockHalfHeight = this.blockUVs[k].component.sprite.height / 2
 
-                        this.blockUVs[k].pic = null
-                        this.matter.removeBody(this.blockUVs[k].component.body)
-                        this.blockUVsOpsNEW = 
+                    this.hero.isOnFloor = true
+                    if (this.hero.component.position.y >= this.blockUVs[k].component.position.y + blockHalfHeight)
+                    {   
+                        if (!this.blockUVs[k].isUVshow)
                         {
-                            label: 'blockUV', 
-                            friction: 0.05, 
-                            density:0.002, 
-                            isStatic:true, 
-                            isSensor:false
-                        }
-                        this.blockUVs[k] = new block('images/blockQ.png', 
+                            this.tempPos = this.blockUVs[k].component.sprite.position
+
+                            this.blockUVs[k].pic = null
+                            this.matter.removeBody(this.blockUVs[k].component.body)
+                            this.blockUVsOpsNEW = 
+                            {
+                                label: 'blockUV', 
+                                friction: 0.05, 
+                                density:0.002, 
+                                isStatic:true, 
+                                isSensor:false
+                            }
+                            this.blockUVs[k] = new block('images/blockNone.png',
                                             this.matter,
                                             this.blockUVsOpsNEW)
-                        this.blockUVs[k].load()
-                        this.blockUVs[k].initialize()
-                        this.blockUVs[k].component.position = this.tempPos
-                        this.rootScene.attach(this.blockUVs[k])
+                            this.blockUVs[k].load()
+                            this.blockUVs[k].initialize()
+                            this.blockUVs[k].component.position = this.tempPos
+                            this.blockUVs[k].isUVshow = true
+                            this.rootScene.attach(this.blockUVs[k])
+                        }
                     }
-                } 
-                else if (pair.bodyA === this.hero.component.body || pair.bodyB === this.hero.component.body)
-                {
-                    // console.log("No Collision")
                 }
-                
             }
         }
-        
         // #endregion
     
-
         // #region collision between hero and UDIEs
         for (var i = 0, j = pairs.length; i != j; ++i) 
         {
@@ -1413,7 +1383,6 @@ class Level1 extends Framework.Level
                 if ((pair.bodyA === this.UDIEs[k].component.body && pair.bodyB === this.hero.component.body) || 
                     (pair.bodyB === this.UDIEs[k].component.body && pair.bodyA === this.hero.component.body)) 
                 {
-                    console.log("isOnFloor")
                     this.hero.isOnFloor = true
 
                     var blockHalfWidth = this.UDIEs[k].component.sprite.width / 2
@@ -1421,30 +1390,30 @@ class Level1 extends Framework.Level
                      && (this.hero.component.position.x <= this.UDIEs[k].component.position.x + blockHalfWidth))
                     {
                         this.isUDIEcollision[k] = true
-                        console.log(this.isUDIEcollision)
-                        // this.blockIndex = k
-                        // console.log("blockIndex: " + this.blockUVIndex)
-                        
-                        this.tempPos = this.UDIEs[k].component.sprite.position
-
-                        this.UDIEs[k].pic = null
-                        this.matter.removeBody(this.UDIEs[k].component.body)
-                        this.blockUDIEsOpsNEW = 
+                       
+                        if (!this.UDIEs[k].isUVshow)
                         {
-                            label: 'UDIE', 
-                            friction: 0.05, 
-                            density:0.002, 
-                            isStatic:true, 
-                            isSensor:false
-                        }
-                        console.log("UDIE")
-                        this.UDIEs[k] = new block('images/UDIE'+ k + '.png', 
+                            this.tempPos = this.UDIEs[k].component.sprite.position
+
+                            this.UDIEs[k].pic = null
+                            this.matter.removeBody(this.UDIEs[k].component.body)
+                            this.UDIEsOpsNEW = 
+                            {
+                                label: 'UDIE', 
+                                friction: 0.05, 
+                                density:0.002, 
+                                isStatic:true, 
+                                isSensor:false
+                            }
+                            this.UDIEs[k] = new block('images/UDIE'+ k +'.png',
                                             this.matter,
-                                            this.blockUDIEsOpsNEW)
-                        this.UDIEs[k].load()
-                        this.UDIEs[k].initialize()
-                        this.UDIEs[k].component.position = this.tempPos
-                        this.rootScene.attach(this.UDIEs[k])
+                                            this.UDIEsOpsNEW)
+                            this.UDIEs[k].load()
+                            this.UDIEs[k].initialize()
+                            this.UDIEs[k].component.position = this.tempPos
+                            this.UDIEs[k].isUVshow = true
+                            this.rootScene.attach(this.UDIEs[k])
+                        }
                     }
                 }
             }
@@ -1461,7 +1430,6 @@ class Level1 extends Framework.Level
             }
         }
         // #endregion
-
 
         // #region collision between hero and block_GO
         if (pair.bodyA === this.hero.component.body && pair.bodyB === this.block_GO.component.body)
@@ -1482,7 +1450,6 @@ class Level1 extends Framework.Level
                         y: this.block_GO.component.position.y - this.block_GO.component.sprite.height / 2,
                     }
                     this.block_GO.pic = null
-                    // this.matter.stopWorld()
                 }
                 // 被block_Go砸死
                 else
@@ -1490,7 +1457,6 @@ class Level1 extends Framework.Level
                     this.block_GO_Drop_stop = true
                 }
                 this.heroAlive = false
-                // console.log("hero die")
             }
         }
         // #endregion
@@ -1505,9 +1471,7 @@ class Level1 extends Framework.Level
                 x: this.cloudMonsters[0].component.position.x - this.cloudMonsters[0].component.sprite.width / 2 - 25,
                 y: this.cloudMonsters[0].component.position.y - this.cloudMonsters[0].component.sprite.height / 2 - 13
             }
-            console.log(this.cloudMonster_thorn.dwposition)
             this.heroAlive = false
-            console.log("hero die")
         }
         // #endregion
 
@@ -1524,5 +1488,15 @@ class Level1 extends Framework.Level
             Framework.Game._levels.splice(6,1,{name : "level1", level : new Level1()})
         }
         //#endregion
+
+        // #region collision between hero and rockets
+        for(var i = 0; i < this.rockets.length; i++)
+        {
+            if (pair.bodyA === this.rockets[i].component.body && pair.bodyB === this.hero.component.body)
+            {
+                this.heroAlive = false
+            }
+        }
+        // endregion
     }
 };
