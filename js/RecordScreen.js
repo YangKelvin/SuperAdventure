@@ -106,7 +106,7 @@ var RecordScreen = Framework.exClass(Framework.GameMainMenu,
                 e.y <= 110) 
             {
                 Framework.Game.goToLevel("chooseLevel");
-                Framework.Game._levels.splice(3,1,{name : "levelTest", level : new LevelTest()})
+                // Framework.Game._levels.splice(3,1,{name : "levelTest", level : new LevelTest()})
                 Framework.Game.userIQ = 250
             }
         },

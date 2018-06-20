@@ -8,6 +8,7 @@ class Level1 extends Framework.Level
 
         // 宣告this.matter 並建立物理世界MatterUtil.js
         this.matter = new Framework.Matter() 
+        console.log('level1 full screen: ' + Framework.Game.isGameFullScreen)
         
         // hero & coin 的碰撞 和 hero & princess 的碰撞
         this.collisionBlocks = this.collisionStart.bind(this)
@@ -71,6 +72,10 @@ class Level1 extends Framework.Level
         ]
         this.isShouldRemoveFloor = false
         this.isRemoveFloor = false
+
+        // 尖刺牆
+        this.isThornWall = false
+        this.thornWallFirst = true
 
         // 換關卡
         this.dieUpdateCount = 0
@@ -347,7 +352,8 @@ class Level1 extends Framework.Level
     {
         this.coinsPos =
         [
-            
+            {x: 360, y: 410},
+            {x: 3020, y: 710}
         ]
 
         this.coinOps = 
@@ -359,7 +365,7 @@ class Level1 extends Framework.Level
             isSensor:true
         }
 
-        this.coins = new Array()
+        this.coins = []
         for (var i = 0; i < this.coinsPos.length; i++)
         {
             this.coins[i] = new block('images/hud_coin.png', 
@@ -368,17 +374,33 @@ class Level1 extends Framework.Level
             this.coins[i].load()
             this.coins[i].initialize()
             this.coins[i].component.position = this.coinsPos[i]
-            // this.coins[i].component.body.isSensor = true
             this.rootScene.attach(this.coins[i])
         }
-        // console.log(this.coins[0].component.position)
-        // console.log(this.coins[0].component.sprite.position)
-    }    
+    }
+    loadKey()
+    {
+        this.keyOps = 
+        {
+            label: 'Key', 
+            friction: 0.05, 
+            density:0.002, 
+            isStatic:true, 
+            isSensor:true
+        }
+        this.keys = []
+        this.keys[0] = new block('images/key.png', 
+                                            this.matter,
+                                            this.keyOps)
+        this.keys[0].load()
+        this.keys[0].initialize()
+        this.keys[0].component.position = {x: 1900, y: 430}
+        this.rootScene.attach(this.keys[0])
+    }
     loadAudio()
     {
         this.audio = new Framework.Audio(
         {
-            bgm1: {mp3: 'music/bgm1.mp3'},
+            // bgm1: {mp3: 'music/bgm1.mp3'},
             coin: {mp3: 'music/coin.mp3'},
             jump: {mp3: 'music/jump.mp3'},
             haha: {wav: 'music/haha.wav'}
@@ -446,7 +468,6 @@ class Level1 extends Framework.Level
             this.rootScene.attach(this.UDIEs[i])
         }
     }
-
     loadPipe()
     {
         this.PipePos = 
@@ -641,11 +662,7 @@ class Level1 extends Framework.Level
     }
     loadGoBlock()
     {
-        this.block_GOPos = 
-        {
-            x: 500,
-            y: 400
-        }
+        this.block_GOPos = {x: 500, y: 400}
         this.block_GOOps = 
         {
             label: 'block_GO', 
@@ -661,19 +678,53 @@ class Level1 extends Framework.Level
         this.block_GO.load()
         this.block_GO.initialize()
         this.block_GO.component.position = {x:-100, y:0}
-        // this.rootScene.attach(this.block_GO)
-
 
         this.block_GO_thorn = new Framework.Sprite(define.imagePath + 'level1-GOBlockThorn.png')
         this.block_GO_thorn.position = {x: -100, y: 0}
+    }
+    loadThornWall()
+    {
+        this.thornWallPos = 
+        [
+            {x: -100, y: -100},
+            {x: -100, y: -100},
+        ]
+
+        this.thornWallOps = 
+        {
+            label: 'ThornWall', 
+            friction: 0.05, 
+            density: 0.002, 
+            isStatic:true,
+            isSensor:true
+        }
+        this.thornWalls = []
+        for (var i = 0; i < this.thornWallPos.length; i++)
+        {
+            if (i === 0)
+            {
+                this.thornWalls[i] = new block('images/thornWall.png', 
+                                                this.matter,
+                                                this.thornWallOps)
+            }
+            else
+            {
+                this.thornWalls[i] = new block('images/thornWall2.png', 
+                                                this.matter,
+                                                this.thornWallOps)
+            }
+
+            this.thornWalls[i].load()
+            this.thornWalls[i].initialize()
+            this.thornWalls[i].component.position = this.thornWallPos[i]
+            this.rootScene.attach(this.thornWalls[i])
+        }
     }
     //#endregion
     load() 
     {
         // console.log(this.viewCenter)
         Framework.Game.initialize()
-
-        
 
         this.loadBackground()
         // this.loadTextbox()
@@ -691,6 +742,8 @@ class Level1 extends Framework.Level
         this.loadBlockQ()
         this.loadBlockUV()
         this.loadCoin()
+        this.loadKey()
+        this.loadThornWall()
 
         this.loadMonster()
         this.loadPrincess()
@@ -698,7 +751,9 @@ class Level1 extends Framework.Level
         this.loadGoBlock()
 
         this.loadHero()
-        
+        this.loadAudio()
+        // this.audio.play({name: 'bgm1', loop: true})
+
         this.loadPic()
         // 載入 collision
         this.matter.addEventListener("collisionStart",(this.collisionBlocks))
@@ -747,6 +802,15 @@ class Level1 extends Framework.Level
                 {x: this.coins[i].component.position.x + moveLength, y: this.coins[i].component.position.y})  
         }
         //#endregion
+
+        //region move key
+        for	(var i = 0; i < this.keys.length; i++)
+        {
+            this.matter.setBody(this.keys[i].component.body, 
+                "position", 
+                {x: this.keys[i].component.position.x + moveLength, y: this.keys[i].component.position.y})  
+        }
+        //endregion
 
         //#region move Pipes
         for	(var i = 0; i<this.Pipes.length; i++)
@@ -798,7 +862,7 @@ class Level1 extends Framework.Level
         }
         // endregion
    
-        //#region  move blockGO
+        //#region move blockGO
         if (this.isBlockGo)
         {
             this.matter.setBody(this.block_GO.component.body, 
@@ -807,7 +871,7 @@ class Level1 extends Framework.Level
         }
         //#endregion
 
-        //#region  move UDIES
+        //#region move UDIES
         for	(var i = 0; i<this.UDIEs.length; i++)
         {
             this.matter.setBody(this.UDIEs[i].component.body, 
@@ -815,34 +879,36 @@ class Level1 extends Framework.Level
                 {x: this.UDIEs[i].component.position.x + moveLength, y: this.UDIEs[i].component.position.y})
         }
         //#endregion
+
+        //#region move thornWalls
+        for	(var i = 0; i < this.thornWalls.length; i++)
+        {
+            this.matter.setBody(this.thornWalls[i].component.body, 
+                "position", 
+                {x: this.thornWalls[i].component.position.x + moveLength, y: this.thornWalls[i].component.position.y})
+        }
+        //#endregion
     }
 
-    blockUpDown(isBlockCollision, blocks, blockIndex)
+    blockUpDown(target)
     {
-        if (isBlockCollision)
+        if (this.waitCount < 10)
         {
-            if (this.waitCount < 15)
-            {
-                blocks[blockIndex].component.position = 
-                {
-                    x: blocks[blockIndex].component.position.x,
-                    y: blocks[blockIndex].component.position.y - 2.5
-                }
-            }
-            else
-            {
-                blocks[blockIndex].component.position = 
-                {
-                    x: blocks[blockIndex].component.position.x,
-                    y: blocks[blockIndex].component.position.y + 2.5
-                }
-            }
-            this.waitCount ++
+            this.matter.setBody(target.body, 
+                "position", 
+                {x: target.position.x, y: target.position.y - 2.5})
         }
-        if (this.waitCount === 30)
+        else
+        {
+            this.matter.setBody(target.body, 
+                "position", 
+                {x: target.position.x, y: target.position.y + 2.5})
+        }
+        this.waitCount ++
+
+        if (this.waitCount === 20)
         {
             this.isblockQcollision = false
-            this.isblockUVcollision = false
             this.waitCount = 0
         }
     }
@@ -912,7 +978,11 @@ class Level1 extends Framework.Level
         }
         //#endregion
 
-        this.blockUpDown(this.isblockQcollision, this.BlockQs,this.blockIndex)  // 方塊上下移動
+        // 方塊上下移動
+        if (this.isblockQcollision)
+        {
+            this.blockUpDown(this.BlockQs[this.blockIndex].component) 
+        }
         
         // region add BolckGo
         if (this.isCollisionQ1 && !this.isBlockGo)
@@ -925,6 +995,20 @@ class Level1 extends Framework.Level
         
         // 判斷block_Go是否向下掉落並執行
         this.block_GO_Drop()
+
+        // region 尖刺牆
+        if (this.isThornWall && this.thornWallFirst)
+        {
+            this.thornWallFirst = false
+            this.matter.setBody(this.thornWalls[0].component.body, 
+                "position", 
+                {x: this.floors[21].component.position.x, y: this.floors[21].component.position.y - 175})
+
+            this.matter.setBody(this.thornWalls[1].component.body, 
+                "position", 
+                {x: this.floors[27].component.position.x, y: this.floors[27].component.position.y - 175})
+        }
+        // endregion
 
         // region 發射火箭
         if (this.hero.component.position.x >= this.floors[41].component.position.x + 30 &&
@@ -1264,6 +1348,7 @@ class Level1 extends Framework.Level
         }
         if(e.key === 'F11') 
         {
+            console.log('before: ' + Framework.Game.isGameFullScreen)
             this.isFullScreen = false
             if(!this.isFullScreen) {
                 Framework.Game.fullScreen();
@@ -1272,6 +1357,7 @@ class Level1 extends Framework.Level
                 Framework.Game.exitFullScreen();
                 this.isFullScreen = false;
             } 
+            console.log('after: ' + Framework.Game.isGameFullScreen)
         }
     }
     mousemove(e) 
@@ -1493,6 +1579,41 @@ class Level1 extends Framework.Level
         for(var i = 0; i < this.rockets.length; i++)
         {
             if (pair.bodyA === this.rockets[i].component.body && pair.bodyB === this.hero.component.body)
+            {
+                this.heroAlive = false
+            }
+        }
+        // endregion
+
+        // #region collision between hero and coins
+        for (var i = 0; i < this.coins.length; i++)
+        {
+            if (pair.bodyA === this.coins[i].component.body && pair.bodyB === this.hero.component.body)
+            {
+                this.coins[i].pic = null
+                this.matter.removeBody(this.coins[i].component.body)
+                this.audio.play({name: 'coin'})
+            }
+        }
+        // endregion
+
+        // #region collision between hero and keys
+        for (var i = 0; i < this.keys.length; i++)
+        {
+            if (pair.bodyA === this.keys[i].component.body && pair.bodyB === this.hero.component.body)
+            {
+                this.keys[i].pic = null
+                this.matter.removeBody(this.keys[i].component.body)
+                this.audio.play({name: 'coin'})
+                this.isThornWall = true
+            }
+        }
+        // endregion
+
+        // #region collision between hero and thornWalls
+        for (var i = 0; i < this.thornWalls.length; i++)
+        {
+            if (pair.bodyA === this.thornWalls[i].component.body && pair.bodyB === this.hero.component.body)
             {
                 this.heroAlive = false
             }

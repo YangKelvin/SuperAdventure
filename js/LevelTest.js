@@ -45,7 +45,7 @@ class LevelTest extends Framework.Level
     heroDie()
     {
         // 重置 levelTest
-        Framework.Game._levels.splice(2,1,{name : "levelTest", level : new LevelTest()})
+        Framework.Game._levels.splice(5,1,{name : "levelTest", level : new LevelTest()})
         Framework.Game.userIQ -= 50
         Framework.Game.goToLevel("dieScreen")
         console.log("hero die")
@@ -955,7 +955,7 @@ class LevelTest extends Framework.Level
             e.y <= 110) 
         {
             Framework.Game.goToLevel("chooseLevel");
-            Framework.Game._levels.splice(2,1,{name : "levelTest", level : new LevelTest()})
+            Framework.Game._levels.splice(5,1,{name : "levelTest", level : new LevelTest()})
             Framework.Game.userIQ = 250
         }
     }
@@ -1133,7 +1133,7 @@ class LevelTest extends Framework.Level
             Framework.Game.records[0].record = Framework.Game.userIQ
             Framework.Game.userIQ = 250
             // 重置關卡
-            Framework.Game._levels.splice(2,1,{name : "levelTest", level : new LevelTest()})
+            Framework.Game._levels.splice(5,1,{name : "levelTest", level : new LevelTest()})
             // Framework.Game._levels[1] = {name : "leve1", level : new Level1()}
             // Framework.Game.addNewLevel({level1: new Level1()});
             Framework.Game.goToLevel("chooseLevel")

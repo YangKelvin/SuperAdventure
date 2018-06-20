@@ -178,14 +178,11 @@ var ChooseLevel = Framework.exClass(Framework.GameMainMenu,
             }
             // level4
             if (e.x >= 340 && 
-                e.x <= 530 && 
+                e.x <= 1260 && 
                 e.y >= 615 && 
-                e.y <= 815) 
+                e.y <= 815 && Framework.Game.items[2].item === true)
             {
                 Framework.Game.goToLevel("level4");
-                // Framework.Game.goToLevel("level1");
-                // console.log("startGame")
-                //alert("恭喜通關")
             }
             // 打開背包
             if (e.x >= 1437 && 

@@ -50,7 +50,7 @@ var Level4 = Framework.exClass(Framework.GameMainMenu,
 
         update: function () {
             //this.rootScene.update();一定要在第一行
-            if (this.endScreen.position.y > -3752)
+            if (this.endScreen.position.y > -3550)
             {
                 this.endScreen.position = {x: this.endScreen.position.x, y: this.endScreen.position.y - 2}
             }
@@ -78,17 +78,17 @@ var Level4 = Framework.exClass(Framework.GameMainMenu,
         click: function (e) {
             // 點擊"重新開始"(返回關卡選單)
             if (e.x >= 325 && 
-                e.x <= 717 && 
+                e.x <= 608 && 
                 e.y >= 620 && 
-                e.y <= 740 && this.endScreen.position.y <= -3752)
+                e.y <= 729 && this.endScreen.position.y <= -3550)
             {
                 Framework.Game.goToLevel("chooseLevel");
             }
             // 點擊"結束遊戲"(返回關卡選單)
             if (e.x >= 887 && 
                 e.x <= 1275 && 
-                e.y >= 620 && 
-                e.y <= 740 && this.endScreen.position.y <= -3752)
+                e.y >= 608 && 
+                e.y <= 729 && this.endScreen.position.y <= -3550)
             {
                 Framework.Game.goToLevel("chooseLevel");
             }
@@ -96,7 +96,7 @@ var Level4 = Framework.exClass(Framework.GameMainMenu,
 
         mousemove: function (e) 
         {
-            console.log(e.x + "  " + e.y)    
+            // console.log(e.x + "  " + e.y)
         },
 
         mouseup: function (e) {
