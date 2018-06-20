@@ -53,6 +53,7 @@ var loadGameEnd;
         { src: 'js/Level1.js', lookFor: 'Level1' },
         { src: 'js/Level2.js', lookFor: 'Level2' },
         { src: 'js/Level3.js', lookFor: 'Level3' },
+        { src: 'js/Level4.js', lookFor: 'Level4' },
         { src: 'js/DieScreen.js', lookFor: 'DieScreen' },
         { src: 'js/EndLevel.js', lookFor: 'EndLevel' },
         { src: 'js/Character.js', lookFor: 'Character' },

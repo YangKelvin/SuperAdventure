@@ -220,7 +220,6 @@ var InstructionScreen = Framework.exClass(Framework.GameMainMenu,
 
             this.rootScene.update()
             this.matter.update()
-            this.camera.update()
         },
 
         draw: function (parentCtx) {
