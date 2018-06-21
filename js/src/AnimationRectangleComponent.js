@@ -13,10 +13,27 @@ Framework.AnimationRectangleComponent = class AnimationRectangleComponent extend
         if(!this.hasFirstUpdate && this.sprite.texture) 
         {
 			this.hasFirstUpdate = true
+			// let realWidth = this.sprite.texture.width * this.sprite.scale
+            // let realHeight = this.sprite.texture.height * this.sprite.scale
             
             this.matter.removeBody(this.body)
             let realWidth = this.sprite.texture.width
             let realHeight = this.sprite.texture.height
+            // console.log(this.sprite.scale)
+            // console.log(this.sprite.texture.width + '\n' + this.sprite.texture.height)
+
+            // console.log("W : " + realWidth)
+            // console.log("H : " + realHeight)
+
+            // let tempWidth = 100
+            // let tempHeight = 100
+
+            // this.body = this.matter.createRectangleBody(
+            //     this.sprite.position.x, 
+            //     this.sprite.position.y, 
+            //     tempWidth, 
+            //     tempHeight, 
+            //     this.bodyOptions)
 
             this.body = this.matter.createRectangleBody(
                 this.sprite.position.x + this.sprite.texture.width / 2, 
@@ -27,13 +44,30 @@ Framework.AnimationRectangleComponent = class AnimationRectangleComponent extend
         } 
         else if(this.hasFirstUpdate) 
         {
+            // console.log(this.sprite.position,this.body.position)
             this.sprite.position = 
             {
                 x: this.body.position.x,
                 y: this.body.position.y
             }
+            // this.body.position = this.sprite.position
+
+            // if(this.sprite.texture) 
+            // {
+            //     this.matter.removeBody(this.body)
+            //     let realWidth = this.sprite.texture.width
+            //     let realHeight = this.sprite.texture.height
+
+            //     this.body = this.matter.createRectangleBody(
+            //         this.sprite.position.x + this.sprite.texture.width / 2, 
+            //         this.sprite.position.y + this.sprite.texture.height / 2, 
+            //         realWidth, 
+            //         realHeight, 
+            //         this.bodyOptions)
+            // }
 
             this.sprite.rotation = this.body.angle / Math.PI * 180
+            // console.log(this.body.angle)
 		}
     }
 }
