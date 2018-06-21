@@ -127,17 +127,14 @@ var CheatScreen = Framework.exClass(Framework.GameMainMenu,
             var game = this;
             this.rootScene.update(); // 一定要在第一行
             this.trigger.position.x += 1
-            console.log(this.trigger.position)
+
             this.txt_GoldSwordAtk._value = Framework.Game.goldSwordAtk
             this.txt_GoldSwordCount._value = Framework.Game.goldSwordCount
             this.txt_KeyboardSwordAtk._text = Framework.Game.keyboardAtk
             this.txt_KeyboardSwordCount._text = Framework.Game.keyboardCount
-
-            console.log(this.txt_GoldSwordAtk._value)
             //目前的Framework, 當任何一個GameObject不做attach時, 則必須要自行update
 
             //#region level clear or not
-            // console.log(Framework.Game.items)
             
             //#region level1
             if (Framework.Game.items[0].item === true)

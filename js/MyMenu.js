@@ -32,6 +32,8 @@ var MyMenu = Framework.exClass(Framework.GameMainMenu,
             this.aboutSigh = new Framework.Sprite(define.imagePath + 'btn-about.png')
             this.cheatSign = new Framework.Sprite(define.imagePath + 'btn-cheat.png')
             this.settingSign = new Framework.Sprite(define.imagePath + 'btn-instructions.png')
+            this.audio = new Framework.Audio({bgm1: {mp3: 'music/bgm1.mp3'}})
+            this.ismusic = false
         },
 
         initialize: function () {
@@ -83,6 +85,7 @@ var MyMenu = Framework.exClass(Framework.GameMainMenu,
         update: function () {
             //this.rootScene.update();一定要在第一行
             this.rootScene.update();
+            // console.log('update')
             //目前的Framework, 當任何一個GameObject不做attach時, 則必須要自行update
         },
 
@@ -110,6 +113,12 @@ var MyMenu = Framework.exClass(Framework.GameMainMenu,
 
         click: function (e) 
         {
+            if(!this.ismusic)
+            {
+                this.audio.play({name: 'bgm1', loop: true})
+                this.ismusic = true
+            }
+            
             console.log(e.x + "  " + e.y)    
             // start
             if (e.x >= 630 && 
@@ -167,5 +176,23 @@ var MyMenu = Framework.exClass(Framework.GameMainMenu,
 
         touchmove: function (e) {
             this.mousemove(e[0]);
+        },
+
+        keydown(e)
+        {
+            if(e.key === 'F11') 
+            {
+                this.isFullScreen = Framework.Game.isGameFullScreen
+                if(!this.isFullScreen)
+                {
+                    Framework.Game.fullScreen();
+                    Framework.Game.isGameFullScreen = true;
+                }
+                else
+                {
+                    Framework.Game.exitFullScreen();
+                    Framework.Game.isGameFullScreen = false;
+                }
+            }
         }
     });

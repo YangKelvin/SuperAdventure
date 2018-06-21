@@ -16,7 +16,6 @@ var AboutScreen = Framework.exClass(Framework.GameMainMenu,
         //在initialize時會觸發的事件
         loadingProgress: function (ctx, requestInfo) 
         {
-            //console.log(Framework.ResourceManager.getFinishedRequestPercent())
             this.loading.draw(ctx)
             ctx.font = '90px Arial'
             ctx.textAlign = 'center'
@@ -25,7 +24,12 @@ var AboutScreen = Framework.exClass(Framework.GameMainMenu,
         },
         
         load: function () {
-            this.matter = new Framework.Matter() 
+            this.matter = new Framework.Matter()
+            
+            if (Framework.Game.isGameFullScreen)
+            {
+                Framework.Game.fullScreen();
+            }
 
             this.backYellowGround = new Framework.Sprite(define.imagePath + 'background-yellow.png')
             this.backGround = new Framework.Sprite(define.imagePath + 'background-AboutScreen.png')

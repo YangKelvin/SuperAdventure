@@ -144,35 +144,6 @@ class Level2 extends Framework.Level
         this.background.scale = 2;
         this.rootScene.attach(this.background)
     }
-    loadTextbox()
-    {
-        //hero info
-        this.heroInfoX = new Textbox()
-        this.heroInfoX.position = {x:1000, y:0}
-        this.heroInfoX._text= "hero_x : "
-        this.rootScene.attach(this.heroInfoX)
-
-
-        this.heroInfoY = new Textbox()
-        this.heroInfoY.position = {x:1000, y:80}
-        this.heroInfoY._text= "hero_y : "
-        this.rootScene.attach(this.heroInfoY)
-
-        //score
-        this.ScoreInfo = new Textbox()
-        this.ScoreInfo.position = {x:0, y:0}
-        this.ScoreInfo._text= "Score : "
-
-        // mapLeft
-        this.mapInfoL = new Textbox()
-        this.mapInfoL.position = {x: 500, y:0}
-        this.mapInfoL._text = "mapLeft : "
-
-        // mapRight
-        this.mapInfoR = new Textbox()
-        this.mapInfoR.position = {x: 500, y:80}
-        this.mapInfoR._text = "mapRight : "
-    }
     loadHero()
     {
         //new animation
@@ -607,10 +578,11 @@ class Level2 extends Framework.Level
     load() 
     {
         Framework.Game.initialize()
+        Framework.Game.fullScreen();
 
         this.loadBackground()
-        // this.loadTextbox()
         this.loadICON()
+        this.loadAudio()
         
         this.loadCamera()
 
@@ -637,6 +609,7 @@ class Level2 extends Framework.Level
         this.loadPic()
         // 載入 collision
         this.matter.addEventListener("collisionStart",(this.collisionBlocks))
+        this.audio.play({name: 'bgm1', loop: true})
         console.log("Level2 Start")
     }
 
@@ -967,82 +940,7 @@ class Level2 extends Framework.Level
         }
         // #endregion
         
-        //#region hero move & map move(new)
-
-        // if (this.isPress || this.isJump)
-        // {
-        //     if (this.isPressWalk)
-        //     {
-        //         let moveLength = 0
-        //         if (this.walkDirection === 1)
-        //         {
-        //             moveLength = -5
-        //             // go right
-        //             if (this.hero.component.position.x < 500)
-        //             {
-        //                 this.hero.goRight()
-        //             }
-        //             else if (this.floors[this.floors.length - 1].component.position.x <= 1570)
-        //             {
-        //                 this.hero.goRight()
-        //             }
-        //             else 
-        //             {
-        //                 this.hero.component.position.x = 502
-        //                 this.moveMap(moveLength)
-        //             }
-        //         }
-        //         else if (this.walkDirection === 2)
-        //         {
-        //             // go left
-        //             if (this.hero.component.position.x > 50)    //讓hero.position不會小於70
-        //             {
-        //                 if (this.floors[0].component.position.x === 35 || this.floors[this.floors.length - 1].component.position.x <= 1570)   // 如果第一個方塊的位置正確
-        //                 {
-        //                     if (this.floors[0].component.position.x === 35 && this.hero.component.position.x <= 502)
-        //                     {
-        //                         this.hero.goLeft()
-        //                     }
-        //                     // 
-        //                     else if (this.floors[this.floors.length - 1].component.position.x <= 1570 && this.hero.component.position.x <= 502)
-        //                     {
-        //                         console.log("A")
-        //                         this.moveMap(5)
-        //                         this.hero.component.position.x = 502
-        //                     }
-        //                     else if (this.floors[this.floors.length - 1].component.position.x <= 1570 && this.hero.component.position.x > 502)
-        //                     {
-        //                         this.hero.goLeft()
-        //                     }
-        //                 }
-                        
-        //                 else
-        //                 {
-        //                     if (this.hero.component.position.x >= 504)
-        //                     {
-        //                         this.matter.setBody(this.hero.component.body, 
-        //                             "position", 
-        //                             {x: this.hero.component.position.x, y:this.hero.component.position.y})
-        //                     }
-        //                     else if (this.hero.component.position.x < 504)
-        //                     {
-                                
-        //                         this.moveMap(5)
-        //                     }
-                            
-        //                 }
-        //             } 
-        //         }
-        //     }
-
-        //     if(this.isJump && this.hero.isOnFloor)
-        //     {
-        //         this.hero.jump()
-        //         this.hero.isOnFloor = false
-        //     }
-        //     this.lockHeroPosx = this.hero.component.position.x
-        // }
-        //#endregion    
+        
 
         //#region hero move (v2)
         // 分三區域 
@@ -1142,6 +1040,7 @@ class Level2 extends Framework.Level
             {
                 this.hero.jump()
                 this.hero.isOnFloor = false
+                this.audio.play({name: 'jump'})
             }
         }
         //#endregion
@@ -1154,12 +1053,6 @@ class Level2 extends Framework.Level
         }
         //#endregion
         
-        //#region update textbox
-        // this.heroInfoX._value = Math.round(this.hero.component.position.x)
-        // this.heroInfoY._value = Math.round(this.hero.component.position.y)
-        //#endregion
-        
-
         // region 碰到地板尖刺
         if(this.isGroundThorn)
         {
@@ -1429,6 +1322,7 @@ class Level2 extends Framework.Level
         // region collision between hero and flower
         if (pair.bodyA === this.flower.component.body && pair.bodyB === this.hero.component.body)
         {
+            this.audio.play({name: 'coin'})
             this.flower.pic = null
             this.matter.removeBody(this.flower.component.body)
             this.heroAlive = false
@@ -1458,6 +1352,7 @@ class Level2 extends Framework.Level
         if (pair.bodyA === this.princess.component.body && pair.bodyB === this.hero.component.body)
         {
             console.log("win")
+            this.audio.play({name: 'haha'})
             Framework.Game.records[1].record = Framework.Game.userIQ
             Framework.Game._goToLevelIs = ""
             Framework.Game.userIQ = 250

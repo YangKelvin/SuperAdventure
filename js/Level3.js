@@ -18,7 +18,6 @@ class Level3 extends Framework.Level
         this.isJump = false         // 判斷是否按下控制hero跳躍的按鍵
         this.walkDirection = 0      // 判斷hero移動的方向（左 or 右）
 
-
         // boss
         this.bossHP = 100
         this.bossAttack = 1
@@ -29,14 +28,12 @@ class Level3 extends Framework.Level
         this.dieUpdateCount = 0
         // 武器
         this.weaponCount = 0
-        
-        
-
 
         this.goldSwordBag = Framework.Game.goldSwordCount
         this.goldSwords = new Array()
         this.goldSwordCount = 0
         this.goldSwordDamage = Framework.Game.goldSwordAtk
+
         this.keyboradBag = Framework.Game.keyboardCount
         this.keyborads = new Array()
         this.keyboardCount = 0
@@ -98,6 +95,7 @@ class Level3 extends Framework.Level
     loadPic()
     {
         this.GoldSWPic = new Framework.Sprite('images/weapon-goldSword.png')
+        this.KeyboardsWPic = new Framework.Sprite('images/weapon-keyboard.png')
         this.rocketPic = new Framework.Sprite('images/rocket_left.png')
     }
     loadBackground()
@@ -152,6 +150,7 @@ class Level3 extends Framework.Level
         this.bossHPShow._fillStyle = 'red'
         this.bossHPShow._value = ''
         this.bossHPShow.position = {x:1110, y:100}
+        this.bossHP = 100
         this.rootScene.attach(this.bossHPShow)
     }
     
@@ -177,153 +176,17 @@ class Level3 extends Framework.Level
         this.boss.component.position = {x: 1000, y:130}
         this.rootScene.attach(this.boss)
     }
-    loadGround()
-    {
-        // floor
-        this.floorsPos = 
-            [
-                //test
-                // {x: 280, y: 710},
-                // ground
-                {x: 0, y: 830},
-                {x: 70, y: 830},
-                {x: 140, y: 830},
-                {x: 210, y: 830},
-                {x: 280, y: 830},
-                {x: 350, y: 830},
-                {x: 420, y: 830},
-                {x: 490, y: 830},
-                {x: 560, y: 830},
-                {x: 630, y: 830},
-                {x: 700, y: 830},
-                {x: 770, y: 830},
-                {x: 840, y: 830},
-                {x: 910, y: 830},
-                
-                // {x: 980, y: 830},
-                // {x: 1050, y: 830},
-                // {x: 1120, y: 830},
-                // {x: 1190, y: 830},
-
-                {x: 1330, y: 830},
-                {x: 1400, y: 830},
-                {x: 1470, y: 830},
-                {x: 1540, y: 830},
-                {x: 1610, y: 830},
-                {x: 1680, y: 830},
-
-                //平台開始
-                {x: 1680, y: 500}, //20
-                {x: 1750, y: 500},
-                {x: 1820, y: 220},
-                {x: 1960, y: 220},
-                {x: 2030, y: 220},
-                {x: 1890, y: 500},
-                {x: 1960, y: 500},
-                {x: 2100, y: 500},
-                {x: 2170, y: 500},
-                //平台結束
-
-                {x: 1750, y: 830},
-                {x: 1820, y: 830},
-                {x: 1890, y: 830},
-                {x: 1960, y: 830},
-                {x: 2030, y: 830},
-                {x: 2100, y: 830},
-                {x: 2170, y: 830}, // 35
-                {x: 2240, y: 830},
-                {x: 2310, y: 830},
-                {x: 2380, y: 830},
-                {x: 2450, y: 830},
-                {x: 2520, y: 830},
-                {x: 2590, y: 830},
-                {x: 2660, y: 830},
-                {x: 2730, y: 830},
-                {x: 2800, y: 830},
-                {x: 2870, y: 830},
-                {x: 2940, y: 830},
-                {x: 3010, y: 830},
-                {x: 3080, y: 830},
-                {x: 3150, y: 830},
-                {x: 3220, y: 830},
-                {x: 3290, y: 830},
-                {x: 3360, y: 830},
-                {x: 3430, y: 830},
-                {x: 3500, y: 830},
-                {x: 3570, y: 830},
-                {x: 3640, y: 830},
-                
-                {x: 3990, y: 830},
-                {x: 4060, y: 830},
-                {x: 4130, y: 830},
-                {x: 4200, y: 830},
-                {x: 4270, y: 830},
-            ]
-        
-        this.floorOps = 
-        {
-            label: 'floor', 
-            friction: 0.05, 
-            density:0.002, 
-            isStatic:true
-        }
-
-        this.floors = new Array()
-        for (var i = 0; i < this.floorsPos.length; i++)
-        {
-            this.floors[i] = new block('images/grass.png', 
-                                            this.matter, 
-                                            this.floorOps)
-            this.floors[i].load()
-            this.floors[i].initialize()
-            this.floors[i].component.position = this.floorsPos[i]
-
-            this.rootScene.attach(this.floors[i])
-        }
-        
-        this.wallOps = 
-        {
-            label : 'wall',
-            friction: 0.05,
-            density: 0.002,
-            isStatic: true
-        }
-        this.wallsPos = 
-        [
-            // {x: 30, y: 710},
-            // {x: 30, y: 640},
-            // {x: 30, y: 570},
-            // {x: 30, y: 500},
-            // {x: 30, y: 430},
-            // {x: 30, y: 360},
-            // {x: 30, y: 290},
-            // {x: 30, y: 220},
-            // {x: 30, y: 150},
-            // {x: 30, y: 80},
-        ]
-        this.walls = new Array()
-        for (var i = 0; i < this.wallsPos.length; i++)
-        {
-            this.walls[i] = new block('images/brickWall.png',
-                                            this.matter,
-                                            this.wallOps)
-            this.walls[i].load()
-            this.walls[i].initialize()
-            this.walls[i].component.position = this.wallsPos[i]
-
-            this.rootScene.attach(this.walls[i])
-        }
-
-    }
     
     loadAudio()
     {
         this.audio = new Framework.Audio(
         {
             bgm1: {mp3: 'music/bgm1.mp3'},
-            coin: {mp3: 'music/coin.mp3'},
+            boss: {mp3: 'music/boss.mp3'},
             jump: {mp3: 'music/jump.mp3'},
-            haha: {wav: 'music/haha.wav'}
+            haha: {wav: 'music/haha.wav'},
+            throw: {wav: 'music/throw.wav'},
+            shoot: {wav: 'music/shoot.wav'}
         })
     }
 
@@ -420,7 +283,9 @@ class Level3 extends Framework.Level
     {
         // console.log(this.viewCenter)
         Framework.Game.initialize()
+        Framework.Game.fullScreen();
 
+        this.loadAudio()
         this.loadBackground()
         this.loadMap()
         this.loadHero()
@@ -429,10 +294,14 @@ class Level3 extends Framework.Level
         this.loadCamera()
         this.loadBossHP()
         this.loadICON()
+
+        this.audio.stopAll()
+        this.audio.play({name: 'boss', loop: true})
         // 載入 collision
         this.matter.addEventListener("collisionStart",(this.collisionBlocks))
         console.log("Level3 Start")
         console.log('this.goldSWDamage = ' + this.goldSwordDamage)
+        console.log()
     }
 
     initialize() 
@@ -465,14 +334,15 @@ class Level3 extends Framework.Level
         this.mode1_rockets[this.attackMode1_count-1].component.position = 
         {
             x:935,
-            y:770
+            y:this.hero.component.position.y
         }
         this.mode1_rockets[this.attackMode1_count-1].component.initPosition = 
         {
             x:935,
-            y:770
+            y:this.hero.component.position.y
         }
         this.rootScene.attach(this.mode1_rockets[this.attackMode1_count-1])
+        this.audio.play({name: 'shoot'})
     }
     update() 
     {
@@ -496,7 +366,6 @@ class Level3 extends Framework.Level
             }
             for	(var i = 0; i < this.mode1_rockets.length; i++)
             {
-                console.log("shoot")
                 this.shoot(this.mode1_rockets[i], -10)
             }
         }
@@ -508,19 +377,27 @@ class Level3 extends Framework.Level
             this.shoot(this.goldSwords[i],10)
         }
 
+        for	(var i = 0; i < this.keyborads.length; i++)
+        {
+            this.shoot(this.keyborads[i],10)
+        }
+
         if (this.bossHP <= 0)
         {
             this.bossHP = 0
             console.log('win')
+
             Framework.Game.records[2].record = Framework.Game.userIQ
+            Framework.Game._goToLevelIs = ""
             Framework.Game.userIQ = 250
             
             Framework.Game.items[2].item = true
             Framework.Game.items[3].item = true
             Framework.Game.items[4].item = true
-            Framework.Game._goToLevelIs = ""
-        
             Framework.Game.goToLevel("chooseLevel")
+            Framework.Game._levels.splice(8,1,{name : "level3", level : new Level3()})
+            this.audio.stopAll()
+            this.audio.play({name: 'bgm1'})
         }
 
         //#region hero die condition
@@ -565,6 +442,7 @@ class Level3 extends Framework.Level
             {
                 this.hero.jump()
                 this.hero.isOnFloor = false
+                this.audio.play({name: 'jump'})
             }
         }
         //#endregion    
@@ -600,6 +478,8 @@ class Level3 extends Framework.Level
             Framework.Game.goToLevel("chooseLevel");
             Framework.Game._levels.splice(8,1,{name : "level3", level : new Level3()})
             Framework.Game.userIQ = 250
+            this.audio.play({name: 'bgm1', loop: true})
+            this.audio.stop('boss')
         }
     }
     keydown(e)
@@ -633,7 +513,6 @@ class Level3 extends Framework.Level
                 this.walkDirection = 1
                 this.hero.animationGoRight()
             }
-
             if(e.key === 'J')
             {
                 // 發射金刀
@@ -647,7 +526,6 @@ class Level3 extends Framework.Level
                                     {label:'gold-sword', friction:0.05, density: 0.002, isStatic: false}
                                 )
                     )
-                    // console.log(this.goldSwords)
                     this.goldSwordCount ++
                     this.goldSwords[this.goldSwordCount-1].load()
                     this.goldSwords[this.goldSwordCount-1].initialize()
@@ -658,9 +536,39 @@ class Level3 extends Framework.Level
                     }
 
                     this.goldSwords[this.goldSwordCount-1].component.initPosition = this.goldSwords[this.goldSwordCount-1].component.position
+                    this.rootScene.attach(this.goldSwords[this.goldSwordCount-1])
+                    this.audio.play({name: 'throw'})
+                }
+                
+            }
+            if(e.key === 'K')
+            {
+                // 發射鍵盤
+                if (this.keyboradBag > 0)
+                {
+                    this.keyboradBag -= 1
+                    this.keyborads.push(
+                        /*keyboard-block*/
+                        new block('images/weapon-keyboard.png',
+                                    this.matter,
+                                    {label:'keyboard', friction:0.05, density: 0.002, isStatic: false}
+                                )
+                    )
+
+                    this.keyboardCount ++
+                    this.keyborads[this.keyboardCount-1].load()
+                    this.keyborads[this.keyboardCount-1].initialize()
+                    this.keyborads[this.keyboardCount-1].component.position = 
+                    {
+                        x: this.hero.component.position.x + 40,
+                        y: this.hero.component.position.y -20
+                    }
+
+                    this.keyborads[this.keyboardCount-1].component.initPosition = this.keyborads[this.keyboardCount-1].component.position
 
                     
-                    this.rootScene.attach(this.goldSwords[this.goldSwordCount-1])
+                    this.rootScene.attach(this.keyborads[this.keyboardCount-1])
+                    this.audio.play({name: 'throw'})
                 }
             }
         }
@@ -716,11 +624,6 @@ class Level3 extends Framework.Level
                 if (pair.bodyA === this.blocks[k].component.body && pair.bodyB === this.hero.component.body) 
                 {
                     this.hero.isOnFloor = true
-                    // console.log("A")
-                } 
-                else if (pair.bodyA === this.hero.component.body || pair.bodyB === this.hero.component.body)
-                {
-                    // console.log("No Collision")
                 }
             }
         }
@@ -746,16 +649,28 @@ class Level3 extends Framework.Level
             {
                 if (pair.bodyA === this.goldSwords[k].component.body && pair.bodyB === this.boss.component.body) 
                 {
-                    // console.log("A")
                     this.goldSwords[k].pic = null
                     this.matter.removeBody(this.goldSwords[k].component.body)
                 } 
                 else if (pair.bodyA === this.boss.component.body && pair.bodyB === this.goldSwords[k].component.body)
                 {
-                    console.log("boss Atk")
                     this.goldSwords[k].pic = null
                     this.matter.removeBody(this.goldSwords[k].component.body)
                     this.bossHP -= this.goldSwordDamage
+                }
+            }
+            for (var k = 0; k < this.keyborads.length; k++)
+            {
+                if (pair.bodyA === this.keyborads[k].component.body && pair.bodyB === this.boss.component.body) 
+                {
+                    this.keyborads[k].pic = null
+                    this.matter.removeBody(this.keyborads[k].component.body)
+                } 
+                else if (pair.bodyA === this.boss.component.body && pair.bodyB === this.keyborads[k].component.body)
+                {
+                    this.keyborads[k].pic = null
+                    this.matter.removeBody(this.keyborads[k].component.body)
+                    this.bossHP -= this.keyboardDamage
                 }
             }
         }
@@ -789,9 +704,6 @@ class Level3 extends Framework.Level
                 {
                     if (pair.bodyA === this.mode1_rockets[k].component.body && pair.bodyB === this.goldSwords[w].component.body) 
                     {
-                        // this.mode1_rockets[k].pic = null
-                        // this.matter.removeBody(this.mode1_rockets[k].component.body)
-                        
                         this.goldSwords[w].pic = null
                         this.matter.removeBody(this.goldSwords[w].component.body)
 
@@ -799,11 +711,25 @@ class Level3 extends Framework.Level
                     else if (pair.bodyA === this.goldSwords[w].component.body 
                         && pair.bodyB === this.mode1_rockets[k].component.body) 
                     {
-                        // this.mode1_rockets[k].pic = null
-                        // this.matter.removeBody(this.mode1_rockets[k].component.body)
-
                         this.goldSwords[w].pic = null
                         this.matter.removeBody(this.goldSwords[w].component.body)
+                    } 
+                }
+
+                //碰到鍵盤
+                for (var w = 0; w < this.keyborads.length; w++)
+                {
+                    if (pair.bodyA === this.mode1_rockets[k].component.body && pair.bodyB === this.keyborads[w].component.body) 
+                    {
+                        this.keyborads[w].pic = null
+                        this.matter.removeBody(this.keyborads[w].component.body)
+
+                    } 
+                    else if (pair.bodyA === this.keyborads[w].component.body 
+                        && pair.bodyB === this.mode1_rockets[k].component.body) 
+                    {
+                        this.keyborads[w].pic = null
+                        this.matter.removeBody(this.keyborads[w].component.body)
                     } 
                 } 
 
@@ -813,7 +739,6 @@ class Level3 extends Framework.Level
                     this.mode1_rockets[k].pic = null
                     this.matter.removeBody(this.mode1_rockets[k].component.body)
                     this.heroAlive = false
-                    // this.heroDie()
                 } 
             }
         }

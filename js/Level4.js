@@ -25,9 +25,17 @@ var Level4 = Framework.exClass(Framework.GameMainMenu,
         },
 
         load: function () {
+            Framework.Game.fullScreen();
             this.backYellowGround = new Framework.Sprite(define.imagePath + 'background-yellow.png')
             this.endScreen = new Framework.Sprite(define.imagePath + 'endScreen.png')
             this.stop = false
+            this.audio = new Framework.Audio(
+            {
+                bgm1: {mp3: 'music/bgm1.mp3'},
+                end: {mp3: 'music/end.mp3'}
+            })
+            this.audio.stopAll()
+            this.audio.play({name: 'end', loop: true})
         },
 
         initialize: function () {
@@ -77,12 +85,29 @@ var Level4 = Framework.exClass(Framework.GameMainMenu,
 
         click: function (e) {
             // 點擊"重新開始"(返回關卡選單)
+            if (this.endScreen.position.y > -3550)
+            {
+                this.endScreen.position.y = -3550
+            }
             if (e.x >= 325 && 
                 e.x <= 608 && 
                 e.y >= 620 && 
                 e.y <= 729 && this.endScreen.position.y <= -3550)
             {
-                Framework.Game.goToLevel("chooseLevel");
+                Framework.Game._levels.splice(6,1,{name : "level1", level : new Level1()})
+                Framework.Game._levels.splice(7,1,{name : "level2", level : new Level2()})
+                Framework.Game._levels.splice(8,1,{name : "level3", level : new Level3()})
+                Framework.Game._levels.splice(9,1,{name : "level4", level : new Level4()})
+                Framework.Game._levels.splice(11,1,{name : "bag", level : new Bag()})
+                for(var i = 0; i < 6; i++)
+                {
+                    Framework.Game.items[i].item = false
+                    Framework.Game.records[i].record = 0
+                }
+                Framework.Game.userIQ = 250
+                Framework.Game.goToLevel("MyMenu");
+                this.audio.stopAll()
+                this.audio.play({name: 'bgm1', loop: true})
             }
             // 點擊"結束遊戲"(返回關卡選單)
             if (e.x >= 887 && 
@@ -90,7 +115,9 @@ var Level4 = Framework.exClass(Framework.GameMainMenu,
                 e.y >= 608 && 
                 e.y <= 729 && this.endScreen.position.y <= -3550)
             {
-                Framework.Game.goToLevel("chooseLevel");
+                Framework.Game.goToLevel("MyMenu");
+                this.audio.stopAll()
+                this.audio.play({name: 'bgm1', loop: true})
             }
         },
 

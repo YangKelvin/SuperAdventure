@@ -14,7 +14,7 @@ var Framework = (function (Framework) {
 		that._config = new Framework.Config();
 		// gameloop fps
 
-		that.isGameFullScreen = true;
+		that.isGameFullScreen = false;
 
 		that.items= 
 		[

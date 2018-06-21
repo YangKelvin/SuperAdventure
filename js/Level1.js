@@ -400,7 +400,7 @@ class Level1 extends Framework.Level
     {
         this.audio = new Framework.Audio(
         {
-            // bgm1: {mp3: 'music/bgm1.mp3'},
+            bgm1: {mp3: 'music/bgm1.mp3'},
             coin: {mp3: 'music/coin.mp3'},
             jump: {mp3: 'music/jump.mp3'},
             haha: {wav: 'music/haha.wav'}
@@ -725,6 +725,7 @@ class Level1 extends Framework.Level
     {
         // console.log(this.viewCenter)
         Framework.Game.initialize()
+        Framework.Game.fullScreen();
 
         this.loadBackground()
         // this.loadTextbox()
@@ -752,7 +753,7 @@ class Level1 extends Framework.Level
 
         this.loadHero()
         this.loadAudio()
-        // this.audio.play({name: 'bgm1', loop: true})
+        this.audio.play({name: 'bgm1', loop: true})
 
         this.loadPic()
         // 載入 collision
@@ -1055,100 +1056,6 @@ class Level1 extends Framework.Level
             this.heroDie()
         }
         //#endregion
-        
-        //#region hero move & map move(v1)
-        // if (this.isPress || this.isJump)
-        // {
-        //     if (this.isPressWalk)
-        //     {
-        //         let moveLength = 0
-        //         if (this.walkDirection === 1)
-        //         {
-        //             moveLength = -5
-        //             // go right
-        //             // 在地圖 "左邊區域"
-        //             if (this.hero.component.position.x < 500)
-        //             {
-        //                 this.hero.goRight()
-        //             }
-        //             // 在地圖 "右邊區域"
-        //             else if (this.floors[this.floors.length - 1].component.position.x <= 1570)
-        //             {
-        //                 this.hero.goRight()
-        //             }
-        //             else 
-        //             {
-        //                 this.hero.component.position.x = 502
-        //                 this.moveMap(moveLength)
-        //             }
-        //         }
-        //         else if (this.walkDirection === 2)
-        //         {
-        //             // go left
-        //             if (this.hero.component.position.x > 50)    //讓hero.position不會小於70
-        //             {
-        //                 if (this.floors[0].component.position.x === 35 || this.floors[this.floors.length - 1].component.position.x <= 1570)   // 如果第一個方塊的位置正確
-        //                 {
-        //                     if (this.floors[0].component.position.x === 35 && this.hero.component.position.x <= 550)
-        //                     {
-        //                         this.hero.goLeft()
-        //                     }
-        //                     // 
-        //                     else if (this.floors[this.floors.length - 1].component.position.x <= 1570 && this.hero.component.position.x <= 550)
-        //                     {
-        //                         console.log("A")
-        //                         this.moveMap(5)
-        //                         this.hero.component.position.x = 502
-        //                     }
-        //                     else if (this.floors[this.floors.length - 1].component.position.x <= 1570 && this.hero.component.position.x > 550)
-        //                     {
-        //                         this.hero.goLeft()
-        //                     }
-        //                 }
-                        
-        //                 else
-        //                 {
-        //                     if (this.hero.component.position.x >= 550)
-        //                     {
-        //                         this.matter.setBody(this.hero.component.body, 
-        //                             "position", 
-        //                             {x: this.hero.component.position.x, y:this.hero.component.position.y})
-        //                     }
-        //                     else if (this.hero.component.position.x < 550)
-        //                     {
-                                
-        //                         this.moveMap(5)
-        //                     }
-                            
-        //                 }
-        //             } 
-        //         }
-        //     }
-
-        //     if(this.isJump && this.hero.isOnFloor)
-        //     {
-        //         this.hero.jump()
-        //         this.hero.isOnFloor = false
-        //     }
-        //     this.lockHeroPosx = this.hero.component.position.x
-        // }
-
-        // fix move
-        // if (true)
-        // {
-        //     console.log('0fix hero position = 502')
-        //     if (this.floors[0].component.position.x < 10 )
-        //     {
-        //         console.log('1fix hero position = 502')
-        //         this.hero.component.position.x = 502
-        //         // let tempPosition = {x:502, y:this.hero.component.position.heroInfoY}
-        //         // this.matter.setBody(this.hero.component.body, 
-        //         //     "position", 
-        //         //     {x: 0, y: 0})
-        //         console.log('2fix hero position = 502')
-        //     }
-        // }
-        //#endregion    
 
         //#region hero move (v2)
         // 分三區域 
@@ -1248,6 +1155,7 @@ class Level1 extends Framework.Level
             {
                 this.hero.jump()
                 this.hero.isOnFloor = false
+                this.audio.play({name: 'jump'})
             }
         }
         //#endregion
@@ -1257,11 +1165,6 @@ class Level1 extends Framework.Level
         {
             this.hero.component.position.x = this.lockHeroPosx
         }
-        //#endregion
-        
-        //#region update textbox
-        // this.heroInfoX._value = Math.round(this.hero.component.position.x)
-        // this.heroInfoY._value = Math.round(this.hero.component.position.y)
         //#endregion
         
         //#region update 註解和非註解 有奇怪的差異...
@@ -1565,6 +1468,7 @@ class Level1 extends Framework.Level
         if (pair.bodyA === this.princess.component.body && pair.bodyB === this.hero.component.body)
         {
             console.log("win")
+            this.audio.play({name: 'haha'})
             Framework.Game.records[0].record = Framework.Game.userIQ
             Framework.Game._goToLevelIs = ""
             Framework.Game.userIQ = 250

@@ -25,7 +25,7 @@ var InstructionScreen = Framework.exClass(Framework.GameMainMenu,
         },
         
         load: function () {
-            this.matter = new Framework.Matter() 
+            this.matter = new Framework.Matter()
 
             this.backYellowGround = new Framework.Sprite(define.imagePath + 'background-yellow.png');
             this.backGround = new Framework.Sprite(define.imagePath + 'background-InstructionScreen.png');

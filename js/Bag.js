@@ -45,6 +45,10 @@ var Bag = Framework.exClass(Framework.GameMainMenu,
                     {
                         this.bagSquareArray.push(new Framework.Sprite(define.imagePath + 'Keyboard.png'))
                     }
+                    else
+                    {
+                        this.bagSquareArray.push(new Framework.Sprite(define.imagePath + 'bagNone.png'))
+                    }
                 }
             }
 
